@@ -17,7 +17,7 @@ BaselineOfFamixQueries >> baseline: spec [
 
 			"Packages"
 			spec
-				package: 'Famix-Queries' with: [ spec requires: #('Famix-Core') ];
+				package: 'Famix-Queries' with: [ spec requires: #('Famix') ];
 				package: 'Famix-Queries-Tests' with: [ spec requires: #('Famix-Queries') ].
 
 			"Groups"
@@ -31,7 +31,7 @@ BaselineOfFamixQueries >> famix: spec [
 	spec
 		baseline: 'Famix'
 			with: [ spec
-				loads: #('Core' 'Basic' 'ModelCompatibility' 'ModelJava' 'ModelSmalltalk' 'Importers');
+				loads: #('Core' 'EntitiesSmalltalk' 'Importers');
 				repository: 'github://moosetechnology/Moose:development/src' ];
 		project: 'FamixTests' copyFrom: 'Famix' with: [ spec loads: #('Tests') ]
 ]
