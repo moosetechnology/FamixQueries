@@ -29,7 +29,6 @@ FQAbstractQueryTest >> setUp [
 	model
 		ifNil: [ model := FamixStModel new.
 			MoosePharoImporterTask new
-				factory: SmalltalkMetamodelFactory;
 				importerClass: SmalltalkImporter;
 				model: model;
 				addFromPackageNamed: #'Moose-TestResources-LAN';
