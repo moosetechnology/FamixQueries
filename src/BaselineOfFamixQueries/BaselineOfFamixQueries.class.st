@@ -31,7 +31,7 @@ BaselineOfFamixQueries >> famix: spec [
 	spec
 		baseline: 'Famix'
 			with: [ spec
-				loads: #('Core' 'EntitiesSmalltalk' 'Importers');
+				loads: #('Core');
 				repository: 'github://moosetechnology/Moose:development/src' ];
-		project: 'FamixTests' copyFrom: 'Famix' with: [ spec loads: #('Tests') ]
+		project: 'FamixTests' copyFrom: 'Famix' with: [ spec loads: #('EntitiesSmalltalk') ]
 ]
