@@ -33,5 +33,5 @@ BaselineOfFamixQueries >> famix: spec [
 			with: [ spec
 				loads: #('Core');
 				repository: 'github://moosetechnology/Moose:development/src' ];
-		project: 'FamixTests' copyFrom: 'Famix' with: [ spec loads: #('EntitiesSmalltalk') ]
+		project: 'FamixTests' copyFrom: 'Famix' with: [ spec loads: #('EntitiesSmalltalk' 'TestsResources' 'Importers') ]
 ]
