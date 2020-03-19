@@ -15,18 +15,19 @@ FQBooleanQueryTest >> testDisplayOn [
 	
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
-		equals: 'mooseGroup select: [ :entity | entity isInstanceSide ]'
+		equals: 'aMooseGroup select: [ :entity | entity isInstanceSide ]'
 ]
 
 { #category : #tests }
 FQBooleanQueryTest >> testRunOn [
-	| grp |
+	| grp queryResult expectedResult |
 	grp := model allModelClasses.
 	
 	query := self actualClass fromProperty: #isInstanceSide.
+	queryResult := query runOn: grp.
 	
-	self assert: (query runOn: grp) size equals: 12.
-	self
-		assertCollection: (query runOn: grp)
-		hasSameElements: (model allModelClasses select: #isInstanceSide)
+	expectedResult := model allModelClasses select: #isInstanceSide.
+	
+	self assert: queryResult size equals: expectedResult size.
+	self assertCollection: queryResult hasSameElements: expectedResult
 ]

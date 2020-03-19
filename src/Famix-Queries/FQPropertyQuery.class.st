@@ -9,13 +9,6 @@ Class {
 	#category : #'Famix-Queries-Terminal'
 }
 
-{ #category : #'instance creation' }
-FQPropertyQuery class >> fromProperty: aBooleanSelector [
-	^ self new
-		property: aBooleanSelector;
-		yourself
-]
-
 { #category : #accessing }
 FQPropertyQuery >> comparator [
 	^ comparator

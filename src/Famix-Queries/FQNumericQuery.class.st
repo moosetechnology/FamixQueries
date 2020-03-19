@@ -5,18 +5,19 @@ Class {
 }
 
 { #category : #'instance creation' }
-FQNumericQuery class >> fromProperty: aPropertySelector comparator: aComparisonSelector value: aNumericValue [
-	^ (self fromProperty: aPropertySelector)
+FQNumericQuery class >> fromProperty: aPropertySelector comparator: aComparisonSelector withValue: aNumericValue [
+	^ self new
+		property: aPropertySelector;
 		comparator: aComparisonSelector;
 		valueToCompare: aNumericValue;
 		yourself
 ]
 
 { #category : #running }
-FQNumericQuery >> displayOn: aStream [
-	aStream << 'mooseGroup select: [ :entity | entity '
+FQNumericQuery >> displayOn: aStream with: aString [
+	(aStream << aString << ' select: [ :entity | entity ')
 		<< self property asString;
-		space; 
+		space;
 		<< self comparator asString;
 		space;
 		<< self valueToCompare asString;

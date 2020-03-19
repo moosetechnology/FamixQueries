@@ -11,20 +11,25 @@ FQStringQueryTest >> actualClass [
 
 { #category : #tests }
 FQStringQueryTest >> testDisplayOn [
-	query := self actualClass fromProperty: #name selector: #includesSubstring: withPattern: 'LANP'.
+	query := FQStringQuery fromProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
 
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
-		equals: 'mooseGroup select: [ :entity | entity name includesSubstring: LANP ]'
+		equals: 'aMooseGroup select: [ :entity | entity name includesSubstring: LANP ]'
 ]
 
 { #category : #tests }
 FQStringQueryTest >> testRunOn [
-	| classes |
+	| classes queryResult expectedResult |	
 	classes := model allModelClasses select: #isInstanceSide.
-
-	query := self actualClass fromProperty: #name selector: #includesSubstring: withPattern: 'LANP'.
-
-	self assert: (query runOn: classes) size equals: 3.
-	self assertCollection: ((query runOn: classes) collect: #name) hasSameElements: #('LANPool' 'LANPacket' 'LANPrintServer')
+	
+	query := FQStringQuery fromProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
+	queryResult := query runOn: classes.
+	
+	expectedResult := #('LANPool' 'LANPacket' 'LANPrintServer').
+	
+	self assert: queryResult size equals: expectedResult size.
+	self
+		assertCollection: (queryResult collect: #name)
+		hasSameElements: expectedResult
 ]

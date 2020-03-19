@@ -11,24 +11,26 @@ FQNumericQueryTest >> actualClass [
 
 { #category : #tests }
 FQNumericQueryTest >> testDisplayOn [
-	query := self actualClass fromProperty: #numberOfMethods comparator: #> value: 10.
+	query := self actualClass fromProperty: #numberOfMethods comparator: #> withValue: 10.
 
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
-		equals: 'mooseGroup select: [ :entity | entity numberOfMethods > 10 ]'
+		equals: 'aMooseGroup select: [ :entity | entity numberOfMethods > 10 ]'
 ]
 
 { #category : #tests }
 FQNumericQueryTest >> testRunOn [
-	| classes |
+	| classes queryResult expectedResult |	
 	classes := model allModelClasses.
-	query := self actualClass
-		fromProperty: #numberOfMethods
-		comparator: #>
-		value: 10.
-	self assert: (query runOn: classes) size equals: 4.
+	
+	query := self actualClass fromProperty: #numberOfMethods comparator: #> withValue: 10.
+	queryResult := query runOn: classes.
+	
+	expectedResult := model allModelClasses
+		select: [ :class | class numberOfMethods > 10 ].
+	
+	self assert: queryResult size equals: expectedResult size.
 	self
 		assertCollection: (query runOn: classes)
-		hasSameElements:
-			(model allModelClasses select: [ :class | class numberOfMethods > 10 ])
+		hasSameElements: expectedResult
 ]

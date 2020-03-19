@@ -4,12 +4,17 @@ Class {
 	#category : #'Famix-Queries-Terminal'
 }
 
+{ #category : #'instance creation' }
+FQBooleanQuery class >> fromProperty: aBooleanSelector [
+	^ self new
+		property: aBooleanSelector;
+		yourself
+]
+
 { #category : #running }
-FQBooleanQuery >> displayOn: aStream [
-	aStream
-		<< 'mooseGroup select: [ :entity | entity '
-		<< self property asString
-		<< ' ]'
+FQBooleanQuery >> displayOn: aStream with: aString [
+	aStream << aString << ' select: [ :entity | entity '
+		<< self property asString << ' ]'
 ]
 
 { #category : #running }

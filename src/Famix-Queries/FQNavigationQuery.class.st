@@ -37,10 +37,10 @@ FQNavigationQuery >> direction: anObject [
 ]
 
 { #category : #running }
-FQNavigationQuery >> displayOn: aStream [
-	aStream
+FQNavigationQuery >> displayOn: aStream with: aString [
+	aStream << '(' << aString
 		<<
-			'(aMooseGroup
+			'
 		inject: Set new
 		into: [ :result :entity | 
 			result addAll: '.

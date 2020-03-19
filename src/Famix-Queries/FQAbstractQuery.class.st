@@ -1,9 +1,6 @@
 Class {
 	#name : #FQAbstractQuery,
 	#superclass : #Object,
-	#instVars : [
-		'pattern'
-	],
 	#category : #'Famix-Queries-Core'
 }
 
@@ -14,7 +11,12 @@ FQAbstractQuery class >> isAbstract [
 
 { #category : #running }
 FQAbstractQuery >> displayOn: aStream [ 
-	self subclassResponsibility
+	self displayOn: aStream with: 'aMooseGroup' 
+]
+
+{ #category : #running }
+FQAbstractQuery >> displayOn: aStream with: aString [
+	^ self subclassResponsibility
 ]
 
 { #category : #running }

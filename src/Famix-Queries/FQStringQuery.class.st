@@ -5,8 +5,9 @@ Class {
 }
 
 { #category : #'instance creation' }
-FQStringQuery class >> fromProperty: aPropertySelector selector: aSelector withPattern: aString [
-	^ (self fromProperty: aPropertySelector)
+FQStringQuery class >> fromProperty: aPropertySelector comparator: aSelector withValue: aString [
+	^ self new
+		property: aPropertySelector;
 		comparator: aSelector;
 		valueToCompare: aString;
 		yourself
@@ -18,10 +19,14 @@ FQStringQuery >> comparator [
 ]
 
 { #category : #running }
-FQStringQuery >> displayOn: aStream [
-	aStream << 'mooseGroup select: [ :entity | entity '
-		<< self property asString << ' includesSubstring: '
-		<< self valueToCompare << ' ]'
+FQStringQuery >> displayOn: aStream with: aString [
+	(aStream << aString << ' select: [ :entity | entity ')
+		<< self property asString;
+		space;
+		<< self comparator asString;
+		space;
+		<< self valueToCompare;
+		<< ' ]'
 ]
 
 { #category : #running }
