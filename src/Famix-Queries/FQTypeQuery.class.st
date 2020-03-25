@@ -15,17 +15,30 @@ FQTypeQuery class >> forType: aType [
 ]
 
 { #category : #running }
+FQTypeQuery >> allWantedIn: aMooseGroup [
+	^ self type isTrait
+		ifTrue: [ aMooseGroup allUsing: self type ]
+		ifFalse: [ aMooseGroup allWithType: self type ]
+]
+
+{ #category : #running }
 FQTypeQuery >> displayOn: aStream with: aString [
-	aStream << aString << (' allUsing: ' , self type name)
+	aStream << aString << (self selectorString , self type name)
 ]
 
 { #category : #running }
 FQTypeQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-self flag: 'Clotilde: Currently using Traits to define types. Maybe we should use the hierarchy (withType: FamixStClass instead of using: FamixTClass'.
-	^ (self type isTrait
-		ifTrue: [ aMooseGroup allUsing: type ]) asMooseGroup
+
+	^ (self allWantedIn: aMooseGroup) asMooseGroup
 		ifEmpty: [ MooseGroup new ]
+]
+
+{ #category : #running }
+FQTypeQuery >> selectorString [
+	^ self type isTrait
+		ifTrue: [ ' allUsing: ' ]
+		ifFalse: [ ' allWithType: ' ]
 ]
 
 { #category : #accessing }
