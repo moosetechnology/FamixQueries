@@ -28,7 +28,7 @@ FQScopeQueriesPresenter class >> defaultSpec [
 { #category : #specs }
 FQScopeQueriesPresenter class >> open [
 	<script>
-	(self on: FQScopeQueriesModel default) openWithSpec
+	(self on: FQQueryBuilder default) openWithSpec
 ]
 
 { #category : #specs }

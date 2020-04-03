@@ -14,6 +14,14 @@ Class {
 
 { #category : #accessing }
 FQBrowserPresenter class >> default [
+	^ self basicNew
+		entities: self defaultEntities;
+		initialize;
+		yourself
+]
+
+{ #category : #accessing }
+FQBrowserPresenter class >> defaultEntities [
 	| model |
 	model := FamixStModel new.
 	MoosePharoImporterTask new
@@ -21,10 +29,7 @@ FQBrowserPresenter class >> default [
 		model: model;
 		addFromPackageNamed: #'Moose-TestResources-LAN';
 		run.
-	^ self basicNew
-		entities: model asMooseGroup;
-		initialize;
-		yourself
+	^ MooseGroup withAll: model
 ]
 
 { #category : #specs }

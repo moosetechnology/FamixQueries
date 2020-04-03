@@ -9,6 +9,25 @@ Class {
 	#category : #'Famix-Queries-Browser-Builder'
 }
 
+{ #category : #accessing }
+FQQueryBuilder class >> default [
+	^ self new
+		entities: self entities;
+		yourself
+]
+
+{ #category : #'plugin interface' }
+FQQueryBuilder class >> entities [
+	| model |
+	model := FamixStModel new.
+	MoosePharoImporterTask new
+		importerClass: SmalltalkImporter;
+		model: model;
+		addFromPackageNamed: #'Moose-TestResources-LAN';
+		run.
+	^ MooseGroup withAll: model
+]
+
 { #category : #scope }
 FQQueryBuilder >> availableScopes [
 	^ query availableScopesFor: entities
@@ -52,10 +71,12 @@ FQQueryBuilder >> initialize [
 { #category : #initialization }
 FQQueryBuilder >> initializeScopingDirections [
 	scopingDirections := Dictionary
-		newFromKeys: {#up . #upAndDown . #down}
-		andValues:
-			{FQScopeUpDirection.
+		newFromPairs:
+			{#up.
+			FQScopeUpDirection.
+			#upAndDown.
 			FQScopeUpDownDirection.
+			#down.
 			FQScopeDownDirection}
 ]
 

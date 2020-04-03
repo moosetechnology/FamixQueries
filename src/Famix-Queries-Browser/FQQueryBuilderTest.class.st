@@ -38,5 +38,28 @@ FQQueryBuilderTest >> testBuildScopeQuery [
 		entities: entities;
 		yourself.
 	builder buildScopeQuery: #down.
-	self assert: builder query class == FQScopeQuery
+	self assert: builder query class identicalTo: FQScopeQuery
+]
+
+{ #category : #tests }
+FQQueryBuilderTest >> testChangeQueryScope [
+	| builder |
+	builder := FQQueryBuilder new
+		entities: entities;
+		yourself.
+	
+	builder buildScopeQuery: #up.
+	self 
+		assert: builder query direction 
+		identicalTo: FQScopeUpDirection.
+	
+	builder buildScopeQuery: #upAndDown.
+	self
+		assert: builder query direction
+		identicalTo: FQScopeUpDownDirection.
+	
+	builder buildScopeQuery: #down.
+	self
+		assert: builder query direction
+		identicalTo: FQScopeDownDirection
 ]
