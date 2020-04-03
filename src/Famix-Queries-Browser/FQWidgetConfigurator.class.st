@@ -5,7 +5,7 @@ Class {
 		'model',
 		'parameterToChange'
 	],
-	#category : #'FQueryBrowser-Tools'
+	#category : #'Famix-Queries-Browser-Tools'
 }
 
 { #category : #accessing }
@@ -26,6 +26,11 @@ FQWidgetConfigurator class >> model: aModel parameterToChange: aParameter [
 { #category : #configuration }
 FQWidgetConfigurator >> configurePresenter: aPresenter [
 	^ self subclassResponsibility
+]
+
+{ #category : #configuration }
+FQWidgetConfigurator >> layoutConstraints [
+	^ [ :c | c height: 29 ]
 ]
 
 { #category : #accessing }

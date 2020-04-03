@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'defaultText'
 	],
-	#category : #'FQueryBrowser-Tools'
+	#category : #'Famix-Queries-Browser-Tools'
 }
 
 { #category : #accessing }
@@ -28,7 +28,7 @@ FQNumberInputConfigurator class >> model: aModel parameterToChange: aParameter d
 		yourself
 ]
 
-{ #category : #'error handling' }
+{ #category : #configuration }
 FQNumberInputConfigurator >> configurePresenter: aNumberInputField [
 	^ aNumberInputField
 		placeholder: self defaultText;

@@ -6,7 +6,7 @@ Class {
 		'propertiesTypes',
 		'parametersDict'
 	],
-	#category : #'FQueryBrowser-Models'
+	#category : #'Famix-Queries-Browser-Models'
 }
 
 { #category : #'instance creation' }

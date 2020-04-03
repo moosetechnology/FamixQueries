@@ -1,7 +1,7 @@
 Class {
 	#name : #FQQueriesModel,
 	#superclass : #Object,
-	#category : #'FQueryBrowser-Models'
+	#category : #'Famix-Queries-Browser-Models'
 }
 
 { #category : #'query creation' }

@@ -6,7 +6,7 @@ Class {
 		'outgoing',
 		'associations'
 	],
-	#category : #'FQueryBrowser-Presenters'
+	#category : #'Famix-Queries-Browser-Presenters'
 }
 
 { #category : #specs }
@@ -38,13 +38,13 @@ FQNavigationQueriesPresenter class >> title [
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializeAssociationsCheckBoxes [
 	associations := SpDynamicPresentersListBuilder new
-		modelObjects: model queriesDict associations;
+		modelObjects: queryBuilder queriesDict associations;
 		presenter: SpCheckBoxPresenter
 			configuredAs: [ :presenter :modelObject | 
 			presenter
 				label: modelObject value;
-				whenActivatedDo: [ model stateDict at: modelObject key put: true ];
-				whenDeactivatedDo: [ model stateDict at: modelObject key put: false ];
+				whenActivatedDo: [ queryBuilder stateDict at: modelObject key put: true ];
+				whenDeactivatedDo: [ queryBuilder stateDict at: modelObject key put: false ];
 				state: true;
 				yourself ];
 		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: 1);
@@ -55,10 +55,10 @@ FQNavigationQueriesPresenter >> initializeAssociationsCheckBoxes [
 FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
 	incoming := self newRadioButton
 		label: 'Incoming';
-		whenActivatedDo: [ self model direction: #incoming ].
+		whenActivatedDo: [ self queryBuilder direction: #incoming ].
 	outgoing := self newRadioButton
 		label: 'Outgoing';
-		whenActivatedDo: [ self model direction: #outgoing ].
+		whenActivatedDo: [ self queryBuilder direction: #outgoing ].
 	incoming associatedRadioButtons: {outgoing}
 ]
 

@@ -7,7 +7,7 @@ Class {
 		'directions',
 		'direction'
 	],
-	#category : #'FQueryBrowser-Models'
+	#category : #'Famix-Queries-Browser-Models'
 }
 
 { #category : #accessing }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'items'
 	],
-	#category : #'FQueryBrowser-Tools'
+	#category : #'Famix-Queries-Browser-Tools'
 }
 
 { #category : #'api-shortcuts' }
@@ -28,7 +28,7 @@ FQDropListConfigurator class >> model: aModel parameterToChange: aParameter item
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #configuration }
 FQDropListConfigurator >> configurePresenter: aDropList [
 	^ aDropList
 		items: self items;

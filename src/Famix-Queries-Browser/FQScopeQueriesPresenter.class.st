@@ -7,7 +7,7 @@ Class {
 		'down',
 		'scopes'
 	],
-	#category : #'FQueryBrowser-Presenters'
+	#category : #'Famix-Queries-Browser-Presenters'
 }
 
 { #category : #specs }
@@ -49,36 +49,51 @@ FQScopeQueriesPresenter class >> title [
 { #category : #initialization }
 FQScopeQueriesPresenter >> initializePresenters [
 	super initializePresenters.
-	self intializeDirections.
-	scopes := self newDropList
-		whenSelectedItemChangedDo: [ :scope | self model chooseScope: scope ];
-		items: self model currentPossibleScopes.
+	self intializeDirectionRadioButtons.
+	self initializeScopeDropList.
 	self updateScopes
 ]
 
 { #category : #initialization }
-FQScopeQueriesPresenter >> intializeDirections [
+FQScopeQueriesPresenter >> initializeScopeDropList [
+	| newScopes prefix |
+	newScopes := self queryBuilder availableScopes.
+	prefix := (newScopes collect: #name)
+		inject: newScopes first name
+		into: [ :pref :name | 
+			| size |
+			size := name charactersExactlyMatching: pref.
+			name first: size ].
+	scopes := self newDropList
+		whenSelectedItemChangedDo: [ :scope | self queryBuilder changeQueryScope: scope ];
+		items: self queryBuilder availableScopes;
+		display: [ :item | item name withoutPrefix: prefix ]
+]
+
+{ #category : #initialization }
+FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 	up := self newRadioButton
-		label: (self model directions at: #up);
-		whenActivatedDo: [ self model chooseDirection: #up.
+		label: 'Up';
+		whenActivatedDo: [ self queryBuilder buildScopeQuery: #up.
 			self updateScopes ].
 	upAndDown := self newRadioButton
-		label: (self model directions at: #upAndDown);
-		whenActivatedDo: [ self model chooseDirection: #upAndDown.
+		label: 'Up and Down';
+		whenActivatedDo: [ self queryBuilder buildScopeQuery: #upAndDown.
 			self updateScopes ].
 	down := self newRadioButton
-		label: (self model directions at: #down);
-		whenActivatedDo: [ self model chooseDirection: #down.
+		label: 'Down';
+		whenActivatedDo: [ self queryBuilder buildScopeQuery: #down.
 			self updateScopes ].
 	upAndDown
 		associatedRadioButtons:
 			{up.
-			down}
+			down}.
+	queryBuilder buildScopeQuery: #upAndDown
 ]
 
 { #category : #initialization }
 FQScopeQueriesPresenter >> updateScopes [
 	scopes
 		resetSelection;
-		items: self model currentPossibleScopes
+		items: self queryBuilder availableScopes
 ]

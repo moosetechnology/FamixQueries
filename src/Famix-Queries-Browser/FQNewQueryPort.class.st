@@ -1,7 +1,7 @@
 Class {
 	#name : #FQNewQueryPort,
 	#superclass : #SpOutputPort,
-	#category : #'FQueryBrowser-Tools'
+	#category : #'Famix-Queries-Browser-Tools'
 }
 
 { #category : #accessing }
@@ -18,5 +18,5 @@ FQNewQueryPort >> attachTransmission: aTransmission [
 		whenActivatedDo: [ :selection | 
 			self
 				transmitWith: aTransmission
-				value: self destinationPresenter model createQuery ]
+				value: self destinationPresenter queryBuilder createQuery ]
 ]

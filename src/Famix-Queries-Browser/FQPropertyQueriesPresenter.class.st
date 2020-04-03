@@ -5,7 +5,7 @@ Class {
 		'queryParameters',
 		'propertyType'
 	],
-	#category : #'FQueryBrowser-Presenters'
+	#category : #'Famix-Queries-Browser-Presenters'
 }
 
 { #category : #specs }
@@ -45,7 +45,7 @@ FQPropertyQueriesPresenter >> initializeQueryParameters [
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 	propertyType := SpDynamicPresentersListBuilder new
-		modelObjects: model propertiesTypes;
+		modelObjects: queryBuilder propertiesTypes;
 		presenter: SpRadioButtonPresenter
 			configuredAs: [ :presenter :modelObject | 
 			presenter
@@ -69,23 +69,34 @@ FQPropertyQueriesPresenter >> queryParameters: anObject [
 ]
 
 { #category : #initialization }
+FQPropertyQueriesPresenter >> rebuildLayoutWith: sublayout [
+	self flag: 'Magic numbers'.
+	layout := SpBoxLayout newHorizontal
+		add: #propertyType;
+		add: sublayout width: 200;
+		add: self class creationButton;
+		spacing: 5;
+		yourself.
+	self needRebuild: false.
+	self buildWithSpec
+]
+
+{ #category : #initialization }
 FQPropertyQueriesPresenter >> updateQueryParameters: aQueryType [
-	| builder |
-	model newQueryTyped: aQueryType.
-	builder := SpDynamicPresentersListBuilder new
-		modelObjects: (model parametersDict at: aQueryType);
-		presenterProvidedBy: [ :configurator | configurator presenterClass ]
-			configuredAs:
-				[ :presenter :configurator | configurator configurePresenter: presenter ];
-		layoutBuilder:
-			((SpDynamicTopToBottomRowsLayout rows: 1)
-				constraintBlock: [ :c | 
-					c
-						height: self class buttonHeight + 5;
-						padding: 5;
-						yourself ];
-				yourself).
-	self
-		newDynamicPresentersListIn: #queryParameters
-		usingBuilder: builder
+	| sublayout |
+	self flag: 'Magic numbers'.
+	queryBuilder newQueryTyped: aQueryType.
+	sublayout := SpBoxLayout newVertical
+		borderWidth: 13;
+		spacing: 14;
+		yourself.
+	(queryBuilder parametersDict at: aQueryType)
+		do: [ :configurator | 
+			| newPresenter |
+			newPresenter := self instantiate: configurator presenterClass.
+			configurator configurePresenter: newPresenter.
+			sublayout
+				add: newPresenter
+				withConstraints: configurator layoutConstraints ].
+	self rebuildLayoutWith: sublayout
 ]

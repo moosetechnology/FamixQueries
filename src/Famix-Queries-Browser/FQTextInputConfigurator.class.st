@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'defaultText'
 	],
-	#category : #'FQueryBrowser-Tools'
+	#category : #'Famix-Queries-Browser-Tools'
 }
 
 { #category : #accessing }

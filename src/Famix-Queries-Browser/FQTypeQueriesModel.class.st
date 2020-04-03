@@ -5,7 +5,7 @@ Class {
 		'queriesDict',
 		'stateDict'
 	],
-	#category : #'FQueryBrowser-Models'
+	#category : #'Famix-Queries-Browser-Models'
 }
 
 { #category : #accessing }

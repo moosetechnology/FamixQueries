@@ -3,9 +3,9 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'creationButton',
-		'model'
+		'queryBuilder'
 	],
-	#category : #'FQueryBrowser-Presenters'
+	#category : #'Famix-Queries-Browser-Presenters'
 }
 
 { #category : #specs }
@@ -45,11 +45,11 @@ FQQueryConfigurationPresenter >> initializePresenters [
 ]
 
 { #category : #accessing }
-FQQueryConfigurationPresenter >> model [
-	^ model
+FQQueryConfigurationPresenter >> queryBuilder [
+	^ queryBuilder
 ]
 
 { #category : #initialization }
 FQQueryConfigurationPresenter >> setModelBeforeInitialization: aModel [
-	model := aModel
+	queryBuilder := aModel
 ]

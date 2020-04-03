@@ -3,17 +3,34 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'entities',
+		'queryBuilder',
 		'queryType',
 		'queryDisplay',
-		'queryConfiguration'
+		'queryConfiguration',
+		'entitiesList'
 	],
-	#category : #'FQueryBrowser-Browser'
+	#category : #'Famix-Queries-Browser-Presenters'
 }
+
+{ #category : #accessing }
+FQBrowserPresenter class >> default [
+	| model |
+	model := FamixStModel new.
+	MoosePharoImporterTask new
+		importerClass: SmalltalkImporter;
+		model: model;
+		addFromPackageNamed: #'Moose-TestResources-LAN';
+		run.
+	^ self basicNew
+		entities: model asMooseGroup;
+		initialize;
+		yourself
+]
 
 { #category : #specs }
 FQBrowserPresenter class >> defaultSpec [
 	^ SpPanedLayout newHorizontal
-		add: #entities;
+		add: #entitiesList;
 		position: 30 percent;
 		add:
 			(SpBoxLayout newVertical
@@ -27,7 +44,7 @@ FQBrowserPresenter class >> defaultSpec [
 { #category : #'instance creation' }
 FQBrowserPresenter class >> open [
 	<script>
-	self new openWithSpec
+	self default openWithSpec
 ]
 
 { #category : #specs }
@@ -44,19 +61,35 @@ FQBrowserPresenter class >> title [
 	^ 'Famix Query Browser'
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 FQBrowserPresenter >> entities [
-	^ {'Entity 1' . 'Entity 2' . 'Entity 3'}
+	^ entities
+]
+
+{ #category : #accessing }
+FQBrowserPresenter >> entities: anObject [
+	entities := anObject
 ]
 
 { #category : #initialization }
 FQBrowserPresenter >> initialExtent [
+	self flag: 'See overriden in SpPresenter'.
 	^ 600 @ 300
 ]
 
 { #category : #initialization }
+FQBrowserPresenter >> initialize [
+	super initialize.
+	queryBuilder := FQQueryBuilder new
+		entities: self entities;
+		yourself
+]
+
+{ #category : #initialization }
 FQBrowserPresenter >> initializePresenters [
-	entities := self newList items: self entities.
+	entitiesList := self newList
+		items: self entities;
+		display: #name.
 	self initializeQueryTypes.
 	queryConfiguration := self typeQueryConfigurationPresenter.
 	queryDisplay := self newCode.
@@ -87,6 +120,16 @@ FQBrowserPresenter >> propertyQueryConfigurationPresenter [
 		on: FQPropertyQueriesModel default
 ]
 
+{ #category : #accessing }
+FQBrowserPresenter >> queryBuilder [
+	^ queryBuilder
+]
+
+{ #category : #accessing }
+FQBrowserPresenter >> queryBuilder: anObject [
+	queryBuilder := anObject
+]
+
 { #category : #'query configuration presenters' }
 FQBrowserPresenter >> queryConfigurationTypes [
 	^ Dictionary
@@ -98,7 +141,7 @@ FQBrowserPresenter >> queryConfigurationTypes [
 			self navigationQueryConfigurationPresenter}
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 FQBrowserPresenter >> queryTypes [
 	^ OrderedDictionary
 		newFromKeys: {#typeQuery . #scopeQuery . #propertyQuery . #navigationQuery}
@@ -107,7 +150,7 @@ FQBrowserPresenter >> queryTypes [
 
 { #category : #'query configuration presenters' }
 FQBrowserPresenter >> scopeQueryConfigurationPresenter [
-	^ FQScopeQueriesPresenter owner: self on: FQScopeQueriesModel default
+	^ FQScopeQueriesPresenter owner: self on: self queryBuilder	"FQScopeQueriesModel default"
 ]
 
 { #category : #'query configuration presenters' }

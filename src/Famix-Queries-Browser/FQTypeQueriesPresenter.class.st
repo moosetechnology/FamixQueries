@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'types'
 	],
-	#category : #'FQueryBrowser-Presenters'
+	#category : #'Famix-Queries-Browser-Presenters'
 }
 
 { #category : #specs }
@@ -36,15 +36,15 @@ FQTypeQueriesPresenter >> initializePresenters [
 { #category : #initialization }
 FQTypeQueriesPresenter >> instanciateTypeCheckBoxes [
 	types := SpDynamicPresentersListBuilder new
-		modelObjects: model queriesDict associations;
+		modelObjects: queryBuilder queriesDict associations;
 		presenter: SpCheckBoxPresenter
 			configuredAs: [ :presenter :modelObject | 
 			presenter
 				label: modelObject value;
-				whenActivatedDo: [ model stateDict at: modelObject key put: true ];
-				whenDeactivatedDo: [ model stateDict at: modelObject key put: false ];
+				whenActivatedDo: [ queryBuilder stateDict at: modelObject key put: true ];
+				whenDeactivatedDo: [ queryBuilder stateDict at: modelObject key put: false ];
 				state: true;
 				yourself ];
-		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: model queriesDict size // 3);
+		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: queryBuilder queriesDict size // 3);
 		build
 ]
