@@ -28,7 +28,11 @@ FQScopeQueriesPresenter class >> defaultSpec [
 { #category : #specs }
 FQScopeQueriesPresenter class >> open [
 	<script>
-	(self on: FQQueryBuilder default) openWithSpec
+	(self
+		on:
+			(FQQueryBuilder default
+				buildScopeQuery: #down;
+				yourself)) openWithSpec
 ]
 
 { #category : #specs }
@@ -44,6 +48,11 @@ FQScopeQueriesPresenter class >> scopes [
 { #category : #specs }
 FQScopeQueriesPresenter class >> title [
 	^ 'Scope Query'
+]
+
+{ #category : #initialization }
+FQScopeQueriesPresenter >> initializeBuilder [
+	queryBuilder buildScopeQuery: #upAndDown
 ]
 
 { #category : #initialization }
@@ -79,8 +88,7 @@ FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 	upAndDown
 		associatedRadioButtons:
 			{up.
-			down}.
-	queryBuilder buildScopeQuery: #upAndDown
+			down}
 ]
 
 { #category : #initialization }

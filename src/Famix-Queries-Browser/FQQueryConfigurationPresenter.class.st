@@ -36,9 +36,15 @@ FQQueryConfigurationPresenter >> defineOutputPorts [
 ]
 
 { #category : #initialization }
+FQQueryConfigurationPresenter >> initializeBuilder [
+	self subclassResponsibility
+]
+
+{ #category : #initialization }
 FQQueryConfigurationPresenter >> initializePresenters [
 	"Transmission defined in FQNewQueryPort"
 
+	self initializeBuilder.
 	creationButton := self newButton
 		label: 'Create query';
 		yourself
@@ -56,6 +62,6 @@ FQQueryConfigurationPresenter >> queryBuilder [
 ]
 
 { #category : #initialization }
-FQQueryConfigurationPresenter >> setModelBeforeInitialization: aModel [
-	queryBuilder := aModel
+FQQueryConfigurationPresenter >> setModelBeforeInitialization: aFQQueryBuilder [
+	queryBuilder := aFQQueryBuilder
 ]

@@ -1,15 +1,15 @@
 Class {
-	#name : #FQNumericQueryConfigurationPresenter,
-	#superclass : #FQPropertyQueryConfigurationPresenter,
+	#name : #FQNumericQueryParametersPresenter,
+	#superclass : #FQPropertyQueryParametersPresenter,
 	#instVars : [
 		'comparators',
 		'valueInput'
 	],
-	#category : #'Famix-Queries-Browser-PropertyQueryConfigurationPresenters'
+	#category : #'Famix-Queries-Browser-PropertyQueryParametersPresenters'
 }
 
 { #category : #specs }
-FQNumericQueryConfigurationPresenter class >> defaultSpec [
+FQNumericQueryParametersPresenter class >> defaultSpec [
 	| padding |
 	padding := 8.
 	^ SpBoxLayout newVertical
@@ -29,7 +29,7 @@ FQNumericQueryConfigurationPresenter class >> defaultSpec [
 ]
 
 { #category : #'instance creation' }
-FQNumericQueryConfigurationPresenter class >> open [
+FQNumericQueryParametersPresenter class >> open [
 	<script>
 	^ self basicNew
 		setModelBeforeInitialization:
@@ -41,7 +41,7 @@ FQNumericQueryConfigurationPresenter class >> open [
 ]
 
 { #category : #initialization }
-FQNumericQueryConfigurationPresenter >> initializePresenters [
+FQNumericQueryParametersPresenter >> initializePresenters [
 	super initializePresenters.
 	comparators := self newDropList
 		items: queryBuilder query availableComparators;

@@ -200,5 +200,5 @@ FQQueryBuilder >> removeAssociation: anAssociation [
 
 { #category : #type }
 FQQueryBuilder >> removeTypeFromQuery: aType [
-	query type: aType
+	
 ]

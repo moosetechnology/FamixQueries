@@ -1,11 +1,11 @@
 Class {
-	#name : #FQBooleanQueryConfigurationPresenter,
-	#superclass : #FQPropertyQueryConfigurationPresenter,
-	#category : #'Famix-Queries-Browser-PropertyQueryConfigurationPresenters'
+	#name : #FQBooleanQueryParametersPresenter,
+	#superclass : #FQPropertyQueryParametersPresenter,
+	#category : #'Famix-Queries-Browser-PropertyQueryParametersPresenters'
 }
 
 { #category : #specs }
-FQBooleanQueryConfigurationPresenter class >> defaultSpec [
+FQBooleanQueryParametersPresenter class >> defaultSpec [
 	^ SpBoxLayout newVertical
 		add: #properties
 			expand: true
@@ -15,7 +15,7 @@ FQBooleanQueryConfigurationPresenter class >> defaultSpec [
 ]
 
 { #category : #'instance creation' }
-FQBooleanQueryConfigurationPresenter class >> open [
+FQBooleanQueryParametersPresenter class >> open [
 	<script>
 	^ self basicNew
 		setModelBeforeInitialization:

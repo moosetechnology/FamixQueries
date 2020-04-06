@@ -30,7 +30,10 @@ FQBrowserPresenter class >> defaultEntities [
 		model: model;
 		addFromPackageNamed: #'Moose-TestResources-LAN';
 		run.
-	^ model	"MooseGroup withAll: model allModelClasses"
+	^ MooseGroup
+		withAll:
+			{model allModelClasses.
+			model allModelMethods} flatten	"model"
 ]
 
 { #category : #specs }
@@ -78,22 +81,16 @@ FQBrowserPresenter >> entities: anObject [
 ]
 
 { #category : #initialization }
-FQBrowserPresenter >> initialExtent [
-	self flag: 'See overriden in SpPresenter'.
-	^ 600 @ 300
-]
-
-{ #category : #initialization }
 FQBrowserPresenter >> initializePresenters [
 	entitiesList := self newList
 		items: self entities;
 		display: #name.
+	
 	self initializeQueryTypes.
-	queryConfiguration := self typeQueryConfigurationPresenter.
-	queryDisplay := self newCode.
-	queryConfiguration
-		transmitTo: queryDisplay
-		transform: [ :query | query ]
+	
+	"This will initialize queryConfiguration and queryDisplay according to the selected type of query. 
+		See updateQueryConfiguration: "
+	queryType selectIndex: 1
 ]
 
 { #category : #initialization }
@@ -111,24 +108,9 @@ FQBrowserPresenter >> initializeQueryTypes [
 		whenSelectedItemChangedDo: [ :type | self updateQueryConfiguration: type key ]
 ]
 
-{ #category : #'query configuration presenters' }
-FQBrowserPresenter >> navigationQueryConfigurationPresenter [
-	^ FQNavigationQueriesPresenter
-		owner: self
-		on:
-			(self queryBuilder
-				buildNavigationQuery;
-				yourself)
-]
-
-{ #category : #'query configuration presenters' }
-FQBrowserPresenter >> propertyQueryConfigurationPresenter [
-	^ FQPropertyQueriesPresenter
-		owner: self
-		on:
-			(self queryBuilder
-				buildPropertyQueryTyped: #boolean;
-				yourself)
+{ #category : #initialization }
+FQBrowserPresenter >> initializeWindow: aWindowPresenter [
+	aWindowPresenter initialExtent: 600 @ 300
 ]
 
 { #category : #accessing }
@@ -146,10 +128,10 @@ FQBrowserPresenter >> queryConfigurationTypes [
 	^ Dictionary
 		newFromKeys: self queryTypes keys
 		andValues:
-			{self typeQueryConfigurationPresenter.
-			self scopeQueryConfigurationPresenter.
-			self propertyQueryConfigurationPresenter.
-			self navigationQueryConfigurationPresenter}
+			{FQTypeQueriesPresenter.
+			FQScopeQueriesPresenter.
+			FQPropertyQueriesPresenter.
+			FQNavigationQueriesPresenter}
 ]
 
 { #category : #accessing }
@@ -160,26 +142,17 @@ FQBrowserPresenter >> queryTypes [
 ]
 
 { #category : #'query configuration presenters' }
-FQBrowserPresenter >> scopeQueryConfigurationPresenter [
-	^ FQScopeQueriesPresenter owner: self on: self queryBuilder
-]
-
-{ #category : #'query configuration presenters' }
-FQBrowserPresenter >> typeQueryConfigurationPresenter [
-	^ FQTypeQueriesPresenter
-		owner: self
-		on:
-			(self queryBuilder
-				buildTypeQuery;
-				yourself)
-]
-
-{ #category : #'query configuration presenters' }
 FQBrowserPresenter >> updateQueryConfiguration: aType [
-	queryConfiguration := self queryConfigurationTypes at: aType.
+	queryConfiguration := (self queryConfigurationTypes at: aType)
+		owner: self
+		on: self queryBuilder.
+		
+	queryDisplay := self newCode.
+	
 	queryConfiguration
 		transmitTo: queryDisplay
 		transform: [ :query | query ].
+		
 	self needRebuild: false.
 	self buildWithSpec
 ]

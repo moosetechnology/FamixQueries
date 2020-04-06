@@ -54,8 +54,13 @@ FQNavigationQueriesPresenter >> initializeAssociationsCheckBoxes [
 		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: 1);
 		build.
 
-	"To trigger the activated block"
+	"To trigger the whenActivated block"
 	associations presenters do: [ :checkbox | checkbox state: true ]
+]
+
+{ #category : #initialization }
+FQNavigationQueriesPresenter >> initializeBuilder [
+	queryBuilder buildNavigationQuery
 ]
 
 { #category : #initialization }

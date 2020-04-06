@@ -32,6 +32,11 @@ FQTypeQueriesPresenter class >> title [
 ]
 
 { #category : #initialization }
+FQTypeQueriesPresenter >> initializeBuilder [
+	queryBuilder buildTypeQuery
+]
+
+{ #category : #initialization }
 FQTypeQueriesPresenter >> initializePresenters [
 	super initializePresenters.
 	self instanciateTypeCheckBoxes
@@ -47,10 +52,14 @@ FQTypeQueriesPresenter >> instanciateTypeCheckBoxes [
 				label: (type name withoutPrefix: self modelPrefix);
 				whenActivatedDo: [ queryBuilder addTypeToQuery: type ];
 				whenDeactivatedDo: [ queryBuilder removeTypeFromQuery: type ];
-				state: true;
+				state: false;
 				yourself ];
 		layoutBuilder:
-			(SpDynamicLeftToRightRowsLayout
-				rows: (queryBuilder availableTypes size // 3 max: 1));
-		build
+			(SpDynamicLeftToRightColumnsLayout
+				columns: (queryBuilder availableTypes size // 2 + 1 min: 6));
+		"min: 6 to avoid more than 6 checkboxes / column"
+			build.
+			
+	self flag: 'To change when aType Query can have several types'.
+	types presenters first toggleState
 ]

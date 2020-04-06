@@ -1,15 +1,15 @@
 Class {
-	#name : #FQPropertyQueryConfigurationPresenter,
+	#name : #FQPropertyQueryParametersPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
 		'queryBuilder',
 		'properties'
 	],
-	#category : #'Famix-Queries-Browser-PropertyQueryConfigurationPresenters'
+	#category : #'Famix-Queries-Browser-PropertyQueryParametersPresenters'
 }
 
 { #category : #initialization }
-FQPropertyQueryConfigurationPresenter >> initializePresenters [
+FQPropertyQueryParametersPresenter >> initializePresenters [
 	super initializePresenters.
 	properties := self newDropList
 		items: queryBuilder availableProperties;
@@ -20,6 +20,6 @@ FQPropertyQueryConfigurationPresenter >> initializePresenters [
 ]
 
 { #category : #'accessing model' }
-FQPropertyQueryConfigurationPresenter >> setModelBeforeInitialization: aModel [
+FQPropertyQueryParametersPresenter >> setModelBeforeInitialization: aModel [
 	queryBuilder := aModel
 ]
