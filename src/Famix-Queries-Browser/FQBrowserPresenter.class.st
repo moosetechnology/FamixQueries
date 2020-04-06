@@ -29,7 +29,7 @@ FQBrowserPresenter class >> defaultEntities [
 		model: model;
 		addFromPackageNamed: #'Moose-TestResources-LAN';
 		run.
-	^ MooseGroup withAll: model
+	^ MooseGroup withAll: model allModelClasses
 ]
 
 { #category : #specs }
@@ -120,9 +120,7 @@ FQBrowserPresenter >> navigationQueryConfigurationPresenter [
 
 { #category : #'query configuration presenters' }
 FQBrowserPresenter >> propertyQueryConfigurationPresenter [
-	^ FQPropertyQueriesPresenter
-		owner: self
-		on: FQPropertyQueriesModel default
+	^ FQPropertyQueriesPresenter owner: self on: self queryBuilder
 ]
 
 { #category : #accessing }

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'query',
 		'entities',
-		'scopingDirections'
+		'scopingDirections',
+		'propertyQueriesTypes'
 	],
 	#category : #'Famix-Queries-Browser-Builder'
 }
@@ -25,12 +26,22 @@ FQQueryBuilder class >> entities [
 		model: model;
 		addFromPackageNamed: #'Moose-TestResources-LAN';
 		run.
-	^ MooseGroup withAll: model
+	^ MooseGroup withAll: model allModelClasses
+]
+
+{ #category : #properties }
+FQQueryBuilder >> availableProperties [
+	^ query availablePropertiesFor: entities
 ]
 
 { #category : #scope }
 FQQueryBuilder >> availableScopes [
 	^ query availableScopesFor: entities
+]
+
+{ #category : #properties }
+FQQueryBuilder >> buildPropertyQueryTyped: aType [
+	query := (propertyQueriesTypes at: aType) new
 ]
 
 { #category : #scope }
@@ -65,7 +76,20 @@ FQQueryBuilder >> entities: anObject [
 { #category : #initialization }
 FQQueryBuilder >> initialize [
 	super initialize.
-	self initializeScopingDirections
+	self initializeScopingDirections.
+	self initializePropertyQueriesTypes
+]
+
+{ #category : #initialization }
+FQQueryBuilder >> initializePropertyQueriesTypes [
+	propertyQueriesTypes := OrderedDictionary
+		newFromPairs:
+			{#boolean.
+			FQBooleanQuery.
+			#number.
+			FQNumericQuery.
+			#string.
+			FQStringQuery}
 ]
 
 { #category : #initialization }
@@ -78,6 +102,11 @@ FQQueryBuilder >> initializeScopingDirections [
 			FQScopeUpDownDirection.
 			#down.
 			FQScopeDownDirection}
+]
+
+{ #category : #properties }
+FQQueryBuilder >> propertyTypes [
+	^ propertyQueriesTypes keys
 ]
 
 { #category : #accessing }

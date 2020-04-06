@@ -13,6 +13,12 @@ FQStringQuery class >> fromProperty: aPropertySelector comparator: aSelector wit
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+FQStringQuery >> availableComparators [
+	self flag: 'To improve'.
+	^ {#includesSubstring: . #beginsWith: . #matchesRegex:}
+]
+
 { #category : #accessing }
 FQStringQuery >> comparator [
 	^ comparator ifNil: [ comparator := #includesSubString: ]
@@ -25,7 +31,9 @@ FQStringQuery >> displayOn: aStream with: aString [
 		space;
 		<< self comparator asString;
 		space;
+		<< '''';
 		<< self valueToCompare;
+		<< '''';
 		<< ' ]'
 ]
 
@@ -38,6 +46,11 @@ FQStringQuery >> runOn: aMooseGroup [
 			(self property value: entity)
 				perform: self comparator
 				with: self valueToCompare ]
+]
+
+{ #category : #'available properties' }
+FQStringQuery >> type [
+	^ FM3String
 ]
 
 { #category : #accessing }

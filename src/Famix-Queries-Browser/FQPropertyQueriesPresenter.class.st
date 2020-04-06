@@ -3,7 +3,9 @@ Class {
 	#superclass : #FQQueryConfigurationPresenter,
 	#instVars : [
 		'queryParameters',
-		'propertyType'
+		'propertyType',
+		'helper',
+		'configurationPresenterClasses'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -12,7 +14,7 @@ Class {
 FQPropertyQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		add: #propertyType;
-		add: #queryParameters;
+		add: #queryParameters width: 200;
 		add: self creationButton;
 		spacing: 5;
 		yourself
@@ -30,22 +32,63 @@ FQPropertyQueriesPresenter class >> title [
 ]
 
 { #category : #initialization }
+FQPropertyQueriesPresenter >> adaptConfigurationPresenterFor: aPropertype [
+	queryBuilder buildPropertyQueryTyped: aPropertype.
+	queryParameters := (configurationPresenterClasses at: aPropertype)
+		on: queryBuilder.
+	self needRebuild: false.
+	self buildWithSpec
+]
+
+{ #category : #initialization }
+FQPropertyQueriesPresenter >> initialize [
+	super initialize.
+	self initializeConfigurationClasses
+]
+
+{ #category : #initialization }
+FQPropertyQueriesPresenter >> initializeConfigurationClasses [
+	configurationPresenterClasses := Dictionary
+		newFromPairs:
+			{#boolean.
+			FQBooleanQueryConfigurationPresenter.
+			#number.
+			FQNumericQueryConfigurationPresenter.
+			#string.
+			FQStringQueryConfigurationPresenter}
+]
+
+{ #category : #initialization }
+FQPropertyQueriesPresenter >> initializeHelper [
+	helper := FQPropertyQueriesPresenterHelper new
+		entities: owner entities;
+		yourself
+]
+
+{ #category : #initialization }
+FQPropertyQueriesPresenter >> initializeOnBooleanQuery [
+	queryBuilder buildPropertyQueryTyped: #boolean.
+	self adaptConfigurationPresenterFor: #boolean
+]
+
+{ #category : #initialization }
 FQPropertyQueriesPresenter >> initializePresenters [
 	super initializePresenters.
 	self initializeQueryTypeRadioButtons.
-	queryParameters := self newNullPresenter.
-	self initializeQueryParameters
+	self initializeConfigurationClasses.
+	self initializeOnBooleanQuery
 ]
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializeQueryParameters [
-	self updateQueryParameters: #boolean
+	self initializeConfigurationClasses.
+	self adaptConfigurationPresenterFor: #boolean
 ]
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 	propertyType := SpDynamicPresentersListBuilder new
-		modelObjects: queryBuilder propertiesTypes;
+		modelObjects: queryBuilder propertyTypes;
 		presenter: SpRadioButtonPresenter
 			configuredAs: [ :presenter :modelObject | 
 			presenter
@@ -83,14 +126,15 @@ FQPropertyQueriesPresenter >> rebuildLayoutWith: sublayout [
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> updateQueryParameters: aQueryType [
-	| sublayout |
+	self adaptConfigurationPresenterFor: aQueryType
+	"	| sublayout |
 	self flag: 'Magic numbers'.
-	queryBuilder newQueryTyped: aQueryType.
+	queryBuilder buildPropertyQueryTyped: aQueryType.
 	sublayout := SpBoxLayout newVertical
 		borderWidth: 13;
 		spacing: 14;
 		yourself.
-	(queryBuilder parametersDict at: aQueryType)
+	(helper configuratorFor: aQueryType)
 		do: [ :configurator | 
 			| newPresenter |
 			newPresenter := self instantiate: configurator presenterClass.
@@ -98,5 +142,5 @@ FQPropertyQueriesPresenter >> updateQueryParameters: aQueryType [
 			sublayout
 				add: newPresenter
 				withConstraints: configurator layoutConstraints ].
-	self rebuildLayoutWith: sublayout
+	self rebuildLayoutWith: sublayout"
 ]

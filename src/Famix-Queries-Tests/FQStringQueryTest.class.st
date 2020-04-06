@@ -15,7 +15,7 @@ FQStringQueryTest >> testDisplayOn [
 
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
-		equals: 'aMooseGroup select: [ :entity | entity name includesSubstring: LANP ]'
+		equals: 'aMooseGroup select: [ :entity | entity name includesSubstring: ''LANP'' ]'
 ]
 
 { #category : #tests }

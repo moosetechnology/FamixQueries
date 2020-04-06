@@ -48,14 +48,6 @@ FQPropertyQueriesModel class >> propertiesTypes [
 	^ OrderedCollection withAll: {#boolean . #numeric . #string}
 ]
 
-{ #category : #configurators }
-FQPropertyQueriesModel >> booleanConfigurator [
-	^ {(FQDropListConfigurator
-		model: self
-		parameterToChange: 2
-		items: self class defaultBooleanProperties)}
-]
-
 { #category : #'query creation' }
 FQPropertyQueriesModel >> createQuery [
 	^ (query asOrderedCollection reject: #isNil) asArray printString
@@ -68,37 +60,11 @@ FQPropertyQueriesModel >> initialize [
 	query := Array new: 4
 ]
 
-{ #category : #initialization }
-FQPropertyQueriesModel >> initializeParametersDict [
-	parametersDict := Dictionary
-		newFromKeys: self propertiesTypes
-		andValues:
-			{self booleanConfigurator.
-			self numericConfigurators.
-			self stringConfigurators}
-]
-
 { #category : #'instance creation' }
 FQPropertyQueriesModel >> newQueryTyped: aQueryType [
 	query := (Array new: 4)
 		at: 1 put: aQueryType;
 		yourself
-]
-
-{ #category : #configurators }
-FQPropertyQueriesModel >> numericConfigurators [
-	^ {(FQDropListConfigurator
-		model: self
-		parameterToChange: 2
-		items: self class defaultNumericProperties).
-	(FQDropListConfigurator
-		model: self
-		parameterToChange: 3
-		items: self class defaultNumericComparators).
-	(FQNumberInputConfigurator
-		model: self
-		parameterToChange: 4
-		defaultText: 'Your numeric value')}
 ]
 
 { #category : #accessing }
@@ -137,20 +103,4 @@ FQPropertyQueriesModel >> queryAt: index [
 { #category : #accessing }
 FQPropertyQueriesModel >> queryAt: index put: value [
 	query at: index put: value
-]
-
-{ #category : #configurators }
-FQPropertyQueriesModel >> stringConfigurators [
-	^ {(FQDropListConfigurator
-		model: self
-		parameterToChange: 2
-		items: self class defaultStringProperties).
-	(FQDropListConfigurator
-		model: self
-		parameterToChange: 3
-		items: self class defaultStringComparators).
-	(FQTextInputConfigurator
-		model: self
-		parameterToChange: 4
-		defaultText: 'Your string or regex')}
 ]

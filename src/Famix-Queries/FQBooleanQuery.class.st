@@ -23,3 +23,8 @@ FQBooleanQuery >> runOn: aMooseGroup [
 
 	^ aMooseGroup select: [ :entity | self property value: entity ]
 ]
+
+{ #category : #'available properties' }
+FQBooleanQuery >> type [
+	^ FM3Boolean
+]

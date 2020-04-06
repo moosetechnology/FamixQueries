@@ -13,6 +13,12 @@ FQNumericQuery class >> fromProperty: aPropertySelector comparator: aComparisonS
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+FQNumericQuery >> availableComparators [
+	self flag: 'To improve'.
+	^ {#> . #>= . #= . #<= . #<}
+]
+
 { #category : #running }
 FQNumericQuery >> displayOn: aStream with: aString [
 	(aStream << aString << ' select: [ :entity | entity ')
@@ -33,4 +39,9 @@ FQNumericQuery >> runOn: aMooseGroup [
 			(self property value: entity)
 				perform: self comparator
 				with: self valueToCompare ]
+]
+
+{ #category : #'available properties' }
+FQNumericQuery >> type [
+	^ FM3Number
 ]

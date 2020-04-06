@@ -9,6 +9,19 @@ Class {
 	#category : #'Famix-Queries-Terminal'
 }
 
+{ #category : #'available properties' }
+FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
+	| collectedProperties |
+	collectedProperties := aMooseGroup entities
+		collect: [ :entity | 
+			entity mooseDescription allPrimitiveProperties
+				select: [ :prop | prop type class == self type ] ].
+	^ (collectedProperties
+		fold:
+			[ :availableProperties :entityProperties | availableProperties & entityProperties ])
+		collect: #name
+]
+
 { #category : #accessing }
 FQPropertyQuery >> comparator [
 	^ comparator
@@ -27,6 +40,11 @@ FQPropertyQuery >> property [
 { #category : #accessing }
 FQPropertyQuery >> property: anObject [
 	property := anObject
+]
+
+{ #category : #'available properties' }
+FQPropertyQuery >> type [
+	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
