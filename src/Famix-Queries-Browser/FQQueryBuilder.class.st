@@ -53,9 +53,24 @@ FQQueryBuilder >> buildScopeQuery: aDirectionSymbol [
 		direction: (scopingDirections at: aDirectionSymbol)
 ]
 
+{ #category : #properties }
+FQQueryBuilder >> changeQueryComparator: aComparator [
+	^ query comparator: aComparator
+]
+
+{ #category : #properties }
+FQQueryBuilder >> changeQueryProperty: aPropertyName [
+	^ query property: aPropertyName
+]
+
 { #category : #scope }
 FQQueryBuilder >> changeQueryScope: aScope [
 	query scope: aScope
+]
+
+{ #category : #properties }
+FQQueryBuilder >> changeQueryValueToCompare: aValue [
+	^ query valueToCompare: aValue
 ]
 
 { #category : #running }

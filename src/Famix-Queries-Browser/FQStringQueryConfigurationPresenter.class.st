@@ -46,12 +46,12 @@ FQStringQueryConfigurationPresenter >> initializePresenters [
 	comparators := self newDropList
 		items: queryBuilder query availableComparators;
 		display: [ :prop | prop asString ];
-		whenSelectedItemChangedDo: [ :prop | queryBuilder query comparator: prop ];
+		whenSelectedItemChangedDo: [ :prop | queryBuilder changeQueryComparator: prop ];
 		selectIndex: 1;
 		yourself.
 	valueInput := self newNumberInput
 		placeholder: 'Your pattern';
 		autoAccept: true;
-		whenTextChangedDo: [ :pattern | queryBuilder query valueToCompare: pattern ];
+		whenTextChangedDo: [ :pattern | queryBuilder changeQueryValueToCompare: pattern ];
 		yourself
 ]

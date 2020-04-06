@@ -5,7 +5,7 @@ Class {
 		'items',
 		'changeBlock'
 	],
-	#category : #'Famix-Queries-Browser-Tools'
+	#category : #'Famix-Queries-Browser-Tools-Deprecated'
 }
 
 { #category : #'api-shortcuts' }

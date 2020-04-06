@@ -5,7 +5,7 @@ Class {
 		'model',
 		'parameterToChange'
 	],
-	#category : #'Famix-Queries-Browser-Tools'
+	#category : #'Famix-Queries-Browser-Tools-Deprecated'
 }
 
 { #category : #accessing }

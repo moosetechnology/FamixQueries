@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'queryParameters',
 		'propertyType',
-		'helper',
 		'configurationPresenterClasses'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
@@ -23,7 +22,7 @@ FQPropertyQueriesPresenter class >> defaultSpec [
 { #category : #'instance creation' }
 FQPropertyQueriesPresenter class >> open [
 	<script>
-	(self on: FQPropertyQueriesModel default) openWithSpec
+	(self on: FQQueryBuilder default) openWithSpec
 ]
 
 { #category : #specs }
@@ -56,13 +55,6 @@ FQPropertyQueriesPresenter >> initializeConfigurationClasses [
 			FQNumericQueryConfigurationPresenter.
 			#string.
 			FQStringQueryConfigurationPresenter}
-]
-
-{ #category : #initialization }
-FQPropertyQueriesPresenter >> initializeHelper [
-	helper := FQPropertyQueriesPresenterHelper new
-		entities: owner entities;
-		yourself
 ]
 
 { #category : #initialization }

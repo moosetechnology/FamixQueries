@@ -14,7 +14,7 @@ FQPropertyQueryConfigurationPresenter >> initializePresenters [
 	properties := self newDropList
 		items: queryBuilder availableProperties;
 		display: [ :prop | prop asString ];
-		whenSelectedItemChangedDo: [ :prop | queryBuilder query property: prop ];
+		whenSelectedItemChangedDo: [ :prop | queryBuilder changeQueryProperty: prop ];
 		selectIndex: 1;
 		yourself
 ]
