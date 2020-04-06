@@ -27,6 +27,19 @@ FQNavigationQuery >> association: anObject [
 ]
 
 { #category : #accessing }
+FQNavigationQuery >> availableAssociations [
+	^ {FamixTAccess.
+	FamixTReference.
+	FamixTInvocation.
+	FamixTInheritance}
+]
+
+{ #category : #accessing }
+FQNavigationQuery >> availableDirections [
+	^ FQAbstractDirectionNavigationQueryStrategy availableDirections
+]
+
+{ #category : #accessing }
 FQNavigationQuery >> direction [
 	^ direction
 ]

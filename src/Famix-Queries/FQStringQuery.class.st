@@ -13,7 +13,7 @@ FQStringQuery class >> fromProperty: aPropertySelector comparator: aSelector wit
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'available properties' }
 FQStringQuery >> availableComparators [
 	self flag: 'To improve'.
 	^ {#includesSubstring: . #beginsWith: . #matchesRegex:}

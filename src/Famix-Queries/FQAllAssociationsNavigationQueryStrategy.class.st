@@ -10,6 +10,16 @@ FQAllAssociationsNavigationQueryStrategy >> displayIncomingOn: aStream [
 ]
 
 { #category : #printing }
+FQAllAssociationsNavigationQueryStrategy >> displayLocalIncomingOn: aStream [
+	aStream << 'entity queryAllLocalIncoming opposites'
+]
+
+{ #category : #printing }
+FQAllAssociationsNavigationQueryStrategy >> displayLocalOutgoingOn: aStream [
+	aStream << 'entity queryAllLocalOutgoing opposites'
+]
+
+{ #category : #printing }
 FQAllAssociationsNavigationQueryStrategy >> displayOutgoingOn: aStream [
 	aStream << 'entity queryAllOutgoing opposites'
 ]

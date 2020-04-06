@@ -13,7 +13,7 @@ FQNumericQuery class >> fromProperty: aPropertySelector comparator: aComparisonS
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'available properties' }
 FQNumericQuery >> availableComparators [
 	self flag: 'To improve'.
 	^ {#> . #>= . #= . #<= . #<}

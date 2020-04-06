@@ -104,7 +104,7 @@ FQNavigationQueryTest >> testOutgoingInheritance [
 	grp := MooseAbstractGroup new.
 	grp add: (model entityNamed: 'Smalltalk::LANFileServer').
 
-	query := FQNavigationQuery association: (FQAssociationNavigationQueryStrategy with: FamixStInheritance) direction: FQOutgoingNavigationQueryStrategy.
+	query := FQNavigationQuery association: (FQAssociationNavigationQueryStrategy with: FamixTInheritance "FamixStInheritance") direction: FQOutgoingNavigationQueryStrategy.
 
 	self assert: (query runOn: grp) anyOne equals: (model entityNamed: 'Smalltalk::LANOutputServer')
 ]

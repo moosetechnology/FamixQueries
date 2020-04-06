@@ -5,7 +5,8 @@ Class {
 		'query',
 		'entities',
 		'scopingDirections',
-		'propertyQueriesTypes'
+		'propertyQueriesTypes',
+		'navigationAssociations'
 	],
 	#category : #'Famix-Queries-Browser-Builder'
 }
@@ -29,6 +30,22 @@ FQQueryBuilder class >> entities [
 	^ MooseGroup withAll: model allModelClasses
 ]
 
+{ #category : #navigation }
+FQQueryBuilder >> addAssociation: anAssociation [
+	navigationAssociations add: anAssociation.
+	self changeQueryAssociation
+]
+
+{ #category : #navigation }
+FQQueryBuilder >> availableAssociations [
+	^ query availableAssociations
+]
+
+{ #category : #navigation }
+FQQueryBuilder >> availableDirections [
+	^ query availableDirections
+]
+
 { #category : #properties }
 FQQueryBuilder >> availableProperties [
 	^ query availablePropertiesFor: entities
@@ -37,6 +54,11 @@ FQQueryBuilder >> availableProperties [
 { #category : #scope }
 FQQueryBuilder >> availableScopes [
 	^ query availableScopesFor: entities
+]
+
+{ #category : #navigation }
+FQQueryBuilder >> buildNavigationQuery [
+	query := FQNavigationQuery new
 ]
 
 { #category : #properties }
@@ -53,9 +75,22 @@ FQQueryBuilder >> buildScopeQuery: aDirectionSymbol [
 		direction: (scopingDirections at: aDirectionSymbol)
 ]
 
+{ #category : #navigation }
+FQQueryBuilder >> changeQueryAssociation [
+	(navigationAssociations includesAll: self availableAssociations)
+		ifTrue: [ query association: FQAllAssociationsNavigationQueryStrategy new ]
+		ifFalse: [ query
+				association: (FQAssociationNavigationQueryStrategy withAll: navigationAssociations) ]
+]
+
 { #category : #properties }
 FQQueryBuilder >> changeQueryComparator: aComparator [
 	^ query comparator: aComparator
+]
+
+{ #category : #navigation }
+FQQueryBuilder >> changeQueryNavigationDirection: aDirection [
+	query direction: aDirection
 ]
 
 { #category : #properties }
@@ -92,11 +127,13 @@ FQQueryBuilder >> entities: anObject [
 FQQueryBuilder >> initialize [
 	super initialize.
 	self initializeScopingDirections.
-	self initializePropertyQueriesTypes
+	self initializePropertyQueriesTypes.
+	navigationAssociations := Set new
 ]
 
 { #category : #initialization }
 FQQueryBuilder >> initializePropertyQueriesTypes [
+	self flag: 'Should maybe be in query class and not here'.
 	propertyQueriesTypes := OrderedDictionary
 		newFromPairs:
 			{#boolean.
@@ -109,6 +146,7 @@ FQQueryBuilder >> initializePropertyQueriesTypes [
 
 { #category : #initialization }
 FQQueryBuilder >> initializeScopingDirections [
+	self flag: 'Should maybe be in query class and not here'.
 	scopingDirections := Dictionary
 		newFromPairs:
 			{#up.
@@ -132,4 +170,10 @@ FQQueryBuilder >> query [
 { #category : #accessing }
 FQQueryBuilder >> query: anObject [
 	query := anObject
+]
+
+{ #category : #navigation }
+FQQueryBuilder >> removeAssociation: anAssociation [
+	navigationAssociations remove: anAssociation.
+	self changeQueryAssociation
 ]

@@ -21,6 +21,43 @@ FQQueryBuilderTest >> setUp [
 			entities := MooseGroup withAll: model ]
 ]
 
+{ #category : #navigation }
+FQQueryBuilderTest >> testAddAllAssociation [
+	| builder |
+	builder := FQQueryBuilder new
+		entities: entities;
+		yourself.
+	builder buildNavigationQuery.
+	builder query availableAssociations
+		do: [ :assoc | builder addAssociation: assoc ].
+	self
+		assert: builder query association class
+		identicalTo: FQAllAssociationsNavigationQueryStrategy
+]
+
+{ #category : #navigation }
+FQQueryBuilderTest >> testAddAssociation [
+	| builder |
+	builder := FQQueryBuilder new
+		entities: entities;
+		yourself.
+	builder buildNavigationQuery.
+	builder addAssociation: FamixTInheritance.
+	self
+		assert: builder query association associations
+		equals: {FamixTInheritance} asSet
+]
+
+{ #category : #navigation }
+FQQueryBuilderTest >> testBuildNavigationQuery [
+	| builder |
+	builder := FQQueryBuilder new
+		entities: entities;
+		yourself.
+	builder buildNavigationQuery.
+	self assert: builder query class identicalTo: FQNavigationQuery
+]
+
 { #category : #properties }
 FQQueryBuilderTest >> testBuildPropertyQueryTyped [
 	| builder |
@@ -45,6 +82,20 @@ FQQueryBuilderTest >> testBuildScopeQuery [
 	self assert: builder query class identicalTo: FQScopeQuery
 ]
 
+{ #category : #navigation }
+FQQueryBuilderTest >> testChangeQueryNavigationDirection [
+	| builder |
+	builder := FQQueryBuilder new
+		entities: entities;
+		yourself.
+	builder buildNavigationQuery.
+	builder
+		changeQueryNavigationDirection: FQIncomingNavigationQueryStrategy.
+	self
+		assert: builder query direction
+		identicalTo: FQIncomingNavigationQueryStrategy
+]
+
 { #category : #scope }
 FQQueryBuilderTest >> testChangeQueryScope [
 	| builder |
@@ -66,6 +117,27 @@ FQQueryBuilderTest >> testChangeQueryScope [
 	self
 		assert: builder query direction
 		identicalTo: FQScopeDownDirection
+]
+
+{ #category : #navigation }
+FQQueryBuilderTest >> testRemoveAssociation [
+	| builder |
+	builder := FQQueryBuilder new
+		entities: entities;
+		yourself.
+	builder buildNavigationQuery.
+	builder query availableAssociations
+		do: [ :assoc | builder addAssociation: assoc ].
+	builder removeAssociation: FamixTInvocation.
+	self
+		assert: builder query association class
+		identicalTo: FQAssociationNavigationQueryStrategy.
+	self
+		assert: builder query association associations
+		equals:
+			{FamixTAccess.
+			FamixTReference.
+			FamixTInheritance} asSet
 ]
 
 { #category : #properties }

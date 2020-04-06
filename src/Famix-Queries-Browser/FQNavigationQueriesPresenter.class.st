@@ -2,9 +2,9 @@ Class {
 	#name : #FQNavigationQueriesPresenter,
 	#superclass : #FQQueryConfigurationPresenter,
 	#instVars : [
-		'incoming',
 		'outgoing',
-		'associations'
+		'associations',
+		'directions'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -13,11 +13,11 @@ Class {
 FQNavigationQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		beNotHomogeneous;
-		add:
-			(SpBoxLayout newVertical
+		add: #directions;
+"			(SpBoxLayout newVertical
 				add: #incoming;
 				add: #outgoing;
-				yourself);
+				yourself);"
 		add: #associations;
 		add: self creationButton;
 		spacing: 5;
@@ -27,7 +27,11 @@ FQNavigationQueriesPresenter class >> defaultSpec [
 { #category : #'instance creation' }
 FQNavigationQueriesPresenter class >> open [
 	<script>
-	(self on: FQNavigationQueriesModel default) openWithSpec
+	(self
+		on:
+			(FQQueryBuilder default
+				buildNavigationQuery;
+				yourself)) openWithSpec
 ]
 
 { #category : #'instance creation' }
@@ -38,28 +42,39 @@ FQNavigationQueriesPresenter class >> title [
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializeAssociationsCheckBoxes [
 	associations := SpDynamicPresentersListBuilder new
-		modelObjects: queryBuilder queriesDict associations;
+		modelObjects: queryBuilder availableAssociations;
 		presenter: SpCheckBoxPresenter
-			configuredAs: [ :presenter :modelObject | 
+			configuredAs: [ :presenter :associationTrait | 
 			presenter
-				label: modelObject value;
-				whenActivatedDo: [ queryBuilder stateDict at: modelObject key put: true ];
-				whenDeactivatedDo: [ queryBuilder stateDict at: modelObject key put: false ];
-				state: true;
+				label: (associationTrait name withoutPrefix: 'FamixT');
+				whenActivatedDo: [ queryBuilder addAssociation: associationTrait ];
+				whenDeactivatedDo: [ queryBuilder removeAssociation: associationTrait ];
+				state: false;
 				yourself ];
 		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: 1);
-		build
+		build.
+
+	"To trigger the activated block"
+	associations presenters do: [ :checkbox | checkbox state: true ]
 ]
 
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
-	incoming := self newRadioButton
-		label: 'Incoming';
-		whenActivatedDo: [ self queryBuilder direction: #incoming ].
-	outgoing := self newRadioButton
-		label: 'Outgoing';
-		whenActivatedDo: [ self queryBuilder direction: #outgoing ].
-	incoming associatedRadioButtons: {outgoing}
+	directions := SpDynamicPresentersListBuilder new
+		modelObjects: queryBuilder availableDirections;
+		presenter: SpRadioButtonPresenter
+			configuredAs: [ :presenter :direction | 
+			presenter
+				label: direction label;
+				whenActivatedDo: [ queryBuilder changeQueryNavigationDirection: direction ];
+				yourself ];
+		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
+		build.
+	directions presenters first
+		associatedRadioButtons: directions presenters allButFirst.
+		
+	queryBuilder
+		changeQueryNavigationDirection: queryBuilder availableDirections first
 ]
 
 { #category : #initialization }

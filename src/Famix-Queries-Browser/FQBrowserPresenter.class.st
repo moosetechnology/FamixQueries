@@ -115,12 +115,20 @@ FQBrowserPresenter >> initializeQueryTypes [
 FQBrowserPresenter >> navigationQueryConfigurationPresenter [
 	^ FQNavigationQueriesPresenter
 		owner: self
-		on: FQNavigationQueriesModel default
+		on:
+			(self queryBuilder
+				buildNavigationQuery;
+				yourself)
 ]
 
 { #category : #'query configuration presenters' }
 FQBrowserPresenter >> propertyQueryConfigurationPresenter [
-	^ FQPropertyQueriesPresenter owner: self on: self queryBuilder
+	^ FQPropertyQueriesPresenter
+		owner: self
+		on:
+			(self queryBuilder
+				buildPropertyQueryTyped: #boolean;
+				yourself)
 ]
 
 { #category : #accessing }
