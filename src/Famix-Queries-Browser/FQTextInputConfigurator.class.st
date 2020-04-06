@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'defaultText'
 	],
-	#category : #'Famix-Queries-Browser-Tools-Deprecated'
+	#category : #'Famix-Queries-Browser-Tools-Unused'
 }
 
 { #category : #accessing }

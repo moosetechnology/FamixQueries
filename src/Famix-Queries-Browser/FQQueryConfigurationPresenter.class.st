@@ -45,6 +45,12 @@ FQQueryConfigurationPresenter >> initializePresenters [
 ]
 
 { #category : #accessing }
+FQQueryConfigurationPresenter >> modelPrefix [
+	^ queryBuilder entities first mooseModel className
+		withoutSuffix: 'Model'
+]
+
+{ #category : #accessing }
 FQQueryConfigurationPresenter >> queryBuilder [
 	^ queryBuilder
 ]

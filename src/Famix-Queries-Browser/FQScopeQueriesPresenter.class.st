@@ -56,18 +56,10 @@ FQScopeQueriesPresenter >> initializePresenters [
 
 { #category : #initialization }
 FQScopeQueriesPresenter >> initializeScopeDropList [
-	| newScopes prefix |
-	newScopes := self queryBuilder availableScopes.
-	prefix := (newScopes collect: #name)
-		inject: newScopes first name
-		into: [ :pref :name | 
-			| size |
-			size := name charactersExactlyMatching: pref.
-			name first: size ].
 	scopes := self newDropList
 		whenSelectedItemChangedDo: [ :scope | self queryBuilder changeQueryScope: scope ];
 		items: self queryBuilder availableScopes;
-		display: [ :item | item name withoutPrefix: prefix ]
+		display: [ :item | item name withoutPrefix: self modelPrefix ]
 ]
 
 { #category : #initialization }

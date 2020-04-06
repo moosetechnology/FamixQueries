@@ -36,6 +36,11 @@ FQQueryBuilder >> addAssociation: anAssociation [
 	self changeQueryAssociation
 ]
 
+{ #category : #type }
+FQQueryBuilder >> addTypeToQuery: aType [
+	query type: aType
+]
+
 { #category : #navigation }
 FQQueryBuilder >> availableAssociations [
 	^ query availableAssociations
@@ -56,6 +61,11 @@ FQQueryBuilder >> availableScopes [
 	^ query availableScopesFor: entities
 ]
 
+{ #category : #type }
+FQQueryBuilder >> availableTypes [
+	^ query availableTypesFor: entities
+]
+
 { #category : #navigation }
 FQQueryBuilder >> buildNavigationQuery [
 	query := FQNavigationQuery new
@@ -73,6 +83,11 @@ FQQueryBuilder >> buildScopeQuery: aDirectionSymbol [
 	query := FQScopeQuery
 		forScope: nil
 		direction: (scopingDirections at: aDirectionSymbol)
+]
+
+{ #category : #type }
+FQQueryBuilder >> buildTypeQuery [
+	query := FQTypeQuery new
 ]
 
 { #category : #navigation }
@@ -101,6 +116,11 @@ FQQueryBuilder >> changeQueryProperty: aPropertyName [
 { #category : #scope }
 FQQueryBuilder >> changeQueryScope: aScope [
 	query scope: aScope
+]
+
+{ #category : #type }
+FQQueryBuilder >> changeQueryType: aType [
+	query type: aType
 ]
 
 { #category : #properties }
@@ -176,4 +196,9 @@ FQQueryBuilder >> query: anObject [
 FQQueryBuilder >> removeAssociation: anAssociation [
 	navigationAssociations remove: anAssociation.
 	self changeQueryAssociation
+]
+
+{ #category : #type }
+FQQueryBuilder >> removeTypeFromQuery: aType [
+	query type: aType
 ]

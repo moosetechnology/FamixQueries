@@ -19,7 +19,11 @@ FQTypeQueriesPresenter class >> defaultSpec [
 { #category : #'instance creation' }
 FQTypeQueriesPresenter class >> open [
 	<script>
-	(self on: FQTypeQueriesModel default) openWithSpec
+	(self
+		on:
+			(FQQueryBuilder default
+				buildTypeQuery;
+				yourself)) openWithSpec
 ]
 
 { #category : #specs }
@@ -36,15 +40,17 @@ FQTypeQueriesPresenter >> initializePresenters [
 { #category : #initialization }
 FQTypeQueriesPresenter >> instanciateTypeCheckBoxes [
 	types := SpDynamicPresentersListBuilder new
-		modelObjects: queryBuilder queriesDict associations;
+		modelObjects: queryBuilder availableTypes;
 		presenter: SpCheckBoxPresenter
-			configuredAs: [ :presenter :modelObject | 
+			configuredAs: [ :presenter :type | 
 			presenter
-				label: modelObject value;
-				whenActivatedDo: [ queryBuilder stateDict at: modelObject key put: true ];
-				whenDeactivatedDo: [ queryBuilder stateDict at: modelObject key put: false ];
+				label: (type name withoutPrefix: self modelPrefix);
+				whenActivatedDo: [ queryBuilder addTypeToQuery: type ];
+				whenDeactivatedDo: [ queryBuilder removeTypeFromQuery: type ];
 				state: true;
 				yourself ];
-		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: queryBuilder queriesDict size // 3);
+		layoutBuilder:
+			(SpDynamicLeftToRightRowsLayout
+				rows: (queryBuilder availableTypes size // 3 max: 1));
 		build
 ]

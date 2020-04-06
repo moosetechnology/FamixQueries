@@ -21,6 +21,13 @@ FQTypeQuery >> allWantedIn: aMooseGroup [
 		ifFalse: [ aMooseGroup allWithType: self type ]
 ]
 
+{ #category : #accessing }
+FQTypeQuery >> availableTypesFor: aMooseGroup [
+	^ ((aMooseGroup allUsing: FamixTNamedEntity) collect: #class)
+		removeDuplicates;
+		sort: [ :type1 :type2 | type1 name < type2 name ]
+]
+
 { #category : #running }
 FQTypeQuery >> displayOn: aStream with: aString [
 	aStream << aString << (self selectorString , self type name)

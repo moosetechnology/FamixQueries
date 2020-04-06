@@ -82,6 +82,16 @@ FQQueryBuilderTest >> testBuildScopeQuery [
 	self assert: builder query class identicalTo: FQScopeQuery
 ]
 
+{ #category : #type }
+FQQueryBuilderTest >> testBuildTypeQuery [
+	| builder |
+	builder := FQQueryBuilder new
+		entities: entities;
+		yourself.
+	builder buildTypeQuery.
+	self assert: builder query class identicalTo: FQTypeQuery
+]
+
 { #category : #navigation }
 FQQueryBuilderTest >> testChangeQueryNavigationDirection [
 	| builder |
@@ -117,6 +127,17 @@ FQQueryBuilderTest >> testChangeQueryScope [
 	self
 		assert: builder query direction
 		identicalTo: FQScopeDownDirection
+]
+
+{ #category : #type }
+FQQueryBuilderTest >> testChangeQueryType [
+	| builder |
+	builder := FQQueryBuilder new
+		entities: entities;
+		yourself.
+	builder buildTypeQuery.
+	builder changeQueryType: FamixStClass.
+	self assert: builder query type identicalTo: FamixStClass
 ]
 
 { #category : #navigation }

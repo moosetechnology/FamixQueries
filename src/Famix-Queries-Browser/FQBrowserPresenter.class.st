@@ -16,6 +16,7 @@ Class {
 FQBrowserPresenter class >> default [
 	^ self basicNew
 		entities: self defaultEntities;
+		initializeQueryBuilder;
 		initialize;
 		yourself
 ]
@@ -29,7 +30,7 @@ FQBrowserPresenter class >> defaultEntities [
 		model: model;
 		addFromPackageNamed: #'Moose-TestResources-LAN';
 		run.
-	^ MooseGroup withAll: model allModelClasses
+	^ model	"MooseGroup withAll: model allModelClasses"
 ]
 
 { #category : #specs }
@@ -83,14 +84,6 @@ FQBrowserPresenter >> initialExtent [
 ]
 
 { #category : #initialization }
-FQBrowserPresenter >> initialize [
-	super initialize.
-	queryBuilder := FQQueryBuilder new
-		entities: self entities;
-		yourself
-]
-
-{ #category : #initialization }
 FQBrowserPresenter >> initializePresenters [
 	entitiesList := self newList
 		items: self entities;
@@ -101,6 +94,13 @@ FQBrowserPresenter >> initializePresenters [
 	queryConfiguration
 		transmitTo: queryDisplay
 		transform: [ :query | query ]
+]
+
+{ #category : #initialization }
+FQBrowserPresenter >> initializeQueryBuilder [
+	queryBuilder := FQQueryBuilder new
+		entities: self entities;
+		yourself
 ]
 
 { #category : #initialization }
@@ -161,12 +161,17 @@ FQBrowserPresenter >> queryTypes [
 
 { #category : #'query configuration presenters' }
 FQBrowserPresenter >> scopeQueryConfigurationPresenter [
-	^ FQScopeQueriesPresenter owner: self on: self queryBuilder	"FQScopeQueriesModel default"
+	^ FQScopeQueriesPresenter owner: self on: self queryBuilder
 ]
 
 { #category : #'query configuration presenters' }
 FQBrowserPresenter >> typeQueryConfigurationPresenter [
-	^ FQTypeQueriesPresenter owner: self on: FQTypeQueriesModel default
+	^ FQTypeQueriesPresenter
+		owner: self
+		on:
+			(self queryBuilder
+				buildTypeQuery;
+				yourself)
 ]
 
 { #category : #'query configuration presenters' }
