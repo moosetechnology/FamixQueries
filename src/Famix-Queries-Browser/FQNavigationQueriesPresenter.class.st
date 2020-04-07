@@ -41,21 +41,7 @@ FQNavigationQueriesPresenter class >> title [
 
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializeAssociationsCheckBoxes [
-	associations := SpDynamicPresentersListBuilder new
-		modelObjects: queryBuilder availableAssociations;
-		presenter: SpCheckBoxPresenter
-			configuredAs: [ :presenter :associationTrait | 
-			presenter
-				label: (associationTrait name withoutPrefix: 'FamixT');
-				whenActivatedDo: [ queryBuilder addAssociation: associationTrait ];
-				whenDeactivatedDo: [ queryBuilder removeAssociation: associationTrait ];
-				state: false;
-				yourself ];
-		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: 1);
-		build.
-
-	"To trigger the whenActivated block"
-	associations presenters do: [ :checkbox | checkbox state: true ]
+	self updateAssociationsCheckBoxes
 ]
 
 { #category : #initialization }
@@ -71,13 +57,13 @@ FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
 			configuredAs: [ :presenter :direction | 
 			presenter
 				label: direction label;
-				whenActivatedDo: [ queryBuilder changeQueryNavigationDirection: direction ];
+				whenActivatedDo: [ queryBuilder changeQueryNavigationDirection: direction.
+					self updateAssociationsCheckBoxes ];
 				yourself ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
 	directions presenters first
 		associatedRadioButtons: directions presenters allButFirst.
-		
 	queryBuilder
 		changeQueryNavigationDirection: queryBuilder availableDirections first
 ]
@@ -87,4 +73,24 @@ FQNavigationQueriesPresenter >> initializePresenters [
 	super initializePresenters.
 	self initializeDirectionRadioButtons.
 	self initializeAssociationsCheckBoxes
+]
+
+{ #category : #initialization }
+FQNavigationQueriesPresenter >> updateAssociationsCheckBoxes [
+	associations := SpDynamicPresentersListBuilder new
+		modelObjects: queryBuilder defaultAssociations;
+		presenter: SpCheckBoxPresenter
+			configuredAs: [ :presenter :associationTrait | 
+			presenter
+				label: (associationTrait name withoutPrefix: 'FamixT');
+				whenActivatedDo: [ queryBuilder addAssociation: associationTrait ];
+				whenDeactivatedDo: [ queryBuilder removeAssociation: associationTrait ].
+			(queryBuilder availableAssociations includes: associationTrait)
+				ifTrue: [ presenter state: true ]
+				ifFalse: [ presenter disable ] ];
+		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: 1);
+		build.
+	associations presenters
+		detect: #state
+		ifNone: [ self button disable ]
 ]

@@ -27,16 +27,28 @@ FQNavigationQuery >> association: anObject [
 ]
 
 { #category : #accessing }
-FQNavigationQuery >> availableAssociations [
-	^ {FamixTAccess.
-	FamixTReference.
-	FamixTInvocation.
-	FamixTInheritance}
+FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
+	^ ((self direction
+		availableAssociationsFor: (aMooseGroup allUsing: TEntityMetaLevelDependency))
+		collect: #implementingType) asOrderedCollection
 ]
 
 { #category : #accessing }
 FQNavigationQuery >> availableDirections [
 	^ FQAbstractDirectionNavigationQueryStrategy availableDirections
+]
+
+{ #category : #accessing }
+FQNavigationQuery >> defaultAssociations [
+	^ (((FM3Property allInstances select: #hasOpposite)
+		select: [ :p | p opposite isSource ])
+		collectAsSet: #implementingType) asArray
+		sorted: [ :assoc1 :assoc2 | assoc1 name < assoc2 name ]
+		
+	"{FamixTAccess.
+	FamixTReference.
+	FamixTInvocation.
+	FamixTInheritance}" 
 ]
 
 { #category : #accessing }

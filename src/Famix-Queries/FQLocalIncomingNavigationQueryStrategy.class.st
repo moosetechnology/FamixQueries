@@ -4,6 +4,11 @@ Class {
 	#category : #'Famix-Queries-Utils'
 }
 
+{ #category : #accessing }
+FQLocalIncomingNavigationQueryStrategy class >> availableAssociationsFor: aMooseGroup [
+	^ aMooseGroup entities flatCollectAsSet: #incomingMSEProperties
+]
+
 { #category : #action }
 FQLocalIncomingNavigationQueryStrategy class >> displayOn: aStream with: anAssociationStrategy [
 	anAssociationStrategy displayLocalIncomingOn: aStream

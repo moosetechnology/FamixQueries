@@ -43,7 +43,7 @@ FQQueryBuilder >> addTypeToQuery: aType [
 
 { #category : #navigation }
 FQQueryBuilder >> availableAssociations [
-	^ query availableAssociations
+	^ query availableAssociationsFor: entities
 ]
 
 { #category : #navigation }
@@ -131,6 +131,11 @@ FQQueryBuilder >> changeQueryValueToCompare: aValue [
 { #category : #running }
 FQQueryBuilder >> createQuery [
 	^ String streamContents: [ :s | query displayOn: s ]
+]
+
+{ #category : #navigation }
+FQQueryBuilder >> defaultAssociations [
+	^ query defaultAssociations
 ]
 
 { #category : #accessing }
