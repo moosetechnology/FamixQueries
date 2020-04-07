@@ -2,7 +2,7 @@ Class {
 	#name : #FQTypeQuery,
 	#superclass : #FQAbstractQuery,
 	#instVars : [
-		'type'
+		'types'
 	],
 	#category : #'Famix-Queries-Terminal'
 }
@@ -10,15 +10,24 @@ Class {
 { #category : #'instance creation' }
 FQTypeQuery class >> forType: aType [
 	^ self new
-		type: aType;
+		types: {aType} asOrderedCollection;
+		yourself
+]
+
+{ #category : #'instance creation' }
+FQTypeQuery class >> forTypes: aTypesCollection [
+	^ self new
+		types: aTypesCollection asOrderedCollection;
 		yourself
 ]
 
 { #category : #running }
 FQTypeQuery >> allWantedIn: aMooseGroup [
-	^ self type isTrait
-		ifTrue: [ aMooseGroup allUsing: self type ]
-		ifFalse: [ aMooseGroup allWithType: self type ]
+	^ self types
+		flatCollectAsSet: [ :type | 
+			type isTrait
+				ifTrue: [ aMooseGroup allUsing: type ]
+				ifFalse: [ aMooseGroup allWithType: type ] ]
 ]
 
 { #category : #accessing }
@@ -30,30 +39,42 @@ FQTypeQuery >> availableTypesFor: aMooseGroup [
 
 { #category : #running }
 FQTypeQuery >> displayOn: aStream with: aString [
-	aStream << aString << (self selectorString , self type name)
+	self types size == 1
+		ifTrue:
+			[ aStream << aString << (self displayStringForType: self types first) ]
+		ifFalse: [ self types
+				allButLastDo:
+					[ :type | aStream << $( << aString << (self displayStringForType: type) << ') | ' ].
+			aStream << $( << aString
+				<< (self displayStringForType: self types last) << $) ]
+]
+
+{ #category : #running }
+FQTypeQuery >> displayStringForType: aType [
+	^ (aType isTrait
+		ifTrue: [ ' allUsing: ' ]
+		ifFalse: [ ' allWithType: ' ]) , aType name
+]
+
+{ #category : #running }
+FQTypeQuery >> initialize [
+	super initialize.
+	types := OrderedCollection new
 ]
 
 { #category : #running }
 FQTypeQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
 
-	^ (self allWantedIn: aMooseGroup) asMooseGroup
-		ifEmpty: [ MooseGroup new ]
-]
-
-{ #category : #running }
-FQTypeQuery >> selectorString [
-	^ self type isTrait
-		ifTrue: [ ' allUsing: ' ]
-		ifFalse: [ ' allWithType: ' ]
+	^ MooseGroup withAll: (self allWantedIn: aMooseGroup)
 ]
 
 { #category : #accessing }
-FQTypeQuery >> type [
-	^ type
+FQTypeQuery >> types [
+	^ types
 ]
 
 { #category : #accessing }
-FQTypeQuery >> type: anObject [
-	type := anObject
+FQTypeQuery >> types: anObject [
+	types := anObject
 ]

@@ -12,7 +12,8 @@ FQTypeQueryTest >> actualClass [
 { #category : #tests }
 FQTypeQueryTest >> testDisplayOn [
 	self testDisplayOnTrait.
-	self testDisplayOnClass
+	self testDisplayOnClass.
+	self testDisplayOnSeveralTypes
 ]
 
 { #category : #tests }
@@ -21,6 +22,18 @@ FQTypeQueryTest >> testDisplayOnClass [
 	self
 		assert: (String streamContents: [ :stream | query displayOn: stream ])
 		equals: 'aMooseGroup allWithType: FamixStClass'
+]
+
+{ #category : #tests }
+FQTypeQueryTest >> testDisplayOnSeveralTypes [
+	query := self actualClass
+		forTypes:
+			{FamixStClass.
+			FamixTMethod}.
+	self
+		assert: (String streamContents: [ :stream | query displayOn: stream ])
+		equals:
+			'(aMooseGroup allWithType: FamixStClass) | (aMooseGroup allUsing: FamixTMethod)'
 ]
 
 { #category : #tests }
@@ -34,7 +47,8 @@ FQTypeQueryTest >> testDisplayOnTrait [
 { #category : #tests }
 FQTypeQueryTest >> testRunOn [
 	self testRunOnTrait.
-	self testRunOnClass
+	self testRunOnClass.
+	self testRunOnSeveralTypes
 ]
 
 { #category : #tests }
@@ -45,6 +59,19 @@ FQTypeQueryTest >> testRunOnClass [
 	
 	queryResult := query runOn: model.
 	expectedResult := model allWithType: FamixStClass.
+	
+	self assert: queryResult size equals: expectedResult size.
+	self assertCollection: queryResult hasSameElements: expectedResult
+]
+
+{ #category : #tests }
+FQTypeQueryTest >> testRunOnSeveralTypes [
+	| queryResult expectedResult |
+	
+	query := self actualClass forTypes: {FamixStClass. FamixTMethod}.
+	
+	queryResult := query runOn: model.
+	expectedResult := (model allWithType: FamixStClass) | (model allUsing: FamixTMethod).
 	
 	self assert: queryResult size equals: expectedResult size.
 	self assertCollection: queryResult hasSameElements: expectedResult

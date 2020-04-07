@@ -38,7 +38,7 @@ FQQueryBuilder >> addAssociation: anAssociation [
 
 { #category : #type }
 FQQueryBuilder >> addTypeToQuery: aType [
-	query type: aType
+	query addType: aType
 ]
 
 { #category : #navigation }
@@ -200,5 +200,5 @@ FQQueryBuilder >> removeAssociation: anAssociation [
 
 { #category : #type }
 FQQueryBuilder >> removeTypeFromQuery: aType [
-	
+	query removeType: aType
 ]

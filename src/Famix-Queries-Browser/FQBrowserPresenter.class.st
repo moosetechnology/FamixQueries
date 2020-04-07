@@ -23,17 +23,19 @@ FQBrowserPresenter class >> default [
 
 { #category : #accessing }
 FQBrowserPresenter class >> defaultEntities [
-	| model |
+	| model unnamedEntities |
 	model := FamixStModel new.
 	MoosePharoImporterTask new
 		importerClass: SmalltalkImporter;
 		model: model;
 		addFromPackageNamed: #'Moose-TestResources-LAN';
 		run.
+	unnamedEntities := MooseGroup
+		withAll: (model copyWithoutAll: (model allUsing: FamixTNamedEntity)).
 	^ MooseGroup
 		withAll:
 			{model allModelClasses.
-			model allModelMethods} flatten	"model"
+			model allModelMethods} flatten	"unnamedEntities"	"model"
 ]
 
 { #category : #specs }
