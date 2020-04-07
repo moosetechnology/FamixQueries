@@ -59,16 +59,16 @@ FQQueryBuilderTest >> testBuildNavigationQuery [
 ]
 
 { #category : #properties }
-FQQueryBuilderTest >> testBuildPropertyQueryTyped [
+FQQueryBuilderTest >> testBuildPropertyQuery [
 	| builder |
 	builder := FQQueryBuilder new
 		entities: entities;
 		yourself.
-	builder buildPropertyQueryTyped: #boolean.
+	builder buildPropertyQuery: FQBooleanQuery.
 	self assert: builder query class identicalTo: FQBooleanQuery.
-	builder buildPropertyQueryTyped: #number.
+	builder buildPropertyQuery: FQNumericQuery.
 	self assert: builder query class identicalTo: FQNumericQuery.
-	builder buildPropertyQueryTyped: #string.
+	builder buildPropertyQuery: FQStringQuery.
 	self assert: builder query class identicalTo: FQStringQuery
 ]
 
@@ -170,7 +170,7 @@ FQQueryBuilderTest >> testchangeQueryComparator [
 	builder := FQQueryBuilder new
 		entities: entities;
 		yourself.
-	builder buildPropertyQueryTyped: #number.
+	builder buildPropertyQuery: FQNumericQuery.
 	builder changeQueryComparator: #<=.
 	self assert: builder query comparator equals: #<=
 ]
@@ -181,7 +181,7 @@ FQQueryBuilderTest >> testchangeQueryProperty [
 	builder := FQQueryBuilder new
 		entities: entities;
 		yourself.
-	builder buildPropertyQueryTyped: #boolean.
+	builder buildPropertyQuery: FQBooleanQuery.
 	builder changeQueryProperty: #isAbstract.
 	self assert: builder query property equals: #isAbstract
 ]
@@ -192,7 +192,7 @@ FQQueryBuilderTest >> testchangeQueryValueToCompare [
 	builder := FQQueryBuilder new
 		entities: entities;
 		yourself.
-	builder buildPropertyQueryTyped: #string.
+	builder buildPropertyQuery: FQStringQuery.
 	builder changeQueryValueToCompare: 'pattern'.
 	self assert: builder query valueToCompare equals: 'pattern'
 ]

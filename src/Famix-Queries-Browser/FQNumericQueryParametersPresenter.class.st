@@ -34,7 +34,7 @@ FQNumericQueryParametersPresenter class >> open [
 	^ self basicNew
 		setModelBeforeInitialization:
 			(FQQueryBuilder default
-				buildPropertyQueryTyped: #number;
+				buildPropertyQuery: FQNumericQuery;
 				yourself);
 		initialize;
 		openWithSpec

@@ -20,7 +20,7 @@ FQBooleanQueryParametersPresenter class >> open [
 	^ self basicNew
 		setModelBeforeInitialization:
 			(FQQueryBuilder default
-				buildPropertyQueryTyped: #boolean;
+				buildPropertyQuery: FQBooleanQuery;
 				yourself);
 		initialize;
 		openWithSpec

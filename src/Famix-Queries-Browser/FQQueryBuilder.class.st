@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'query',
 		'entities',
-		'propertyQueriesTypes',
 		'navigationAssociations'
 	],
 	#category : #'Famix-Queries-Browser-Builder'
@@ -55,6 +54,11 @@ FQQueryBuilder >> availableProperties [
 	^ query availablePropertiesFor: entities
 ]
 
+{ #category : #properties }
+FQQueryBuilder >> availablePropertyQueryTypes [
+	^ query availablePropertyQueryTypes
+]
+
 { #category : #scope }
 FQQueryBuilder >> availableScopeDirections [
 	^ query availableDirections
@@ -76,8 +80,13 @@ FQQueryBuilder >> buildNavigationQuery [
 ]
 
 { #category : #properties }
-FQQueryBuilder >> buildPropertyQueryTyped: aType [
-	query := (propertyQueriesTypes at: aType) new
+FQQueryBuilder >> buildPropertyQuery [
+	query := FQBooleanQuery new
+]
+
+{ #category : #properties }
+FQQueryBuilder >> buildPropertyQuery: aTypeQueryClass [
+	query := aTypeQueryClass new
 ]
 
 { #category : #scope }
@@ -159,26 +168,7 @@ FQQueryBuilder >> entities: anObject [
 { #category : #initialization }
 FQQueryBuilder >> initialize [
 	super initialize.
-	self initializePropertyQueriesTypes.
 	navigationAssociations := Set new
-]
-
-{ #category : #initialization }
-FQQueryBuilder >> initializePropertyQueriesTypes [
-	self flag: 'Should maybe be in query class and not here'.
-	propertyQueriesTypes := OrderedDictionary
-		newFromPairs:
-			{#boolean.
-			FQBooleanQuery.
-			#number.
-			FQNumericQuery.
-			#string.
-			FQStringQuery}
-]
-
-{ #category : #properties }
-FQQueryBuilder >> propertyTypes [
-	^ propertyQueriesTypes keys
 ]
 
 { #category : #accessing }

@@ -31,9 +31,9 @@ FQPropertyQueriesPresenter class >> title [
 ]
 
 { #category : #initialization }
-FQPropertyQueriesPresenter >> adaptQueryParametersPresenterFor: aPropertype [
-	queryBuilder buildPropertyQueryTyped: aPropertype.
-	queryParameters := (configurationPresenterClasses at: aPropertype)
+FQPropertyQueriesPresenter >> adaptQueryParametersPresenterFor: aPropertyQueryClass [
+	queryBuilder buildPropertyQuery: aPropertyQueryClass.
+	queryParameters := aPropertyQueryClass configurationPresenter
 		owner: self
 		on: queryBuilder.
 	self needRebuild: false.
@@ -42,42 +42,28 @@ FQPropertyQueriesPresenter >> adaptQueryParametersPresenterFor: aPropertype [
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializeBuilder [
-	queryBuilder buildPropertyQueryTyped: #boolean
-]
-
-{ #category : #initialization }
-FQPropertyQueriesPresenter >> initializeConfigurationClasses [
-	configurationPresenterClasses := Dictionary
-		newFromPairs:
-			{#boolean.
-			FQBooleanQueryParametersPresenter.
-			#number.
-			FQNumericQueryParametersPresenter.
-			#string.
-			FQStringQueryParametersPresenter}
+	queryBuilder buildPropertyQuery
 ]
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializePresenters [
 	super initializePresenters.
-	self initializeConfigurationClasses.
 	self initializeQueryTypeRadioButtons
 ]
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 	propertyType := SpDynamicPresentersListBuilder new
-		modelObjects: queryBuilder propertyTypes;
+		modelObjects: queryBuilder availablePropertyQueryTypes;
 		presenter: SpRadioButtonPresenter
 			configuredAs: [ :presenter :modelObject | 
 			presenter
-				label: modelObject asString capitalized;
+				label: modelObject label;
 				whenActivatedDo: [ self adaptQueryParametersPresenterFor: modelObject ];
 				yourself ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
 	propertyType presenters first
 		associatedRadioButtons: propertyType presenters allButFirst.
-		
-	self adaptQueryParametersPresenterFor: #boolean
+	self adaptQueryParametersPresenterFor: FQBooleanQuery
 ]

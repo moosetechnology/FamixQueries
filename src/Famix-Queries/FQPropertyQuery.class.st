@@ -23,6 +23,11 @@ FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 ]
 
 { #category : #accessing }
+FQPropertyQuery >> availablePropertyQueryTypes [
+	^ FQPropertyQuery allSubclasses
+]
+
+{ #category : #accessing }
 FQPropertyQuery >> comparator [
 	^ comparator
 ]

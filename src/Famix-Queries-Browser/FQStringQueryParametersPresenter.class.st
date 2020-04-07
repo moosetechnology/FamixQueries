@@ -34,7 +34,7 @@ FQStringQueryParametersPresenter class >> open [
 	^ self basicNew
 		setModelBeforeInitialization:
 			(FQQueryBuilder default
-				buildPropertyQueryTyped: #string;
+				buildPropertyQuery: FQStringQuery;
 				yourself);
 		initialize;
 		openWithSpec
