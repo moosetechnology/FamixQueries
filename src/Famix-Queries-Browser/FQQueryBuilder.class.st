@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'query',
 		'entities',
-		'scopingDirections',
 		'propertyQueriesTypes',
 		'navigationAssociations'
 	],
@@ -57,6 +56,11 @@ FQQueryBuilder >> availableProperties [
 ]
 
 { #category : #scope }
+FQQueryBuilder >> availableScopeDirections [
+	^ query availableDirections
+]
+
+{ #category : #scope }
 FQQueryBuilder >> availableScopes [
 	^ query availableScopesFor: entities
 ]
@@ -77,12 +81,16 @@ FQQueryBuilder >> buildPropertyQueryTyped: aType [
 ]
 
 { #category : #scope }
-FQQueryBuilder >> buildScopeQuery: aDirectionSymbol [
+FQQueryBuilder >> buildScopeQuery [
+	query := FQScopeQuery new.
+	query direction: query availableDirections first
+]
+
+{ #category : #scope }
+FQQueryBuilder >> buildScopeQueryWithDirection: aDirection [
 	self
 		flag: 'nil. Will not work when we want to display queries dinamically'.
-	query := FQScopeQuery
-		forScope: nil
-		direction: (scopingDirections at: aDirectionSymbol)
+	query := FQScopeQuery forScope: nil direction: aDirection
 ]
 
 { #category : #type }
@@ -151,7 +159,6 @@ FQQueryBuilder >> entities: anObject [
 { #category : #initialization }
 FQQueryBuilder >> initialize [
 	super initialize.
-	self initializeScopingDirections.
 	self initializePropertyQueriesTypes.
 	navigationAssociations := Set new
 ]
@@ -167,19 +174,6 @@ FQQueryBuilder >> initializePropertyQueriesTypes [
 			FQNumericQuery.
 			#string.
 			FQStringQuery}
-]
-
-{ #category : #initialization }
-FQQueryBuilder >> initializeScopingDirections [
-	self flag: 'Should maybe be in query class and not here'.
-	scopingDirections := Dictionary
-		newFromPairs:
-			{#up.
-			FQScopeUpDirection.
-			#upAndDown.
-			FQScopeUpDownDirection.
-			#down.
-			FQScopeDownDirection}
 ]
 
 { #category : #properties }

@@ -2,9 +2,7 @@ Class {
 	#name : #FQScopeQueriesPresenter,
 	#superclass : #FQQueryConfigurationPresenter,
 	#instVars : [
-		'up',
-		'upAndDown',
-		'down',
+		'directions',
 		'scopes'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
@@ -13,12 +11,7 @@ Class {
 { #category : #specs }
 FQScopeQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
-		add:
-			(SpBoxLayout newVertical
-				add: #up;
-				add: #upAndDown;
-				add: #down;
-				yourself);
+		add: #directions;
 		add: self scopes;
 		add: self creationButton;
 		spacing: 5;
@@ -31,7 +24,7 @@ FQScopeQueriesPresenter class >> open [
 	(self
 		on:
 			(FQQueryBuilder default
-				buildScopeQuery: #down;
+				buildScopeQueryWithDirection: FQScopeUpDirection;
 				yourself)) openWithSpec
 ]
 
@@ -52,7 +45,7 @@ FQScopeQueriesPresenter class >> title [
 
 { #category : #initialization }
 FQScopeQueriesPresenter >> initializeBuilder [
-	queryBuilder buildScopeQuery: #upAndDown
+	queryBuilder buildScopeQuery
 ]
 
 { #category : #initialization }
@@ -73,22 +66,19 @@ FQScopeQueriesPresenter >> initializeScopeDropList [
 
 { #category : #initialization }
 FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
-	up := self newRadioButton
-		label: 'Up';
-		whenActivatedDo: [ self queryBuilder buildScopeQuery: #up.
-			self updateScopes ].
-	upAndDown := self newRadioButton
-		label: 'Up and Down';
-		whenActivatedDo: [ self queryBuilder buildScopeQuery: #upAndDown.
-			self updateScopes ].
-	down := self newRadioButton
-		label: 'Down';
-		whenActivatedDo: [ self queryBuilder buildScopeQuery: #down.
-			self updateScopes ].
-	upAndDown
-		associatedRadioButtons:
-			{up.
-			down}
+	directions := SpDynamicPresentersListBuilder new
+		modelObjects: queryBuilder availableScopeDirections;
+		presenter: SpRadioButtonPresenter
+			configuredAs: [ :presenter :modelObject | 
+			presenter
+				label: modelObject label;
+				whenActivatedDo: [ self queryBuilder buildScopeQueryWithDirection: modelObject.
+					self updateScopes ];
+				yourself ];
+		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
+		build.
+	directions presenters first
+		associatedRadioButtons: directions presenters allButFirst
 ]
 
 { #category : #initialization }

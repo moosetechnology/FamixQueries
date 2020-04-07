@@ -14,11 +14,6 @@ FQLocalOutgoingNavigationQueryStrategy class >> displayOn: aStream with: anAssoc
 	anAssociationStrategy displayLocalOutgoingOn: aStream
 ]
 
-{ #category : #accessing }
-FQLocalOutgoingNavigationQueryStrategy class >> label [
-	^ 'Local Outgoing'
-]
-
 { #category : #action }
 FQLocalOutgoingNavigationQueryStrategy class >> query: anEntity with: anAssociationStrategy [
 	^ anAssociationStrategy queryLocalOutgoingWith: anEntity

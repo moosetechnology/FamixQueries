@@ -14,11 +14,6 @@ FQAbstractDirectionNavigationQueryStrategy class >> displayOn: aStream with: anA
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
-FQAbstractDirectionNavigationQueryStrategy class >> label [
-	^ self subclassResponsibility
-]
-
 { #category : #action }
 FQAbstractDirectionNavigationQueryStrategy class >> query: anEntity with: anAssociationStrategy [
 	^ self subclassResponsibility

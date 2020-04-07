@@ -23,11 +23,6 @@ FQIncomingNavigationQueryStrategy class >> displayOn: aStream with: anAssociatio
 	anAssociationStrategy displayIncomingOn: aStream
 ]
 
-{ #category : #accessing }
-FQIncomingNavigationQueryStrategy class >> label [
-	^ 'Incoming'
-]
-
 { #category : #action }
 FQIncomingNavigationQueryStrategy class >> query: anEntity with: anAssociationStrategy [
 	^ anAssociationStrategy queryIncomingWith: anEntity

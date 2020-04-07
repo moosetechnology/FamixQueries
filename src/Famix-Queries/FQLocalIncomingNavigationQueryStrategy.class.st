@@ -14,11 +14,6 @@ FQLocalIncomingNavigationQueryStrategy class >> displayOn: aStream with: anAssoc
 	anAssociationStrategy displayLocalIncomingOn: aStream
 ]
 
-{ #category : #accessing }
-FQLocalIncomingNavigationQueryStrategy class >> label [
-	^ 'Local Incoming'
-]
-
 { #category : #action }
 FQLocalIncomingNavigationQueryStrategy class >> query: anEntity with: anAssociationStrategy [
 	^ anAssociationStrategy queryLocalIncomingWith: anEntity

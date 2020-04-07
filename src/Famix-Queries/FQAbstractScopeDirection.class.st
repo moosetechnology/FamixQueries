@@ -4,6 +4,13 @@ Class {
 	#category : #'Famix-Queries-Utils'
 }
 
+{ #category : #accessing }
+FQAbstractScopeDirection class >> availableDirections [
+	^ {FQScopeUpDirection.
+	FQScopeUpDownDirection.
+	FQScopeDownDirection}	"self allSubclasses"
+]
+
 { #category : #'available scopes' }
 FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
 	^ ((self respondingEntitiesIn: aMooseGroup) entities
