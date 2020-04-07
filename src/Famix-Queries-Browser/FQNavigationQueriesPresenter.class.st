@@ -14,10 +14,6 @@ FQNavigationQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		beNotHomogeneous;
 		add: #directions;
-"			(SpBoxLayout newVertical
-				add: #incoming;
-				add: #outgoing;
-				yourself);"
 		add: #associations;
 		add: self creationButton;
 		spacing: 5;

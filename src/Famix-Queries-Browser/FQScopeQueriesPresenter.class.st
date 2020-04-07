@@ -95,5 +95,8 @@ FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 FQScopeQueriesPresenter >> updateScopes [
 	scopes
 		resetSelection;
-		items: self queryBuilder availableScopes
+		items: self queryBuilder availableScopes.
+	scopes listItems
+		ifEmpty: [ self button disable ]
+		ifNotEmpty: [ self button enable ]
 ]

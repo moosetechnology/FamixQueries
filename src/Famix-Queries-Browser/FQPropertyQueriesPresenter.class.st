@@ -34,6 +34,7 @@ FQPropertyQueriesPresenter class >> title [
 FQPropertyQueriesPresenter >> adaptQueryParametersPresenterFor: aPropertype [
 	queryBuilder buildPropertyQueryTyped: aPropertype.
 	queryParameters := (configurationPresenterClasses at: aPropertype)
+		owner: self
 		on: queryBuilder.
 	self needRebuild: false.
 	self buildWithSpec

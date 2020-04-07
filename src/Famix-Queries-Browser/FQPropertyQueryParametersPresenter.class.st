@@ -16,7 +16,10 @@ FQPropertyQueryParametersPresenter >> initializePresenters [
 		display: [ :prop | prop asString ];
 		whenSelectedItemChangedDo: [ :prop | queryBuilder changeQueryProperty: prop ];
 		selectIndex: 1;
-		yourself
+		yourself.
+	properties listItems
+		ifEmpty: [ self owner button disable ]
+		ifNotEmpty: [ self owner button enable ]
 ]
 
 { #category : #'accessing model' }

@@ -31,7 +31,7 @@ FQTypeQueriesPresenter class >> title [
 	^ 'Type Query'
 ]
 
-{ #category : #initialization }
+{ #category : #'checkBoxes configuration' }
 FQTypeQueriesPresenter >> configureTypeChecBox: presenter forType: type [
 	^ presenter
 		label: (type name withoutPrefix: self modelPrefix);
@@ -70,7 +70,7 @@ FQTypeQueriesPresenter >> instanciateTypeCheckBoxes [
 	self setTypeCheckboxesConstraints
 ]
 
-{ #category : #initialization }
+{ #category : #'checkBoxes configuration' }
 FQTypeQueriesPresenter >> resetLayoutForImpossibleQuery [
 	layout := SpBoxLayout newHorizontal
 		add:
@@ -84,7 +84,7 @@ FQTypeQueriesPresenter >> resetLayoutForImpossibleQuery [
 	self button disable
 ]
 
-{ #category : #initialization }
+{ #category : #'checkBoxes configuration' }
 FQTypeQueriesPresenter >> setTypeCheckboxesConstraints [
 	| checkBoxes |
 	"Dynamic layout involves NullPresenters, they will not answer to #enable, #disable"
@@ -100,7 +100,7 @@ FQTypeQueriesPresenter >> setTypeCheckboxesConstraints [
 						ifFalse: [ checkBoxes do: #enable ] ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #'checkBoxes configuration' }
 FQTypeQueriesPresenter >> typeCheckBoxesLayout [
 	^ SpDynamicTopToBottomColumnsLayout
 		columns: (queryBuilder availableTypes size min: 6)	"min: 6 to avoid more than 6 checkboxes / column"
