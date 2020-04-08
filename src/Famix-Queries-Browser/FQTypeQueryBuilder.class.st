@@ -19,6 +19,12 @@ FQTypeQueryBuilder >> currentQueryTypes [
 	^ query types
 ]
 
+{ #category : #initialization }
+FQTypeQueryBuilder >> initializeQuery [
+	super initializeQuery.
+	query types: self availableTypes
+]
+
 { #category : #accessing }
 FQTypeQueryBuilder >> queryClass [
 	^ FQTypeQuery

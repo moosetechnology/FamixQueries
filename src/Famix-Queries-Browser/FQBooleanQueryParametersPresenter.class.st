@@ -26,6 +26,11 @@ FQBooleanQueryParametersPresenter class >> open [
 		openWithSpec
 ]
 
+{ #category : #initialization }
+FQBooleanQueryParametersPresenter class >> queryBuilderClass [
+	^ FQBooleanPropertyQueryBuilder
+]
+
 { #category : #accessing }
 FQBooleanQueryParametersPresenter class >> queryClass [
 	^ FQBooleanQuery

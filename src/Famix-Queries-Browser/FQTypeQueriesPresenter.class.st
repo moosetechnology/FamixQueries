@@ -26,6 +26,11 @@ FQTypeQueriesPresenter class >> open [
 				yourself)) openWithSpec
 ]
 
+{ #category : #initialization }
+FQTypeQueriesPresenter class >> queryBuilderClass [
+	^ FQTypeQueryBuilder 
+]
+
 { #category : #accessing }
 FQTypeQueriesPresenter class >> queryClass [
 	^ FQTypeQuery
@@ -46,11 +51,6 @@ FQTypeQueriesPresenter >> configureTypeCheckBox: presenter forType: type [
 				do: [ presenter state: true
 					"Spec does not allow this to work" ] ];
 		state: true
-]
-
-{ #category : #initialization }
-FQTypeQueriesPresenter >> initializeBuilder [
-	queryBuilder buildTypeQuery
 ]
 
 { #category : #initialization }

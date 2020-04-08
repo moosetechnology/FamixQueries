@@ -29,6 +29,11 @@ FQNavigationQueriesPresenter class >> open [
 				yourself)) openWithSpec
 ]
 
+{ #category : #initialization }
+FQNavigationQueriesPresenter class >> queryBuilderClass [
+	^ FQNavigationQueryBuilder
+]
+
 { #category : #accessing }
 FQNavigationQueriesPresenter class >> queryClass [
 	^ FQNavigationQuery
@@ -61,11 +66,6 @@ FQNavigationQueriesPresenter >> configureRadioButton: radioButton forNavigationD
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializeAssociationsCheckBoxes [
 	self updateAssociationsCheckBoxes
-]
-
-{ #category : #initialization }
-FQNavigationQueriesPresenter >> initializeBuilder [
-	queryBuilder buildNavigationQuery
 ]
 
 { #category : #initialization }

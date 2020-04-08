@@ -29,6 +29,11 @@ FQPropertyQueriesPresenter class >> propertyQueryConfigurationPresenters [
 	^ FQPropertyQueryParametersPresenter allSubclasses
 ]
 
+{ #category : #initialization }
+FQPropertyQueriesPresenter class >> queryBuilderClass [
+	^ self propertyQueryConfigurationPresenters first queryBuilderClass
+]
+
 { #category : #accessing }
 FQPropertyQueriesPresenter class >> queryClass [
 	^ FQPropertyQuery
@@ -45,11 +50,6 @@ FQPropertyQueriesPresenter >> configureRadioButton: radioButton forSubPresenter:
 		label: configurationPresenterClass queryClass label;
 		whenActivatedDo:
 				[ self updateQueryParametersPresenter: configurationPresenterClass ]
-]
-
-{ #category : #initialization }
-FQPropertyQueriesPresenter >> initializeBuilder [
-	"queryBuilder buildPropertyQuery"
 ]
 
 { #category : #initialization }
@@ -76,9 +76,14 @@ FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 ]
 
 { #category : #update }
+FQPropertyQueriesPresenter >> updateQueryBuilderFor: aPropertyQueryParametersPresenterClass [
+	queryBuilder := aPropertyQueryParametersPresenterClass
+		queryBuilderClass newWithEntities: queryBuilder entities
+]
+
+{ #category : #update }
 FQPropertyQueriesPresenter >> updateQueryParametersPresenter: aPropertyQueryParametersPresenterClass [
-	queryBuilder
-		buildPropertyQuery: aPropertyQueryParametersPresenterClass queryClass.
+	self updateQueryBuilderFor: aPropertyQueryParametersPresenterClass.
 	queryParametersPresenter := aPropertyQueryParametersPresenterClass
 		owner: self
 		on: queryBuilder.

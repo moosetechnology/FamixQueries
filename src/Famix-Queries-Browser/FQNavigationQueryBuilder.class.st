@@ -1,9 +1,6 @@
 Class {
 	#name : #FQNavigationQueryBuilder,
 	#superclass : #FQAbstractQueryBuilder,
-	#instVars : [
-		'navigationAssociations'
-	],
 	#category : #'Famix-Queries-Browser-Builder'
 }
 
@@ -28,22 +25,18 @@ FQNavigationQueryBuilder >> availableDirections [
 ]
 
 { #category : #'changing parameters' }
-FQNavigationQueryBuilder >> changeQueryAssociation [
-	(navigationAssociations includesAll: self availableAssociations)
-		ifTrue: [ query association: FQAllAssociationsNavigationQueryStrategy new ]
-		ifFalse: [ query
-				association: (FQAssociationNavigationQueryStrategy withAll: navigationAssociations) ]
-]
-
-{ #category : #'changing parameters' }
 FQNavigationQueryBuilder >> changeQueryNavigationDirection: aDirection [
 	query direction: aDirection
 ]
 
 { #category : #initialization }
-FQNavigationQueryBuilder >> initialize [
-	super initialize.
-	navigationAssociations := Set new
+FQNavigationQueryBuilder >> initializeQuery [
+	super initializeQuery.
+	query direction: self availableDirections first.
+	query
+		association:
+			(FQAssociationNavigationQueryStrategy
+				withAll: self availableAssociations)
 ]
 
 { #category : #accessing }

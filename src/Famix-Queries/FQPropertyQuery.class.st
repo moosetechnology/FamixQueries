@@ -9,6 +9,11 @@ Class {
 	#category : #'Famix-Queries-Terminal'
 }
 
+{ #category : #accessing }
+FQPropertyQuery class >> availablePropertyTypes [
+	^ FQPropertyQuery allSubclasses
+]
+
 { #category : #'available properties' }
 FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 	| collectedProperties |
@@ -20,11 +25,6 @@ FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 		fold:
 			[ :availableProperties :entityProperties | availableProperties & entityProperties ])
 		collect: #name
-]
-
-{ #category : #accessing }
-FQPropertyQuery >> availablePropertyTypes [
-	^ FQPropertyQuery allSubclasses
 ]
 
 { #category : #accessing }

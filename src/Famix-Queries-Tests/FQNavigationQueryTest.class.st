@@ -11,9 +11,13 @@ FQNavigationQueryTest >> actualClass [
 
 { #category : #tests }
 FQNavigationQueryTest >> testDisplayIncomingInvocation [
-	query := FQNavigationQuery association: (FQAssociationNavigationQueryStrategy with: FamixStInvocation) direction: FQIncomingNavigationQueryStrategy.
-
-	self assert: (String streamContents: [ :aStream | query displayOn: aStream ]) equals: '(aMooseGroup
+	query := FQNavigationQuery
+		direction: FQIncomingNavigationQueryStrategy
+		association: (FQAssociationNavigationQueryStrategy with: FamixStInvocation).
+	self
+		assert: (String streamContents: [ :aStream | query displayOn: aStream ])
+		equals:
+			'(aMooseGroup
 		inject: Set new
 		into: [ :result :entity | 
 			result addAll: (entity queryIncoming: FamixStInvocation) opposites.
@@ -22,8 +26,13 @@ FQNavigationQueryTest >> testDisplayIncomingInvocation [
 
 { #category : #tests }
 FQNavigationQueryTest >> testDisplayIncomingInvocation2 [
-	query := FQNavigationQuery association: (FQAssociationNavigationQueryStrategy withAll: {FamixStInvocation . FamixStInheritance}) direction: FQIncomingNavigationQueryStrategy.
-
+	query := FQNavigationQuery
+		direction: FQIncomingNavigationQueryStrategy
+		association:
+			(FQAssociationNavigationQueryStrategy
+				withAll:
+					{FamixStInvocation.
+					FamixStInheritance}).
 	self
 		assert: (String streamContents: [ :aStream | query displayOn: aStream ])
 		equals:
@@ -36,8 +45,9 @@ FQNavigationQueryTest >> testDisplayIncomingInvocation2 [
 
 { #category : #tests }
 FQNavigationQueryTest >> testDisplayOn [
-	query := FQNavigationQuery association: FQAllAssociationsNavigationQueryStrategy new direction: FQOutgoingNavigationQueryStrategy.
-
+	query := FQNavigationQuery
+		direction: FQOutgoingNavigationQueryStrategy
+		association: FQAllAssociationsNavigationQueryStrategy new.
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
@@ -53,9 +63,9 @@ FQNavigationQueryTest >> testIncomingInvocation [
 	| grp |
 	grp := MooseAbstractGroup new.
 	grp add: (model entityNamed: 'Smalltalk::LANPacket.contents()').
-
-	query := FQNavigationQuery association: (FQAssociationNavigationQueryStrategy with: FamixStInvocation) direction: FQIncomingNavigationQueryStrategy.
-
+	query := FQNavigationQuery
+		direction: FQIncomingNavigationQueryStrategy
+		association: (FQAssociationNavigationQueryStrategy with: FamixStInvocation).
 	self assert: (query runOn: grp) size equals: 3
 ]
 
@@ -64,9 +74,13 @@ FQNavigationQueryTest >> testIncomingInvocation2 [
 	| grp |
 	grp := MooseAbstractGroup new.
 	grp add: (model entityNamed: 'Smalltalk::LANPacket.contents()').
-
-	query := FQNavigationQuery association: (FQAssociationNavigationQueryStrategy withAll: {FamixStInvocation . FamixStInheritance}) direction: FQIncomingNavigationQueryStrategy.
-
+	query := FQNavigationQuery
+		direction: FQIncomingNavigationQueryStrategy
+		association:
+			(FQAssociationNavigationQueryStrategy
+				withAll:
+					{FamixStInvocation.
+					FamixStInheritance}).
 	self assert: (query runOn: grp) size equals: 3
 ]
 
@@ -74,13 +88,18 @@ FQNavigationQueryTest >> testIncomingInvocation2 [
 FQNavigationQueryTest >> testLocalIncomingInvocation [
 	| grp |
 	grp := MooseAbstractGroup new.
-	grp add: (model entityNamed: 'Smalltalk::LANAbstractDestinationAddress').
-
-	query := FQNavigationQuery association: FQAllAssociationsNavigationQueryStrategy new direction: FQLocalIncomingNavigationQueryStrategy.
+	grp
+		add: (model entityNamed: 'Smalltalk::LANAbstractDestinationAddress').
+	query := FQNavigationQuery
+		direction: FQLocalIncomingNavigationQueryStrategy
+		association: FQAllAssociationsNavigationQueryStrategy new.
 	self assert: (query runOn: grp) size equals: 1.
-	self assert: (query runOn: grp) anyOne mooseName equals: 'Smalltalk::LANSingleDestinationAddress'.
-
-	query := FQNavigationQuery association: FQAllAssociationsNavigationQueryStrategy new direction: FQIncomingNavigationQueryStrategy.
+	self
+		assert: (query runOn: grp) anyOne mooseName
+		equals: 'Smalltalk::LANSingleDestinationAddress'.
+	query := FQNavigationQuery
+		direction: FQIncomingNavigationQueryStrategy
+		association: FQAllAssociationsNavigationQueryStrategy new.
 	self assert: (query runOn: grp) size equals: 2
 ]
 
@@ -88,13 +107,18 @@ FQNavigationQueryTest >> testLocalIncomingInvocation [
 FQNavigationQueryTest >> testLocalOutgoingInvocation [
 	| grp |
 	grp := MooseAbstractGroup new.
-	grp add: (model entityNamed: 'Smalltalk::LANAbstractDestinationAddress').
-	
-	query := FQNavigationQuery association: FQAllAssociationsNavigationQueryStrategy new direction: FQLocalOutgoingNavigationQueryStrategy.
+	grp
+		add: (model entityNamed: 'Smalltalk::LANAbstractDestinationAddress').
+	query := FQNavigationQuery
+		direction: FQLocalOutgoingNavigationQueryStrategy
+		association: FQAllAssociationsNavigationQueryStrategy new.
 	self assert: (query runOn: grp) size equals: 1.
-	self assert: (query runOn: grp) anyOne mooseName equals: 'Smalltalk::Object'.
-
-	query := FQNavigationQuery association: FQAllAssociationsNavigationQueryStrategy new direction: FQOutgoingNavigationQueryStrategy.
+	self
+		assert: (query runOn: grp) anyOne mooseName
+		equals: 'Smalltalk::Object'.
+	query := FQNavigationQuery
+		direction: FQOutgoingNavigationQueryStrategy
+		association: FQAllAssociationsNavigationQueryStrategy new.
 	self assert: (query runOn: grp) size equals: 2
 ]
 
@@ -103,10 +127,13 @@ FQNavigationQueryTest >> testOutgoingInheritance [
 	| grp |
 	grp := MooseAbstractGroup new.
 	grp add: (model entityNamed: 'Smalltalk::LANFileServer').
-
-	query := FQNavigationQuery association: (FQAssociationNavigationQueryStrategy with: FamixTInheritance "FamixStInheritance") direction: FQOutgoingNavigationQueryStrategy.
-
-	self assert: (query runOn: grp) anyOne equals: (model entityNamed: 'Smalltalk::LANOutputServer')
+	query := FQNavigationQuery
+		direction: FQOutgoingNavigationQueryStrategy
+		association:
+			(FQAssociationNavigationQueryStrategy with: FamixTInheritance).	"FamixStInheritance"
+	self
+		assert: (query runOn: grp) anyOne
+		equals: (model entityNamed: 'Smalltalk::LANOutputServer')
 ]
 
 { #category : #tests }
@@ -114,8 +141,8 @@ FQNavigationQueryTest >> testRunOn [
 	| grp |
 	grp := MooseAbstractGroup new.
 	grp add: (model entityNamed: 'Smalltalk::LANNode.initialize()').
-
-	query := FQNavigationQuery association: (FQAllAssociationsNavigationQueryStrategy new) direction: FQOutgoingNavigationQueryStrategy.
-
+	query := FQNavigationQuery
+		direction: FQOutgoingNavigationQueryStrategy
+		association: FQAllAssociationsNavigationQueryStrategy new.
 	self assert: (query runOn: grp) size equals: 2
 ]

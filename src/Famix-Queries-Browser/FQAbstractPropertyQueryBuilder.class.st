@@ -16,7 +16,7 @@ FQAbstractPropertyQueryBuilder >> availableProperties [
 
 { #category : #'available parameters' }
 FQAbstractPropertyQueryBuilder >> availablePropertyTypes [
-	^ query availablePropertyTypes
+	^ self queryClass availablePropertyTypes
 ]
 
 { #category : #'changing parameters' }
@@ -32,6 +32,12 @@ FQAbstractPropertyQueryBuilder >> changeQueryProperty: aPropertyName [
 { #category : #'changing parameters' }
 FQAbstractPropertyQueryBuilder >> changeQueryValueToCompare: aValue [
 	^ query valueToCompare: aValue
+]
+
+{ #category : #running }
+FQAbstractPropertyQueryBuilder >> initializeQuery [
+	super initializeQuery.
+	query property: self availableProperties first
 ]
 
 { #category : #accessing }

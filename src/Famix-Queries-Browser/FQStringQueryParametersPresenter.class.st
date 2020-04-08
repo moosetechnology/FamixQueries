@@ -40,6 +40,11 @@ FQStringQueryParametersPresenter class >> open [
 		openWithSpec
 ]
 
+{ #category : #initialization }
+FQStringQueryParametersPresenter class >> queryBuilderClass [
+	^ FQStringPropertyQueryBuilder
+]
+
 { #category : #accessing }
 FQStringQueryParametersPresenter class >> queryClass [
 	^ FQStringQuery

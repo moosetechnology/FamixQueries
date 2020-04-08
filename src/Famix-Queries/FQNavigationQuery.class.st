@@ -9,10 +9,10 @@ Class {
 }
 
 { #category : #'instance creation' }
-FQNavigationQuery class >> association: aFAMIXAssociation direction: aDirectionStrategy [
+FQNavigationQuery class >> direction: aDirectionStrategyClass association: anAssociationStrategy [
 	^ self new
-		association: aFAMIXAssociation;
-		direction: aDirectionStrategy;
+		direction: aDirectionStrategyClass;
+		association: anAssociationStrategy;
 		yourself
 ]
 

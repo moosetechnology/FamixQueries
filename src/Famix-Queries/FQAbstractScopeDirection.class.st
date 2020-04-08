@@ -6,9 +6,11 @@ Class {
 
 { #category : #accessing }
 FQAbstractScopeDirection class >> availableDirections [
+	" Not 'self allSubclasses' because we want this specific order"
+
 	^ {FQScopeUpDirection.
 	FQScopeUpDownDirection.
-	FQScopeDownDirection}	"self allSubclasses"
+	FQScopeDownDirection}
 ]
 
 { #category : #'available scopes' }

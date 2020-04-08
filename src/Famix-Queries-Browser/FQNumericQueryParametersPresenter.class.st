@@ -40,6 +40,11 @@ FQNumericQueryParametersPresenter class >> open [
 		openWithSpec
 ]
 
+{ #category : #initialization }
+FQNumericQueryParametersPresenter class >> queryBuilderClass [
+	^ FQNumericPropertyQueryBuilder 
+]
+
 { #category : #accessing }
 FQNumericQueryParametersPresenter class >> queryClass [
 	^ FQNumericQuery

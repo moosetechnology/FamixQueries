@@ -24,6 +24,13 @@ FQScopeQueryBuilder >> changeQueryScope: aScope [
 	query scope: aScope
 ]
 
+{ #category : #initialization }
+FQScopeQueryBuilder >> initializeQuery [
+	super initializeQuery.
+	query direction: self availableScopeDirections first.
+	query scope: self availableScopes first
+]
+
 { #category : #accessing }
 FQScopeQueryBuilder >> queryClass [
 	^ FQScopeQuery

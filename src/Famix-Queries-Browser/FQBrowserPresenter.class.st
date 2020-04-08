@@ -2,7 +2,7 @@ Class {
 	#name : #FQBrowserPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'queryBuilder',
+		'entities',
 		'entitiesList',
 		'queryConfigurationPresenter',
 		'queryCode',
@@ -14,7 +14,7 @@ Class {
 { #category : #'instance creation' }
 FQBrowserPresenter class >> default [
 	^ self basicNew
-		initializeQueryBuilderWithEntities: self defaultEntities;
+		entities: self defaultEntities;
 		initialize;
 		yourself
 ]
@@ -76,10 +76,20 @@ FQBrowserPresenter class >> title [
 	^ 'Famix Query Browser'
 ]
 
+{ #category : #accessing }
+FQBrowserPresenter >> entities [
+	^ entities
+]
+
+{ #category : #accessing }
+FQBrowserPresenter >> entities: anObject [
+	entities := anObject
+]
+
 { #category : #initialization }
 FQBrowserPresenter >> initializePresenters [
 	entitiesList := self newList
-		items: self queryBuilder entities;
+		items: self entities;
 		display: #name.
 	self initializeQueryTypesDropList.
 	queryCode := self newCode.
@@ -87,13 +97,6 @@ FQBrowserPresenter >> initializePresenters [
 	"This will initialize queryConfiguration  according to the selected type of query. 
 		See updateQueryConfiguration: "
 	queryTypesDropList selectIndex: 1
-]
-
-{ #category : #initialization }
-FQBrowserPresenter >> initializeQueryBuilderWithEntities: entitiess [
-	queryBuilder := FQQueryBuilder new
-		entities: entitiess;
-		yourself
 ]
 
 { #category : #initialization }
@@ -110,19 +113,14 @@ FQBrowserPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter initialExtent: 600 @ 300
 ]
 
-{ #category : #accessing }
-FQBrowserPresenter >> queryBuilder [
-	^ queryBuilder
-]
-
 { #category : #'query configuration presenters' }
 FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenter [
-	queryConfigurationPresenter := aPresenter owner: self on: self queryBuilder.
-
+	queryConfigurationPresenter := aPresenter
+		owner: self
+		on: self entities.
 	queryConfigurationPresenter
 		transmitTo: queryCode
 		transform: [ :query | query ].
-
 	self needRebuild: false.
 	self buildWithSpec
 ]

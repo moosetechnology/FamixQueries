@@ -28,6 +28,11 @@ FQScopeQueriesPresenter class >> open [
 				yourself)) openWithSpec
 ]
 
+{ #category : #initialization }
+FQScopeQueriesPresenter class >> queryBuilderClass [
+	^ FQScopeQueryBuilder
+]
+
 { #category : #accessing }
 FQScopeQueriesPresenter class >> queryClass [
 	^ FQScopeQuery
@@ -52,13 +57,8 @@ FQScopeQueriesPresenter class >> title [
 FQScopeQueriesPresenter >> configureRadioButton: radioButton forScopeDirection: direction [
 	radioButton
 		label: direction label;
-		whenActivatedDo: [ self queryBuilder buildScopeQueryWithDirection: direction.
+		whenActivatedDo: [ self queryBuilder changeQueryDirection: direction.
 			self updateScopesDropList ]
-]
-
-{ #category : #initialization }
-FQScopeQueriesPresenter >> initializeBuilder [
-	queryBuilder buildScopeQuery
 ]
 
 { #category : #initialization }

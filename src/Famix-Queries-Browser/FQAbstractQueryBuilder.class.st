@@ -8,28 +8,12 @@ Class {
 	#category : #'Famix-Queries-Browser-Builder'
 }
 
-{ #category : #accessing }
-FQAbstractQueryBuilder class >> default [
-	^ self new
-		entities: self entities;
-		yourself
-]
-
 { #category : #'plugin interface' }
-FQAbstractQueryBuilder class >> entities [
-	| model |
-	model := FamixStModel new.
-	MoosePharoImporterTask new
-		importerClass: SmalltalkImporter;
-		model: model;
-		addFromPackageNamed: #'Moose-TestResources-LAN';
-		run.
-	^ MooseGroup withAll: model allModelClasses
-]
-
-{ #category : #running }
-FQAbstractQueryBuilder >> buildQuery [
-	^ self queryClass new
+FQAbstractQueryBuilder class >> newWithEntities: entities [
+	^ self basicNew
+		entities: entities;
+		initialize;
+		yourself
 ]
 
 { #category : #running }
@@ -50,7 +34,12 @@ FQAbstractQueryBuilder >> entities: anObject [
 { #category : #initialization }
 FQAbstractQueryBuilder >> initialize [
 	super initialize.
-	self buildQuery
+	self initializeQuery
+]
+
+{ #category : #running }
+FQAbstractQueryBuilder >> initializeQuery [
+	query := self queryClass new
 ]
 
 { #category : #accessing }
