@@ -21,6 +21,15 @@ FQAssociationNavigationQueryStrategy class >> withAll: aCollection [
 		yourself
 ]
 
+{ #category : #'adding - removing' }
+FQAssociationNavigationQueryStrategy >> addAssociation: anAssociation [
+	(self associations includes: anAssociation)
+		ifTrue: [ ^ self ].
+	self associations add: anAssociation.
+	(self associations includesAll: self class allPossibleAssociations)
+		ifTrue: [ ^ FQAllAssociationsNavigationQueryStrategy ]
+]
+
 { #category : #accessing }
 FQAssociationNavigationQueryStrategy >> associations [
 	^ associations
@@ -114,4 +123,14 @@ FQAssociationNavigationQueryStrategy >> queryLocalOutgoingWith: anEntity [
 { #category : #action }
 FQAssociationNavigationQueryStrategy >> queryOutgoingWith: anEntity [
 	^ self associations flatCollect: [ :each | (anEntity queryOutgoing: each) opposites ]
+]
+
+{ #category : #removing }
+FQAssociationNavigationQueryStrategy >> removeAssociation: anAssociation [
+	self associations size == 1
+		ifTrue: [ FQNavigationQueryMustHaveAtLeastOneAssociation
+				signal:
+					'Removing the last association of a ' , self className
+						, ' is forbidden' ].
+	self associations remove: anAssociation
 ]

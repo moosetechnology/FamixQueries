@@ -94,7 +94,7 @@ FQNavigationQueriesPresenter >> initializePresenters [
 { #category : #update }
 FQNavigationQueriesPresenter >> updateAssociationsCheckBoxes [
 	associationsCheckBoxes := SpDynamicPresentersListBuilder new
-		modelObjects: queryBuilder defaultAssociations;
+		modelObjects: queryBuilder allPossibleAssociations;
 		presenter: SpCheckBoxPresenter
 			configuredAs: [ :checkBox :associationTrait | 
 			self

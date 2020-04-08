@@ -40,6 +40,11 @@ FQQueryBuilder >> addTypeToQuery: aType [
 ]
 
 { #category : #navigation }
+FQQueryBuilder >> allPossibleAssociations [
+	^ query allPossibleAssociations
+]
+
+{ #category : #navigation }
 FQQueryBuilder >> availableAssociations [
 	^ query availableAssociationsFor: entities
 ]
@@ -60,8 +65,8 @@ FQQueryBuilder >> availableProperties [
 ]
 
 { #category : #properties }
-FQQueryBuilder >> availablePropertyQueryTypes [
-	^ query availablePropertyQueryTypes
+FQQueryBuilder >> availablePropertyTypes [
+	^ query availablePropertyTypes
 ]
 
 { #category : #scope }
@@ -140,11 +145,6 @@ FQQueryBuilder >> changeQueryScope: aScope [
 	query scope: aScope
 ]
 
-{ #category : #type }
-FQQueryBuilder >> changeQueryType: aType [
-	query type: aType
-]
-
 { #category : #properties }
 FQQueryBuilder >> changeQueryValueToCompare: aValue [
 	^ query valueToCompare: aValue
@@ -158,11 +158,6 @@ FQQueryBuilder >> createQuery [
 { #category : #type }
 FQQueryBuilder >> currentQueryTypes [
 	^ query types
-]
-
-{ #category : #navigation }
-FQQueryBuilder >> defaultAssociations [
-	^ query defaultAssociations
 ]
 
 { #category : #accessing }

@@ -16,6 +16,6 @@ FQTypeQuery class >> label [
 FQTypeQuery >> removeType: aType [
 	self types size = 1
 		ifTrue: [ FQTypeQueryMustHaveAtLeastOneType
-				signal: 'Removing the last type of a ' , self className , 'is forbidden' ].
+				signal: 'Removing the last type of a ' , self className , ' is forbidden' ].
 	self types remove: aType ifAbsent: [  ]
 ]

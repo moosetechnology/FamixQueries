@@ -23,7 +23,7 @@ FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 ]
 
 { #category : #accessing }
-FQPropertyQuery >> availablePropertyQueryTypes [
+FQPropertyQuery >> availablePropertyTypes [
 	^ FQPropertyQuery allSubclasses
 ]
 
@@ -37,6 +37,11 @@ FQPropertyQuery >> comparator: anObject [
 	comparator := anObject
 ]
 
+{ #category : #running }
+FQPropertyQuery >> displayOn: aStream with: aString [
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 FQPropertyQuery >> property [
 	^ property
@@ -45,6 +50,13 @@ FQPropertyQuery >> property [
 { #category : #accessing }
 FQPropertyQuery >> property: anObject [
 	property := anObject
+]
+
+{ #category : #running }
+FQPropertyQuery >> runOn: aMooseGroup [
+	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
+
+	^ self subclassResponsibility
 ]
 
 { #category : #'available properties' }

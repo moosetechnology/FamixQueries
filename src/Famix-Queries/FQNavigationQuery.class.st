@@ -16,6 +16,17 @@ FQNavigationQuery class >> association: aFAMIXAssociation direction: aDirectionS
 		yourself
 ]
 
+{ #category : #'adding - removing' }
+FQNavigationQuery >> addAssociation: anAssociation [
+	self association addAssociation: anAssociation
+]
+
+{ #category : #accessing }
+FQNavigationQuery >> allPossibleAssociations [
+	^ FQAbstractAssociationNavigationQueryStrategy
+		allPossibleAssociations
+]
+
 { #category : #accessing }
 FQNavigationQuery >> association [
 	^ association
@@ -36,19 +47,6 @@ FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
 { #category : #accessing }
 FQNavigationQuery >> availableDirections [
 	^ FQAbstractDirectionNavigationQueryStrategy availableDirections
-]
-
-{ #category : #accessing }
-FQNavigationQuery >> defaultAssociations [
-	^ (((FM3Property allInstances select: #hasOpposite)
-		select: [ :p | p opposite isSource ])
-		collectAsSet: #implementingType) asArray
-		sorted: [ :assoc1 :assoc2 | assoc1 name < assoc2 name ]
-		
-	"{FamixTAccess.
-	FamixTReference.
-	FamixTInvocation.
-	FamixTInheritance}" 
 ]
 
 { #category : #accessing }
@@ -74,6 +72,11 @@ FQNavigationQuery >> displayOn: aStream with: aString [
 		<<
 			'.
 			result ]) asMooseGroup'
+]
+
+{ #category : #'adding - removing' }
+FQNavigationQuery >> removeAssociation: anAssociation [
+	self association removeAssociation: anAssociation
 ]
 
 { #category : #running }

@@ -44,18 +44,20 @@ FQPropertyQueriesPresenter >> configureRadioButton: radioButton forSubPresenter:
 	radioButton
 		label: configurationPresenterClass queryClass label;
 		whenActivatedDo:
-				[ self updateQueryParametersPresenterFor: configurationPresenterClass ]
+				[ self updateQueryParametersPresenter: configurationPresenterClass ]
 ]
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializeBuilder [
-	queryBuilder buildPropertyQuery
+	"queryBuilder buildPropertyQuery"
 ]
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializePresenters [
 	super initializePresenters.
-	self initializeQueryTypeRadioButtons
+	self initializeQueryTypeRadioButtons.
+	self
+		updateQueryParametersPresenter: FQBooleanQueryParametersPresenter
 ]
 
 { #category : #initialization }
@@ -70,13 +72,11 @@ FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
 	propertyTypeRadioButtons presenters first
-		associatedRadioButtons: propertyTypeRadioButtons presenters allButFirst.
-	self
-		updateQueryParametersPresenterFor: FQBooleanQueryParametersPresenter
+		associatedRadioButtons: propertyTypeRadioButtons presenters allButFirst
 ]
 
 { #category : #update }
-FQPropertyQueriesPresenter >> updateQueryParametersPresenterFor: aPropertyQueryParametersPresenterClass [
+FQPropertyQueriesPresenter >> updateQueryParametersPresenter: aPropertyQueryParametersPresenterClass [
 	queryBuilder
 		buildPropertyQuery: aPropertyQueryParametersPresenterClass queryClass.
 	queryParametersPresenter := aPropertyQueryParametersPresenterClass

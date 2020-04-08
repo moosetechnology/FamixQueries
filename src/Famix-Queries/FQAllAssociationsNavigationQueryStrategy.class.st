@@ -4,6 +4,11 @@ Class {
 	#category : #'Famix-Queries-Utils'
 }
 
+{ #category : #'adding - removing' }
+FQAllAssociationsNavigationQueryStrategy >> addAssociation: anAssociation [
+	^ self
+]
+
 { #category : #printing }
 FQAllAssociationsNavigationQueryStrategy >> displayIncomingOn: aStream [
 	aStream << 'entity queryAllIncoming opposites'
@@ -42,4 +47,10 @@ FQAllAssociationsNavigationQueryStrategy >> queryLocalOutgoingWith: anEntity [
 { #category : #action }
 FQAllAssociationsNavigationQueryStrategy >> queryOutgoingWith: anEntity [
 	^ anEntity queryAllOutgoing opposites
+]
+
+{ #category : #'adding - removing' }
+FQAllAssociationsNavigationQueryStrategy >> removeAssociation: anAssociation [
+	^ FQAssociationNavigationQueryStrategy
+		withAll: (self class defaultAssociations copyWithout: anAssociation)
 ]

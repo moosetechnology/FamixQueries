@@ -28,7 +28,9 @@ FQQueryBuilderTest >> testAddAllAssociation [
 		entities: entities;
 		yourself.
 	builder buildNavigationQuery.
-	builder query availableAssociations
+	builder
+		changeQueryNavigationDirection: FQIncomingNavigationQueryStrategy.
+	builder query allPossibleAssociations
 		do: [ :assoc | builder addAssociation: assoc ].
 	self
 		assert: builder query association class
@@ -42,6 +44,8 @@ FQQueryBuilderTest >> testAddAssociation [
 		entities: entities;
 		yourself.
 	builder buildNavigationQuery.
+	builder
+		changeQueryNavigationDirection: FQIncomingNavigationQueryStrategy.
 	builder addAssociation: FamixTInheritance.
 	self
 		assert: builder query association associations
@@ -132,17 +136,6 @@ FQQueryBuilderTest >> testChangeQueryScope [
 		identicalTo: FQScopeDownDirection
 ]
 
-{ #category : #type }
-FQQueryBuilderTest >> testChangeQueryType [
-	| builder |
-	builder := FQQueryBuilder new
-		entities: entities;
-		yourself.
-	builder buildTypeQuery.
-	builder changeQueryType: FamixStClass.
-	self assert: builder query type identicalTo: FamixStClass
-]
-
 { #category : #navigation }
 FQQueryBuilderTest >> testRemoveAssociation [
 	| builder |
@@ -150,7 +143,9 @@ FQQueryBuilderTest >> testRemoveAssociation [
 		entities: entities;
 		yourself.
 	builder buildNavigationQuery.
-	builder query availableAssociations
+	builder
+		changeQueryNavigationDirection: FQIncomingNavigationQueryStrategy.
+	builder query allPossibleAssociations
 		do: [ :assoc | builder addAssociation: assoc ].
 	builder removeAssociation: FamixTInvocation.
 	self
@@ -159,9 +154,8 @@ FQQueryBuilderTest >> testRemoveAssociation [
 	self
 		assert: builder query association associations
 		equals:
-			{FamixTAccess.
-			FamixTReference.
-			FamixTInheritance} asSet
+			(FQNavigationQuery new allPossibleAssociations
+				copyWithout: FamixTInvocation) asSet
 ]
 
 { #category : #properties }
