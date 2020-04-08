@@ -26,6 +26,11 @@ FQQueryConfigurationPresenter class >> paddingAroundButton [
 ]
 
 { #category : #accessing }
+FQQueryConfigurationPresenter class >> queryClass [
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
 FQQueryConfigurationPresenter >> button [
 	^ creationButton
 ]

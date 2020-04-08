@@ -2,9 +2,8 @@ Class {
 	#name : #FQNavigationQueriesPresenter,
 	#superclass : #FQQueryConfigurationPresenter,
 	#instVars : [
-		'outgoing',
-		'associations',
-		'directions'
+		'directionsRadioButtons',
+		'associationsCheckBoxes'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -13,8 +12,8 @@ Class {
 FQNavigationQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		beNotHomogeneous;
-		add: #directions;
-		add: #associations;
+		add: #directionsRadioButtons;
+		add: #associationsCheckBoxes;
 		add: self creationButton;
 		spacing: 5;
 		yourself
@@ -30,9 +29,33 @@ FQNavigationQueriesPresenter class >> open [
 				yourself)) openWithSpec
 ]
 
+{ #category : #accessing }
+FQNavigationQueriesPresenter class >> queryClass [
+	^ FQNavigationQuery
+]
+
 { #category : #'instance creation' }
 FQNavigationQueriesPresenter class >> title [
 	^ 'Navigation Query'
+]
+
+{ #category : #'widgets configuration' }
+FQNavigationQueriesPresenter >> configureCheckBox: checkBox forNavigationAssociation: associationTrait [
+	checkBox
+		label: (associationTrait name withoutPrefix: 'FamixT');
+		whenActivatedDo: [ queryBuilder addAssociation: associationTrait ];
+		whenDeactivatedDo: [ queryBuilder removeAssociation: associationTrait ].
+	(queryBuilder availableAssociations includes: associationTrait)
+		ifTrue: [ checkBox state: true ]
+		ifFalse: [ checkBox disable ]
+]
+
+{ #category : #'widgets configuration' }
+FQNavigationQueriesPresenter >> configureRadioButton: radioButton forNavigationDirection: direction [
+	radioButton
+		label: direction label;
+		whenActivatedDo: [ queryBuilder changeQueryNavigationDirection: direction.
+			self updateAssociationsCheckBoxes ]
 ]
 
 { #category : #initialization }
@@ -47,19 +70,16 @@ FQNavigationQueriesPresenter >> initializeBuilder [
 
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
-	directions := SpDynamicPresentersListBuilder new
+	directionsRadioButtons := SpDynamicPresentersListBuilder new
 		modelObjects: queryBuilder availableDirections;
 		presenter: SpRadioButtonPresenter
-			configuredAs: [ :presenter :direction | 
-			presenter
-				label: direction label;
-				whenActivatedDo: [ queryBuilder changeQueryNavigationDirection: direction.
-					self updateAssociationsCheckBoxes ];
-				yourself ];
+			configuredAs:
+				[ :radioButton :direction | self configureRadioButton: radioButton forNavigationDirection: direction ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
-	directions presenters first
-		associatedRadioButtons: directions presenters allButFirst.
+	directionsRadioButtons presenters first
+		associatedRadioButtons: directionsRadioButtons presenters allButFirst.
+		
 	queryBuilder
 		changeQueryNavigationDirection: queryBuilder availableDirections first
 ]
@@ -71,22 +91,18 @@ FQNavigationQueriesPresenter >> initializePresenters [
 	self initializeAssociationsCheckBoxes
 ]
 
-{ #category : #initialization }
+{ #category : #update }
 FQNavigationQueriesPresenter >> updateAssociationsCheckBoxes [
-	associations := SpDynamicPresentersListBuilder new
+	associationsCheckBoxes := SpDynamicPresentersListBuilder new
 		modelObjects: queryBuilder defaultAssociations;
 		presenter: SpCheckBoxPresenter
-			configuredAs: [ :presenter :associationTrait | 
-			presenter
-				label: (associationTrait name withoutPrefix: 'FamixT');
-				whenActivatedDo: [ queryBuilder addAssociation: associationTrait ];
-				whenDeactivatedDo: [ queryBuilder removeAssociation: associationTrait ].
-			(queryBuilder availableAssociations includes: associationTrait)
-				ifTrue: [ presenter state: true ]
-				ifFalse: [ presenter disable ] ];
+			configuredAs: [ :checkBox :associationTrait | 
+			self
+				configureCheckBox: checkBox
+				forNavigationAssociation: associationTrait ];
 		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: 1);
 		build.
-	associations presenters
+	associationsCheckBoxes presenters
 		detect: #state
 		ifNone: [ self button disable ]
 ]

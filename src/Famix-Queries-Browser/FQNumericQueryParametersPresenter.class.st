@@ -40,11 +40,16 @@ FQNumericQueryParametersPresenter class >> open [
 		openWithSpec
 ]
 
+{ #category : #accessing }
+FQNumericQueryParametersPresenter class >> queryClass [
+	^ FQNumericQuery
+]
+
 { #category : #initialization }
 FQNumericQueryParametersPresenter >> initializePresenters [
 	super initializePresenters.
 	comparators := self newDropList
-		items: queryBuilder query availableComparators;
+		items: queryBuilder availableComparators;
 		display: [ :prop | prop asString ];
 		whenSelectedItemChangedDo: [ :prop | queryBuilder changeQueryComparator: prop ];
 		selectIndex: 1;

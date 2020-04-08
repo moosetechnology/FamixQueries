@@ -2,8 +2,8 @@ Class {
 	#name : #FQScopeQueriesPresenter,
 	#superclass : #FQQueryConfigurationPresenter,
 	#instVars : [
-		'directions',
-		'scopes'
+		'scopesDropList',
+		'directionsRadioButtons'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -11,7 +11,7 @@ Class {
 { #category : #specs }
 FQScopeQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
-		add: #directions;
+		add: #directionsRadioButtons;
 		add: self scopes;
 		add: self creationButton;
 		spacing: 5;
@@ -28,10 +28,15 @@ FQScopeQueriesPresenter class >> open [
 				yourself)) openWithSpec
 ]
 
+{ #category : #accessing }
+FQScopeQueriesPresenter class >> queryClass [
+	^ FQScopeQuery
+]
+
 { #category : #specs }
 FQScopeQueriesPresenter class >> scopes [
 	^ SpBoxLayout newVertical
-		add: #scopes
+		add: #scopesDropList
 			expand: true
 			fill: true
 			padding: 50;
@@ -43,6 +48,14 @@ FQScopeQueriesPresenter class >> title [
 	^ 'Scope Query'
 ]
 
+{ #category : #'widgets configuration' }
+FQScopeQueriesPresenter >> configureRadioButton: radioButton forScopeDirection: direction [
+	radioButton
+		label: direction label;
+		whenActivatedDo: [ self queryBuilder buildScopeQueryWithDirection: direction.
+			self updateScopesDropList ]
+]
+
 { #category : #initialization }
 FQScopeQueriesPresenter >> initializeBuilder [
 	queryBuilder buildScopeQuery
@@ -52,13 +65,13 @@ FQScopeQueriesPresenter >> initializeBuilder [
 FQScopeQueriesPresenter >> initializePresenters [
 	super initializePresenters.
 	self intializeDirectionRadioButtons.
-	self initializeScopeDropList.
-	self updateScopes
+	self initializeScopesDropList.
+	self updateScopesDropList
 ]
 
 { #category : #initialization }
-FQScopeQueriesPresenter >> initializeScopeDropList [
-	scopes := self newDropList
+FQScopeQueriesPresenter >> initializeScopesDropList [
+	scopesDropList := self newDropList
 		whenSelectedItemChangedDo: [ :scope | self queryBuilder changeQueryScope: scope ];
 		items: self queryBuilder availableScopes;
 		display: [ :item | item name withoutPrefix: self modelPrefix ]
@@ -66,27 +79,23 @@ FQScopeQueriesPresenter >> initializeScopeDropList [
 
 { #category : #initialization }
 FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
-	directions := SpDynamicPresentersListBuilder new
+	directionsRadioButtons := SpDynamicPresentersListBuilder new
 		modelObjects: queryBuilder availableScopeDirections;
 		presenter: SpRadioButtonPresenter
-			configuredAs: [ :presenter :modelObject | 
-			presenter
-				label: modelObject label;
-				whenActivatedDo: [ self queryBuilder buildScopeQueryWithDirection: modelObject.
-					self updateScopes ];
-				yourself ];
+			configuredAs:
+				[ :radioButton :direction | self configureRadioButton: radioButton forScopeDirection: direction ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
-	directions presenters first
-		associatedRadioButtons: directions presenters allButFirst
+	directionsRadioButtons presenters first
+		associatedRadioButtons: directionsRadioButtons presenters allButFirst
 ]
 
-{ #category : #initialization }
-FQScopeQueriesPresenter >> updateScopes [
-	scopes
+{ #category : #update }
+FQScopeQueriesPresenter >> updateScopesDropList [
+	scopesDropList
 		resetSelection;
 		items: self queryBuilder availableScopes.
-	scopes listItems
+	scopesDropList listItems
 		ifEmpty: [ self button disable ]
 		ifNotEmpty: [ self button enable ]
 ]

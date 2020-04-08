@@ -2,9 +2,8 @@ Class {
 	#name : #FQPropertyQueriesPresenter,
 	#superclass : #FQQueryConfigurationPresenter,
 	#instVars : [
-		'queryParameters',
-		'propertyType',
-		'configurationPresenterClasses'
+		'propertyTypeRadioButtons',
+		'queryParametersPresenter'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -12,8 +11,8 @@ Class {
 { #category : #specs }
 FQPropertyQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
-		add: #propertyType;
-		add: #queryParameters width: 200;
+		add: #propertyTypeRadioButtons;
+		add: #queryParametersPresenter width: 200;
 		add: self creationButton;
 		spacing: 5;
 		yourself
@@ -25,19 +24,27 @@ FQPropertyQueriesPresenter class >> open [
 	(self on: FQQueryBuilder default) openWithSpec
 ]
 
+{ #category : #accessing }
+FQPropertyQueriesPresenter class >> propertyQueryConfigurationPresenters [
+	^ FQPropertyQueryParametersPresenter allSubclasses
+]
+
+{ #category : #accessing }
+FQPropertyQueriesPresenter class >> queryClass [
+	^ FQPropertyQuery
+]
+
 { #category : #specs }
 FQPropertyQueriesPresenter class >> title [
 	^ 'Property Query'
 ]
 
-{ #category : #initialization }
-FQPropertyQueriesPresenter >> adaptQueryParametersPresenterFor: aPropertyQueryClass [
-	queryBuilder buildPropertyQuery: aPropertyQueryClass.
-	queryParameters := aPropertyQueryClass configurationPresenter
-		owner: self
-		on: queryBuilder.
-	self needRebuild: false.
-	self buildWithSpec
+{ #category : #'widgets configuration' }
+FQPropertyQueriesPresenter >> configureRadioButton: radioButton forSubPresenter: configurationPresenterClass [
+	radioButton
+		label: configurationPresenterClass queryClass label;
+		whenActivatedDo:
+				[ self updateQueryParametersPresenterFor: configurationPresenterClass ]
 ]
 
 { #category : #initialization }
@@ -53,17 +60,28 @@ FQPropertyQueriesPresenter >> initializePresenters [
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
-	propertyType := SpDynamicPresentersListBuilder new
-		modelObjects: queryBuilder availablePropertyQueryTypes;
+	propertyTypeRadioButtons := SpDynamicPresentersListBuilder new
+		modelObjects: self class propertyQueryConfigurationPresenters;
 		presenter: SpRadioButtonPresenter
-			configuredAs: [ :presenter :modelObject | 
-			presenter
-				label: modelObject label;
-				whenActivatedDo: [ self adaptQueryParametersPresenterFor: modelObject ];
-				yourself ];
+			configuredAs: [ :radioButton :configurationPresenterClass | 
+			self
+				configureRadioButton: radioButton
+				forSubPresenter: configurationPresenterClass ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
-	propertyType presenters first
-		associatedRadioButtons: propertyType presenters allButFirst.
-	self adaptQueryParametersPresenterFor: FQBooleanQuery
+	propertyTypeRadioButtons presenters first
+		associatedRadioButtons: propertyTypeRadioButtons presenters allButFirst.
+	self
+		updateQueryParametersPresenterFor: FQBooleanQueryParametersPresenter
+]
+
+{ #category : #update }
+FQPropertyQueriesPresenter >> updateQueryParametersPresenterFor: aPropertyQueryParametersPresenterClass [
+	queryBuilder
+		buildPropertyQuery: aPropertyQueryParametersPresenterClass queryClass.
+	queryParametersPresenter := aPropertyQueryParametersPresenterClass
+		owner: self
+		on: queryBuilder.
+	self needRebuild: false.
+	self buildWithSpec
 ]

@@ -44,6 +44,11 @@ FQQueryBuilder >> availableAssociations [
 	^ query availableAssociationsFor: entities
 ]
 
+{ #category : #properties }
+FQQueryBuilder >> availableComparators [
+	^ query availableComparators
+]
+
 { #category : #navigation }
 FQQueryBuilder >> availableDirections [
 	^ query availableDirections
@@ -148,6 +153,11 @@ FQQueryBuilder >> changeQueryValueToCompare: aValue [
 { #category : #running }
 FQQueryBuilder >> createQuery [
 	^ String streamContents: [ :s | query displayOn: s ]
+]
+
+{ #category : #type }
+FQQueryBuilder >> currentQueryTypes [
+	^ query types
 ]
 
 { #category : #navigation }

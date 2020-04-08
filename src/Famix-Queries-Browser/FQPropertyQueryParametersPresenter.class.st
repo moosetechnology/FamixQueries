@@ -8,6 +8,11 @@ Class {
 	#category : #'Famix-Queries-Browser-PropertyQueryParametersPresenters'
 }
 
+{ #category : #accessing }
+FQPropertyQueryParametersPresenter class >> queryClass [
+	^ self subclassResponsibility
+]
+
 { #category : #initialization }
 FQPropertyQueryParametersPresenter >> initializePresenters [
 	super initializePresenters.

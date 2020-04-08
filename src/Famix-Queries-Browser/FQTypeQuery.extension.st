@@ -8,6 +8,11 @@ FQTypeQuery >> addType: aType [
 ]
 
 { #category : #'*Famix-Queries-Browser' }
+FQTypeQuery class >> label [
+	^ 'Type Query'
+]
+
+{ #category : #'*Famix-Queries-Browser' }
 FQTypeQuery >> removeType: aType [
 	self types size = 1
 		ifTrue: [ FQTypeQueryMustHaveAtLeastOneType
