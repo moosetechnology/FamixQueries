@@ -87,6 +87,5 @@ FQPropertyQueriesPresenter >> updateQueryParametersPresenter: aPropertyQueryPara
 	queryParametersPresenter := aPropertyQueryParametersPresenterClass
 		owner: self
 		on: queryBuilder.
-	self needRebuild: false.
-	self buildWithSpec
+	self update
 ]

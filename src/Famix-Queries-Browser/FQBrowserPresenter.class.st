@@ -128,6 +128,5 @@ FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
 				confirm: 'This wil trigger a more complex action later'
 				label: 'Query was applied' ].
 	queryConfigurationPresenter transmitInitialConfiguration.
-	self needRebuild: false.
-	self buildWithSpec
+	self update
 ]

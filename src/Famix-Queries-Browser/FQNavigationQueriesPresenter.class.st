@@ -56,7 +56,9 @@ FQNavigationQueriesPresenter >> configureCheckBox: checkBox forNavigationAssocia
 		whenChangedDo: [ self notifyQueryChanged ].
 	(queryBuilder availableAssociations includes: associationTrait)
 		ifTrue: [ checkBox state: true ]
-		ifFalse: [ checkBox disable ]
+		ifFalse: [ checkBox
+				state: false;
+				disable ]
 ]
 
 { #category : #'widgets configuration' }
@@ -64,8 +66,7 @@ FQNavigationQueriesPresenter >> configureRadioButton: radioButton forNavigationD
 	radioButton
 		label: direction label;
 		whenActivatedDo: [ queryBuilder changeQueryNavigationDirection: direction.
-			self updateAssociationsCheckBoxes.
-			self notifyQueryChanged]
+			self updateAssociationsCheckBoxes ]
 ]
 
 { #category : #initialization }
@@ -124,8 +125,8 @@ FQNavigationQueriesPresenter >> updateAssociationsCheckBoxes [
 		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: 1);
 		build.
 	self setAssociationsCheckBoxesConstraints.
-	
 	associationsCheckBoxes presenters
 		detect: #state
-		ifNone: [ self button disable ]
+		ifNone: [ self button disable ].
+	self update
 ]
