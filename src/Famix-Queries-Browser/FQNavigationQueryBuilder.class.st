@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'changing parameters' }
-FQNavigationQueryBuilder >> addAssociation: anAssociation [
+FQNavigationQueryBuilder >> addAssociationToQuery: anAssociation [
 	query addAssociation: anAssociation
 ]
 
@@ -29,6 +29,11 @@ FQNavigationQueryBuilder >> changeQueryNavigationDirection: aDirection [
 	query direction: aDirection
 ]
 
+{ #category : #accessing }
+FQNavigationQueryBuilder >> currentQueryAssociations [
+	^ query association associations
+]
+
 { #category : #initialization }
 FQNavigationQueryBuilder >> initializeQuery [
 	super initializeQuery.
@@ -45,6 +50,6 @@ FQNavigationQueryBuilder >> queryClass [
 ]
 
 { #category : #'changing parameters' }
-FQNavigationQueryBuilder >> removeAssociation: anAssociation [
+FQNavigationQueryBuilder >> removeAssociationFromQuery: anAssociation [
 	query removeAssociation: anAssociation
 ]

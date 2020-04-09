@@ -9,6 +9,11 @@ FQAllAssociationsNavigationQueryStrategy >> addAssociation: anAssociation [
 	^ self
 ]
 
+{ #category : #accessing }
+FQAllAssociationsNavigationQueryStrategy >> associations [
+	^ self class allPossibleAssociations
+]
+
 { #category : #printing }
 FQAllAssociationsNavigationQueryStrategy >> displayIncomingOn: aStream [
 	aStream << 'entity queryAllIncoming opposites'

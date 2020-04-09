@@ -42,13 +42,13 @@ FQTypeQueriesPresenter class >> title [
 ]
 
 { #category : #'widgets configuration' }
-FQTypeQueriesPresenter >> configureTypeCheckBox: presenter forType: type [
-	presenter
+FQTypeQueriesPresenter >> configureTypeCheckBox: checkBox forType: type [
+	checkBox
 		label: (type name withoutPrefix: self modelPrefix);
 		whenActivatedDo: [ queryBuilder addTypeToQuery: type ];
 		whenDeactivatedDo: [ [ queryBuilder removeTypeFromQuery: type ]
 				on: FQTypeQueryMustHaveAtLeastOneType
-				do: [ presenter state: true
+				do: [ checkBox state: true
 					"Spec does not allow this to work" ] ];
 		whenChangedDo: [ self notifyQueryChanged ];
 		state: (queryBuilder currentQueryTypes includes: type)
