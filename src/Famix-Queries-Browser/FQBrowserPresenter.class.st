@@ -11,30 +11,22 @@ Class {
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
-{ #category : #'instance creation' }
-FQBrowserPresenter class >> default [
-	^ self basicNew
-		entities: self defaultEntities;
-		initialize;
-		yourself
-]
-
-{ #category : #'instance creation' }
-FQBrowserPresenter class >> defaultEntities [
-	| model noCommonTypeNorProperty noDownScope |
-	model := FamixStModel new.
-	MoosePharoImporterTask new
-		importerClass: SmalltalkImporter;
-		model: model;
-		addFromPackageNamed: #'Moose-TestResources-LAN';
-		run.
-	noCommonTypeNorProperty := MooseGroup
-		withAll: (model copyWithoutAll: (model allUsing: FamixTNamedEntity)).
-	noDownScope := model allWithType: FamixStAnnotationInstanceAttribute.
+{ #category : #entities }
+FQBrowserPresenter class >> classesAndMethods [
+	| model |
+	model := self modelExample.
 	^ MooseGroup
 		withAll:
 			{model allModelClasses.
 			model allModelMethods} flatten
+]
+
+{ #category : #'instance creation' }
+FQBrowserPresenter class >> default [
+	^ self basicNew
+		entities: self classesAndMethods;
+		initialize;
+		yourself
 ]
 
 { #category : #specs }
@@ -49,6 +41,23 @@ FQBrowserPresenter class >> defaultSpec [
 				add: #queryCode;
 				yourself);
 		yourself
+]
+
+{ #category : #entities }
+FQBrowserPresenter class >> entitiesWithNoDownScope [
+	^ self modelExample allWithType: FamixStAnnotationInstanceAttribute
+]
+
+{ #category : #entities }
+FQBrowserPresenter class >> modelExample [
+	| model |
+	model := FamixStModel new.
+	MoosePharoImporterTask new
+		importerClass: SmalltalkImporter;
+		model: model;
+		addFromPackageNamed: #'Moose-TestResources-LAN';
+		run.
+	^ model
 ]
 
 { #category : #'instance creation' }
@@ -74,6 +83,14 @@ FQBrowserPresenter class >> queryConfigurationPresenters [
 { #category : #specs }
 FQBrowserPresenter class >> title [
 	^ 'Famix Query Browser'
+]
+
+{ #category : #entities }
+FQBrowserPresenter class >> unnamedEntities [
+	| model |
+	model := self modelExample.
+	^ MooseGroup
+		withAll: (model copyWithoutAll: (model allUsing: FamixTNamedEntity))
 ]
 
 { #category : #accessing }
@@ -103,7 +120,7 @@ FQBrowserPresenter >> initializePresenters [
 FQBrowserPresenter >> initializeQueryTypesDropList [
 	queryTypesDropList := self newDropList
 		items: self class queryConfigurationPresenters;
-		display: [ :presenter | presenter queryClass label ];
+		display: [ :presenter | presenter label ];
 		whenSelectedItemChangedDo: [ :presenter | self updateQueryConfigurationPresenter: presenter ]
 ]
 

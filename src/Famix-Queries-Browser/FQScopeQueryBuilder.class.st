@@ -4,6 +4,11 @@ Class {
 	#category : #'Famix-Queries-Browser-Builder'
 }
 
+{ #category : #accessing }
+FQScopeQueryBuilder class >> queryClass [
+	^ FQScopeQuery
+]
+
 { #category : #'available parameters' }
 FQScopeQueryBuilder >> availableScopeDirections [
 	^ query availableDirections
@@ -30,9 +35,4 @@ FQScopeQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query direction: self availableScopeDirections first.
 	query scope: self availableScopes first
-]
-
-{ #category : #accessing }
-FQScopeQueryBuilder >> queryClass [
-	^ FQScopeQuery
 ]

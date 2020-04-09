@@ -14,24 +14,7 @@ FQBooleanQueryParametersPresenter class >> defaultSpec [
 		yourself
 ]
 
-{ #category : #'instance creation' }
-FQBooleanQueryParametersPresenter class >> open [
-	<script>
-	^ self basicNew
-		setModelBeforeInitialization:
-			(FQQueryBuilder default
-				buildPropertyQuery: FQBooleanQuery;
-				yourself);
-		initialize;
-		openWithSpec
-]
-
 { #category : #initialization }
 FQBooleanQueryParametersPresenter class >> queryBuilderClass [
 	^ FQBooleanPropertyQueryBuilder
-]
-
-{ #category : #accessing }
-FQBooleanQueryParametersPresenter class >> queryClass [
-	^ FQBooleanQuery
 ]

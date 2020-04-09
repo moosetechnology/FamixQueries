@@ -22,21 +22,12 @@ FQNavigationQueriesPresenter class >> defaultSpec [
 { #category : #'instance creation' }
 FQNavigationQueriesPresenter class >> open [
 	<script>
-	(self
-		on:
-			(FQQueryBuilder default
-				buildNavigationQuery;
-				yourself)) openWithSpec
+	super open
 ]
 
 { #category : #initialization }
 FQNavigationQueriesPresenter class >> queryBuilderClass [
 	^ FQNavigationQueryBuilder
-]
-
-{ #category : #accessing }
-FQNavigationQueriesPresenter class >> queryClass [
-	^ FQNavigationQuery
 ]
 
 { #category : #'instance creation' }

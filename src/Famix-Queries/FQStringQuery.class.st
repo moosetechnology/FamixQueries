@@ -4,6 +4,11 @@ Class {
 	#category : #'Famix-Queries-Terminal'
 }
 
+{ #category : #accessing }
+FQStringQuery class >> defaultValueToCompare [
+	^ ''
+]
+
 { #category : #'instance creation' }
 FQStringQuery class >> fromProperty: aPropertySelector comparator: aSelector withValue: aString [
 	^ self new
@@ -55,5 +60,6 @@ FQStringQuery >> type [
 
 { #category : #accessing }
 FQStringQuery >> valueToCompare [
-	^ valueToCompare ifNil: [ valueToCompare := '' ]
+	^ valueToCompare
+		ifNil: [ valueToCompare := self class defaultValueToCompare ]
 ]

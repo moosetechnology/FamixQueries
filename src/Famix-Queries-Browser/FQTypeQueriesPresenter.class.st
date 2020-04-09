@@ -19,21 +19,12 @@ FQTypeQueriesPresenter class >> defaultSpec [
 { #category : #'instance creation' }
 FQTypeQueriesPresenter class >> open [
 	<script>
-	(self
-		on:
-			(FQQueryBuilder default
-				buildTypeQuery;
-				yourself)) openWithSpec
+	super open
 ]
 
 { #category : #initialization }
 FQTypeQueriesPresenter class >> queryBuilderClass [
 	^ FQTypeQueryBuilder 
-]
-
-{ #category : #accessing }
-FQTypeQueriesPresenter class >> queryClass [
-	^ FQTypeQuery
 ]
 
 { #category : #specs }

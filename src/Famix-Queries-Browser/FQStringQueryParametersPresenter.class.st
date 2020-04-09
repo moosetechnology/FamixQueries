@@ -28,26 +28,9 @@ FQStringQueryParametersPresenter class >> defaultSpec [
 		yourself
 ]
 
-{ #category : #'instance creation' }
-FQStringQueryParametersPresenter class >> open [
-	<script>
-	^ self basicNew
-		setModelBeforeInitialization:
-			(FQQueryBuilder default
-				buildPropertyQuery: FQStringQuery;
-				yourself);
-		initialize;
-		openWithSpec
-]
-
 { #category : #initialization }
 FQStringQueryParametersPresenter class >> queryBuilderClass [
 	^ FQStringPropertyQueryBuilder
-]
-
-{ #category : #accessing }
-FQStringQueryParametersPresenter class >> queryClass [
-	^ FQStringQuery
 ]
 
 { #category : #initialization }
@@ -61,7 +44,7 @@ FQStringQueryParametersPresenter >> initializePresenters [
 			self owner notifyQueryChanged ];
 		selectIndex: 1;
 		yourself.
-	valueInput := self newNumberInput
+	valueInput := self newTextInput
 		placeholder: 'Your pattern';
 		autoAccept: true;
 		whenTextChangedDo: [ :pattern | 

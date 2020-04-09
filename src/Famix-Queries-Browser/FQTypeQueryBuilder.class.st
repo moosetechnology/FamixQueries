@@ -4,6 +4,11 @@ Class {
 	#category : #'Famix-Queries-Browser-Builder'
 }
 
+{ #category : #accessing }
+FQTypeQueryBuilder class >> queryClass [
+	^ FQTypeQuery
+]
+
 { #category : #'changing parameters' }
 FQTypeQueryBuilder >> addTypeToQuery: aType [
 	query addType: aType
@@ -23,11 +28,6 @@ FQTypeQueryBuilder >> currentQueryTypes [
 FQTypeQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query types: self availableTypes
-]
-
-{ #category : #accessing }
-FQTypeQueryBuilder >> queryClass [
-	^ FQTypeQuery
 ]
 
 { #category : #'changing parameters' }

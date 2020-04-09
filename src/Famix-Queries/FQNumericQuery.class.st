@@ -4,6 +4,11 @@ Class {
 	#category : #'Famix-Queries-Terminal'
 }
 
+{ #category : #accessing }
+FQNumericQuery class >> defaultValueToCompare [
+	^ 0
+]
+
 { #category : #'instance creation' }
 FQNumericQuery class >> fromProperty: aPropertySelector comparator: aComparisonSelector withValue: aNumericValue [
 	^ self new
@@ -44,4 +49,10 @@ FQNumericQuery >> runOn: aMooseGroup [
 { #category : #'available properties' }
 FQNumericQuery >> type [
 	^ FM3Number
+]
+
+{ #category : #accessing }
+FQNumericQuery >> valueToCompare [
+	^ valueToCompare
+		ifNil: [ valueToCompare := self class defaultValueToCompare ]
 ]

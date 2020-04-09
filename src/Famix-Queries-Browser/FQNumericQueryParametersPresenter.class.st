@@ -28,26 +28,9 @@ FQNumericQueryParametersPresenter class >> defaultSpec [
 		yourself
 ]
 
-{ #category : #'instance creation' }
-FQNumericQueryParametersPresenter class >> open [
-	<script>
-	^ self basicNew
-		setModelBeforeInitialization:
-			(FQQueryBuilder default
-				buildPropertyQuery: FQNumericQuery;
-				yourself);
-		initialize;
-		openWithSpec
-]
-
 { #category : #initialization }
 FQNumericQueryParametersPresenter class >> queryBuilderClass [
 	^ FQNumericPropertyQueryBuilder 
-]
-
-{ #category : #accessing }
-FQNumericQueryParametersPresenter class >> queryClass [
-	^ FQNumericQuery
 ]
 
 { #category : #initialization }

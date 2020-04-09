@@ -18,10 +18,15 @@ FQPropertyQueriesPresenter class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #initialization }
+FQPropertyQueriesPresenter class >> label [ 
+	^ FQAbstractPropertyQueryBuilder queryClass label
+]
+
 { #category : #'instance creation' }
 FQPropertyQueriesPresenter class >> open [
 	<script>
-	(self on: FQQueryBuilder default) openWithSpec
+	super open
 ]
 
 { #category : #accessing }
@@ -34,11 +39,6 @@ FQPropertyQueriesPresenter class >> queryBuilderClass [
 	^ self propertyQueryConfigurationPresenters first queryBuilderClass
 ]
 
-{ #category : #accessing }
-FQPropertyQueriesPresenter class >> queryClass [
-	^ FQPropertyQuery
-]
-
 { #category : #specs }
 FQPropertyQueriesPresenter class >> title [
 	^ 'Property Query'
@@ -47,7 +47,7 @@ FQPropertyQueriesPresenter class >> title [
 { #category : #'widgets configuration' }
 FQPropertyQueriesPresenter >> configureRadioButton: radioButton forSubPresenter: configurationPresenterClass [
 	radioButton
-		label: configurationPresenterClass queryClass label;
+		label: configurationPresenterClass label;
 		whenActivatedDo: [ self updateQueryParametersPresenter: configurationPresenterClass.
 			self notifyQueryChanged ]
 ]

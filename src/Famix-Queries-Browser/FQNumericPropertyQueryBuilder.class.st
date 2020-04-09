@@ -4,13 +4,13 @@ Class {
 	#category : #'Famix-Queries-Browser-Builder'
 }
 
+{ #category : #accessing }
+FQNumericPropertyQueryBuilder class >> queryClass [
+	^ FQNumericQuery
+]
+
 { #category : #running }
 FQNumericPropertyQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query comparator: self availableComparators first
-]
-
-{ #category : #accessing }
-FQNumericPropertyQueryBuilder >> queryClass [
-	^ FQNumericQuery
 ]

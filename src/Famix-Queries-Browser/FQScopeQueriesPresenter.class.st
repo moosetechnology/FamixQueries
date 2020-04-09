@@ -21,21 +21,12 @@ FQScopeQueriesPresenter class >> defaultSpec [
 { #category : #specs }
 FQScopeQueriesPresenter class >> open [
 	<script>
-	(self
-		on:
-			(FQQueryBuilder default
-				buildScopeQueryWithDirection: FQScopeUpDirection;
-				yourself)) openWithSpec
+	super open
 ]
 
 { #category : #initialization }
 FQScopeQueriesPresenter class >> queryBuilderClass [
 	^ FQScopeQueryBuilder
-]
-
-{ #category : #accessing }
-FQScopeQueriesPresenter class >> queryClass [
-	^ FQScopeQuery
 ]
 
 { #category : #specs }

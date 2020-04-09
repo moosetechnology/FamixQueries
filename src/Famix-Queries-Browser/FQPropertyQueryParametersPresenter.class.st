@@ -8,14 +8,19 @@ Class {
 	#category : #'Famix-Queries-Browser-PropertyQueryParametersPresenters'
 }
 
-{ #category : #initialization }
-FQPropertyQueryParametersPresenter class >> queryBuilderClass [
+{ #category : #specs }
+FQPropertyQueryParametersPresenter class >> defaultSpec [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
-FQPropertyQueryParametersPresenter class >> queryClass [
-	^ self subclassResponsibility
+{ #category : #initialization }
+FQPropertyQueryParametersPresenter class >> label [
+	^ self queryBuilderClass queryClass label
+]
+
+{ #category : #initialization }
+FQPropertyQueryParametersPresenter class >> queryBuilderClass [
+	^ FQAbstractPropertyQueryBuilder
 ]
 
 { #category : #initialization }

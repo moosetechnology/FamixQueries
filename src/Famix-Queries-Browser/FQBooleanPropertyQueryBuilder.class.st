@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Queries-Browser-Builder'
 }
 
-{ #category : #running }
-FQBooleanPropertyQueryBuilder >> queryClass [
+{ #category : #accessing }
+FQBooleanPropertyQueryBuilder class >> queryClass [
 	^ FQBooleanQuery
 ]

@@ -4,6 +4,11 @@ Class {
 	#category : #'Famix-Queries-Browser-Builder'
 }
 
+{ #category : #accessing }
+FQNavigationQueryBuilder class >> queryClass [
+	^ FQNavigationQuery
+]
+
 { #category : #'changing parameters' }
 FQNavigationQueryBuilder >> addAssociationToQuery: anAssociation [
 	query addAssociation: anAssociation
@@ -42,11 +47,6 @@ FQNavigationQueryBuilder >> initializeQuery [
 		association:
 			(FQAssociationNavigationQueryStrategy
 				withAll: self availableAssociations)
-]
-
-{ #category : #accessing }
-FQNavigationQueryBuilder >> queryClass [
-	^ FQNavigationQuery
 ]
 
 { #category : #'changing parameters' }

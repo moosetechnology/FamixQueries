@@ -16,6 +16,11 @@ FQAbstractQueryBuilder class >> newWithEntities: entities [
 		yourself
 ]
 
+{ #category : #accessing }
+FQAbstractQueryBuilder class >> queryClass [
+	^ self subclassResponsibility
+]
+
 { #category : #running }
 FQAbstractQueryBuilder >> createQuery [
 	^ String streamContents: [ :s | query displayOn: s ]
@@ -39,7 +44,7 @@ FQAbstractQueryBuilder >> initialize [
 
 { #category : #running }
 FQAbstractQueryBuilder >> initializeQuery [
-	query := self queryClass new
+	query := self class queryClass new
 ]
 
 { #category : #accessing }
@@ -50,9 +55,4 @@ FQAbstractQueryBuilder >> query [
 { #category : #accessing }
 FQAbstractQueryBuilder >> query: anObject [
 	query := anObject
-]
-
-{ #category : #accessing }
-FQAbstractQueryBuilder >> queryClass [
-	^ self subclassResponsibility
 ]

@@ -4,6 +4,11 @@ Class {
 	#category : #'Famix-Queries-Browser-Builder'
 }
 
+{ #category : #accessing }
+FQAbstractPropertyQueryBuilder class >> queryClass [
+	^ FQPropertyQuery
+]
+
 { #category : #'available parameters' }
 FQAbstractPropertyQueryBuilder >> availableComparators [
 	^ query availableComparators
@@ -16,7 +21,7 @@ FQAbstractPropertyQueryBuilder >> availableProperties [
 
 { #category : #'available parameters' }
 FQAbstractPropertyQueryBuilder >> availablePropertyTypes [
-	^ self queryClass availablePropertyTypes
+	^ self class queryClass availablePropertyTypes
 ]
 
 { #category : #'changing parameters' }
@@ -38,9 +43,4 @@ FQAbstractPropertyQueryBuilder >> changeQueryValueToCompare: aValue [
 FQAbstractPropertyQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query property: self availableProperties first
-]
-
-{ #category : #accessing }
-FQAbstractPropertyQueryBuilder >> queryClass [
-	^ self subclassResponsibility
 ]

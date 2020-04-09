@@ -20,6 +20,21 @@ FQQueryConfigurationPresenter class >> creationButton [
 ]
 
 { #category : #specs }
+FQQueryConfigurationPresenter class >> defaultSpec [
+	^ self subclassResponsibility
+]
+
+{ #category : #initialization }
+FQQueryConfigurationPresenter class >> label [
+	^ self queryBuilderClass queryClass label
+]
+
+{ #category : #'instance creation' }
+FQQueryConfigurationPresenter class >> open [
+	(self on: FQBrowserPresenter classesAndMethods) openWithSpec
+]
+
+{ #category : #specs }
 FQQueryConfigurationPresenter class >> paddingAroundButton [
 	"Should be changed if FQBrowserPresenter>>queryConfigurationHeight is changed"
 
@@ -28,11 +43,6 @@ FQQueryConfigurationPresenter class >> paddingAroundButton [
 
 { #category : #initialization }
 FQQueryConfigurationPresenter class >> queryBuilderClass [
-	^ self subclassResponsibility
-]
-
-{ #category : #accessing }
-FQQueryConfigurationPresenter class >> queryClass [
 	^ self subclassResponsibility
 ]
 
