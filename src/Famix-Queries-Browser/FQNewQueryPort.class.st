@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 FQNewQueryPort class >> portName [
 
-	^ #newQuery
+	^ #newQueryPort
 ]
 
 { #category : #attaching }
@@ -18,5 +18,5 @@ FQNewQueryPort >> attachTransmission: aTransmission [
 		whenActivatedDo: [ :selection | 
 			self
 				transmitWith: aTransmission
-				value: self destinationPresenter queryBuilder createQuery ]
+				value: 'test' ]
 ]

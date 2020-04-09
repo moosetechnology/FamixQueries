@@ -114,13 +114,20 @@ FQBrowserPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : #'query configuration presenters' }
-FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenter [
-	queryConfigurationPresenter := aPresenter
+FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
+	queryConfigurationPresenter := aPresenterClass
 		owner: self
 		on: self entities.
 	queryConfigurationPresenter
 		transmitTo: queryCode
-		transform: [ :query | query ].
+		transform: [ :queryBuilder | queryBuilder createQuery ].
+	queryConfigurationPresenter
+		transmitPort: #newQueryPort
+		do: [ :queryBuilder | 
+			UIManager default
+				confirm: 'This wil trigger a more complex action later'
+				label: 'Query was applied' ].
+	queryConfigurationPresenter transmitInitialConfiguration.
 	self needRebuild: false.
 	self buildWithSpec
 ]

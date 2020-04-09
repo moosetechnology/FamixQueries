@@ -49,7 +49,8 @@ FQNavigationQueriesPresenter >> configureCheckBox: checkBox forNavigationAssocia
 	checkBox
 		label: (associationTrait name withoutPrefix: 'FamixT');
 		whenActivatedDo: [ queryBuilder addAssociation: associationTrait ];
-		whenDeactivatedDo: [ queryBuilder removeAssociation: associationTrait ].
+		whenDeactivatedDo: [ queryBuilder removeAssociation: associationTrait ];
+		whenChangedDo: [ self notifyQueryChanged ].
 	(queryBuilder availableAssociations includes: associationTrait)
 		ifTrue: [ checkBox state: true ]
 		ifFalse: [ checkBox disable ]
@@ -60,7 +61,8 @@ FQNavigationQueriesPresenter >> configureRadioButton: radioButton forNavigationD
 	radioButton
 		label: direction label;
 		whenActivatedDo: [ queryBuilder changeQueryNavigationDirection: direction.
-			self updateAssociationsCheckBoxes ]
+			self updateAssociationsCheckBoxes.
+			self notifyQueryChanged]
 ]
 
 { #category : #initialization }

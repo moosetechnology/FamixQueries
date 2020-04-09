@@ -50,7 +50,8 @@ FQTypeQueriesPresenter >> configureTypeCheckBox: presenter forType: type [
 				on: FQTypeQueryMustHaveAtLeastOneType
 				do: [ presenter state: true
 					"Spec does not allow this to work" ] ];
-		state: true
+		whenChangedDo: [ self notifyQueryChanged ];
+		state: (queryBuilder currentQueryTypes includes: type)
 ]
 
 { #category : #initialization }

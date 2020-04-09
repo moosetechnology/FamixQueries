@@ -21,7 +21,8 @@ FQScopeQueryBuilder >> changeQueryDirection: aDirection [
 
 { #category : #'changing parameters' }
 FQScopeQueryBuilder >> changeQueryScope: aScope [
-	query scope: aScope
+	query
+		scope: (aScope ifNil: [ self availableScopes first ] ifNotNil: [ aScope ])
 ]
 
 { #category : #initialization }

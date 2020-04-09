@@ -48,8 +48,8 @@ FQPropertyQueriesPresenter class >> title [
 FQPropertyQueriesPresenter >> configureRadioButton: radioButton forSubPresenter: configurationPresenterClass [
 	radioButton
 		label: configurationPresenterClass queryClass label;
-		whenActivatedDo:
-				[ self updateQueryParametersPresenter: configurationPresenterClass ]
+		whenActivatedDo: [ self updateQueryParametersPresenter: configurationPresenterClass.
+			self notifyQueryChanged ]
 ]
 
 { #category : #initialization }

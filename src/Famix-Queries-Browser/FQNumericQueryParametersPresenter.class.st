@@ -56,7 +56,9 @@ FQNumericQueryParametersPresenter >> initializePresenters [
 	comparators := self newDropList
 		items: queryBuilder availableComparators;
 		display: [ :prop | prop asString ];
-		whenSelectedItemChangedDo: [ :prop | queryBuilder changeQueryComparator: prop ];
+		whenSelectedItemChangedDo: [ :prop | 
+			queryBuilder changeQueryComparator: prop.
+			self owner notifyQueryChanged ];
 		selectIndex: 1;
 		yourself.
 	valueInput := self newNumberInput
@@ -64,6 +66,8 @@ FQNumericQueryParametersPresenter >> initializePresenters [
 		climbRate: 1;
 		minimum: 0;
 		autoAccept: true;
-		whenNumberChangedDo: [ :num | queryBuilder changeQueryValueToCompare: num ];
+		whenNumberChangedDo: [ :num | 
+			queryBuilder changeQueryValueToCompare: num.
+			self owner notifyQueryChanged ];
 		yourself
 ]

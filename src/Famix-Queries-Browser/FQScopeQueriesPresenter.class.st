@@ -72,7 +72,9 @@ FQScopeQueriesPresenter >> initializePresenters [
 { #category : #initialization }
 FQScopeQueriesPresenter >> initializeScopesDropList [
 	scopesDropList := self newDropList
-		whenSelectedItemChangedDo: [ :scope | self queryBuilder changeQueryScope: scope ];
+		whenSelectedItemChangedDo: [ :scope | 
+			self queryBuilder changeQueryScope: scope.
+			self notifyQueryChanged ];
 		items: self queryBuilder availableScopes;
 		display: [ :item | item name withoutPrefix: self modelPrefix ]
 ]

@@ -2,8 +2,9 @@ Class {
 	#name : #FQQueryConfigurationPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'creationButton',
-		'queryBuilder'
+		'#creationButton',
+		'#queryBuilder',
+		'#queryHasChanged => SpObservableSlot'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -42,7 +43,8 @@ FQQueryConfigurationPresenter >> button [
 
 { #category : #initialization }
 FQQueryConfigurationPresenter >> defineOutputPorts [
-	^ {FQNewQueryPort new}
+	^ {FQQueryHasChangedPort new.
+	FQNewQueryPort new}
 ]
 
 { #category : #initialization }
@@ -60,6 +62,11 @@ FQQueryConfigurationPresenter >> modelPrefix [
 		withoutSuffix: 'Model'
 ]
 
+{ #category : #transmissions }
+FQQueryConfigurationPresenter >> notifyQueryChanged [
+	self notifyPropertyChanged: #queryHasChanged
+]
+
 { #category : #accessing }
 FQQueryConfigurationPresenter >> queryBuilder [
 	^ queryBuilder
@@ -69,4 +76,9 @@ FQQueryConfigurationPresenter >> queryBuilder [
 FQQueryConfigurationPresenter >> setModelBeforeInitialization: entities [
 	queryBuilder := self class queryBuilderClass
 		newWithEntities: entities
+]
+
+{ #category : #transmissions }
+FQQueryConfigurationPresenter >> transmitInitialConfiguration [
+	self notifyQueryChanged
 ]
