@@ -23,11 +23,17 @@ FQScopeQueryBuilderTest >> testChangeQueryScope [
 	self assert: queryBuilder query scope identicalTo: FamixStAttribute
 ]
 
+{ #category : #tests }
+FQScopeQueryBuilderTest >> testErrorOnInitializeQuery [
+	self impossibleInitializationShouldRaiseAnError
+]
+
 { #category : #initialization }
 FQScopeQueryBuilderTest >> testInitializeQuery [
 	self assert: queryBuilder query class identicalTo: FQScopeQuery.
 	self
 		assert: (queryBuilder query direction inheritsFrom: FQAbstractScopeDirection).
+	self assert: queryBuilder query scope isNotNil.
 	self
 		assert: (queryBuilder availableScopes includes: queryBuilder query scope)
 ]

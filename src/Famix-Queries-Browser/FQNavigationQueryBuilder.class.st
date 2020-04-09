@@ -43,6 +43,9 @@ FQNavigationQueryBuilder >> currentQueryAssociations [
 FQNavigationQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query direction: self availableDirections first.
+	self availableAssociations
+		ifEmpty:
+			[ (ImpossibleQuery displayText: 'No association available') signal ].
 	query
 		association:
 			(FQAssociationNavigationQueryStrategy

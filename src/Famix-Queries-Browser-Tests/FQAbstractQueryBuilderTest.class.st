@@ -3,18 +3,21 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'entities',
-		'queryBuilder'
+		'queryBuilder',
+		'noEntities'
 	],
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
 
-{ #category : #initialization }
-FQAbstractQueryBuilderTest >> queryBuilderClass [
-	^ self subclassResponsibility
+{ #category : #tests }
+FQAbstractQueryBuilderTest >> impossibleInitializationShouldRaiseAnError [
+	self
+		should: [ self queryBuilderClass newWithEntities: noEntities ]
+		raise: ImpossibleQuery
 ]
 
 { #category : #running }
-FQAbstractQueryBuilderTest >> setUp [
+FQAbstractQueryBuilderTest >> model [
 	| model |
 	model := FamixStModel new.
 	MoosePharoImporterTask new
@@ -22,6 +25,22 @@ FQAbstractQueryBuilderTest >> setUp [
 		model: model;
 		addFromPackageNamed: #'Moose-TestResources-LAN';
 		run.
-	entities := MooseGroup withAll: model.
+	^ model
+]
+
+{ #category : #initialization }
+FQAbstractQueryBuilderTest >> queryBuilderClass [
+	^ self subclassResponsibility
+]
+
+{ #category : #running }
+FQAbstractQueryBuilderTest >> setQueryBuilder [
 	queryBuilder := self queryBuilderClass newWithEntities: entities
+]
+
+{ #category : #running }
+FQAbstractQueryBuilderTest >> setUp [
+	entities := MooseGroup withAll: self model.
+	noEntities := MooseGroup new.
+	self setQueryBuilder
 ]

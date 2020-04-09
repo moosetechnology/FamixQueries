@@ -27,6 +27,8 @@ FQTypeQueryBuilder >> currentQueryTypes [
 { #category : #initialization }
 FQTypeQueryBuilder >> initializeQuery [
 	super initializeQuery.
+	self availableTypes
+		ifEmpty: [ (ImpossibleQuery displayText: 'No type available') signal ].
 	query types: self availableTypes
 ]
 

@@ -61,9 +61,28 @@ FQBrowserPresenter class >> modelExample [
 ]
 
 { #category : #'instance creation' }
+FQBrowserPresenter class >> newWhithoutEntities [
+	^ self basicNew
+		entities: self noEntities;
+		initialize;
+		yourself
+]
+
+{ #category : #entities }
+FQBrowserPresenter class >> noEntities [
+	^ MooseGroup new
+]
+
+{ #category : #'instance creation' }
 FQBrowserPresenter class >> open [
 	<script>
 	self default openWithSpec
+]
+
+{ #category : #'instance creation' }
+FQBrowserPresenter class >> openWithoutEntities [
+	<script>
+	self newWhithoutEntities openWithSpec
 ]
 
 { #category : #specs }
@@ -78,6 +97,7 @@ FQBrowserPresenter class >> queryConfigurationHeight [
 { #category : #'query configuration presenters' }
 FQBrowserPresenter class >> queryConfigurationPresenters [
 	^ FQQueryConfigurationPresenter allSubclasses
+		copyWithout: FQNoAvailableQueryPresenter
 ]
 
 { #category : #specs }
@@ -132,12 +152,13 @@ FQBrowserPresenter >> initializeWindow: aWindowPresenter [
 
 { #category : #'query configuration presenters' }
 FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
-	queryConfigurationPresenter := aPresenterClass
+	queryConfigurationPresenter := [ aPresenterClass
 		owner: self
-		on: self entities.
-	queryConfigurationPresenter
-		transmitTo: queryCode
-		transform: [ :queryBuilder | queryBuilder createQuery ].
+		on: self entities ]
+		on: ImpossibleQuery
+		do:
+			[ :error | FQNoAvailableQueryPresenter owner: self on: error displayText ].
+	queryConfigurationPresenter transmitTo: queryCode.
 	queryConfigurationPresenter
 		transmitPort: #newQueryPort
 		do: [ :queryBuilder | 

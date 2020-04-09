@@ -34,5 +34,7 @@ FQScopeQueryBuilder >> changeQueryScope: aScope [
 FQScopeQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query direction: self availableScopeDirections first.
+	self availableScopes
+		ifEmpty: [ (ImpossibleQuery displayText: 'No scope available') signal ].
 	query scope: self availableScopes first
 ]

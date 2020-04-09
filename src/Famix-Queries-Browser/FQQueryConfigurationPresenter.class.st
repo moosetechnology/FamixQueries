@@ -51,6 +51,11 @@ FQQueryConfigurationPresenter >> button [
 	^ creationButton
 ]
 
+{ #category : #transmissions }
+FQQueryConfigurationPresenter >> codeToDisplay [
+	^ queryBuilder createQuery
+]
+
 { #category : #initialization }
 FQQueryConfigurationPresenter >> defineOutputPorts [
 	^ {FQQueryHasChangedPort new.

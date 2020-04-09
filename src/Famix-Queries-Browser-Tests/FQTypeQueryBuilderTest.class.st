@@ -16,9 +16,13 @@ FQTypeQueryBuilderTest >> testAddTypeToQuery [
 ]
 
 { #category : #tests }
+FQTypeQueryBuilderTest >> testErrorOnInitializeQuery [
+	self impossibleInitializationShouldRaiseAnError
+]
+
+{ #category : #tests }
 FQTypeQueryBuilderTest >> testInitializeQuery [
 	self assert: queryBuilder query class identicalTo: FQTypeQuery.
-	self deny: queryBuilder currentQueryTypes isEmpty.
 	self
 		assertCollection: queryBuilder currentQueryTypes
 		hasSameElements: queryBuilder availableTypes

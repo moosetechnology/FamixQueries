@@ -21,10 +21,11 @@ FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 		collect: [ :entity | 
 			entity mooseDescription allPrimitiveProperties
 				select: [ :prop | prop type class == self type ] ].
-	^ (collectedProperties
-		fold:
-			[ :availableProperties :entityProperties | availableProperties & entityProperties ])
-		collect: #name
+	^ collectedProperties
+		ifNotEmpty: [ (collectedProperties
+				fold:
+					[ :availableProperties :entityProperties | availableProperties & entityProperties ])
+				collect: #name ]
 ]
 
 { #category : #accessing }

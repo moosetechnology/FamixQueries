@@ -22,6 +22,11 @@ FQNumericPropertyQueryBuilderTest >> testChangeQueryProperty [
 ]
 
 { #category : #tests }
+FQNumericPropertyQueryBuilderTest >> testErrorOnInitializeQuery [
+	self impossibleInitializationShouldRaiseAnError
+]
+
+{ #category : #tests }
 FQNumericPropertyQueryBuilderTest >> testInitializeQuery [
 	self assert: queryBuilder query class identicalTo: FQNumericQuery.
 	self
