@@ -51,8 +51,7 @@ FQNumericQuery >> type [
 	^ FM3Number
 ]
 
-{ #category : #accessing }
-FQNumericQuery >> valueToCompare [
-	^ valueToCompare
-		ifNil: [ valueToCompare := self class defaultValueToCompare ]
+{ #category : #'as yet unclassified' }
+FQNumericQuery >> valueToCompareAsString [
+	^ self valueToCompare asString
 ]

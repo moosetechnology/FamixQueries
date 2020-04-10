@@ -33,3 +33,20 @@ FQStringQueryTest >> testRunOn [
 		assertCollection: (queryResult collect: #name)
 		hasSameElements: expectedResult
 ]
+
+{ #category : #tests }
+FQStringQueryTest >> testStoreOn [
+	| generatedQuery |
+	query := self actualClass new.
+	query property: (query availablePropertiesFor: model allModelClasses) first.
+	query comparator: query availableComparators first.
+	query valueToCompare: 'pattern'.
+	
+	generatedQuery := self
+		evaluate: (String streamContents: [ :s | query storeOn: s ]).
+	
+	self assert: generatedQuery class equals: self actualClass.
+	self assert: generatedQuery property equals: query property.
+	self assert: generatedQuery comparator equals: query comparator.
+	self assert: generatedQuery valueToCompare equals: query valueToCompare
+]

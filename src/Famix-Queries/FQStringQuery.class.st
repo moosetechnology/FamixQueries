@@ -58,8 +58,7 @@ FQStringQuery >> type [
 	^ FM3String
 ]
 
-{ #category : #accessing }
-FQStringQuery >> valueToCompare [
-	^ valueToCompare
-		ifNil: [ valueToCompare := self class defaultValueToCompare ]
+{ #category : #'as yet unclassified' }
+FQStringQuery >> valueToCompareAsString [
+	^ self valueToCompare surroundedBySingleQuotes
 ]

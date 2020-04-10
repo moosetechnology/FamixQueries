@@ -147,7 +147,7 @@ FQBrowserPresenter >> initializeQueryTypesDropList [
 { #category : #initialization }
 FQBrowserPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 600 @ 360
+	aWindowPresenter initialExtent: 650 @ 400
 ]
 
 { #category : #'query configuration presenters' }

@@ -24,6 +24,13 @@ FQBooleanQuery >> runOn: aMooseGroup [
 	^ aMooseGroup select: [ :entity | self property value: entity ]
 ]
 
+{ #category : #printing }
+FQBooleanQuery >> storeOn: aStream [
+	aStream << self className << ' new property: '.
+	self property storeOn: aStream.
+	aStream << '; yourself'
+]
+
 { #category : #'available properties' }
 FQBooleanQuery >> type [
 	^ FM3Boolean

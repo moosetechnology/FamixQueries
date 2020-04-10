@@ -89,3 +89,18 @@ FQTypeQueryTest >> testRunOnTrait [
 	self assert: queryResult size equals: expectedResult size.
 	self assertCollection: queryResult hasSameElements: expectedResult
 ]
+
+{ #category : #tests }
+FQTypeQueryTest >> testStoreOn [
+	| generatedQuery |
+	query := self actualClass new.
+	query types: (query availableTypesFor: model).
+	
+	generatedQuery := self
+		evaluate: (String streamContents: [ :s | query storeOn: s ]).
+	
+	self assert: generatedQuery class equals: self actualClass.
+	self
+		assertCollection: generatedQuery types
+		hasSameElements: query types
+]

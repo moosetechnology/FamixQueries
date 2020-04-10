@@ -31,3 +31,16 @@ FQBooleanQueryTest >> testRunOn [
 	self assert: queryResult size equals: expectedResult size.
 	self assertCollection: queryResult hasSameElements: expectedResult
 ]
+
+{ #category : #tests }
+FQBooleanQueryTest >> testStoreOn [
+	| generatedQuery |
+	query := self actualClass new.
+	query property: (query availablePropertiesFor: model allModelClasses) first.
+	
+	generatedQuery := self
+		evaluate: (String streamContents: [ :s | query storeOn: s ]).
+	
+	self assert: generatedQuery class equals: self actualClass.
+	self assert: generatedQuery property equals: query property
+]

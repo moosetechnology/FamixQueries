@@ -61,3 +61,10 @@ FQScopeQuery >> scope [
 FQScopeQuery >> scope: anObject [
 	scope := anObject
 ]
+
+{ #category : #printing }
+FQScopeQuery >> storeOn: aStream [
+	aStream << self className << ' new direction: '
+		<< self direction name << '; scope: ' << self scope name
+		<< '; yourself'
+]

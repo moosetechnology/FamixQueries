@@ -60,6 +60,18 @@ FQPropertyQuery >> runOn: aMooseGroup [
 	^ self subclassResponsibility
 ]
 
+{ #category : #printing }
+FQPropertyQuery >> storeOn: aStream [
+	aStream << self className << ' new property: '.
+	self property storeOn: aStream.
+	aStream << '; comparator: '.
+	self comparator storeOn: aStream.
+	aStream
+		<< '; valueToCompare: ';
+		<< self valueToCompareAsString;
+		<< '; yourself'
+]
+
 { #category : #'available properties' }
 FQPropertyQuery >> type [
 	^ self subclassResponsibility
@@ -68,6 +80,7 @@ FQPropertyQuery >> type [
 { #category : #accessing }
 FQPropertyQuery >> valueToCompare [
 	^ valueToCompare
+		ifNil: [ valueToCompare := self class defaultValueToCompare ]
 ]
 
 { #category : #accessing }

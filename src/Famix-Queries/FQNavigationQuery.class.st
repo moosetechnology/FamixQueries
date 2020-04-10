@@ -89,3 +89,13 @@ FQNavigationQuery >> runOn: aMooseGroup [
 			result addAll: (self direction query: entity with: self association).
 			result ]) asMooseGroup
 ]
+
+{ #category : #printing }
+FQNavigationQuery >> storeOn: aStream [
+	aStream << self className << ' new direction: '
+		<< self direction name << '; association: ('
+		<< self association className << ' withAll: {'.
+	self association associations
+		do: [ :assoc | aStream << assoc name << $. ].
+	aStream << '}); yourself'
+]

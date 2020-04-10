@@ -23,6 +23,11 @@ FQAbstractQueryTest >> actualClass [
 	^ self subclassResponsibility
 ]
 
+{ #category : #'public access' }
+FQAbstractQueryTest >> evaluate: aString [
+	^ Smalltalk compiler evaluate: aString
+]
+
 { #category : #running }
 FQAbstractQueryTest >> setUp [
 	super setUp.

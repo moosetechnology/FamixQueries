@@ -53,7 +53,10 @@ FQQueryConfigurationPresenter >> button [
 
 { #category : #transmissions }
 FQQueryConfigurationPresenter >> codeToDisplay [
-	^ queryBuilder createQuery
+	^ EFFormatter
+		format:
+			(RBParser
+				parseExpression: (String streamContents: [ :s | queryBuilder query storeOn: s ]))
 ]
 
 { #category : #initialization }

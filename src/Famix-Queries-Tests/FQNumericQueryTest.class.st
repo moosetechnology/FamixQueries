@@ -34,3 +34,20 @@ FQNumericQueryTest >> testRunOn [
 		assertCollection: (query runOn: classes)
 		hasSameElements: expectedResult
 ]
+
+{ #category : #tests }
+FQNumericQueryTest >> testStoreOn [
+	| generatedQuery |
+	query := self actualClass new.
+	query property: (query availablePropertiesFor: model allModelClasses) first.
+	query comparator: query availableComparators first.
+	query valueToCompare: 10.
+		
+	generatedQuery := self
+		evaluate: (String streamContents: [ :s | query storeOn: s ]).
+	
+	self assert: generatedQuery class equals: self actualClass.
+	self assert: generatedQuery property equals: query property.
+	self assert: generatedQuery comparator equals: query comparator.
+	self assert: generatedQuery valueToCompare equals: query valueToCompare
+]

@@ -146,3 +146,20 @@ FQNavigationQueryTest >> testRunOn [
 		association: FQAllAssociationsNavigationQueryStrategy new.
 	self assert: (query runOn: grp) size equals: 2
 ]
+
+{ #category : #tests }
+FQNavigationQueryTest >> testStoreOn [
+	| generatedQuery |
+	query := self actualClass new.
+	query direction: query availableDirections first.
+	query association: (FQAssociationNavigationQueryStrategy
+									withAll: (query availableAssociationsFor: model)).
+	
+	generatedQuery := self
+		evaluate: (String streamContents: [ :s | query storeOn: s ]).
+	
+	self assert: generatedQuery class identicalTo: self actualClass.
+	self assert: generatedQuery direction identicalTo: query direction.
+	self assert: generatedQuery association class identicalTo: query association class.
+	self assertCollection: generatedQuery association associations hasSameElements: query association associations
+]

@@ -33,7 +33,7 @@ FQTypeQuery >> allWantedIn: aMooseGroup [
 { #category : #accessing }
 FQTypeQuery >> availableTypesFor: aMooseGroup [
 	^ ((aMooseGroup allUsing: FamixTNamedEntity) collect: #class)
-		removeDuplicates;
+		removeDuplicates asOrderedCollection
 		sort: [ :type1 :type2 | type1 name < type2 name ]
 ]
 
@@ -69,12 +69,19 @@ FQTypeQuery >> runOn: aMooseGroup [
 	^ MooseGroup withAll: (self allWantedIn: aMooseGroup)
 ]
 
+{ #category : #printing }
+FQTypeQuery >> storeOn: aStream [
+	aStream << self className << ' new types:' << '{'.
+	self types allButLast do: [ :type | aStream << type name << '. ' ].
+	aStream << self types last name << '}; yourself'
+]
+
 { #category : #accessing }
 FQTypeQuery >> types [
 	^ types
 ]
 
 { #category : #accessing }
-FQTypeQuery >> types: anObject [
-	types := anObject
+FQTypeQuery >> types: aCollection [
+	types := aCollection asOrderedCollection
 ]
