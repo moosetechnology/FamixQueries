@@ -147,7 +147,7 @@ FQBrowserPresenter >> initializeQueryTypesDropList [
 { #category : #initialization }
 FQBrowserPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 600 @ 300
+	aWindowPresenter initialExtent: 600 @ 360
 ]
 
 { #category : #'query configuration presenters' }
@@ -156,8 +156,9 @@ FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
 		owner: self
 		on: self entities ]
 		on: ImpossibleQuery
-		do:
-			[ :error | FQNoAvailableQueryPresenter owner: self on: error displayText ].
+		do: [ :error | 
+			queryCode := self newText disable.
+			FQNoAvailableQueryPresenter owner: self on: error displayText ].
 	queryConfigurationPresenter transmitTo: queryCode.
 	queryConfigurationPresenter
 		transmitPort: #newQueryPort

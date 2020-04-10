@@ -3,7 +3,9 @@ Class {
 	#superclass : #FQQueryConfigurationPresenter,
 	#instVars : [
 		'displayText',
-		'textToDisplay'
+		'textToDisplay',
+		'null1',
+		'null2'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -11,25 +13,30 @@ Class {
 { #category : #specs }
 FQNoAvailableQueryPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
-		beNotHomogeneous;
-		add: #displayText;
-		add: self creationButton;
-		spacing: 5;
+		add:
+			(SpBoxLayout newVertical
+				add: #null1;
+				add: #displayText height: self buttonHeight;
+				add: #null2;
+				yourself);
+		add: self creationButton width: 150;
 		yourself
 ]
 
 { #category : #transmissions }
 FQNoAvailableQueryPresenter >> codeToDisplay [
-	^ ''
+	^ 'No query to display'
 ]
 
 { #category : #initialization }
 FQNoAvailableQueryPresenter >> initializePresenters [
 	super initializePresenters.
 	creationButton disable.
-	displayText := self newText
-		text: textToDisplay;
-		yourself
+	displayText := self newLabel
+		label: textToDisplay;
+		yourself.
+	null1 := self newNullPresenter.
+	null2 := self newNullPresenter
 ]
 
 { #category : #initialization }
