@@ -18,7 +18,7 @@ FQStringQuery class >> fromProperty: aPropertySelector comparator: aSelector wit
 		yourself
 ]
 
-{ #category : #'available properties' }
+{ #category : #'available parameters' }
 FQStringQuery >> availableComparators [
 	self flag: 'To improve'.
 	^ {#includesSubstring: . #beginsWith: . #matchesRegex:}
@@ -29,36 +29,12 @@ FQStringQuery >> comparator [
 	^ comparator ifNil: [ comparator := #includesSubString: ]
 ]
 
-{ #category : #running }
-FQStringQuery >> displayOn: aStream with: aString [
-	(aStream << aString << ' select: [ :entity | entity ')
-		<< self property asString;
-		space;
-		<< self comparator asString;
-		space;
-		<< '''';
-		<< self valueToCompare;
-		<< '''';
-		<< ' ]'
-]
-
-{ #category : #running }
-FQStringQuery >> runOn: aMooseGroup [
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-
-	^ aMooseGroup
-		select: [ :entity | 
-			(self property value: entity)
-				perform: self comparator
-				with: self valueToCompare ]
-]
-
-{ #category : #'available properties' }
+{ #category : #'available parameters' }
 FQStringQuery >> type [
 	^ FM3String
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 FQStringQuery >> valueToCompareAsString [
 	^ self valueToCompare surroundedBySingleQuotes
 ]

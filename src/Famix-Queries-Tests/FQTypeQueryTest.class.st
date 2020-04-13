@@ -9,14 +9,36 @@ FQTypeQueryTest >> actualClass [
 	^ FQTypeQuery
 ]
 
-{ #category : #tests }
+{ #category : #'tests - adding - removing' }
+FQTypeQueryTest >> testAddType [
+	query := self actualClass forType: FamixStClass.
+	query addType: FamixStMethod.
+	self assert: (query types includes: FamixStMethod).
+	query addType: FamixStMethod.
+	self assert: (query types occurrencesOf: FamixStMethod) equals: 1
+]
+
+{ #category : #'tests - available parameters' }
+FQTypeQueryTest >> testAvailableTypesFor [
+	| availableTypes |
+	query := self actualClass new.
+	availableTypes := query availableTypesFor: model.
+	self
+		assertCollection: availableTypes
+		includesAll: ((model allUsing: FamixTNamedEntity) collect: #class).
+	availableTypes
+		do:
+			[ :type | self assert: (availableTypes occurrencesOf: type) equals: 1 ]
+]
+
+{ #category : #'tests - printing' }
 FQTypeQueryTest >> testDisplayOn [
 	self testDisplayOnTrait.
 	self testDisplayOnClass.
 	self testDisplayOnSeveralTypes
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQTypeQueryTest >> testDisplayOnClass [
 	query := self actualClass forType: FamixStClass.
 	self
@@ -24,7 +46,7 @@ FQTypeQueryTest >> testDisplayOnClass [
 		equals: 'aMooseGroup allWithType: FamixStClass'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQTypeQueryTest >> testDisplayOnSeveralTypes [
 	query := self actualClass
 		forTypes:
@@ -36,7 +58,7 @@ FQTypeQueryTest >> testDisplayOnSeveralTypes [
 			'(aMooseGroup allWithType: FamixStClass) | (aMooseGroup allUsing: FamixTMethod)'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQTypeQueryTest >> testDisplayOnTrait [
 	query := self actualClass forType: FamixTClass.
 	self
@@ -44,14 +66,27 @@ FQTypeQueryTest >> testDisplayOnTrait [
 		equals: 'aMooseGroup allUsing: FamixTClass'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - adding - removing' }
+FQTypeQueryTest >> testRemoveType [
+	query := self actualClass
+		forTypes:
+			{FamixStClass.
+			FamixStMethod}.
+	query removeType: FamixStMethod.
+	self deny: (query types includes: FamixStMethod).
+	self
+		should: [ query removeType: FamixStClass ]
+		raise: FQTypeQueryMustHaveAtLeastOneType
+]
+
+{ #category : #'tests - running' }
 FQTypeQueryTest >> testRunOn [
 	self testRunOnTrait.
 	self testRunOnClass.
 	self testRunOnSeveralTypes
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQTypeQueryTest >> testRunOnClass [
 	| queryResult expectedResult |
 	
@@ -64,7 +99,7 @@ FQTypeQueryTest >> testRunOnClass [
 	self assertCollection: queryResult hasSameElements: expectedResult
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQTypeQueryTest >> testRunOnSeveralTypes [
 	| queryResult expectedResult |
 	
@@ -77,7 +112,7 @@ FQTypeQueryTest >> testRunOnSeveralTypes [
 	self assertCollection: queryResult hasSameElements: expectedResult
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQTypeQueryTest >> testRunOnTrait [
 	| queryResult expectedResult |
 	
@@ -90,7 +125,7 @@ FQTypeQueryTest >> testRunOnTrait [
 	self assertCollection: queryResult hasSameElements: expectedResult
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQTypeQueryTest >> testStoreOn [
 	| generatedQuery |
 	query := self actualClass new.

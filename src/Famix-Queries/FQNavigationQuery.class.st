@@ -21,7 +21,7 @@ FQNavigationQuery >> addAssociation: anAssociation [
 	self association addAssociation: anAssociation
 ]
 
-{ #category : #accessing }
+{ #category : #'available parameters' }
 FQNavigationQuery >> allPossibleAssociations [
 	^ FQAbstractAssociationNavigationQueryStrategy
 		allPossibleAssociations
@@ -37,14 +37,14 @@ FQNavigationQuery >> association: anObject [
 	association := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'available parameters' }
 FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
 	^ ((self direction
 		availableAssociationsFor: (aMooseGroup allUsing: TEntityMetaLevelDependency))
 		collect: #implementingType) asOrderedCollection
 ]
 
-{ #category : #accessing }
+{ #category : #'available parameters' }
 FQNavigationQuery >> availableDirections [
 	^ FQAbstractDirectionNavigationQueryStrategy availableDirections
 ]
@@ -76,7 +76,7 @@ FQNavigationQuery >> displayOn: aStream with: aString [
 
 { #category : #'adding - removing' }
 FQNavigationQuery >> removeAssociation: anAssociation [
-	self association removeAssociation: anAssociation
+	self association: (self association removeAssociation: anAssociation)
 ]
 
 { #category : #running }

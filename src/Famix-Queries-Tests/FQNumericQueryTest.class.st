@@ -9,7 +9,22 @@ FQNumericQueryTest >> actualClass [
 	^ FQNumericQuery
 ]
 
-{ #category : #tests }
+{ #category : #'tests - available parameters' }
+FQNumericQueryTest >> testAvailablePropertiesFor [
+	| availableProperties |
+	query := self actualClass new.
+	availableProperties := query
+		availablePropertiesFor: classesAndMethods.
+		
+	availableProperties
+		do: [ :propertySelector | 
+			self assert: propertySelector isSymbol.
+			classesAndMethods
+				do:
+					[ :entity | self assert: ((entity perform: propertySelector) isKindOf: Number) ] ]
+]
+
+{ #category : #'tests - running' }
 FQNumericQueryTest >> testDisplayOn [
 	query := self actualClass fromProperty: #numberOfMethods comparator: #> withValue: 10.
 
@@ -18,7 +33,7 @@ FQNumericQueryTest >> testDisplayOn [
 		equals: 'aMooseGroup select: [ :entity | entity numberOfMethods > 10 ]'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQNumericQueryTest >> testRunOn [
 	| classes queryResult expectedResult |	
 	classes := model allModelClasses.
@@ -35,7 +50,7 @@ FQNumericQueryTest >> testRunOn [
 		hasSameElements: expectedResult
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQNumericQueryTest >> testStoreOn [
 	| generatedQuery |
 	query := self actualClass new.

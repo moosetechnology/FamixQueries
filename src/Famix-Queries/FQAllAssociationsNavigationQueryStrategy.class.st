@@ -57,5 +57,5 @@ FQAllAssociationsNavigationQueryStrategy >> queryOutgoingWith: anEntity [
 { #category : #'adding - removing' }
 FQAllAssociationsNavigationQueryStrategy >> removeAssociation: anAssociation [
 	^ FQAssociationNavigationQueryStrategy
-		withAll: (self class defaultAssociations copyWithout: anAssociation)
+		withAll: (self class allPossibleAssociations copyWithout: anAssociation)
 ]

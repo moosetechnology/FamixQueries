@@ -16,12 +16,12 @@ FQScopeQuery class >> forScope: aFamixClass direction: aDirectionStrategy [
 		yourself
 ]
 
-{ #category : #'available scopes' }
+{ #category : #'available parameters' }
 FQScopeQuery >> availableDirections [
 	^ FQAbstractScopeDirection availableDirections
 ]
 
-{ #category : #'available scopes' }
+{ #category : #'available parameters' }
 FQScopeQuery >> availableScopesFor: aMooseGroup [
 	^ self direction availableScopesFor: aMooseGroup
 ]

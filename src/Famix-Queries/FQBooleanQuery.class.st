@@ -11,27 +11,22 @@ FQBooleanQuery class >> fromProperty: aBooleanSelector [
 		yourself
 ]
 
-{ #category : #running }
-FQBooleanQuery >> displayOn: aStream with: aString [
-	aStream << aString << ' select: [ :entity | entity '
-		<< self property asString << ' ]'
+{ #category : #testing }
+FQBooleanQuery >> hasComparisonParameters [
+	^ false
 ]
 
 { #category : #running }
 FQBooleanQuery >> runOn: aMooseGroup [
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-
 	^ aMooseGroup select: [ :entity | self property value: entity ]
 ]
 
-{ #category : #printing }
-FQBooleanQuery >> storeOn: aStream [
-	aStream << self className << ' new property: '.
-	self property storeOn: aStream.
-	aStream << '; yourself'
-]
-
-{ #category : #'available properties' }
+{ #category : #'available parameters' }
 FQBooleanQuery >> type [
 	^ FM3Boolean
+]
+
+{ #category : #printing }
+FQBooleanQuery >> valueToCompareAsString [
+	self shouldNotImplement
 ]

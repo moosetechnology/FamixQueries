@@ -10,6 +10,38 @@ FQNavigationQueryTest >> actualClass [
 ]
 
 { #category : #tests }
+FQNavigationQueryTest >> testAddAssociation [
+	query := self actualClass new
+		direction: FQIncomingNavigationQueryStrategy;
+		association: FQAssociationNavigationQueryStrategy new.
+	query addAssociation: FamixStAccess.
+	self assert: (query association associations includes: FamixStAccess).
+	query addAssociation: FamixStAccess.
+	self
+		assert: (query association associations occurrencesOf: FamixStAccess)
+		equals: 1
+]
+
+{ #category : #'tests - available parameters' }
+FQNavigationQueryTest >> testAvailableAssociationsFor [
+	| availableAssociations |
+	query := self actualClass new
+		direction: FQIncomingNavigationQueryStrategy.
+	availableAssociations := query availableAssociationsFor: model.
+	self
+		assertCollection: FamixTAssociation users
+		includesAll: availableAssociations
+]
+
+{ #category : #'tests - available parameters' }
+FQNavigationQueryTest >> testAvailableDirections [
+	query := self actualClass new.
+	self
+		assertCollection: query availableDirections
+		includesAll: FQAbstractDirectionNavigationQueryStrategy availableDirections
+]
+
+{ #category : #'tests - printing' }
 FQNavigationQueryTest >> testDisplayIncomingInvocation [
 	query := FQNavigationQuery
 		direction: FQIncomingNavigationQueryStrategy
@@ -24,7 +56,7 @@ FQNavigationQueryTest >> testDisplayIncomingInvocation [
 			result ]) asMooseGroup'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQNavigationQueryTest >> testDisplayIncomingInvocation2 [
 	query := FQNavigationQuery
 		direction: FQIncomingNavigationQueryStrategy
@@ -43,7 +75,7 @@ FQNavigationQueryTest >> testDisplayIncomingInvocation2 [
 			result ]) asMooseGroup'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQNavigationQueryTest >> testDisplayOn [
 	query := FQNavigationQuery
 		direction: FQOutgoingNavigationQueryStrategy
@@ -58,7 +90,7 @@ FQNavigationQueryTest >> testDisplayOn [
 			result ]) asMooseGroup'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQNavigationQueryTest >> testIncomingInvocation [
 	| grp |
 	grp := MooseAbstractGroup new.
@@ -69,7 +101,7 @@ FQNavigationQueryTest >> testIncomingInvocation [
 	self assert: (query runOn: grp) size equals: 3
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQNavigationQueryTest >> testIncomingInvocation2 [
 	| grp |
 	grp := MooseAbstractGroup new.
@@ -84,7 +116,7 @@ FQNavigationQueryTest >> testIncomingInvocation2 [
 	self assert: (query runOn: grp) size equals: 3
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQNavigationQueryTest >> testLocalIncomingInvocation [
 	| grp |
 	grp := MooseAbstractGroup new.
@@ -103,7 +135,7 @@ FQNavigationQueryTest >> testLocalIncomingInvocation [
 	self assert: (query runOn: grp) size equals: 2
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQNavigationQueryTest >> testLocalOutgoingInvocation [
 	| grp |
 	grp := MooseAbstractGroup new.
@@ -122,7 +154,7 @@ FQNavigationQueryTest >> testLocalOutgoingInvocation [
 	self assert: (query runOn: grp) size equals: 2
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQNavigationQueryTest >> testOutgoingInheritance [
 	| grp |
 	grp := MooseAbstractGroup new.
@@ -137,6 +169,24 @@ FQNavigationQueryTest >> testOutgoingInheritance [
 ]
 
 { #category : #tests }
+FQNavigationQueryTest >> testRemoveAssociation [
+	query := self actualClass new
+		direction: FQIncomingNavigationQueryStrategy;
+		association: FQAllAssociationsNavigationQueryStrategy new.
+		
+	query removeAssociation: FamixStAccess.
+	self deny: (query association associations includes: FamixStAccess).
+	self
+		assert: query association class
+		identicalTo: FQAssociationNavigationQueryStrategy.
+		
+	query association: (FQAssociationNavigationQueryStrategy with: FamixStAccess).
+	self
+		should: [ query removeAssociation: FamixStAccess ]
+		raise: FQNavigationQueryMustHaveAtLeastOneAssociation
+]
+
+{ #category : #'tests - running' }
 FQNavigationQueryTest >> testRunOn [
 	| grp |
 	grp := MooseAbstractGroup new.
@@ -147,7 +197,7 @@ FQNavigationQueryTest >> testRunOn [
 	self assert: (query runOn: grp) size equals: 2
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQNavigationQueryTest >> testStoreOn [
 	| generatedQuery |
 	query := self actualClass new.

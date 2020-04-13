@@ -10,14 +10,14 @@ Class {
 { #category : #'instance creation' }
 FQAssociationNavigationQueryStrategy class >> with: aFamixClass [
 	^ self new
-		associations: {aFamixClass};
+		associations: {aFamixClass} asOrderedCollection;
 		yourself
 ]
 
 { #category : #'instance creation' }
 FQAssociationNavigationQueryStrategy class >> withAll: aCollection [
 	^ self new
-		associations: aCollection;
+		associations: aCollection asOrderedCollection;
 		yourself
 ]
 
@@ -25,6 +25,9 @@ FQAssociationNavigationQueryStrategy class >> withAll: aCollection [
 FQAssociationNavigationQueryStrategy >> addAssociation: anAssociation [
 	(self associations includes: anAssociation)
 		ifTrue: [ ^ self ].
+	self
+		flag:
+			'Removing this first conditional (if associations is a Set) changes checkboxes in the corresponding presenter. Should be revised when tests are ok.'.
 	self associations add: anAssociation.
 	(self associations includesAll: self class allPossibleAssociations)
 		ifTrue: [ ^ FQAllAssociationsNavigationQueryStrategy ]
@@ -102,6 +105,13 @@ FQAssociationNavigationQueryStrategy >> displayOutgoingOn: aStream [
 		ifFalse: [ aStream << '({ '.
 			self associations do: [ :asso | aStream print: asso ] separatedBy: [ aStream << ' . ' ].
 			aStream << ' } flatCollect: [ :association | (entity queryOutgoing: association) opposites ])' ]
+]
+
+{ #category : #initialization }
+FQAssociationNavigationQueryStrategy >> initialize [
+	super initialize.
+	associations := OrderedCollection new.
+	self flag: 'This is not a Set only because of displayOn tests.'
 ]
 
 { #category : #action }

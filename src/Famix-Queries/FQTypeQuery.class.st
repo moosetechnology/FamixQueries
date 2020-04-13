@@ -21,6 +21,13 @@ FQTypeQuery class >> forTypes: aTypesCollection [
 		yourself
 ]
 
+{ #category : #'adding - removing' }
+FQTypeQuery >> addType: aType [
+	(self types includes: aType)
+		ifTrue: [ ^ self ].
+	self types add: aType
+]
+
 { #category : #running }
 FQTypeQuery >> allWantedIn: aMooseGroup [
 	^ self types
@@ -30,14 +37,14 @@ FQTypeQuery >> allWantedIn: aMooseGroup [
 				ifFalse: [ aMooseGroup allWithType: type ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #'available parameters' }
 FQTypeQuery >> availableTypesFor: aMooseGroup [
 	^ ((aMooseGroup allUsing: FamixTNamedEntity) collect: #class)
 		removeDuplicates asOrderedCollection
 		sort: [ :type1 :type2 | type1 name < type2 name ]
 ]
 
-{ #category : #running }
+{ #category : #printing }
 FQTypeQuery >> displayOn: aStream with: aString [
 	self types size == 1
 		ifTrue:
@@ -49,7 +56,7 @@ FQTypeQuery >> displayOn: aStream with: aString [
 				<< (self displayStringForType: self types last) << $) ]
 ]
 
-{ #category : #running }
+{ #category : #printing }
 FQTypeQuery >> displayStringForType: aType [
 	^ (aType isTrait
 		ifTrue: [ ' allUsing: ' ]
@@ -60,6 +67,14 @@ FQTypeQuery >> displayStringForType: aType [
 FQTypeQuery >> initialize [
 	super initialize.
 	types := OrderedCollection new
+]
+
+{ #category : #'adding - removing' }
+FQTypeQuery >> removeType: aType [
+	self types size = 1
+		ifTrue: [ FQTypeQueryMustHaveAtLeastOneType
+				signal: 'Removing the last type of a ' , self className , ' is forbidden' ].
+	self types remove: aType
 ]
 
 { #category : #running }

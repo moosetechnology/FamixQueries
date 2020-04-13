@@ -18,40 +18,18 @@ FQNumericQuery class >> fromProperty: aPropertySelector comparator: aComparisonS
 		yourself
 ]
 
-{ #category : #'available properties' }
+{ #category : #'available parameters' }
 FQNumericQuery >> availableComparators [
 	self flag: 'To improve'.
 	^ {#> . #>= . #= . #<= . #<}
 ]
 
-{ #category : #running }
-FQNumericQuery >> displayOn: aStream with: aString [
-	(aStream << aString << ' select: [ :entity | entity ')
-		<< self property asString;
-		space;
-		<< self comparator asString;
-		space;
-		<< self valueToCompare asString;
-		<< ' ]'
-]
-
-{ #category : #running }
-FQNumericQuery >> runOn: aMooseGroup [
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-
-	^ aMooseGroup
-		select: [ :entity | 
-			(self property value: entity)
-				perform: self comparator
-				with: self valueToCompare ]
-]
-
-{ #category : #'available properties' }
+{ #category : #'available parameters' }
 FQNumericQuery >> type [
 	^ FM3Number
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 FQNumericQuery >> valueToCompareAsString [
 	^ self valueToCompare asString
 ]

@@ -26,7 +26,7 @@ FQSequenceQueryTest >> testDisplayOn [
 					s
 						<<
 							'(aMooseGroup select: [ :entity | entity isInstanceSide ])
-	 select: [ :entity | entity name includesSubstring: LANP ]' ])
+	 select: [ :entity | entity name includesSubstring: ''LANP'' ]' ])
 ]
 
 { #category : #tests }

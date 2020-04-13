@@ -14,13 +14,13 @@ FQPropertyQuery class >> availablePropertyTypes [
 	^ FQPropertyQuery allSubclasses
 ]
 
-{ #category : #'available properties' }
+{ #category : #'available parameters' }
 FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 	| collectedProperties |
 	collectedProperties := aMooseGroup entities
 		collect: [ :entity | 
 			entity mooseDescription allPrimitiveProperties
-				select: [ :prop | prop type class == self type ] ].
+				select: [ :prop | prop type class == self type and: prop isMultivalued not ] ].
 	^ collectedProperties
 		ifNotEmpty: [ (collectedProperties
 				fold:
@@ -38,9 +38,22 @@ FQPropertyQuery >> comparator: anObject [
 	comparator := anObject
 ]
 
-{ #category : #running }
+{ #category : #printing }
 FQPropertyQuery >> displayOn: aStream with: aString [
-	^ self subclassResponsibility
+	aStream << aString << ' select: [ :entity | entity '
+		<< self property asString.
+	self hasComparisonParameters
+		ifTrue: [ aStream
+				space;
+				<< self comparator asString;
+				space;
+				<< self valueToCompareAsString ].
+	aStream << ' ]'
+]
+
+{ #category : #testing }
+FQPropertyQuery >> hasComparisonParameters [
+	^ true
 ]
 
 { #category : #accessing }
@@ -55,24 +68,27 @@ FQPropertyQuery >> property: anObject [
 
 { #category : #running }
 FQPropertyQuery >> runOn: aMooseGroup [
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-
-	^ self subclassResponsibility
+	^ aMooseGroup
+		select: [ :entity | 
+			(self property value: entity)
+				perform: self comparator
+				with: self valueToCompare ]
 ]
 
 { #category : #printing }
 FQPropertyQuery >> storeOn: aStream [
 	aStream << self className << ' new property: '.
 	self property storeOn: aStream.
-	aStream << '; comparator: '.
-	self comparator storeOn: aStream.
-	aStream
-		<< '; valueToCompare: ';
-		<< self valueToCompareAsString;
-		<< '; yourself'
+	self hasComparisonParameters
+		ifTrue: [ aStream << '; comparator: '.
+			self comparator storeOn: aStream.
+			aStream
+				<< '; valueToCompare: ';
+				<< self valueToCompareAsString ].
+	aStream << '; yourself'
 ]
 
-{ #category : #'available properties' }
+{ #category : #'available parameters' }
 FQPropertyQuery >> type [
 	^ self subclassResponsibility
 ]
@@ -86,4 +102,9 @@ FQPropertyQuery >> valueToCompare [
 { #category : #accessing }
 FQPropertyQuery >> valueToCompare: anObject [
 	valueToCompare := anObject
+]
+
+{ #category : #printing }
+FQPropertyQuery >> valueToCompareAsString [
+	^ self subclassResponsibility
 ]

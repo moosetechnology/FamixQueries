@@ -3,7 +3,8 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'model',
-		'query'
+		'query',
+		'classesAndMethods'
 	],
 	#category : #'Famix-Queries-Tests-Core'
 }
@@ -37,7 +38,11 @@ FQAbstractQueryTest >> setUp [
 				importerClass: SmalltalkImporter;
 				model: model;
 				addFromPackageNamed: #'Moose-TestResources-LAN';
-				run ]
+				run ].
+	classesAndMethods := MooseGroup
+		withAll:
+			{model allModelClasses.
+			model allModelMethods} flatten
 ]
 
 { #category : #tests }

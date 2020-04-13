@@ -9,7 +9,22 @@ FQStringQueryTest >> actualClass [
 	^ FQStringQuery
 ]
 
-{ #category : #tests }
+{ #category : #'tests - available parameters' }
+FQStringQueryTest >> testAvailablePropertiesFor [
+	| availableProperties |
+	query := self actualClass new.
+	availableProperties := query
+		availablePropertiesFor: classesAndMethods.
+		
+	availableProperties
+		do: [ :propertySelector | 
+			self assert: propertySelector isSymbol.
+			classesAndMethods
+				do:
+					[ :entity | self assert: ((entity perform: propertySelector) isKindOf: String) ] ]
+]
+
+{ #category : #'tests - printing' }
 FQStringQueryTest >> testDisplayOn [
 	query := FQStringQuery fromProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
 
@@ -18,7 +33,15 @@ FQStringQueryTest >> testDisplayOn [
 		equals: 'aMooseGroup select: [ :entity | entity name includesSubstring: ''LANP'' ]'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - available parameters' }
+FQStringQueryTest >> testDummy [
+	(classesAndMethods asArray
+		select: [ :entity | entity modifiers isNotEmpty ]
+		thenCollect: [ :entity | entity -> entity modifiers anyOne ])
+		inspect
+]
+
+{ #category : #'tests - running' }
 FQStringQueryTest >> testRunOn [
 	| classes queryResult expectedResult |	
 	classes := model allModelClasses select: #isInstanceSide.
@@ -34,7 +57,7 @@ FQStringQueryTest >> testRunOn [
 		hasSameElements: expectedResult
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQStringQueryTest >> testStoreOn [
 	| generatedQuery |
 	query := self actualClass new.

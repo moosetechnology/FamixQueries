@@ -9,7 +9,30 @@ FQScopeQueryTest >> actualClass [
 	^ FQScopeQuery
 ]
 
-{ #category : #tests }
+{ #category : #'tests - available parameters' }
+FQScopeQueryTest >> testAvailableDirections [
+	query := self actualClass new.
+	self
+		assertCollection: query availableDirections
+		includesAll: FQAbstractScopeDirection allSubclasses
+]
+
+{ #category : #'tests - available parameters' }
+FQScopeQueryTest >> testAvailableScopesFor [
+	| availableScopes |
+	query := self actualClass new direction: FQScopeUpDownDirection.
+	availableScopes := query availableScopesFor: model.
+	self deny: (availableScopes anySatisfy: #isTrait).
+	self
+		assert:
+			(availableScopes
+				allSatisfy: [ :scope | scope inheritsFrom: FamixStEntity ]).
+	availableScopes
+		do:
+			[ :scope | self assert: (availableScopes occurrencesOf: scope) equals: 1 ]
+]
+
+{ #category : #'tests - printing' }
 FQScopeQueryTest >> testDisplayOn [
 	query := FQScopeQuery
 		forScope: FamixStMethod
@@ -20,7 +43,7 @@ FQScopeQueryTest >> testDisplayOn [
 			'(MooseObjectQueryResult withAll: aMooseGroup) withScope: FamixStMethod'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQScopeQueryTest >> testRunOn [
 	| classes queryResult expectedResult |
 	classes := model allModelClasses.
@@ -38,7 +61,7 @@ FQScopeQueryTest >> testRunOn [
 	self assertCollection: queryResult hasSameElements: expectedResult
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQScopeQueryTest >> testStoreOn [
 	| generatedQuery |
 	query := self actualClass new.
