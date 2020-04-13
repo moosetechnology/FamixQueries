@@ -150,7 +150,7 @@ FQBrowserPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter initialExtent: 650 @ 400
 ]
 
-{ #category : #'query configuration presenters' }
+{ #category : #update }
 FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
 	queryConfigurationPresenter := [ aPresenterClass
 		owner: self
@@ -159,13 +159,17 @@ FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
 		do: [ :error | 
 			queryCode := self newText disable.
 			FQNoAvailableQueryPresenter owner: self on: error displayText ].
+	self updateTransmissions.
+	queryConfigurationPresenter transmitInitialConfiguration.
+	self update
+]
+
+{ #category : #update }
+FQBrowserPresenter >> updateTransmissions [
 	queryConfigurationPresenter transmitTo: queryCode.
 	queryConfigurationPresenter
 		transmitPort: #newQueryPort
 		do: [ :queryBuilder | 
-			UIManager default
-				confirm: 'This wil trigger a more complex action later'
-				label: 'Query was applied' ].
-	queryConfigurationPresenter transmitInitialConfiguration.
-	self update
+			(UIManager default confirm: 'Do you want to inspect the code ?')
+				ifTrue: [ (Smalltalk compiler evaluate: queryCode text) inspect ] ]
 ]
