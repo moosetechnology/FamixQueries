@@ -49,25 +49,20 @@ FQScopeQueriesPresenter >> configureRadioButton: radioButton forScopeDirection: 
 	radioButton
 		label: direction label;
 		whenActivatedDo: [ self queryBuilder changeQueryDirection: direction.
-			self updateScopesDropList ]
+			self updateAccordingToDirection.
+			self notifyQueryChanged ]
 ]
 
 { #category : #initialization }
 FQScopeQueriesPresenter >> initializePresenters [
 	super initializePresenters.
 	self intializeDirectionRadioButtons.
-	self initializeScopesDropList.
-	self updateScopesDropList
+	self initializeScopesDropList
 ]
 
 { #category : #initialization }
 FQScopeQueriesPresenter >> initializeScopesDropList [
-	scopesDropList := self newDropList
-		whenSelectedItemChangedDo: [ :scope | 
-			self queryBuilder changeQueryScope: scope.
-			self notifyQueryChanged ];
-		items: self queryBuilder availableScopes;
-		display: [ :item | item name withoutPrefix: self modelPrefix ]
+	self updateAccordingToDirection
 ]
 
 { #category : #initialization }
@@ -83,12 +78,29 @@ FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 		associatedRadioButtons: directionsRadioButtons presenters allButFirst
 ]
 
+{ #category : #'widgets configuration' }
+FQScopeQueriesPresenter >> showNoScopeAvailable [
+	^ scopesDropList := self
+		instantiate: FQNoPossibleQueryPresenter
+		on: 'scope'
+]
+
+{ #category : #'widgets configuration' }
+FQScopeQueriesPresenter >> showScopesDropList [
+	^ scopesDropList := self newDropList
+		items: self queryBuilder availableScopes;
+		display: [ :item | item name withoutPrefix: self modelPrefix ];
+		whenSelectedItemChangedDo: [ :scope | 
+			self queryBuilder changeQueryScope: scope.
+			self notifyQueryChanged ]
+]
+
 { #category : #update }
-FQScopeQueriesPresenter >> updateScopesDropList [
-	scopesDropList
-		resetSelection;
-		items: self queryBuilder availableScopes.
-	scopesDropList listItems
-		ifEmpty: [ self button disable ]
-		ifNotEmpty: [ self button enable ]
+FQScopeQueriesPresenter >> updateAccordingToDirection [
+	self queryBuilder availableScopes
+		ifNotEmpty: [ self showScopesDropList.
+			self button enable ]
+		ifEmpty: [ self showNoScopeAvailable.
+			self button disable ].
+	self update
 ]

@@ -43,8 +43,6 @@ FQAbstractPropertyQueryBuilder >> changeQueryValueToCompare: aValue [
 FQAbstractPropertyQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	self availableProperties
-		ifEmpty: [ (ImpossibleQuery
-				displayText: 'No ' , self class queryClass label , ' property available')
-				signal ].
+		ifEmpty: [ (ImpossibleQuery new builder: self) signal ].
 	query property: self availableProperties first
 ]

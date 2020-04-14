@@ -22,8 +22,8 @@ FQAbstractQueryBuilder class >> queryClass [
 ]
 
 { #category : #running }
-FQAbstractQueryBuilder >> createQuery [
-	^ String streamContents: [ :s | query displayOn: s ]
+FQAbstractQueryBuilder >> applyQuery [
+	^ (query runOn: entities) inspect
 ]
 
 { #category : #accessing }
@@ -55,4 +55,9 @@ FQAbstractQueryBuilder >> query [
 { #category : #accessing }
 FQAbstractQueryBuilder >> query: anObject [
 	query := anObject
+]
+
+{ #category : #testing }
+FQAbstractQueryBuilder >> queryIsValid [
+	^ query isValid
 ]

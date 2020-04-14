@@ -9,13 +9,27 @@ FQNavigationQueryTest >> actualClass [
 	^ FQNavigationQuery
 ]
 
-{ #category : #tests }
+{ #category : #'tests adding - removing' }
+FQNavigationQueryTest >> testAddAllAssociations [
+	query := self actualClass new
+		direction: FQIncomingNavigationQueryStrategy;
+		association: FQAssociationNavigationQueryStrategy new.
+	query allPossibleAssociations
+		do: [ :assoc | query addAssociation: assoc ].
+	self
+		assert: query association class
+		identicalTo: FQAllAssociationsNavigationQueryStrategy
+]
+
+{ #category : #'tests adding - removing' }
 FQNavigationQueryTest >> testAddAssociation [
 	query := self actualClass new
 		direction: FQIncomingNavigationQueryStrategy;
 		association: FQAssociationNavigationQueryStrategy new.
+	
 	query addAssociation: FamixStAccess.
 	self assert: (query association associations includes: FamixStAccess).
+	
 	query addAssociation: FamixStAccess.
 	self
 		assert: (query association associations occurrencesOf: FamixStAccess)
@@ -168,7 +182,7 @@ FQNavigationQueryTest >> testOutgoingInheritance [
 		equals: (model entityNamed: 'Smalltalk::LANOutputServer')
 ]
 
-{ #category : #tests }
+{ #category : #'tests adding - removing' }
 FQNavigationQueryTest >> testRemoveAssociation [
 	query := self actualClass new
 		direction: FQIncomingNavigationQueryStrategy;

@@ -2,24 +2,24 @@ Class {
 	#name : #ImpossibleQuery,
 	#superclass : #Error,
 	#instVars : [
-		'displayText'
+		'builder'
 	],
 	#category : #'Famix-Queries-Browser-Builder'
 }
 
 { #category : #accessing }
-ImpossibleQuery class >> displayText: aText [
+ImpossibleQuery class >> builder: aBuilder [
 	^ self new
-		displayText: aText;
+		builder: aBuilder;
 		yourself
 ]
 
 { #category : #accessing }
-ImpossibleQuery >> displayText [
-	^ displayText
+ImpossibleQuery >> builder [
+	^ builder
 ]
 
 { #category : #accessing }
-ImpossibleQuery >> displayText: anObject [
-	displayText := anObject
+ImpossibleQuery >> builder: anObject [
+	builder := anObject
 ]

@@ -56,6 +56,11 @@ FQPropertyQuery >> hasComparisonParameters [
 	^ true
 ]
 
+{ #category : #testing }
+FQPropertyQuery >> isValid [
+	^ self property isNotNil
+]
+
 { #category : #accessing }
 FQPropertyQuery >> property [
 	^ property

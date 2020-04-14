@@ -53,10 +53,12 @@ FQQueryConfigurationPresenter >> button [
 
 { #category : #transmissions }
 FQQueryConfigurationPresenter >> codeToDisplay [
-	^ EFFormatter
-		format:
-			(RBParser
-				parseExpression: (String streamContents: [ :s | queryBuilder query storeOn: s ]))
+	^ queryBuilder queryIsValid
+		ifTrue: [ EFFormatter
+				format:
+					(RBParser
+						parseExpression: (String streamContents: [ :s | queryBuilder query storeOn: s ])) ]
+		ifFalse: [ 'No valid query possible' ]
 ]
 
 { #category : #initialization }
@@ -67,8 +69,6 @@ FQQueryConfigurationPresenter >> defineOutputPorts [
 
 { #category : #initialization }
 FQQueryConfigurationPresenter >> initializePresenters [
-	"Transmission defined in FQNewQueryPort"
-
 	creationButton := self newButton
 		label: 'Create query';
 		yourself
@@ -92,11 +92,19 @@ FQQueryConfigurationPresenter >> queryBuilder [
 
 { #category : #initialization }
 FQQueryConfigurationPresenter >> setModelBeforeInitialization: entities [
-	queryBuilder := self class queryBuilderClass
-		newWithEntities: entities
+	queryBuilder := [ self class queryBuilderClass
+		newWithEntities: entities ]
+		on: ImpossibleQuery
+		do: [ :error | error builder ]
 ]
 
 { #category : #transmissions }
 FQQueryConfigurationPresenter >> transmitInitialConfiguration [
 	self notifyQueryChanged
+]
+
+{ #category : #update }
+FQQueryConfigurationPresenter >> updateForQuery: newQuery [
+	self flag: 'TODO: Match with modifierd code'.
+	"newQuery inspect"
 ]

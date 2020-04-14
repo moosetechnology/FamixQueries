@@ -11,11 +11,9 @@ Class {
 { #category : #specs }
 FQNavigationQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
-		beNotHomogeneous;
 		add: #directionsRadioButtons;
 		add: #associationsCheckBoxes;
 		add: self creationButton;
-		spacing: 5;
 		yourself
 ]
 
@@ -57,12 +55,12 @@ FQNavigationQueriesPresenter >> configureRadioButton: radioButton forNavigationD
 	radioButton
 		label: direction label;
 		whenActivatedDo: [ queryBuilder changeQueryNavigationDirection: direction.
-			self updateAssociationsCheckBoxes ]
+			self updateAccordingToDirection ]
 ]
 
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializeAssociationsCheckBoxes [
-	self updateAssociationsCheckBoxes
+	self updateAccordingToDirection
 ]
 
 { #category : #initialization }
@@ -70,15 +68,14 @@ FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
 	directionsRadioButtons := SpDynamicPresentersListBuilder new
 		modelObjects: queryBuilder availableDirections;
 		presenter: SpRadioButtonPresenter
-			configuredAs:
-				[ :radioButton :direction | self configureRadioButton: radioButton forNavigationDirection: direction ];
+			configuredAs: [ :radioButton :direction | 
+			self
+				configureRadioButton: radioButton
+				forNavigationDirection: direction ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
 	directionsRadioButtons presenters first
-		associatedRadioButtons: directionsRadioButtons presenters allButFirst.
-		
-	queryBuilder
-		changeQueryNavigationDirection: queryBuilder availableDirections first
+		associatedRadioButtons: directionsRadioButtons presenters allButFirst
 ]
 
 { #category : #initialization }
@@ -88,7 +85,7 @@ FQNavigationQueriesPresenter >> initializePresenters [
 	self initializeAssociationsCheckBoxes
 ]
 
-{ #category : #initialization }
+{ #category : #'widgets configuration' }
 FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 	| checkBoxes |
 	"Dynamic layout involves NullPresenters, they will not answer to #enable, #disable"
@@ -105,7 +102,7 @@ FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 ]
 
 { #category : #update }
-FQNavigationQueriesPresenter >> updateAssociationsCheckBoxes [
+FQNavigationQueriesPresenter >> showAssociationsCheckBoxes [
 	associationsCheckBoxes := SpDynamicPresentersListBuilder new
 		modelObjects: queryBuilder allPossibleAssociations;
 		presenter: SpCheckBoxPresenter
@@ -115,9 +112,22 @@ FQNavigationQueriesPresenter >> updateAssociationsCheckBoxes [
 				forNavigationAssociation: associationTrait ];
 		layoutBuilder: (SpDynamicLeftToRightRowsLayout rows: 1);
 		build.
-	self setAssociationsCheckBoxesConstraints.
-	associationsCheckBoxes presenters
-		detect: #state
-		ifNone: [ self button disable ].
+	self setAssociationsCheckBoxesConstraints
+]
+
+{ #category : #update }
+FQNavigationQueriesPresenter >> showNoAssociationAvailable [
+	associationsCheckBoxes := self
+		instantiate: FQNoPossibleQueryPresenter
+		on: 'associations'
+]
+
+{ #category : #update }
+FQNavigationQueriesPresenter >> updateAccordingToDirection [
+	queryBuilder availableAssociations
+		ifEmpty: [ self showNoAssociationAvailable.
+			self button disable ]
+		ifNotEmpty: [ self showAssociationsCheckBoxes.
+			self button enable ].
 	self update
 ]

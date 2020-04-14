@@ -19,6 +19,11 @@ FQAbstractQuery >> displayOn: aStream with: aString [
 	^ self subclassResponsibility
 ]
 
+{ #category : #testing }
+FQAbstractQuery >> isValid [
+	^ self subclassResponsibility
+]
+
 { #category : #running }
 FQAbstractQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."

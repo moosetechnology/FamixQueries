@@ -29,6 +29,12 @@ FQStringQuery >> comparator [
 	^ comparator ifNil: [ comparator := #includesSubString: ]
 ]
 
+{ #category : #testing }
+FQStringQuery >> isValid [
+	^ super isValid
+		and: [ self comparator isNotNil and: [ self valueToCompare isNotNil ] ]
+]
+
 { #category : #'available parameters' }
 FQStringQuery >> type [
 	^ FM3String

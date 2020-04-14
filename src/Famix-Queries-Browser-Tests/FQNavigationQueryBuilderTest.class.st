@@ -10,18 +10,6 @@ FQNavigationQueryBuilderTest >> queryBuilderClass [
 ]
 
 { #category : #tests }
-FQNavigationQueryBuilderTest >> testAddAllAssociation [
-	self
-		flag: 'This test should be in FQNavigationQuery, not here';
-		skip: ''.
-	queryBuilder allPossibleAssociations
-		do: [ :assoc | queryBuilder addAssociationToQuery: assoc ].
-	self
-		assert: queryBuilder query association class
-		identicalTo: FQAllAssociationsNavigationQueryStrategy
-]
-
-{ #category : #tests }
 FQNavigationQueryBuilderTest >> testAddAssociationToQuery [
 	queryBuilder addAssociationToQuery: FamixTInheritance.
 	self

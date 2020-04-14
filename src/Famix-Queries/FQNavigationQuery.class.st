@@ -18,7 +18,7 @@ FQNavigationQuery class >> direction: aDirectionStrategyClass association: anAss
 
 { #category : #'adding - removing' }
 FQNavigationQuery >> addAssociation: anAssociation [
-	self association addAssociation: anAssociation
+	association := self association addAssociation: anAssociation
 ]
 
 { #category : #'available parameters' }
@@ -72,6 +72,15 @@ FQNavigationQuery >> displayOn: aStream with: aString [
 		<<
 			'.
 			result ]) asMooseGroup'
+]
+
+{ #category : #testing }
+FQNavigationQuery >> isValid [
+	^ (self direction
+		inheritsFrom: FQAbstractDirectionNavigationQueryStrategy)
+		and: [ (self association
+				isKindOf: FQAbstractAssociationNavigationQueryStrategy)
+				and: [ self association associations isNotEmpty ] ]
 ]
 
 { #category : #'adding - removing' }

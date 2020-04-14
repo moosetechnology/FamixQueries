@@ -16,8 +16,14 @@ FQAssociationNavigationQueryStrategy class >> with: aFamixClass [
 
 { #category : #'instance creation' }
 FQAssociationNavigationQueryStrategy class >> withAll: aCollection [
+	| associations |
+	associations := aCollection asOrderedCollection
+		removeAllSuchThat: #isNil.
+	associations
+		ifEmpty: [ FQNavigationQueryMustHaveAtLeastOneAssociation
+				signal: 'You cannot create a navigation query without associations' ].
 	^ self new
-		associations: aCollection asOrderedCollection;
+		associations: associations;
 		yourself
 ]
 
@@ -30,7 +36,7 @@ FQAssociationNavigationQueryStrategy >> addAssociation: anAssociation [
 			'Removing this first conditional (if associations is a Set) changes checkboxes in the corresponding presenter. Should be revised when tests are ok.'.
 	self associations add: anAssociation.
 	(self associations includesAll: self class allPossibleAssociations)
-		ifTrue: [ ^ FQAllAssociationsNavigationQueryStrategy ]
+		ifTrue: [ ^ FQAllAssociationsNavigationQueryStrategy new ]
 ]
 
 { #category : #accessing }

@@ -97,7 +97,6 @@ FQBrowserPresenter class >> queryConfigurationHeight [
 { #category : #'query configuration presenters' }
 FQBrowserPresenter class >> queryConfigurationPresenters [
 	^ FQQueryConfigurationPresenter allSubclasses
-		copyWithout: FQNoAvailableQueryPresenter
 ]
 
 { #category : #specs }
@@ -151,14 +150,30 @@ FQBrowserPresenter >> initializeWindow: aWindowPresenter [
 ]
 
 { #category : #update }
+FQBrowserPresenter >> updateQueryCode [
+	queryCode := queryConfigurationPresenter queryBuilder queryIsValid
+		ifTrue: [ self newCode ]
+		ifFalse: [ self newText ].
+	self flag: 'ugly, use transmissions'.
+	queryCode
+		whenTextIsAcceptedDo: [ :code | 
+			| newQuery |
+			newQuery := Smalltalk compiler evaluate: code.
+			queryCode
+				text:
+					(EFFormatter
+						format:
+							(RBParser
+								parseExpression: (String streamContents: [ :s | newQuery storeOn: s ]))).
+			queryConfigurationPresenter updateForQuery: newQuery ]
+]
+
+{ #category : #update }
 FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
-	queryConfigurationPresenter := [ aPresenterClass
+	queryConfigurationPresenter := aPresenterClass
 		owner: self
-		on: self entities ]
-		on: ImpossibleQuery
-		do: [ :error | 
-			queryCode := self newText disable.
-			FQNoAvailableQueryPresenter owner: self on: error displayText ].
+		on: self entities.
+	self updateQueryCode.
 	self updateTransmissions.
 	queryConfigurationPresenter transmitInitialConfiguration.
 	self update
@@ -169,7 +184,5 @@ FQBrowserPresenter >> updateTransmissions [
 	queryConfigurationPresenter transmitTo: queryCode.
 	queryConfigurationPresenter
 		transmitPort: #newQueryPort
-		do: [ :queryBuilder | 
-			(UIManager default confirm: 'Do you want to inspect the code ?')
-				ifTrue: [ (Smalltalk compiler evaluate: queryCode text) inspect ] ]
+		do: [ :queryBuilder | queryBuilder applyQuery ]
 ]

@@ -69,6 +69,11 @@ FQTypeQuery >> initialize [
 	types := OrderedCollection new
 ]
 
+{ #category : #testing }
+FQTypeQuery >> isValid [
+	^ self types isNotEmpty
+]
+
 { #category : #'adding - removing' }
 FQTypeQuery >> removeType: aType [
 	self types size = 1

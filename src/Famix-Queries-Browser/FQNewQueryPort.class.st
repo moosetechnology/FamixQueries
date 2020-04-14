@@ -18,5 +18,5 @@ FQNewQueryPort >> attachTransmission: aTransmission [
 		whenActivatedDo: [ :selection | 
 			self
 				transmitWith: aTransmission
-				value: 'test' ]
+				value: self destinationPresenter queryBuilder ]
 ]

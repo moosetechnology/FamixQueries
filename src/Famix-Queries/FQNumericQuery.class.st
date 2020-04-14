@@ -24,6 +24,12 @@ FQNumericQuery >> availableComparators [
 	^ {#> . #>= . #= . #<= . #<}
 ]
 
+{ #category : #testing }
+FQNumericQuery >> isValid [
+	^ super isValid
+		and: [ self comparator isNotNil and: [ self valueToCompare isNotNil ] ]
+]
+
 { #category : #'available parameters' }
 FQNumericQuery >> type [
 	^ FM3Number

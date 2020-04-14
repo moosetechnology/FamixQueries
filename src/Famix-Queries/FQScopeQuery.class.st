@@ -9,10 +9,10 @@ Class {
 }
 
 { #category : #'instance creation' }
-FQScopeQuery class >> forScope: aFamixClass direction: aDirectionStrategy [
+FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
 	^ self new
 		scope: aFamixClass;
-		direction: aDirectionStrategy;
+		direction: aScopeDirectionClass;
 		yourself
 ]
 
@@ -43,6 +43,12 @@ FQScopeQuery >> displayOn: aStream with: aString [
 	aStream
 		space;
 		<< self scope name
+]
+
+{ #category : #testing }
+FQScopeQuery >> isValid [
+	^ (self direction inheritsFrom: FQAbstractScopeDirection)
+		and: [ self scope isNotNil ]
 ]
 
 { #category : #running }
