@@ -13,8 +13,6 @@ FQPropertyQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		add: #propertyTypeRadioButtons;
 		add: #queryParametersPresenter width: 200;
-		add: self creationButton;
-		spacing: 5;
 		yourself
 ]
 
@@ -86,14 +84,10 @@ FQPropertyQueriesPresenter >> updateQueryBuilderFor: aPropertyQueryParametersPre
 { #category : #update }
 FQPropertyQueriesPresenter >> updateQueryParametersPresenter: aPropertyQueryParametersPresenterClass [
 	self updateQueryBuilderFor: aPropertyQueryParametersPresenterClass.
-	queryBuilder queryIsValid
-		ifTrue: [ queryParametersPresenter := aPropertyQueryParametersPresenterClass
-				owner: self
-				on: queryBuilder.
-			self button enable ]
-		ifFalse: [ queryParametersPresenter := self
+	queryParametersPresenter := queryBuilder queryIsValid
+		ifTrue: [ aPropertyQueryParametersPresenterClass owner: self on: queryBuilder ]
+		ifFalse: [ self
 				instantiate: FQNoPossibleQueryPresenter
-				on: aPropertyQueryParametersPresenterClass label , ' property '.
-			self button disable ].
+				on: aPropertyQueryParametersPresenterClass label , ' property ' ].
 	self update
 ]

@@ -53,20 +53,12 @@ FQQueryConfigurationPresenter >> button [
 
 { #category : #initialization }
 FQQueryConfigurationPresenter >> defineOutputPorts [
-	^ {FQQueryHasChangedPort new.
-	FQNewQueryPort new}
+	^ {FQQueryHasChangedPort new}
 ]
 
 { #category : #initialization }
 FQQueryConfigurationPresenter >> initialize [
 	super initialize.
-]
-
-{ #category : #initialization }
-FQQueryConfigurationPresenter >> initializePresenters [
-	applyQueryButton := self newButton
-		label: 'Show query result';
-		yourself
 ]
 
 { #category : #accessing }

@@ -47,12 +47,14 @@ FQBrowserPresenter class >> defaultSpec [
 				add: #queryConfigurationPresenter
 					height: self queryConfigurationHeight;
 				add: #queryCode;
-				yourself);
+				yourself)
+			width: self queryConfigurationWidth;
 		add:
 			(SpBoxLayout newVertical
 				add: #resultListTitle height: self labelHeight;
 				add: #resultList;
 				yourself);
+		spacing: 5;
 		yourself
 ]
 
@@ -110,6 +112,12 @@ FQBrowserPresenter class >> queryConfigurationHeight [
 { #category : #'query configuration presenters' }
 FQBrowserPresenter class >> queryConfigurationPresenters [
 	^ FQQueryConfigurationPresenter allSubclasses
+]
+
+{ #category : #specs }
+FQBrowserPresenter class >> queryConfigurationWidth [
+	self flag: 'Change when we can use a pane'.
+	^ 300
 ]
 
 { #category : #specs }
@@ -221,8 +229,5 @@ FQBrowserPresenter >> updateTransmissions [
 			result
 				ifEmpty: [ resultList headerTitle: 'No entities to show' ]
 				ifNotEmpty: [ resultList hideHeaderTitle ].
-			result ].
-	queryConfigurationPresenter
-		transmitPort: #newQueryPort
-		do: [ :queryBuilder | self showQueryResult: queryBuilder applyQuery ]
+			result ]
 ]

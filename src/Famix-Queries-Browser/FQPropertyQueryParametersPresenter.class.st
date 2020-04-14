@@ -33,10 +33,7 @@ FQPropertyQueryParametersPresenter >> initializePresenters [
 			queryBuilder changeQueryProperty: prop.
 			self owner notifyQueryChanged ];
 		selectIndex: 1;
-		yourself.
-	properties listItems
-		ifEmpty: [ self owner button disable ]
-		ifNotEmpty: [ self owner button enable ]
+		yourself
 ]
 
 { #category : #'accessing model' }

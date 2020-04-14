@@ -13,8 +13,6 @@ FQScopeQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		add: #directionsRadioButtons;
 		add: self scopes;
-		add: self creationButton;
-		spacing: 5;
 		yourself
 ]
 
@@ -79,15 +77,13 @@ FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 ]
 
 { #category : #'widgets configuration' }
-FQScopeQueriesPresenter >> showNoScopeAvailable [
-	^ scopesDropList := self
-		instantiate: FQNoPossibleQueryPresenter
-		on: 'scope'
+FQScopeQueriesPresenter >> noScopeMessage [
+	^ self instantiate: FQNoPossibleQueryPresenter on: 'scope'
 ]
 
 { #category : #'widgets configuration' }
-FQScopeQueriesPresenter >> showScopesDropList [
-	^ scopesDropList := self newDropList
+FQScopeQueriesPresenter >> scopesDropList [
+	^ self newDropList
 		items: self queryBuilder availableScopes;
 		display: [ :item | item name withoutPrefix: self modelPrefix ];
 		whenSelectedItemChangedDo: [ :scope | 
@@ -97,10 +93,8 @@ FQScopeQueriesPresenter >> showScopesDropList [
 
 { #category : #update }
 FQScopeQueriesPresenter >> updateAccordingToDirection [
-	self queryBuilder availableScopes
-		ifNotEmpty: [ self showScopesDropList.
-			self button enable ]
-		ifEmpty: [ self showNoScopeAvailable.
-			self button disable ].
+	scopesDropList := self queryBuilder availableScopes
+		ifNotEmpty: [ self scopesDropList ]
+		ifEmpty: [ self noScopeMessage ].
 	self update
 ]

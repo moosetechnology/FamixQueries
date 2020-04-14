@@ -11,8 +11,6 @@ Class {
 FQTypeQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		add: #typesCheckBoxes;
-		add: self creationButton;
-		spacing: 5;
 		yourself
 ]
 
@@ -75,9 +73,7 @@ FQTypeQueriesPresenter >> resetLayoutForImpossibleQuery [
 				expand: true
 				fill: true
 				padding: 55);
-		add: self class creationButton;
-		yourself.
-	self button disable
+		yourself
 ]
 
 { #category : #'widgets configuration' }

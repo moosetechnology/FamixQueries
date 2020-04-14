@@ -13,7 +13,6 @@ FQNavigationQueriesPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		add: #directionsRadioButtons;
 		add: #associationsCheckBoxes;
-		add: self creationButton;
 		yourself
 ]
 
@@ -85,6 +84,11 @@ FQNavigationQueriesPresenter >> initializePresenters [
 	self initializeAssociationsCheckBoxes
 ]
 
+{ #category : #update }
+FQNavigationQueriesPresenter >> noAssociationMessage [
+	^ self instantiate: FQNoPossibleQueryPresenter on: 'associations'
+]
+
 { #category : #'widgets configuration' }
 FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 	| checkBoxes |
@@ -116,18 +120,9 @@ FQNavigationQueriesPresenter >> showAssociationsCheckBoxes [
 ]
 
 { #category : #update }
-FQNavigationQueriesPresenter >> showNoAssociationAvailable [
-	associationsCheckBoxes := self
-		instantiate: FQNoPossibleQueryPresenter
-		on: 'associations'
-]
-
-{ #category : #update }
 FQNavigationQueriesPresenter >> updateAccordingToDirection [
 	queryBuilder availableAssociations
-		ifEmpty: [ self showNoAssociationAvailable.
-			self button disable ]
-		ifNotEmpty: [ self showAssociationsCheckBoxes.
-			self button enable ].
+		ifEmpty: [ associationsCheckBoxes := self noAssociationMessage ]
+		ifNotEmpty: [ self showAssociationsCheckBoxes ].
 	self update
 ]
