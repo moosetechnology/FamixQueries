@@ -2,9 +2,9 @@ Class {
 	#name : #FQQueryConfigurationPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'#creationButton',
 		'#queryBuilder',
-		'#queryHasChanged => SpObservableSlot'
+		'#queryHasChanged => SpObservableSlot',
+		'#applyQueryButton'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -12,7 +12,7 @@ Class {
 { #category : #specs }
 FQQueryConfigurationPresenter class >> creationButton [
 	^ SpBoxLayout newVertical
-		add: #creationButton
+		add: #applyQueryButton
 			expand: true
 			fill: true
 			padding: self paddingAroundButton;
@@ -48,7 +48,7 @@ FQQueryConfigurationPresenter class >> queryBuilderClass [
 
 { #category : #accessing }
 FQQueryConfigurationPresenter >> button [
-	^ creationButton
+	^ applyQueryButton
 ]
 
 { #category : #transmissions }
@@ -68,9 +68,14 @@ FQQueryConfigurationPresenter >> defineOutputPorts [
 ]
 
 { #category : #initialization }
+FQQueryConfigurationPresenter >> initialize [
+	super initialize.
+]
+
+{ #category : #initialization }
 FQQueryConfigurationPresenter >> initializePresenters [
-	creationButton := self newButton
-		label: 'Create query';
+	applyQueryButton := self newButton
+		label: 'Show query result';
 		yourself
 ]
 

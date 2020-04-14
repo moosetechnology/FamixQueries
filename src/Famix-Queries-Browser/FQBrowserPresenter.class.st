@@ -6,7 +6,9 @@ Class {
 		'entitiesList',
 		'queryConfigurationPresenter',
 		'queryCode',
-		'queryTypesDropList'
+		'queryTypesDropList',
+		'resultList',
+		'toolBar'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -31,13 +33,13 @@ FQBrowserPresenter class >> default [
 
 { #category : #specs }
 FQBrowserPresenter class >> defaultSpec [
-	^ SpPanedLayout newHorizontal
+	^ SpBoxLayout newHorizontal
 		add: #entitiesList;
-		position: 30 percent;
 		add:
 			(SpBoxLayout newVertical
 				add: #queryTypesDropList height: self buttonHeight;
-				add: #queryConfigurationPresenter height: self queryConfigurationHeight;
+				add: #queryConfigurationPresenter
+					height: self queryConfigurationHeight;
 				add: #queryCode;
 				yourself);
 		yourself
@@ -125,6 +127,7 @@ FQBrowserPresenter >> entities: anObject [
 { #category : #initialization }
 FQBrowserPresenter >> initializePresenters [
 	entitiesList := self newList
+		headerTitle: 'Current Entities';
 		items: self entities;
 		display: #name.
 	self initializeQueryTypesDropList.
@@ -147,6 +150,58 @@ FQBrowserPresenter >> initializeQueryTypesDropList [
 FQBrowserPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 650 @ 400
+]
+
+{ #category : #update }
+FQBrowserPresenter >> showQueryResult: queryResult [
+	self updateLayout.
+	resultList := self newList
+		headerTitle: 'Query result';
+		items: queryResult;
+		display: #name;
+		yourself.
+	toolBar := self newToolBar
+		addItem:
+			(SpToolBarButton new
+				label: 'Accept';
+				icon: (self iconNamed: #smallOk);
+				action: [ UIManager default
+						confirm: 'Query is accepted'
+						label: 'This will later propagate the result' ];
+				yourself);
+		addItem:
+			(SpToolBarButton new
+				label: 'Cancel';
+				icon: (self iconNamed: #smallCancel);
+				action: [ layout := self class defaultSpec.
+					self window extent: 600 @ 400.
+					self update ];
+				yourself);
+		yourself.
+	self update
+]
+
+{ #category : #update }
+FQBrowserPresenter >> updateLayout [
+	layout := SpBoxLayout newHorizontal
+		add: #entitiesList;
+		add:
+			(SpBoxLayout newVertical
+				add: #queryTypesDropList height: self class buttonHeight;
+				add: #queryConfigurationPresenter
+					height: self class queryConfigurationHeight;
+				add: #queryCode;
+				yourself);
+		add:
+			(SpBoxLayout newVertical
+				add: #resultList;
+				add: #toolBar
+					expand: false
+					fill: false
+					padding: 0;
+				yourself);
+		yourself.
+	self window extent: 750 @ 400
 ]
 
 { #category : #update }
@@ -184,5 +239,5 @@ FQBrowserPresenter >> updateTransmissions [
 	queryConfigurationPresenter transmitTo: queryCode.
 	queryConfigurationPresenter
 		transmitPort: #newQueryPort
-		do: [ :queryBuilder | queryBuilder applyQuery ]
+		do: [ :queryBuilder | self showQueryResult: queryBuilder applyQuery ]
 ]

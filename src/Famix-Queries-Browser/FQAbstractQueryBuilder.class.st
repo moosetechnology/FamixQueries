@@ -23,7 +23,7 @@ FQAbstractQueryBuilder class >> queryClass [
 
 { #category : #running }
 FQAbstractQueryBuilder >> applyQuery [
-	^ (query runOn: entities) inspect
+	^ query runOn: entities
 ]
 
 { #category : #accessing }
