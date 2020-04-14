@@ -8,7 +8,9 @@ Class {
 		'queryCode',
 		'queryTypesDropList',
 		'resultList',
-		'toolBar'
+		'toolBar',
+		'entitiesListTitle',
+		'resultListTitle'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -34,13 +36,22 @@ FQBrowserPresenter class >> default [
 { #category : #specs }
 FQBrowserPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
-		add: #entitiesList;
+		add:
+			(SpBoxLayout newVertical
+				add: #entitiesListTitle height: self labelHeight;
+				add: #entitiesList;
+				yourself);
 		add:
 			(SpBoxLayout newVertical
 				add: #queryTypesDropList height: self buttonHeight;
 				add: #queryConfigurationPresenter
 					height: self queryConfigurationHeight;
 				add: #queryCode;
+				yourself);
+		add:
+			(SpBoxLayout newVertical
+				add: #resultListTitle height: self labelHeight;
+				add: #resultList;
 				yourself);
 		yourself
 ]
@@ -126,13 +137,17 @@ FQBrowserPresenter >> entities: anObject [
 
 { #category : #initialization }
 FQBrowserPresenter >> initializePresenters [
+	entitiesListTitle := self newLabel label: 'Current Entities'.
 	entitiesList := self newList
-		headerTitle: 'Current Entities';
 		items: self entities;
 		display: #name.
-	self initializeQueryTypesDropList.
-	queryCode := self newCode.
 
+	resultListTitle := self newLabel label: 'Query result'.
+	resultList := self newList
+		display: #name;
+		yourself.
+
+	self initializeQueryTypesDropList.
 	"This will initialize queryConfiguration  according to the selected type of query. 
 		See updateQueryConfiguration: "
 	queryTypesDropList selectIndex: 1
@@ -154,54 +169,13 @@ FQBrowserPresenter >> initializeWindow: aWindowPresenter [
 
 { #category : #update }
 FQBrowserPresenter >> showQueryResult: queryResult [
-	self updateLayout.
-	resultList := self newList
-		headerTitle: 'Query result';
-		items: queryResult;
-		display: #name;
-		yourself.
-	toolBar := self newToolBar
-		addItem:
-			(SpToolBarButton new
-				label: 'Accept';
-				icon: (self iconNamed: #smallOk);
-				action: [ UIManager default
-						confirm: 'Query is accepted'
-						label: 'This will later propagate the result' ];
-				yourself);
-		addItem:
-			(SpToolBarButton new
-				label: 'Cancel';
-				icon: (self iconNamed: #smallCancel);
-				action: [ layout := self class defaultSpec.
-					self window extent: 600 @ 400.
-					self update ];
-				yourself);
-		yourself.
+	resultList
+		unselectAll;
+		items: queryResult.
+	queryResult
+		ifEmpty: [ resultList headerTitle: 'No entities to show' ]
+		ifNotEmpty: [ resultList hideHeaderTitle ].
 	self update
-]
-
-{ #category : #update }
-FQBrowserPresenter >> updateLayout [
-	layout := SpBoxLayout newHorizontal
-		add: #entitiesList;
-		add:
-			(SpBoxLayout newVertical
-				add: #queryTypesDropList height: self class buttonHeight;
-				add: #queryConfigurationPresenter
-					height: self class queryConfigurationHeight;
-				add: #queryCode;
-				yourself);
-		add:
-			(SpBoxLayout newVertical
-				add: #resultList;
-				add: #toolBar
-					expand: false
-					fill: false
-					padding: 0;
-				yourself);
-		yourself.
-	self window extent: 750 @ 400
 ]
 
 { #category : #update }
@@ -236,7 +210,18 @@ FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
 
 { #category : #update }
 FQBrowserPresenter >> updateTransmissions [
-	queryConfigurationPresenter transmitTo: queryCode.
+	queryConfigurationPresenter
+		transmitTo: queryCode
+		transform: [ :queryBuilder | queryBuilder codeToDisplay ].
+	queryConfigurationPresenter
+		transmitTo: resultList
+		transform: [ :queryBuilder | 
+			| result |
+			result := queryBuilder applyQuery.
+			result
+				ifEmpty: [ resultList headerTitle: 'No entities to show' ]
+				ifNotEmpty: [ resultList hideHeaderTitle ].
+			result ].
 	queryConfigurationPresenter
 		transmitPort: #newQueryPort
 		do: [ :queryBuilder | self showQueryResult: queryBuilder applyQuery ]

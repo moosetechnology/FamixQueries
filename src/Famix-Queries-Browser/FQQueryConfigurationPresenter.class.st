@@ -51,16 +51,6 @@ FQQueryConfigurationPresenter >> button [
 	^ applyQueryButton
 ]
 
-{ #category : #transmissions }
-FQQueryConfigurationPresenter >> codeToDisplay [
-	^ queryBuilder queryIsValid
-		ifTrue: [ EFFormatter
-				format:
-					(RBParser
-						parseExpression: (String streamContents: [ :s | queryBuilder query storeOn: s ])) ]
-		ifFalse: [ 'No valid query possible' ]
-]
-
 { #category : #initialization }
 FQQueryConfigurationPresenter >> defineOutputPorts [
 	^ {FQQueryHasChangedPort new.

@@ -16,5 +16,5 @@ FQQueryHasChangedPort >> attachTransmission: aTransmission [
 		property: #queryHasChanged
 		whenChangedDo: [ self
 				transmitWith: aTransmission
-				value: self destinationPresenter codeToDisplay ]
+				value: self destinationPresenter queryBuilder ]
 ]

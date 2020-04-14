@@ -26,6 +26,16 @@ FQAbstractQueryBuilder >> applyQuery [
 	^ query runOn: entities
 ]
 
+{ #category : #transmissions }
+FQAbstractQueryBuilder >> codeToDisplay [
+	^ self queryIsValid
+		ifTrue: [ EFFormatter
+				format:
+					(RBParser
+						parseExpression: (String streamContents: [ :s | query storeOn: s ])) ]
+		ifFalse: [ 'No valid query possible' ]
+]
+
 { #category : #accessing }
 FQAbstractQueryBuilder >> entities [
 	^ entities
