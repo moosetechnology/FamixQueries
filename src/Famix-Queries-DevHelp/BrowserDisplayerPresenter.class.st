@@ -30,7 +30,7 @@ BrowserDisplayerPresenter class >> title [
 { #category : #initialization }
 BrowserDisplayerPresenter >> initializePresenters [
 	open := self newButton
-		whenActivatedDo: [ FQBrowserPresenter open ];
+		whenActivatedDo: [ FQQueriesAndResultsPresenter open ];
 		label: 'Open';
 		yourself.
 	openWithoutEntities := self newButton

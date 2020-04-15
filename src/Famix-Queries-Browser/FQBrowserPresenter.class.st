@@ -3,13 +3,11 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'entities',
-		'entitiesList',
 		'queryConfigurationPresenter',
 		'queryCode',
 		'queryTypesDropList',
 		'resultList',
 		'toolBar',
-		'entitiesListTitle',
 		'resultListTitle'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
@@ -35,26 +33,20 @@ FQBrowserPresenter class >> default [
 
 { #category : #specs }
 FQBrowserPresenter class >> defaultSpec [
-	^ SpBoxLayout newHorizontal
-		add:
-			(SpBoxLayout newVertical
-				add: #entitiesListTitle height: self labelHeight;
-				add: #entitiesList;
-				yourself);
+	^ SpPanedLayout newHorizontal
 		add:
 			(SpBoxLayout newVertical
 				add: #queryTypesDropList height: self buttonHeight;
 				add: #queryConfigurationPresenter
 					height: self queryConfigurationHeight;
 				add: #queryCode;
-				yourself)
-			width: self queryConfigurationWidth;
+				yourself);
+		position: 65 percent;
 		add:
 			(SpBoxLayout newVertical
 				add: #resultListTitle height: self labelHeight;
 				add: #resultList;
 				yourself);
-		spacing: 5;
 		yourself
 ]
 
@@ -92,6 +84,11 @@ FQBrowserPresenter class >> noEntities [
 FQBrowserPresenter class >> open [
 	<script>
 	self default openWithSpec
+]
+
+{ #category : #'instance creation' }
+FQBrowserPresenter class >> openOn: aMooseGroup [
+	(self on: aMooseGroup) openWithSpec
 ]
 
 { #category : #'instance creation' }
@@ -145,10 +142,6 @@ FQBrowserPresenter >> entities: anObject [
 
 { #category : #initialization }
 FQBrowserPresenter >> initializePresenters [
-	entitiesListTitle := self newLabel label: 'Current Entities'.
-	entitiesList := self newList
-		items: self entities;
-		display: #name.
 	resultListTitle := self newLabel label: 'Query result'.
 	resultList := self newList
 		display: #name;
@@ -174,6 +167,11 @@ FQBrowserPresenter >> initializeQueryTypesDropList [
 FQBrowserPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 650 @ 400
+]
+
+{ #category : #initialization }
+FQBrowserPresenter >> setModelBeforeInitialization: aMooseGroup [
+	entities := aMooseGroup
 ]
 
 { #category : #update }
