@@ -9,7 +9,7 @@ FQNumericPropertyQueryBuilder class >> queryClass [
 	^ FQNumericQuery
 ]
 
-{ #category : #running }
+{ #category : #initialization }
 FQNumericPropertyQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query comparator: self availableComparators first

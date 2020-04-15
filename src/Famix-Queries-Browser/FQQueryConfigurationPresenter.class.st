@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'#queryBuilder',
 		'#queryHasChanged => SpObservableSlot',
+		'#acceptedQuery => SpObservableSlot',
 		'#applyQueryButton'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
@@ -58,7 +59,8 @@ FQQueryConfigurationPresenter >> defineInputPorts [
 
 { #category : #initialization }
 FQQueryConfigurationPresenter >> defineOutputPorts [
-	^ {FQQueryHasChangedPort new}
+	^ {FQQueryHasChangedPort new.
+	FQAcceptedQueryPort new}
 ]
 
 { #category : #initialization }
@@ -75,6 +77,11 @@ FQQueryConfigurationPresenter >> modelPrefix [
 { #category : #update }
 FQQueryConfigurationPresenter >> noParameterMessage: aParameterName [
 	^ self instantiate: FQNoPossibleQueryPresenter on: aParameterName
+]
+
+{ #category : #transmissions }
+FQQueryConfigurationPresenter >> notifyAcceptedQuery [
+	self notifyPropertyChanged: #acceptedQuery
 ]
 
 { #category : #transmissions }

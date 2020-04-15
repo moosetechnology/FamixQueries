@@ -9,7 +9,7 @@ FQStringPropertyQueryBuilder class >> queryClass [
 	^ FQStringQuery
 ]
 
-{ #category : #running }
+{ #category : #initialization }
 FQStringPropertyQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query comparator: self availableComparators first

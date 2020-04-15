@@ -1,17 +1,11 @@
 Class {
 	#name : #FQCodeAcceptedPort,
-	#superclass : #SpOutputPort,
+	#superclass : #SpInputPort,
 	#category : #'Famix-Queries-Browser-Tools'
 }
 
-{ #category : #attaching }
-FQCodeAcceptedPort >> attachTransmission: aTransmission [
-	"override this to add specific transmissions"
-
-	self destinationPresenter
-		whenTextIsAcceptedDo: [ :text | 
-			"Not sure if destinationPresenter is the code or the configuration browser. To test when code presenters transmissions are ok in Spec"
-			self
-				transmitWith: aTransmission
-				value: (self destinationPresenter updateQueryBuilderFor: text) ]
+{ #category : #'handling transmission' }
+FQCodeAcceptedPort >> incomingTransmission: aText from: outPort [
+	self flag: 'Repare when code transmission in Spec is OK.'.
+	self destinationPresenter updateQueryBuilderFor: aText
 ]

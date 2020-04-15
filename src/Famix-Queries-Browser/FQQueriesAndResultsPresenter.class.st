@@ -58,6 +58,11 @@ FQQueriesAndResultsPresenter class >> open [
 	self default openWithSpec
 ]
 
+{ #category : #initialization }
+FQQueriesAndResultsPresenter >> defineInputPorts [
+	^ {FQQueryPort new}
+]
+
 { #category : #accessing }
 FQQueriesAndResultsPresenter >> entities [
 	^ entities
@@ -71,11 +76,28 @@ FQQueriesAndResultsPresenter >> entities: anObject [
 { #category : #initialization }
 FQQueriesAndResultsPresenter >> initializePresenters [
 	super initializePresenters.
-	queriesTree := self newList headerTitle: 'Queries'.
+	queriesTree := self newList
+		headerTitle: 'Queries';
+		display: [ :query | query class label ];
+		whenSelectionChangedDo: [ :selection | 
+			self entities: (selection selectedItem runOn: self entities).
+			queryResult items: self entities.
+			self update ].
 	newQueryButton := self newButton
 		label: 'Create a new query';
-		whenActivatedDo: [ (FQBrowserPresenter owner: self on: self entities) openWithSpec ].
+		iconName: #add;
+		whenActivatedDo: [ (FQBrowserPresenter on: self) openWithSpec ].
 	queryResult := self newList
 		items: self entities;
 		display: #name
+]
+
+{ #category : #'as yet unclassified' }
+FQQueriesAndResultsPresenter >> updateForQuery: aQuery [
+	queriesTree
+		items: queriesTree items , {aQuery};
+		selectItem: aQuery.
+	self
+		flag:
+			'This is not pretty but will change when the way queries are displayed changes'
 ]

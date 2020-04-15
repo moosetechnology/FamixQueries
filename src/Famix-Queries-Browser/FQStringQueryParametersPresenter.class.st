@@ -5,7 +5,7 @@ Class {
 		'comparators',
 		'valueInput'
 	],
-	#category : #'Famix-Queries-Browser-PropertyQueryParametersPresenters'
+	#category : #'Famix-Queries-Browser-PropertyQuery-SubPresenters'
 }
 
 { #category : #specs }

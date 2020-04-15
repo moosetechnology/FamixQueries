@@ -5,7 +5,7 @@ Class {
 		'queryBuilder',
 		'properties'
 	],
-	#category : #'Famix-Queries-Browser-PropertyQueryParametersPresenters'
+	#category : #'Famix-Queries-Browser-PropertyQuery-SubPresenters'
 }
 
 { #category : #specs }
@@ -15,7 +15,7 @@ FQPropertyQueryParametersPresenter class >> defaultSpec [
 
 { #category : #initialization }
 FQPropertyQueryParametersPresenter class >> label [
-	^ self queryBuilderClass queryClass label
+	^ self queryBuilderClass queryClass label substrings first
 ]
 
 { #category : #initialization }

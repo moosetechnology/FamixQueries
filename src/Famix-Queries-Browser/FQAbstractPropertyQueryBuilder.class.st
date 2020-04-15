@@ -39,7 +39,7 @@ FQAbstractPropertyQueryBuilder >> changeQueryValueToCompare: aValue [
 	^ query valueToCompare: aValue
 ]
 
-{ #category : #running }
+{ #category : #initialization }
 FQAbstractPropertyQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	self availableProperties

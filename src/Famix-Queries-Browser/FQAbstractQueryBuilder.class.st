@@ -21,7 +21,7 @@ FQAbstractQueryBuilder class >> queryClass [
 	^ self subclassResponsibility
 ]
 
-{ #category : #running }
+{ #category : #update }
 FQAbstractQueryBuilder >> applyQuery [
 	^ query runOn: entities
 ]
@@ -52,7 +52,7 @@ FQAbstractQueryBuilder >> initialize [
 	self initializeQuery
 ]
 
-{ #category : #running }
+{ #category : #update }
 FQAbstractQueryBuilder >> initializeQuery [
 	query := self class queryClass new
 ]
@@ -72,7 +72,7 @@ FQAbstractQueryBuilder >> queryIsValid [
 	^ query isValid
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #update }
 FQAbstractQueryBuilder >> updateForQueryCode: aString [
 	| newQuery |
 	self flag: 'Todo : modify current query and adapt presenter'.
