@@ -149,15 +149,16 @@ FQBrowserPresenter >> initializePresenters [
 	entitiesList := self newList
 		items: self entities;
 		display: #name.
-
 	resultListTitle := self newLabel label: 'Query result'.
 	resultList := self newList
 		display: #name;
 		yourself.
-
+	queryCode := self newCode
+		whenTextIsAcceptedDo: [ :code | self updateForAcceptedCode: code ];
+		yourself.
 	self initializeQueryTypesDropList.
 	"This will initialize queryConfiguration  according to the selected type of query. 
-		See updateQueryConfiguration: "
+		See updateQueryConfigurationPresenter: "
 	queryTypesDropList selectIndex: 1
 ]
 
@@ -187,22 +188,14 @@ FQBrowserPresenter >> showQueryResult: queryResult [
 ]
 
 { #category : #update }
-FQBrowserPresenter >> updateQueryCode [
-	queryCode := queryConfigurationPresenter queryBuilder queryIsValid
-		ifTrue: [ self newCode ]
-		ifFalse: [ self newText ].
-	self flag: 'ugly, use transmissions'.
+FQBrowserPresenter >> updateForAcceptedCode: code [
+	queryConfigurationPresenter updateForQueryCode: code.
 	queryCode
-		whenTextIsAcceptedDo: [ :code | 
-			| newQuery |
-			newQuery := Smalltalk compiler evaluate: code.
-			queryCode
-				text:
-					(EFFormatter
-						format:
-							(RBParser
-								parseExpression: (String streamContents: [ :s | newQuery storeOn: s ]))).
-			queryConfigurationPresenter updateForQuery: newQuery ]
+		text: queryConfigurationPresenter queryBuilder codeToDisplay.
+	self
+		flag:
+			'This should go through transmissions but TextChangedPort is buggy in Spec for now. 
+			FQCodeAcceptedPort is ready to accept a transmission'
 ]
 
 { #category : #update }
@@ -210,7 +203,6 @@ FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
 	queryConfigurationPresenter := aPresenterClass
 		owner: self
 		on: self entities.
-	self updateQueryCode.
 	self updateTransmissions.
 	queryConfigurationPresenter transmitInitialConfiguration.
 	self update
@@ -220,7 +212,10 @@ FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
 FQBrowserPresenter >> updateTransmissions [
 	queryConfigurationPresenter
 		transmitTo: queryCode
-		transform: [ :queryBuilder | queryBuilder codeToDisplay ].
+		transform: [ :queryBuilder | 
+			queryCode syntaxHighlight: queryBuilder queryIsValid.
+			queryBuilder codeToDisplay ].
+	
 	queryConfigurationPresenter
 		transmitTo: resultList
 		transform: [ :queryBuilder | 
@@ -229,5 +224,7 @@ FQBrowserPresenter >> updateTransmissions [
 			result
 				ifEmpty: [ resultList headerTitle: 'No entities to show' ]
 				ifNotEmpty: [ resultList hideHeaderTitle ].
-			result ]
+			result ].
+	
+	"queryCode transmitTo: queryConfigurationPresenter" "Bug in Spec"
 ]

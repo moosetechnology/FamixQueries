@@ -77,11 +77,6 @@ FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 ]
 
 { #category : #'widgets configuration' }
-FQScopeQueriesPresenter >> noScopeMessage [
-	^ self instantiate: FQNoPossibleQueryPresenter on: 'scope'
-]
-
-{ #category : #'widgets configuration' }
 FQScopeQueriesPresenter >> scopesDropList [
 	^ self newDropList
 		items: self queryBuilder availableScopes;
@@ -95,6 +90,6 @@ FQScopeQueriesPresenter >> scopesDropList [
 FQScopeQueriesPresenter >> updateAccordingToDirection [
 	scopesDropList := self queryBuilder availableScopes
 		ifNotEmpty: [ self scopesDropList ]
-		ifEmpty: [ self noScopeMessage ].
+		ifEmpty: [ self noParameterMessage: 'scope' ].
 	self update
 ]

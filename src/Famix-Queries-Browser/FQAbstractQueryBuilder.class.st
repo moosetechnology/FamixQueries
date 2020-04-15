@@ -71,3 +71,11 @@ FQAbstractQueryBuilder >> query: anObject [
 FQAbstractQueryBuilder >> queryIsValid [
 	^ query isValid
 ]
+
+{ #category : #'as yet unclassified' }
+FQAbstractQueryBuilder >> updateForQueryCode: aString [
+	| newQuery |
+	self flag: 'Todo : modify current query and adapt presenter'.
+	newQuery := Smalltalk compiler evaluate: aString.	"self queryClass readFrom: aString"
+	newQuery inspect
+]

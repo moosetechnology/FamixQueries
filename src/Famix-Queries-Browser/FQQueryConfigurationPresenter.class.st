@@ -52,6 +52,11 @@ FQQueryConfigurationPresenter >> button [
 ]
 
 { #category : #initialization }
+FQQueryConfigurationPresenter >> defineInputPorts [
+	^ {FQCodeAcceptedPort new}
+]
+
+{ #category : #initialization }
 FQQueryConfigurationPresenter >> defineOutputPorts [
 	^ {FQQueryHasChangedPort new}
 ]
@@ -65,6 +70,11 @@ FQQueryConfigurationPresenter >> initialize [
 FQQueryConfigurationPresenter >> modelPrefix [
 	^ queryBuilder entities first mooseModel className
 		withoutSuffix: 'Model'
+]
+
+{ #category : #update }
+FQQueryConfigurationPresenter >> noParameterMessage: aParameterName [
+	^ self instantiate: FQNoPossibleQueryPresenter on: aParameterName
 ]
 
 { #category : #transmissions }
@@ -91,7 +101,7 @@ FQQueryConfigurationPresenter >> transmitInitialConfiguration [
 ]
 
 { #category : #update }
-FQQueryConfigurationPresenter >> updateForQuery: newQuery [
-	self flag: 'TODO: Match with modifierd code'.
-	"newQuery inspect"
+FQQueryConfigurationPresenter >> updateForQueryCode: newQueryCode [
+	self flag: 'TODO: Match with modified code'.
+	queryBuilder updateForQueryCode: newQueryCode
 ]

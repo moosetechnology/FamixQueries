@@ -84,11 +84,6 @@ FQNavigationQueriesPresenter >> initializePresenters [
 	self initializeAssociationsCheckBoxes
 ]
 
-{ #category : #update }
-FQNavigationQueriesPresenter >> noAssociationMessage [
-	^ self instantiate: FQNoPossibleQueryPresenter on: 'associations'
-]
-
 { #category : #'widgets configuration' }
 FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 	| checkBoxes |
@@ -122,7 +117,7 @@ FQNavigationQueriesPresenter >> showAssociationsCheckBoxes [
 { #category : #update }
 FQNavigationQueriesPresenter >> updateAccordingToDirection [
 	queryBuilder availableAssociations
-		ifEmpty: [ associationsCheckBoxes := self noAssociationMessage ]
+		ifEmpty: [ associationsCheckBoxes := self noParameterMessage: 'association' ]
 		ifNotEmpty: [ self showAssociationsCheckBoxes ].
 	self update
 ]

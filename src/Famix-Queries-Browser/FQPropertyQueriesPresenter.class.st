@@ -82,12 +82,13 @@ FQPropertyQueriesPresenter >> updateQueryBuilderFor: aPropertyQueryParametersPre
 ]
 
 { #category : #update }
-FQPropertyQueriesPresenter >> updateQueryParametersPresenter: aPropertyQueryParametersPresenterClass [
-	self updateQueryBuilderFor: aPropertyQueryParametersPresenterClass.
+FQPropertyQueriesPresenter >> updateQueryParametersPresenter: aParameterPresenterClass [
+	
+	self updateQueryBuilderFor: aParameterPresenterClass.
+	
 	queryParametersPresenter := queryBuilder queryIsValid
-		ifTrue: [ aPropertyQueryParametersPresenterClass owner: self on: queryBuilder ]
-		ifFalse: [ self
-				instantiate: FQNoPossibleQueryPresenter
-				on: aPropertyQueryParametersPresenterClass label , ' property ' ].
+		ifTrue: [ aParameterPresenterClass owner: self on: queryBuilder ]
+		ifFalse: [ self noParameterMessage: aParameterPresenterClass label , ' property ' ].
+
 	self update
 ]

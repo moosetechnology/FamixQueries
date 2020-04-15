@@ -14,6 +14,11 @@ FQTypeQueriesPresenter class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #specs }
+FQTypeQueriesPresenter class >> maximumCheckBoxesPerColumn [
+	^ 6
+]
+
 { #category : #'instance creation' }
 FQTypeQueriesPresenter class >> open [
 	<script>
@@ -52,28 +57,8 @@ FQTypeQueriesPresenter >> initializePresenters [
 { #category : #initialization }
 FQTypeQueriesPresenter >> initializeTypeCheckBoxes [
 	queryBuilder availableTypes
-		ifEmpty: [ self resetLayoutForImpossibleQuery.
-			^ self ].
-	typesCheckBoxes := SpDynamicPresentersListBuilder new
-		modelObjects: queryBuilder availableTypes;
-		presenter: SpCheckBoxPresenter
-			configuredAs:
-				[ :presenter :type | self configureTypeCheckBox: presenter forType: type ];
-		layoutBuilder: self typeCheckBoxesLayout;
-		build.
-	self setTypeCheckBoxesConstraints
-]
-
-{ #category : #update }
-FQTypeQueriesPresenter >> resetLayoutForImpossibleQuery [
-	layout := SpBoxLayout newHorizontal
-		add:
-			(SpBoxLayout newVertical
-				add: 'No type available'
-				expand: true
-				fill: true
-				padding: 55);
-		yourself
+		ifEmpty: [ typesCheckBoxes := self noParameterMessage: 'type' ]
+		ifNotEmpty: [ self showTypesCheckBoxes ]
 ]
 
 { #category : #'widgets configuration' }
@@ -93,7 +78,21 @@ FQTypeQueriesPresenter >> setTypeCheckBoxesConstraints [
 ]
 
 { #category : #'widgets configuration' }
+FQTypeQueriesPresenter >> showTypesCheckBoxes [
+	typesCheckBoxes := SpDynamicPresentersListBuilder new
+		modelObjects: queryBuilder availableTypes;
+		presenter: SpCheckBoxPresenter
+			configuredAs:
+				[ :presenter :type | self configureTypeCheckBox: presenter forType: type ];
+		layoutBuilder: self typeCheckBoxesLayout;
+		build.
+	^ self setTypeCheckBoxesConstraints
+]
+
+{ #category : #'widgets configuration' }
 FQTypeQueriesPresenter >> typeCheckBoxesLayout [
 	^ SpDynamicTopToBottomColumnsLayout
-		columns: (queryBuilder availableTypes size min: 6)	"min: 6 to avoid more than 6 checkboxes / column"
+		columns:
+			(queryBuilder availableTypes size
+				min: self class maximumCheckBoxesPerColumn)
 ]
