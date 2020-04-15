@@ -1,17 +1,17 @@
 Class {
 	#name : #FQTypeQueriesPresenter,
 	#superclass : #FQQueryConfigurationPresenter,
-	#instVars : [
-		'typesCheckBoxes'
-	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
 { #category : #specs }
-FQTypeQueriesPresenter class >> defaultSpec [
-	^ SpBoxLayout newHorizontal
-		add: #typesCheckBoxes;
-		yourself
+FQTypeQueriesPresenter class >> addFirstParameterToLayout: defaultLayout [
+	defaultLayout add: #firstParameter width: 0
+]
+
+{ #category : #specs }
+FQTypeQueriesPresenter class >> firstParameterConstraints [
+	^ [ :constraint | constraint width: 0 ]
 ]
 
 { #category : #specs }
@@ -51,13 +51,14 @@ FQTypeQueriesPresenter >> configureTypeCheckBox: checkBox forType: type [
 { #category : #initialization }
 FQTypeQueriesPresenter >> initializePresenters [
 	super initializePresenters.
+	firstParameter := self newNullPresenter hide.
 	self initializeTypeCheckBoxes
 ]
 
 { #category : #initialization }
 FQTypeQueriesPresenter >> initializeTypeCheckBoxes [
 	queryBuilder availableTypes
-		ifEmpty: [ typesCheckBoxes := self noParameterMessage: 'type' ]
+		ifEmpty: [ secondParameter := self noParameterMessage: 'type' ]
 		ifNotEmpty: [ self showTypesCheckBoxes ]
 ]
 
@@ -65,7 +66,7 @@ FQTypeQueriesPresenter >> initializeTypeCheckBoxes [
 FQTypeQueriesPresenter >> setTypeCheckBoxesConstraints [
 	| checkBoxes |
 	"Dynamic layout involves NullPresenters, they will not answer to #enable, #disable"
-	checkBoxes := typesCheckBoxes presenters
+	checkBoxes := secondParameter presenters
 		reject: [ :pres | pres class == SpNullPresenter ].
 
 	"Disable active checkBoxes when the query has only one type, to forbid removing it."
@@ -79,7 +80,7 @@ FQTypeQueriesPresenter >> setTypeCheckBoxesConstraints [
 
 { #category : #'widgets configuration' }
 FQTypeQueriesPresenter >> showTypesCheckBoxes [
-	typesCheckBoxes := SpDynamicPresentersListBuilder new
+	secondParameter := SpDynamicPresentersListBuilder new
 		modelObjects: queryBuilder availableTypes;
 		presenter: SpCheckBoxPresenter
 			configuredAs:

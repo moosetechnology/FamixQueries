@@ -1,20 +1,8 @@
 Class {
 	#name : #FQNavigationQueriesPresenter,
 	#superclass : #FQQueryConfigurationPresenter,
-	#instVars : [
-		'directionsRadioButtons',
-		'associationsCheckBoxes'
-	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
-
-{ #category : #specs }
-FQNavigationQueriesPresenter class >> defaultSpec [
-	^ SpBoxLayout newHorizontal
-		add: #directionsRadioButtons;
-		add: #associationsCheckBoxes;
-		yourself
-]
 
 { #category : #'instance creation' }
 FQNavigationQueriesPresenter class >> open [
@@ -64,7 +52,7 @@ FQNavigationQueriesPresenter >> initializeAssociationsCheckBoxes [
 
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
-	directionsRadioButtons := SpDynamicPresentersListBuilder new
+	firstParameter := SpDynamicPresentersListBuilder new
 		modelObjects: queryBuilder availableDirections;
 		presenter: SpRadioButtonPresenter
 			configuredAs: [ :radioButton :direction | 
@@ -73,8 +61,8 @@ FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
 				forNavigationDirection: direction ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
-	directionsRadioButtons presenters first
-		associatedRadioButtons: directionsRadioButtons presenters allButFirst
+	firstParameter presenters first
+		associatedRadioButtons: firstParameter presenters allButFirst
 ]
 
 { #category : #initialization }
@@ -88,7 +76,7 @@ FQNavigationQueriesPresenter >> initializePresenters [
 FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 	| checkBoxes |
 	"Dynamic layout involves NullPresenters, they will not answer to #enable, #disable"
-	checkBoxes := associationsCheckBoxes presenters
+	checkBoxes := secondParameter presenters
 		reject: [ :pres | pres class == SpNullPresenter ].
 
 	"Disable active checkBoxes when the query has only one type, to forbid removing it."
@@ -102,7 +90,7 @@ FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 
 { #category : #update }
 FQNavigationQueriesPresenter >> showAssociationsCheckBoxes [
-	associationsCheckBoxes := SpDynamicPresentersListBuilder new
+	secondParameter := SpDynamicPresentersListBuilder new
 		modelObjects: queryBuilder allPossibleAssociations;
 		presenter: SpCheckBoxPresenter
 			configuredAs: [ :checkBox :associationTrait | 
@@ -117,7 +105,7 @@ FQNavigationQueriesPresenter >> showAssociationsCheckBoxes [
 { #category : #update }
 FQNavigationQueriesPresenter >> updateAccordingToDirection [
 	queryBuilder availableAssociations
-		ifEmpty: [ associationsCheckBoxes := self noParameterMessage: 'association' ]
+		ifEmpty: [ secondParameter := self noParameterMessage: 'association' ]
 		ifNotEmpty: [ self showAssociationsCheckBoxes ].
 	self update
 ]

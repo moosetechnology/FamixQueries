@@ -1,19 +1,19 @@
 Class {
 	#name : #FQScopeQueriesPresenter,
 	#superclass : #FQQueryConfigurationPresenter,
-	#instVars : [
-		'scopesDropList',
-		'directionsRadioButtons'
-	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
 { #category : #specs }
-FQScopeQueriesPresenter class >> defaultSpec [
-	^ SpBoxLayout newHorizontal
-		add: #directionsRadioButtons;
-		add: self scopes;
-		yourself
+FQScopeQueriesPresenter class >> addSecondParameterToLayout: defaultLayout [
+	defaultLayout
+		add:
+			(SpBoxLayout newVertical
+				add: #secondParameter
+					expand: true
+					fill: true
+					padding: 50;
+				yourself)
 ]
 
 { #category : #specs }
@@ -25,16 +25,6 @@ FQScopeQueriesPresenter class >> open [
 { #category : #initialization }
 FQScopeQueriesPresenter class >> queryBuilderClass [
 	^ FQScopeQueryBuilder
-]
-
-{ #category : #specs }
-FQScopeQueriesPresenter class >> scopes [
-	^ SpBoxLayout newVertical
-		add: #scopesDropList
-			expand: true
-			fill: true
-			padding: 50;
-		yourself
 ]
 
 { #category : #specs }
@@ -65,15 +55,15 @@ FQScopeQueriesPresenter >> initializeScopesDropList [
 
 { #category : #initialization }
 FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
-	directionsRadioButtons := SpDynamicPresentersListBuilder new
+	firstParameter := SpDynamicPresentersListBuilder new
 		modelObjects: queryBuilder availableScopeDirections;
 		presenter: SpRadioButtonPresenter
 			configuredAs:
 				[ :radioButton :direction | self configureRadioButton: radioButton forScopeDirection: direction ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
-	directionsRadioButtons presenters first
-		associatedRadioButtons: directionsRadioButtons presenters allButFirst
+	firstParameter presenters first
+		associatedRadioButtons: firstParameter presenters allButFirst
 ]
 
 { #category : #'widgets configuration' }
@@ -88,7 +78,7 @@ FQScopeQueriesPresenter >> scopesDropList [
 
 { #category : #update }
 FQScopeQueriesPresenter >> updateAccordingToDirection [
-	scopesDropList := self queryBuilder availableScopes
+	secondParameter := self queryBuilder availableScopes
 		ifNotEmpty: [ self scopesDropList ]
 		ifEmpty: [ self noParameterMessage: 'scope' ].
 	self update

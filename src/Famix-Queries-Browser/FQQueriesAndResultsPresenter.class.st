@@ -58,6 +58,11 @@ FQQueriesAndResultsPresenter class >> open [
 	self default openWithSpec
 ]
 
+{ #category : #specs }
+FQQueriesAndResultsPresenter class >> title [
+	^ 'Query Browser'
+]
+
 { #category : #initialization }
 FQQueriesAndResultsPresenter >> defineInputPorts [
 	^ {FQQueryPort new}

@@ -19,9 +19,20 @@ FQQueryCreationCommand class >> defaultName [
 	^ 'Create Query'
 ]
 
+{ #category : #testing }
+FQQueryCreationCommand >> canBeExecuted [
+	self flag: 'Should be used when Spec is upgraded'.
+	^ self queryBuilder queryIsValid
+]
+
 { #category : #executing }
 FQQueryCreationCommand >> execute [
-	self context notifyAcceptedQuery	"queryBuilder applyQuery inspect"
+	self queryBuilder applyQuery
+		ifEmpty: [ (UIManager default
+				confirm: 'Do you want to apply this query ?'
+				label: 'This query result is empty')
+				ifFalse: [ ^ self ] ].
+	self context notifyAcceptedQuery
 ]
 
 { #category : #accessing }

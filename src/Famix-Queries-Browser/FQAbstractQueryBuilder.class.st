@@ -23,6 +23,7 @@ FQAbstractQueryBuilder class >> queryClass [
 
 { #category : #update }
 FQAbstractQueryBuilder >> applyQuery [
+	self flag: 'Maybe use a cache ?'.
 	^ query runOn: entities
 ]
 

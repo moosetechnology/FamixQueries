@@ -5,24 +5,33 @@ Class {
 		'#queryBuilder',
 		'#queryHasChanged => SpObservableSlot',
 		'#acceptedQuery => SpObservableSlot',
-		'#applyQueryButton'
+		'#firstParameter',
+		'#secondParameter'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
 { #category : #specs }
-FQQueryConfigurationPresenter class >> creationButton [
-	^ SpBoxLayout newVertical
-		add: #applyQueryButton
-			expand: true
-			fill: true
-			padding: self paddingAroundButton;
-		yourself
+FQQueryConfigurationPresenter class >> addFirstParameterToLayout: defaultLayout [
+	"Override for specific constraints"
+
+	defaultLayout add: #firstParameter
+]
+
+{ #category : #specs }
+FQQueryConfigurationPresenter class >> addSecondParameterToLayout: defaultLayout [
+	"Override for specific constraints"
+
+	defaultLayout add: #secondParameter
 ]
 
 { #category : #specs }
 FQQueryConfigurationPresenter class >> defaultSpec [
-	^ self subclassResponsibility
+	| defaultLayout |
+	defaultLayout := SpBoxLayout newHorizontal.
+	self addFirstParameterToLayout: defaultLayout.
+	self addSecondParameterToLayout: defaultLayout.
+	^ defaultLayout
 ]
 
 { #category : #initialization }
@@ -35,21 +44,9 @@ FQQueryConfigurationPresenter class >> open [
 	(self on: FQBrowserPresenter classesAndMethods) openWithSpec
 ]
 
-{ #category : #specs }
-FQQueryConfigurationPresenter class >> paddingAroundButton [
-	"Should be changed if FQBrowserPresenter>>queryConfigurationHeight is changed"
-
-	^ 50
-]
-
 { #category : #initialization }
 FQQueryConfigurationPresenter class >> queryBuilderClass [
 	^ self subclassResponsibility
-]
-
-{ #category : #accessing }
-FQQueryConfigurationPresenter >> button [
-	^ applyQueryButton
 ]
 
 { #category : #initialization }

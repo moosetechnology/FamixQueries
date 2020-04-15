@@ -1,19 +1,14 @@
 Class {
 	#name : #FQPropertyQueriesPresenter,
 	#superclass : #FQQueryConfigurationPresenter,
-	#instVars : [
-		'propertyTypeRadioButtons',
-		'queryParametersPresenter'
-	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
 { #category : #specs }
-FQPropertyQueriesPresenter class >> defaultSpec [
-	^ SpBoxLayout newHorizontal
-		add: #propertyTypeRadioButtons;
-		add: #queryParametersPresenter width: 200;
-		yourself
+FQPropertyQueriesPresenter class >> addSecondParameterToLayout: defaultLayout [
+	"Override for specific constraints"
+
+	defaultLayout add: #secondParameter width: 200
 ]
 
 { #category : #initialization }
@@ -35,6 +30,13 @@ FQPropertyQueriesPresenter class >> propertyQueryConfigurationPresenters [
 { #category : #initialization }
 FQPropertyQueriesPresenter class >> queryBuilderClass [
 	^ self propertyQueryConfigurationPresenters first queryBuilderClass
+]
+
+{ #category : #specs }
+FQPropertyQueriesPresenter class >> secondParameterLayout [
+	"Override for specific constraints"
+
+	layout add: #secondParameter width: 200
 ]
 
 { #category : #specs }
@@ -60,7 +62,7 @@ FQPropertyQueriesPresenter >> initializePresenters [
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
-	propertyTypeRadioButtons := SpDynamicPresentersListBuilder new
+	firstParameter := SpDynamicPresentersListBuilder new
 		modelObjects: self class propertyQueryConfigurationPresenters;
 		presenter: SpRadioButtonPresenter
 			configuredAs: [ :radioButton :configurationPresenterClass | 
@@ -69,8 +71,8 @@ FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 				forSubPresenter: configurationPresenterClass ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
-	propertyTypeRadioButtons presenters first
-		associatedRadioButtons: propertyTypeRadioButtons presenters allButFirst
+	firstParameter presenters first
+		associatedRadioButtons: firstParameter presenters allButFirst
 ]
 
 { #category : #update }
@@ -86,7 +88,7 @@ FQPropertyQueriesPresenter >> updateQueryParametersPresenter: aParameterPresente
 	
 	self updateQueryBuilderFor: aParameterPresenterClass.
 	
-	queryParametersPresenter := queryBuilder queryIsValid
+	secondParameter := queryBuilder queryIsValid
 		ifTrue: [ aParameterPresenterClass owner: self on: queryBuilder ]
 		ifFalse: [ self noParameterMessage: aParameterPresenterClass label , ' property ' ].
 

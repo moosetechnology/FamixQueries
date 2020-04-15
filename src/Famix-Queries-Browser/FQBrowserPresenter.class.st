@@ -134,7 +134,7 @@ FQBrowserPresenter class >> queryResultLayout [
 
 { #category : #specs }
 FQBrowserPresenter class >> title [
-	^ 'Famix Query Browser'
+	^ 'Query Creation'
 ]
 
 { #category : #entities }
@@ -215,6 +215,46 @@ FQBrowserPresenter >> showQueryResult: queryResult [
 	self update
 ]
 
+{ #category : #transmissions }
+FQBrowserPresenter >> transmitAcceptedQuery [
+	queryConfigurationPresenter
+		transmitPort: #acceptedQuery
+		do: [ :query | 
+			superPresenter updateForQuery: query.
+			self window close ]
+]
+
+{ #category : #transmissions }
+FQBrowserPresenter >> transmitFromCodeToConfig [
+	self
+		flag:
+			'Bug in spec transmission from SpCodePresenter. 
+	FQCodeAcceptedPort is ready to accept a transmission'
+	"queryCode transmitTo: queryConfigurationPresenter"
+]
+
+{ #category : #transmissions }
+FQBrowserPresenter >> transmitFromConfigToCode [
+	queryConfigurationPresenter
+		transmitTo: queryCode
+		transform: [ :queryBuilder | 
+			queryCode syntaxHighlight: queryBuilder queryIsValid.
+			queryBuilder codeToDisplay ]
+]
+
+{ #category : #transmissions }
+FQBrowserPresenter >> transmitFromConfigToResultList [
+	queryConfigurationPresenter
+		transmitTo: resultList
+		transform: [ :queryBuilder | 
+			| result |
+			result := queryBuilder applyQuery.
+			result
+				ifEmpty: [ resultList headerTitle: 'No entities to show' ]
+				ifNotEmpty: [ resultList hideHeaderTitle ].
+			result ]
+]
+
 { #category : #update }
 FQBrowserPresenter >> updateForAcceptedCode: code [
 	queryConfigurationPresenter updateForQueryCode: code.
@@ -244,23 +284,7 @@ FQBrowserPresenter >> updateToolBar [
 
 { #category : #update }
 FQBrowserPresenter >> updateTransmissions [
-	queryConfigurationPresenter
-		transmitTo: queryCode
-		transform: [ :queryBuilder | 
-			queryCode syntaxHighlight: queryBuilder queryIsValid.
-			queryBuilder codeToDisplay ].
-	queryConfigurationPresenter
-		transmitTo: resultList
-		transform: [ :queryBuilder | 
-			| result |
-			result := queryBuilder applyQuery.
-			result
-				ifEmpty: [ resultList headerTitle: 'No entities to show' ]
-				ifNotEmpty: [ resultList hideHeaderTitle ].
-			result ].
-
-	"queryCode transmitTo: queryConfigurationPresenter"	"Bug in Spec"
-	queryConfigurationPresenter
-		transmitPort: #acceptedQuery
-		do: [ :query | superPresenter updateForQuery: query ]
+	self transmitFromConfigToCode.
+	self transmitFromConfigToResultList.
+	self transmitAcceptedQuery
 ]
