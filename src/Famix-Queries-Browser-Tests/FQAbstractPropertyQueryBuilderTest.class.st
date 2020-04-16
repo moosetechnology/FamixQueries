@@ -4,6 +4,11 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
 
+{ #category : #testing }
+FQAbstractPropertyQueryBuilderTest class >> isAbstract [
+	^ self == FQAbstractPropertyQueryBuilderTest
+]
+
 { #category : #running }
 FQAbstractPropertyQueryBuilderTest >> setQueryBuilder [
 	queryBuilder := self queryBuilderClass

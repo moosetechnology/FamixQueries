@@ -17,7 +17,7 @@ FQTypeQueryBuilderTest >> testAddTypeToQuery [
 
 { #category : #tests }
 FQTypeQueryBuilderTest >> testErrorOnInitializeQuery [
-	self impossibleInitializationShouldRaiseAnError
+	super testErrorOnInitializeQuery
 ]
 
 { #category : #tests }

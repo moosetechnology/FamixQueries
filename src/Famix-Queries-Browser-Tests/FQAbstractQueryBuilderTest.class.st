@@ -9,11 +9,9 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
 
-{ #category : #tests }
-FQAbstractQueryBuilderTest >> impossibleInitializationShouldRaiseAnError [
-	self
-		should: [ self queryBuilderClass newWithEntities: noEntities ]
-		raise: ImpossibleQuery
+{ #category : #testing }
+FQAbstractQueryBuilderTest class >> isAbstract [
+	^ self == FQAbstractQueryBuilderTest
 ]
 
 { #category : #running }
@@ -43,4 +41,11 @@ FQAbstractQueryBuilderTest >> setUp [
 	entities := MooseGroup withAll: self model.
 	noEntities := MooseGroup new.
 	self setQueryBuilder
+]
+
+{ #category : #tests }
+FQAbstractQueryBuilderTest >> testErrorOnInitializeQuery [
+	self
+		should: [ self queryBuilderClass newWithEntities: noEntities ]
+		raise: ImpossibleQuery
 ]

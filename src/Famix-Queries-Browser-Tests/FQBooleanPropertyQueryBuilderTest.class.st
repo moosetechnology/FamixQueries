@@ -17,7 +17,7 @@ FQBooleanPropertyQueryBuilderTest >> testChangeQueryProperty [
 
 { #category : #tests }
 FQBooleanPropertyQueryBuilderTest >> testErrorOnInitializeQuery [
-	self impossibleInitializationShouldRaiseAnError
+	super testErrorOnInitializeQuery
 ]
 
 { #category : #tests }

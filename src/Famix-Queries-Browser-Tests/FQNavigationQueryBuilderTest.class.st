@@ -27,7 +27,7 @@ FQNavigationQueryBuilderTest >> testChangeQueryNavigationDirection [
 
 { #category : #tests }
 FQNavigationQueryBuilderTest >> testErrorOnInitializeQuery [
-	self impossibleInitializationShouldRaiseAnError
+	super testErrorOnInitializeQuery
 ]
 
 { #category : #tests }

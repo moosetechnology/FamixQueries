@@ -23,7 +23,7 @@ FQNumericPropertyQueryBuilderTest >> testChangeQueryProperty [
 
 { #category : #tests }
 FQNumericPropertyQueryBuilderTest >> testErrorOnInitializeQuery [
-	self impossibleInitializationShouldRaiseAnError
+	super testErrorOnInitializeQuery
 ]
 
 { #category : #tests }

@@ -23,7 +23,7 @@ FQStringPropertyQueryBuilderTest >> testChangeQueryProperty [
 
 { #category : #tests }
 FQStringPropertyQueryBuilderTest >> testErrorOnInitializeQuery [
-	self impossibleInitializationShouldRaiseAnError
+	super testErrorOnInitializeQuery
 ]
 
 { #category : #tests }

@@ -25,7 +25,7 @@ FQScopeQueryBuilderTest >> testChangeQueryScope [
 
 { #category : #tests }
 FQScopeQueryBuilderTest >> testErrorOnInitializeQuery [
-	self impossibleInitializationShouldRaiseAnError
+	super testErrorOnInitializeQuery
 ]
 
 { #category : #initialization }
