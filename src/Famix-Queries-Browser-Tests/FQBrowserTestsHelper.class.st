@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'model'
 	],
-	#category : #'Famix-Queries-Browser-Tests-Helper'
+	#category : #'Famix-Queries-Browser-Tests-Helpers'
 }
 
 { #category : #entities }

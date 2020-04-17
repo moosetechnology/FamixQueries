@@ -22,6 +22,22 @@ FQNavigationQueriesPresenterTest >> radioButtons [
 ]
 
 { #category : #tests }
+FQNavigationQueriesPresenterTest >> testCheckBoxesDisabledWhenUnvailable [
+	| unAvailableAssociations |
+	unAvailableAssociations := self queryBuilder allPossibleAssociations \ self queryBuilder availableAssociations.
+	
+	self
+		assert: (self checkBoxes reject: #isEnabled) size
+		equals: unAvailableAssociations size.
+	
+	self
+		assertCollection: (self checkBoxes reject: #isEnabled thenCollect: #label)
+		hasSameElements:
+			(unAvailableAssociations
+				collect: [ :association | association name withoutPrefix: 'FamixT' ])
+]
+
+{ #category : #tests }
 FQNavigationQueriesPresenterTest >> testCheckBoxesEnabledOnlyWhenAvailable [
 	| availableAssociations |
 	availableAssociations := self queryBuilder availableAssociations.

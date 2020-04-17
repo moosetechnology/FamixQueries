@@ -35,6 +35,7 @@ FQQueryConfigurationPresenterTest >> queryBuilder [
 
 { #category : #running }
 FQQueryConfigurationPresenterTest >> setUp [
+	super setUp.
 	helper := FQBrowserTestsHelper new.
 	presenter := self presenterClass on: helper classesAndMethods
 ]

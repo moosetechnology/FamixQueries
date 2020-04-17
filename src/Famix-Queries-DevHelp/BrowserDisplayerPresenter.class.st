@@ -29,7 +29,7 @@ BrowserDisplayerPresenter class >> title [
 { #category : #initialization }
 BrowserDisplayerPresenter >> initializePresenters [
 	open := self newButton
-		whenActivatedDo: [ FQQueriesAndResultsPresenter open ];
+		whenActivatedDo: [ FQQueriesBrowserPresenter open ];
 		iconName: #smallFind;
 		label: 'Open Famix Query Browser';
 		color: UITheme current selectionColor ;
