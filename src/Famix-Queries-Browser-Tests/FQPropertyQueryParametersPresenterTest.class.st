@@ -29,6 +29,14 @@ FQPropertyQueryParametersPresenterTest >> setUp [
 ]
 
 { #category : #tests }
+FQPropertyQueryParametersPresenterTest >> testMatchesQuery [
+	presenter properties selectIndex: 2.
+	self
+		assert: presenter queryBuilder query property
+		equals: presenter properties selectedItem
+]
+
+{ #category : #tests }
 FQPropertyQueryParametersPresenterTest >> testNormalQueryBuilderInitialization [
 	self
 		assert: presenter queryBuilder class

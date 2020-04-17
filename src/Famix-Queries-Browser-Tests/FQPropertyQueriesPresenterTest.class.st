@@ -28,6 +28,23 @@ FQPropertyQueriesPresenterTest >> testFirstParameter [
 ]
 
 { #category : #tests }
+FQPropertyQueriesPresenterTest >> testNoAvailableProperties [
+	presenter := self presenterClass on: helper noEntities.
+	(self radioButtons detect: [ :rb | rb label = 'Number' ]) click.
+	self
+		assert: presenter secondParameter class
+		identicalTo: FQNoPossibleQueryPresenter.
+	(self radioButtons detect: [ :rb | rb label = 'String' ]) click.
+	self
+		assert: presenter secondParameter class
+		identicalTo: FQNoPossibleQueryPresenter.
+	(self radioButtons detect: [ :rb | rb label = 'Boolean' ]) click.
+	self
+		assert: presenter secondParameter class
+		identicalTo: FQNoPossibleQueryPresenter
+]
+
+{ #category : #tests }
 FQPropertyQueriesPresenterTest >> testQueryBuilderType [
 	(self radioButtons detect: [ :rb | rb label ='Boolean' ]) click.
 	self assert: presenter secondParameter class identicalTo: FQBooleanQueryParametersPresenter.

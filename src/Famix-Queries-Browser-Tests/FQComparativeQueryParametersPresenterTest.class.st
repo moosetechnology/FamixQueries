@@ -23,6 +23,19 @@ FQComparativeQueryParametersPresenterTest >> testComparatorsDropList [
 ]
 
 { #category : #tests }
+FQComparativeQueryParametersPresenterTest >> testMatchesQuery [
+	super testMatchesQuery.
+	presenter comparators selectIndex: 2.
+	self
+		assert: presenter queryBuilder query comparator
+		equals: presenter comparators selectedItem.
+	presenter valueInput text: self valueInput.
+	self
+		assert: presenter queryBuilder query valueToCompare asString
+		equals: presenter valueInput text
+]
+
+{ #category : #tests }
 FQComparativeQueryParametersPresenterTest >> testQueryValidity [
 	super testQueryValidity.
 	presenter comparators selectIndex: 2.
