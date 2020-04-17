@@ -26,11 +26,6 @@ FQNavigationQueryBuilderTest >> testChangeQueryNavigationDirection [
 ]
 
 { #category : #tests }
-FQNavigationQueryBuilderTest >> testErrorOnInitializeQuery [
-	super testErrorOnInitializeQuery
-]
-
-{ #category : #tests }
 FQNavigationQueryBuilderTest >> testRemoveAssociationFromQuery [
 	queryBuilder removeAssociationFromQuery: FamixTInvocation.
 	self

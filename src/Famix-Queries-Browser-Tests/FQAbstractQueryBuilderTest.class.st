@@ -2,9 +2,8 @@ Class {
 	#name : #FQAbstractQueryBuilderTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'entities',
 		'queryBuilder',
-		'noEntities'
+		'helper'
 	],
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
@@ -15,15 +14,8 @@ FQAbstractQueryBuilderTest class >> isAbstract [
 ]
 
 { #category : #running }
-FQAbstractQueryBuilderTest >> model [
-	| model |
-	model := FamixStModel new.
-	MoosePharoImporterTask new
-		importerClass: SmalltalkImporter;
-		model: model;
-		addFromPackageNamed: #'Moose-TestResources-LAN';
-		run.
-	^ model
+FQAbstractQueryBuilderTest >> entities [
+	^ helper modelExample
 ]
 
 { #category : #initialization }
@@ -32,20 +24,14 @@ FQAbstractQueryBuilderTest >> queryBuilderClass [
 ]
 
 { #category : #running }
-FQAbstractQueryBuilderTest >> setQueryBuilder [
-	queryBuilder := self queryBuilderClass newWithEntities: entities
-]
-
-{ #category : #running }
 FQAbstractQueryBuilderTest >> setUp [
-	entities := MooseGroup withAll: self model.
-	noEntities := MooseGroup new.
-	self setQueryBuilder
+	helper := FQBrowserTestsHelper new.
+	queryBuilder := self queryBuilderClass newWithEntities: self entities
 ]
 
 { #category : #tests }
 FQAbstractQueryBuilderTest >> testErrorOnInitializeQuery [
 	self
-		should: [ self queryBuilderClass newWithEntities: noEntities ]
+		should: [ self queryBuilderClass newWithEntities: helper noEntities ]
 		raise: ImpossibleQuery
 ]

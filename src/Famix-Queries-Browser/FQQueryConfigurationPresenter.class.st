@@ -60,11 +60,6 @@ FQQueryConfigurationPresenter >> defineOutputPorts [
 	FQAcceptedQueryPort new}
 ]
 
-{ #category : #initialization }
-FQQueryConfigurationPresenter >> initialize [
-	super initialize.
-]
-
 { #category : #accessing }
 FQQueryConfigurationPresenter >> modelPrefix [
 	^ queryBuilder entities first mooseModel className

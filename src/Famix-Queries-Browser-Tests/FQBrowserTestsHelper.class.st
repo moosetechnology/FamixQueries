@@ -1,14 +1,14 @@
 Class {
-	#name : #FQPresenterTestsHelper,
+	#name : #FQBrowserTestsHelper,
 	#superclass : #Object,
 	#instVars : [
 		'model'
 	],
-	#category : #'Famix-Queries-Browser-Tests-Presenters'
+	#category : #'Famix-Queries-Browser-Tests-Helper'
 }
 
 { #category : #entities }
-FQPresenterTestsHelper >> classesAndMethods [
+FQBrowserTestsHelper >> classesAndMethods [
 	^ MooseGroup
 		withAll:
 			{self modelExample allModelClasses.
@@ -16,12 +16,12 @@ FQPresenterTestsHelper >> classesAndMethods [
 ]
 
 { #category : #entities }
-FQPresenterTestsHelper >> entitiesWithNoDownScope [
+FQBrowserTestsHelper >> entitiesWithNoDownScope [
 	^ self modelExample allWithType: FamixStAnnotationInstanceAttribute
 ]
 
 { #category : #entities }
-FQPresenterTestsHelper >> modelExample [
+FQBrowserTestsHelper >> modelExample [
 	^ model
 		ifNil: [ model := FamixStModel new.
 			MoosePharoImporterTask new
@@ -32,12 +32,12 @@ FQPresenterTestsHelper >> modelExample [
 ]
 
 { #category : #entities }
-FQPresenterTestsHelper >> noEntities [
+FQBrowserTestsHelper >> noEntities [
 	^ MooseGroup new
 ]
 
 { #category : #entities }
-FQPresenterTestsHelper >> unnamedEntities [
+FQBrowserTestsHelper >> unnamedEntities [
 	^ MooseGroup
 		withAll:
 			(self modelExample

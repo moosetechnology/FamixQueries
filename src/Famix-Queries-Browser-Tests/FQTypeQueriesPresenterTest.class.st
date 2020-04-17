@@ -5,99 +5,113 @@ Class {
 }
 
 { #category : #helpers }
+FQTypeQueriesPresenterTest >> checkBoxes [
+	^ presenter secondParameter presenters
+		reject: [ :pres | pres class = SpNullPresenter ]
+]
+
+{ #category : #helpers }
 FQTypeQueriesPresenterTest >> presenterClass [
 	^ FQTypeQueriesPresenter
 ]
 
 { #category : #tests }
-FQTypeQueriesPresenterTest >> testCheckBoxesAction [
-	| checkBoxes initialSize |
-	checkBoxes := presenter secondParameter presenters
-		reject: [ :pres | pres class = SpNullPresenter ].
-	initialSize := presenter queryBuilder currentQueryTypes size.	
-		
-	checkBoxes first click.
-	self
-		assert: presenter queryBuilder currentQueryTypes size
-		equals: initialSize - 1.
+FQTypeQueriesPresenterTest >> testCheckBoxesChangeQueryTypes [
+	| initialSize |
+	initialSize := self currentQuery types size.
 	
-	checkBoxes first click.
-	self
-		assert: presenter queryBuilder currentQueryTypes size
-		equals: initialSize
+	self checkBoxes first click.
+	self assert: self currentQuery types size equals: initialSize - 1.
+	
+	self checkBoxes first click.
+	self assert: self currentQuery types size equals: initialSize
 ]
 
 { #category : #tests }
 FQTypeQueriesPresenterTest >> testCheckBoxesMatchAvailableTypes [
-	| checkBoxes types |
+	| types |
+	types := self queryBuilder availableTypes.
 	
-	checkBoxes := presenter secondParameter presenters
-		reject: [ :pres | pres class = SpNullPresenter ].
-	types := presenter queryBuilder availableTypes.
+	self assert: self checkBoxes size equals: types size.
 	
-	self assert: checkBoxes size equals: types size.
-
-	types
-		do: [ :type | 
-			self assert:
-				((checkBoxes collect: #label)
-					includes: (type name withoutPrefix: presenter modelPrefix)) ]
+	self
+		assertCollection:
+			(types
+				collect: [ :type | type name withoutPrefix: presenter modelPrefix ])
+		hasSameElements: (self checkBoxes collect: #label)
 ]
 
 { #category : #tests }
 FQTypeQueriesPresenterTest >> testCheckBoxesMatchQuery [
-	| checkBoxes |
-	checkBoxes := presenter secondParameter presenters
-		reject: [ :pres | pres class = SpNullPresenter ].
+	| currentQueryTypes |
 	
-	checkBoxes first click.
+	self checkBoxes first click.
 	
-	presenter queryBuilder currentQueryTypes
-		do: [ :type | | typeName |
-			typeName := type name withoutPrefix: presenter modelPrefix.
-			self assert:
-				((checkBoxes select: #state thenCollect: #label) includes: typeName).
-			self deny:
-				((checkBoxes reject: #state thenCollect: #label) includes: typeName) ]
-]
-
-{ #category : #running }
-FQTypeQueriesPresenterTest >> testFirstParameter [
+	currentQueryTypes := self currentQuery types
+		collect: [ :type | type name withoutPrefix: presenter modelPrefix ].
+	
 	self
-		assert: presenter firstParameter class
-		identicalTo: SpNullPresenter
+		assertCollection: currentQueryTypes
+		hasSameElements: (self checkBoxes select: #state thenCollect: #label).
+	
+	self
+		denyCollection: currentQueryTypes
+		hasSameElements: (self checkBoxes reject: #state thenCollect: #label)
 ]
 
 { #category : #tests }
-FQTypeQueriesPresenterTest >> testLastCheckBoxeDisabled [
-	| checkBoxes |
-	checkBoxes := presenter secondParameter presenters
-		reject: [ :pres | pres class = SpNullPresenter ].
-	
-	checkBoxes first click.
-
-	self assert: checkBoxes first isEnabled.
-	self deny: checkBoxes first state.
-	
-	self deny: checkBoxes second isEnabled.
-	self assert: checkBoxes second state.
-]
-
-{ #category : #running }
-FQTypeQueriesPresenterTest >> testQueryBuilderInitialization [
-	super testQueryBuilderInitialization
-]
-
-{ #category : #running }
-FQTypeQueriesPresenterTest >> testSecondParameter [
+FQTypeQueriesPresenterTest >> testFirstParameter [
 	self
-		assert:
-			(presenter secondParameter presenters
-				allSatisfy:
-					[ :pres | pres class == SpCheckBoxPresenter 
-					"Could be some SpNullPresenter depending on the dynamic layout 
-					but it is not the case here, since there is only 2 types"
-					and: [ pres state ] ]).
+		assert: presenter firstParameter class
+		identicalTo: SpNullPresenter.
+		
+	presenter := self presenterClass on: helper noEntities.
+	self
+		assert: presenter firstParameter class
+		identicalTo: SpNullPresenter.
+]
+
+{ #category : #tests }
+FQTypeQueriesPresenterTest >> testLastCheckBoxeDisabled [	
+	self checkBoxes first click.
+	self assert: self checkBoxes first isEnabled.
+	self deny: self checkBoxes first state.
+	
+	"Only 1 type in the query, cannot be removed, so the checkBox is disabled"
+	self deny: self checkBoxes second isEnabled.
+	self assert: self checkBoxes second state.
+	
+	self checkBoxes first click.
+	"Two types in the query, so one of them can be removed. All checkboxes are enabled"
+	self assert: self checkBoxes first isEnabled.
+	self assert: self checkBoxes first state.
+	self assert: self checkBoxes second isEnabled.
+	self assert: self checkBoxes second state.
+]
+
+{ #category : #tests }
+FQTypeQueriesPresenterTest >> testQueryValidity [
+	self assert: self queryBuilder queryIsValid.
+
+	self checkBoxes first click.
+	self assert: self queryBuilder queryIsValid.
+
+	self checkBoxes first click.
+	self assert: self queryBuilder queryIsValid.
+
+	presenter := self presenterClass on: helper noEntities.
+	self deny: self queryBuilder queryIsValid 
+]
+
+{ #category : #tests }
+FQTypeQueriesPresenterTest >> testSecondParameter [
+	self assert:
+		(presenter secondParameter presenters
+			allSatisfy:
+				[ :pres | pres class == SpCheckBoxPresenter 
+				"Could be some SpNullPresenter depending on the dynamic layout 
+				but it is not the case here, since there is only 2 types"
+				and: [ pres state ] ]).
 				
 	presenter := self presenterClass on: helper noEntities.
 	self

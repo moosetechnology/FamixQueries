@@ -21,7 +21,12 @@ FQScopeQueryBuilder >> availableScopes [
 
 { #category : #'changing parameters' }
 FQScopeQueryBuilder >> changeQueryDirection: aDirection [
-	query direction: aDirection
+	self flag: 'Manage this better'.
+	query direction: aDirection.
+	query scope: nil.
+	self availableScopes
+		ifEmpty: [ ImpossibleQuery signal: 'No scope available' ].
+	query scope: self availableScopes first
 ]
 
 { #category : #'changing parameters' }

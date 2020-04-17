@@ -22,11 +22,6 @@ FQStringPropertyQueryBuilderTest >> testChangeQueryProperty [
 ]
 
 { #category : #tests }
-FQStringPropertyQueryBuilderTest >> testErrorOnInitializeQuery [
-	super testErrorOnInitializeQuery
-]
-
-{ #category : #tests }
 FQStringPropertyQueryBuilderTest >> testInitializeQuery [
 	self assert: queryBuilder query class identicalTo: FQStringQuery.
 	self

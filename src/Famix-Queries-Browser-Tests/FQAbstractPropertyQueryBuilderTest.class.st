@@ -10,11 +10,6 @@ FQAbstractPropertyQueryBuilderTest class >> isAbstract [
 ]
 
 { #category : #running }
-FQAbstractPropertyQueryBuilderTest >> setQueryBuilder [
-	queryBuilder := self queryBuilderClass
-		newWithEntities:
-			(MooseGroup
-				withAll:
-					{self model allModelClasses.
-					self model allModelMethods} flatten)
+FQAbstractPropertyQueryBuilderTest >> entities [
+	^ helper classesAndMethods
 ]

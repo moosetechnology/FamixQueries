@@ -23,11 +23,6 @@ FQScopeQueryBuilderTest >> testChangeQueryScope [
 	self assert: queryBuilder query scope identicalTo: FamixStAttribute
 ]
 
-{ #category : #tests }
-FQScopeQueryBuilderTest >> testErrorOnInitializeQuery [
-	super testErrorOnInitializeQuery
-]
-
 { #category : #initialization }
 FQScopeQueryBuilderTest >> testInitializeQuery [
 	self assert: queryBuilder query class identicalTo: FQScopeQuery.
