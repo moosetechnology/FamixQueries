@@ -105,6 +105,23 @@ FQNavigationQueriesPresenterTest >> testFirstParameter [
 ]
 
 { #category : #tests }
+FQNavigationQueriesPresenterTest >> testQueryValidity [
+	self assert: self queryBuilder queryIsValid.
+	
+	(self radioButtons detect: [ :rb | rb state not ]) click.
+	self assert: self queryBuilder queryIsValid.
+	
+	self checkBoxes first click.
+	self assert: self queryBuilder queryIsValid.
+
+	self checkBoxes first click.
+	self assert: self queryBuilder queryIsValid.
+	
+	presenter := self presenterClass on: helper noEntities.
+	self deny: self queryBuilder queryIsValid.
+]
+
+{ #category : #tests }
 FQNavigationQueriesPresenterTest >> testRadioButtonsMatchAvailableDirections [
 	| directions |
 	directions := self queryBuilder availableDirections.

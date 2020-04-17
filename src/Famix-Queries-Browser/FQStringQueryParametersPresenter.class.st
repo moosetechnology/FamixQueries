@@ -1,10 +1,6 @@
 Class {
 	#name : #FQStringQueryParametersPresenter,
 	#superclass : #FQPropertyQueryParametersPresenter,
-	#instVars : [
-		'comparators',
-		'valueInput'
-	],
 	#category : #'Famix-Queries-Browser-PropertyQuery-SubPresenters'
 }
 

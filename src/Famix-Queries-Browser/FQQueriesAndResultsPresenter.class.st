@@ -97,7 +97,7 @@ FQQueriesAndResultsPresenter >> initializePresenters [
 		display: #name
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #update }
 FQQueriesAndResultsPresenter >> updateForQuery: aQuery [
 	queriesTree
 		items: queriesTree items , {aQuery};

@@ -3,7 +3,9 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'queryBuilder',
-		'properties'
+		'properties',
+		'comparators',
+		'valueInput'
 	],
 	#category : #'Famix-Queries-Browser-PropertyQuery-SubPresenters'
 }

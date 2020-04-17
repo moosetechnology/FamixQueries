@@ -99,13 +99,16 @@ FQScopeQueriesPresenterTest >> testQueryValidity [
 	(self radioButtons detect: [ :rb | rb state not ]) click.
 	self assert: self queryBuilder queryIsValid.
 	
-	self dropList  selectItem: (self dropList listItems copyWithout: self dropList selectedItem) anyOne.
+	self dropList selectItem: (self dropList listItems copyWithout: self dropList selectedItem) anyOne.
 	self assert: self queryBuilder queryIsValid.
 	
 	presenter := self presenterClass on: helper entitiesWithNoDownScope.
 	(presenter firstParameter presenters
 		detect: [ :radioButton | radioButton label = 'Down' ]) click.
 	self deny: self queryBuilder queryIsValid.
+	
+	presenter := self presenterClass on: helper noEntities.
+	self deny: self queryBuilder queryIsValid. 
 ]
 
 { #category : #tests }

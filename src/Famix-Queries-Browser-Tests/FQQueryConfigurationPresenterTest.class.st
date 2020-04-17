@@ -19,6 +19,11 @@ FQQueryConfigurationPresenterTest >> currentQuery [
 ]
 
 { #category : #helpers }
+FQQueryConfigurationPresenterTest >> initializePresenterForNoEntities [
+	presenter := self presenterClass on: helper noEntities
+]
+
+{ #category : #helpers }
 FQQueryConfigurationPresenterTest >> presenterClass [
 	^ self subclassResponsibility
 ]
@@ -36,7 +41,7 @@ FQQueryConfigurationPresenterTest >> setUp [
 
 { #category : #tests }
 FQQueryConfigurationPresenterTest >> testImpossibleQueryBuilderInitialization [
-	presenter := self presenterClass on: helper noEntities.
+	self initializePresenterForNoEntities.
 	self
 		assert: presenter queryBuilder class
 		identicalTo: self presenterClass queryBuilderClass.

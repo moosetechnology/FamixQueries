@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #entities }
+FQBrowserTestsHelper >> classes [
+	^ MooseGroup withAll: {self modelExample allModelClasses} flatten
+]
+
+{ #category : #entities }
 FQBrowserTestsHelper >> classesAndMethods [
 	^ MooseGroup
 		withAll:

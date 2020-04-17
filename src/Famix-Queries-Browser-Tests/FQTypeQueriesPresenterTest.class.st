@@ -100,7 +100,7 @@ FQTypeQueriesPresenterTest >> testQueryValidity [
 	self assert: self queryBuilder queryIsValid.
 
 	presenter := self presenterClass on: helper noEntities.
-	self deny: self queryBuilder queryIsValid 
+	self deny: self queryBuilder queryIsValid
 ]
 
 { #category : #tests }
