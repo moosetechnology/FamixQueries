@@ -27,7 +27,6 @@ FQPropertyQueryParametersPresenter class >> queryBuilderClass [
 
 { #category : #initialization }
 FQPropertyQueryParametersPresenter >> initializePresenters [
-	super initializePresenters.
 	properties := self newDropList
 		items: queryBuilder availableProperties;
 		display: [ :prop | prop asString ];

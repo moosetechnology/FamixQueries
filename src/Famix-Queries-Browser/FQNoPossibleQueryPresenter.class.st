@@ -25,7 +25,6 @@ FQNoPossibleQueryPresenter class >> defaultSpec [
 
 { #category : #initialization }
 FQNoPossibleQueryPresenter >> initializePresenters [
-	super initializePresenters.
 	label := self newLabel
 		label: textToDisplay;
 		yourself.

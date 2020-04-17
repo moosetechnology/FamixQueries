@@ -1,5 +1,5 @@
 Class {
-	#name : #FQBrowserPresenter,
+	#name : #FQQueryCreationPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
 		'entities',
@@ -9,13 +9,13 @@ Class {
 		'resultList',
 		'toolBar',
 		'resultListTitle',
-		'superPresenter'
+		'browser'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
 { #category : #commands }
-FQBrowserPresenter class >> buildCommandsGroupWith: presenter forRoot: aCmCommandsGroup [
+FQQueryCreationPresenter class >> buildCommandsGroupWith: presenter forRoot: aCmCommandsGroup [
 	aCmCommandsGroup
 		register:
 			((FQQueryCreationCommand forSpecWithIconNamed: #glamorousGo)
@@ -23,7 +23,7 @@ FQBrowserPresenter class >> buildCommandsGroupWith: presenter forRoot: aCmComman
 ]
 
 { #category : #entities }
-FQBrowserPresenter class >> classesAndMethods [
+FQQueryCreationPresenter class >> classesAndMethods [
 	| model |
 	model := self modelExample.
 	^ MooseGroup
@@ -33,7 +33,7 @@ FQBrowserPresenter class >> classesAndMethods [
 ]
 
 { #category : #'instance creation' }
-FQBrowserPresenter class >> default [
+FQQueryCreationPresenter class >> default [
 	^ self basicNew
 		entities: self classesAndMethods;
 		initialize;
@@ -41,7 +41,7 @@ FQBrowserPresenter class >> default [
 ]
 
 { #category : #specs }
-FQBrowserPresenter class >> defaultSpec [
+FQQueryCreationPresenter class >> defaultSpec [
 	^ SpBoxLayout newVertical
 		add: #toolBar height: self toolbarHeight;
 		add:
@@ -54,12 +54,12 @@ FQBrowserPresenter class >> defaultSpec [
 ]
 
 { #category : #entities }
-FQBrowserPresenter class >> entitiesWithNoDownScope [
+FQQueryCreationPresenter class >> entitiesWithNoDownScope [
 	^ self modelExample allWithType: FamixStAnnotationInstanceAttribute
 ]
 
 { #category : #entities }
-FQBrowserPresenter class >> modelExample [
+FQQueryCreationPresenter class >> modelExample [
 	| model |
 	model := FamixStModel new.
 	MoosePharoImporterTask new
@@ -71,7 +71,7 @@ FQBrowserPresenter class >> modelExample [
 ]
 
 { #category : #'instance creation' }
-FQBrowserPresenter class >> newWhithoutEntities [
+FQQueryCreationPresenter class >> newWhithoutEntities [
 	^ self basicNew
 		entities: self noEntities;
 		initialize;
@@ -79,29 +79,29 @@ FQBrowserPresenter class >> newWhithoutEntities [
 ]
 
 { #category : #entities }
-FQBrowserPresenter class >> noEntities [
+FQQueryCreationPresenter class >> noEntities [
 	^ MooseGroup new
 ]
 
 { #category : #'instance creation' }
-FQBrowserPresenter class >> open [
+FQQueryCreationPresenter class >> open [
 	<script>
 	self default openWithSpec
 ]
 
 { #category : #'instance creation' }
-FQBrowserPresenter class >> openOn: aMooseGroup [
+FQQueryCreationPresenter class >> openOn: aMooseGroup [
 	(self on: aMooseGroup) openWithSpec
 ]
 
 { #category : #'instance creation' }
-FQBrowserPresenter class >> openWithoutEntities [
+FQQueryCreationPresenter class >> openWithoutEntities [
 	<script>
 	self newWhithoutEntities openWithSpec
 ]
 
 { #category : #specs }
-FQBrowserPresenter class >> queryConfigurationHeight [
+FQQueryCreationPresenter class >> queryConfigurationHeight [
 	"If this is changed, FQQueryConfigurationPresenter>>paddingAroundButton should also be changed."
 
 	"(Padding around button = 50) * 2 + (button height = 29, see SpAbstractPresenter>>buttonHeight)"
@@ -110,7 +110,7 @@ FQBrowserPresenter class >> queryConfigurationHeight [
 ]
 
 { #category : #specs }
-FQBrowserPresenter class >> queryConfigurationLayout [
+FQQueryCreationPresenter class >> queryConfigurationLayout [
 	^ SpBoxLayout newVertical
 		add: #queryTypesDropList height: self buttonHeight;
 		add: #queryConfigurationPresenter
@@ -120,12 +120,12 @@ FQBrowserPresenter class >> queryConfigurationLayout [
 ]
 
 { #category : #'query configuration presenters' }
-FQBrowserPresenter class >> queryConfigurationPresenters [
+FQQueryCreationPresenter class >> queryConfigurationPresenters [
 	^ FQQueryConfigurationPresenter allSubclasses
 ]
 
 { #category : #specs }
-FQBrowserPresenter class >> queryResultLayout [
+FQQueryCreationPresenter class >> queryResultLayout [
 	^ SpBoxLayout newVertical
 		add: #resultListTitle height: self labelHeight;
 		add: #resultList;
@@ -133,12 +133,12 @@ FQBrowserPresenter class >> queryResultLayout [
 ]
 
 { #category : #specs }
-FQBrowserPresenter class >> title [
+FQQueryCreationPresenter class >> title [
 	^ 'Query Creation'
 ]
 
 { #category : #entities }
-FQBrowserPresenter class >> unnamedEntities [
+FQQueryCreationPresenter class >> unnamedEntities [
 	| model |
 	model := self modelExample.
 	^ MooseGroup
@@ -146,46 +146,44 @@ FQBrowserPresenter class >> unnamedEntities [
 ]
 
 { #category : #commands }
-FQBrowserPresenter >> applyQuery: aQuery [
-	self owner updateForNewQuery: aQuery
+FQQueryCreationPresenter >> applyQuery: aQuery [
+	browser updateForNewQuery: aQuery
 ]
 
 { #category : #commands }
-FQBrowserPresenter >> defaultCommandsContext [
+FQQueryCreationPresenter >> defaultCommandsContext [
 	^ queryConfigurationPresenter
 ]
 
 { #category : #accessing }
-FQBrowserPresenter >> entities [
+FQQueryCreationPresenter >> entities [
 	^ entities
 ]
 
 { #category : #accessing }
-FQBrowserPresenter >> entities: anObject [
+FQQueryCreationPresenter >> entities: anObject [
 	entities := anObject
 ]
 
 { #category : #initialization }
-FQBrowserPresenter >> initializePresenters [
-	toolBar := self newToolBar "beText".
+FQQueryCreationPresenter >> initializePresenters [
+	"beText"
+	toolBar := self newToolBar.
 	queryCode := self newCode
 		whenTextIsAcceptedDo: [ :code | self updateForAcceptedCode: code ];
 		yourself.
-	resultListTitle := self newLabel label: 'Query result'.
-	resultList := self newList
-		display: #name;
-		yourself.
+	self initializeResultList.
 	self initializeQueryTypesDropList.
 	self initializeQueryConfigurationPresenter
 ]
 
 { #category : #initialization }
-FQBrowserPresenter >> initializeQueryConfigurationPresenter [
+FQQueryCreationPresenter >> initializeQueryConfigurationPresenter [
 	queryTypesDropList selectIndex: 1
 ]
 
 { #category : #initialization }
-FQBrowserPresenter >> initializeQueryTypesDropList [
+FQQueryCreationPresenter >> initializeQueryTypesDropList [
 	queryTypesDropList := self newDropList
 		items: self class queryConfigurationPresenters;
 		display: [ :presenter | presenter label ];
@@ -193,19 +191,27 @@ FQBrowserPresenter >> initializeQueryTypesDropList [
 ]
 
 { #category : #initialization }
-FQBrowserPresenter >> initializeWindow: aWindowPresenter [
+FQQueryCreationPresenter >> initializeResultList [
+	resultListTitle := self newLabel label: 'Query result'.
+	resultList := self newList
+		display: #name;
+		yourself
+]
+
+{ #category : #initialization }
+FQQueryCreationPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 650 @ 400
 ]
 
 { #category : #initialization }
-FQBrowserPresenter >> setModelBeforeInitialization: aQueriesPresenter [
+FQQueryCreationPresenter >> setModelBeforeInitialization: aQueriesPresenter [
 	entities := aQueriesPresenter entities.
-	superPresenter := aQueriesPresenter
+	browser := aQueriesPresenter
 ]
 
 { #category : #update }
-FQBrowserPresenter >> showQueryResult: queryResult [
+FQQueryCreationPresenter >> showQueryResult: queryResult [
 	resultList
 		unselectAll;
 		items: queryResult.
@@ -216,16 +222,16 @@ FQBrowserPresenter >> showQueryResult: queryResult [
 ]
 
 { #category : #transmissions }
-FQBrowserPresenter >> transmitAcceptedQuery [
+FQQueryCreationPresenter >> transmitAcceptedQuery [
 	queryConfigurationPresenter
 		transmitPort: #acceptedQuery
 		do: [ :query | 
-			superPresenter updateForQuery: query.
+			browser updateForQuery: query.
 			self window close ]
 ]
 
 { #category : #transmissions }
-FQBrowserPresenter >> transmitFromCodeToConfig [
+FQQueryCreationPresenter >> transmitFromCodeToConfig [
 	self
 		flag:
 			'Bug in spec transmission from SpCodePresenter. 
@@ -234,7 +240,7 @@ FQBrowserPresenter >> transmitFromCodeToConfig [
 ]
 
 { #category : #transmissions }
-FQBrowserPresenter >> transmitFromConfigToCode [
+FQQueryCreationPresenter >> transmitFromConfigToCode [
 	queryConfigurationPresenter
 		transmitTo: queryCode
 		transform: [ :queryBuilder | 
@@ -243,7 +249,7 @@ FQBrowserPresenter >> transmitFromConfigToCode [
 ]
 
 { #category : #transmissions }
-FQBrowserPresenter >> transmitFromConfigToResultList [
+FQQueryCreationPresenter >> transmitFromConfigToResultList [
 	queryConfigurationPresenter
 		transmitTo: resultList
 		transform: [ :queryBuilder | 
@@ -256,7 +262,7 @@ FQBrowserPresenter >> transmitFromConfigToResultList [
 ]
 
 { #category : #update }
-FQBrowserPresenter >> updateForAcceptedCode: code [
+FQQueryCreationPresenter >> updateForAcceptedCode: code [
 	queryConfigurationPresenter updateForQueryCode: code.
 	queryCode
 		text: queryConfigurationPresenter queryBuilder codeToDisplay.
@@ -267,7 +273,7 @@ FQBrowserPresenter >> updateForAcceptedCode: code [
 ]
 
 { #category : #update }
-FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
+FQQueryCreationPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
 	queryConfigurationPresenter := aPresenterClass
 		owner: self
 		on: self entities.
@@ -278,12 +284,12 @@ FQBrowserPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
 ]
 
 { #category : #update }
-FQBrowserPresenter >> updateToolBar [
+FQQueryCreationPresenter >> updateToolBar [
 	toolBar fillWith: self rootCommandsGroup
 ]
 
 { #category : #update }
-FQBrowserPresenter >> updateTransmissions [
+FQQueryCreationPresenter >> updateTransmissions [
 	self transmitFromConfigToCode.
 	self transmitFromConfigToResultList.
 	self transmitAcceptedQuery

@@ -41,7 +41,7 @@ FQQueryConfigurationPresenter class >> label [
 
 { #category : #'instance creation' }
 FQQueryConfigurationPresenter class >> open [
-	(self on: FQBrowserPresenter classesAndMethods) openWithSpec
+	(self on: FQQueryCreationPresenter classesAndMethods) openWithSpec
 ]
 
 { #category : #initialization }

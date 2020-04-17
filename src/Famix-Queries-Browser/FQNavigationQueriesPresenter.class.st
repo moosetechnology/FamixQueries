@@ -67,7 +67,6 @@ FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
 
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializePresenters [
-	super initializePresenters.
 	self initializeDirectionRadioButtons.
 	self initializeAssociationsCheckBoxes
 ]

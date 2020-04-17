@@ -50,7 +50,6 @@ FQTypeQueriesPresenter >> configureTypeCheckBox: checkBox forType: type [
 
 { #category : #initialization }
 FQTypeQueriesPresenter >> initializePresenters [
-	super initializePresenters.
 	firstParameter := self newNullPresenter hide.
 	self initializeTypeCheckBoxes
 ]

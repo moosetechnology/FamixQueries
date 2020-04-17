@@ -54,7 +54,6 @@ FQPropertyQueriesPresenter >> configureRadioButton: radioButton forSubPresenter:
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializePresenters [
-	super initializePresenters.
 	self initializeQueryTypeRadioButtons.
 	self
 		updateQueryParametersPresenter: FQBooleanQueryParametersPresenter

@@ -1,5 +1,5 @@
 Class {
-	#name : #FQQueriesAndResultsPresenter,
+	#name : #FQQueriesBrowserPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
 		'queriesTree',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #entities }
-FQQueriesAndResultsPresenter class >> classesAndMethods [
+FQQueriesBrowserPresenter class >> classesAndMethods [
 	| model |
 	model := self modelExample.
 	^ MooseGroup
@@ -21,7 +21,7 @@ FQQueriesAndResultsPresenter class >> classesAndMethods [
 ]
 
 { #category : #'instance creation' }
-FQQueriesAndResultsPresenter class >> default [
+FQQueriesBrowserPresenter class >> default [
 	^ self basicNew
 		entities: self classesAndMethods;
 		initialize;
@@ -29,7 +29,7 @@ FQQueriesAndResultsPresenter class >> default [
 ]
 
 { #category : #specs }
-FQQueriesAndResultsPresenter class >> defaultSpec [
+FQQueriesBrowserPresenter class >> defaultSpec [
 	^ SpPanedLayout newHorizontal
 		add:
 			(SpPanedLayout newVertical
@@ -41,7 +41,7 @@ FQQueriesAndResultsPresenter class >> defaultSpec [
 ]
 
 { #category : #entities }
-FQQueriesAndResultsPresenter class >> modelExample [
+FQQueriesBrowserPresenter class >> modelExample [
 	| model |
 	model := FamixStModel new.
 	MoosePharoImporterTask new
@@ -53,52 +53,66 @@ FQQueriesAndResultsPresenter class >> modelExample [
 ]
 
 { #category : #'instance creation' }
-FQQueriesAndResultsPresenter class >> open [
+FQQueriesBrowserPresenter class >> open [
 	<script>
 	self default openWithSpec
 ]
 
 { #category : #specs }
-FQQueriesAndResultsPresenter class >> title [
+FQQueriesBrowserPresenter class >> title [
 	^ 'Query Browser'
 ]
 
 { #category : #initialization }
-FQQueriesAndResultsPresenter >> defineInputPorts [
+FQQueriesBrowserPresenter >> defineInputPorts [
 	^ {FQQueryPort new}
 ]
 
 { #category : #accessing }
-FQQueriesAndResultsPresenter >> entities [
+FQQueriesBrowserPresenter >> entities [
 	^ entities
 ]
 
 { #category : #accessing }
-FQQueriesAndResultsPresenter >> entities: anObject [
+FQQueriesBrowserPresenter >> entities: anObject [
 	entities := anObject
 ]
 
 { #category : #initialization }
-FQQueriesAndResultsPresenter >> initializePresenters [
-	super initializePresenters.
+FQQueriesBrowserPresenter >> initializePresenters [
+	self initializeQueriesTree.
+	self initializeQueryCreationButton.
+	self initializeQueryResult
+]
+
+{ #category : #initialization }
+FQQueriesBrowserPresenter >> initializeQueriesTree [
 	queriesTree := self newList
 		headerTitle: 'Queries';
 		display: [ :query | query class label ];
 		whenSelectionChangedDo: [ :selection | 
 			self entities: (selection selectedItem runOn: self entities).
 			queryResult items: self entities.
-			self update ].
+			self update ]
+]
+
+{ #category : #initialization }
+FQQueriesBrowserPresenter >> initializeQueryCreationButton [
 	newQueryButton := self newButton
 		label: 'Create a new query';
 		iconName: #add;
-		whenActivatedDo: [ (FQBrowserPresenter on: self) openWithSpec ].
+		whenActivatedDo: [ (FQQueryCreationPresenter on: self) openWithSpec ]
+]
+
+{ #category : #initialization }
+FQQueriesBrowserPresenter >> initializeQueryResult [
 	queryResult := self newList
 		items: self entities;
 		display: #name
 ]
 
 { #category : #update }
-FQQueriesAndResultsPresenter >> updateForQuery: aQuery [
+FQQueriesBrowserPresenter >> updateForQuery: aQuery [
 	queriesTree
 		items: queriesTree items , {aQuery};
 		selectItem: aQuery.

@@ -45,7 +45,6 @@ FQScopeQueriesPresenter >> configureRadioButton: radioButton forScopeDirection: 
 
 { #category : #initialization }
 FQScopeQueriesPresenter >> initializePresenters [
-	super initializePresenters.
 	self intializeDirectionRadioButtons.
 	self initializeScopesDropList
 ]
