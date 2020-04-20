@@ -15,6 +15,18 @@ FQSequenceQuery class >> forQueries: aCollectionOfQueries [
 ]
 
 { #category : #accessing }
+FQSequenceQuery class >> label [
+	self flag: 'Change and test this'.
+	^ 'Sequence query'
+]
+
+{ #category : #comparing }
+FQSequenceQuery >> = aQuery [
+	^ aQuery class == self class
+		and: [ aQuery childrenQueries = childrenQueries ]
+]
+
+{ #category : #accessing }
 FQSequenceQuery >> childrenQueries [
 	^ childrenQueries
 ]

@@ -5,7 +5,8 @@ Class {
 		'queriesTree',
 		'queryResult',
 		'entities',
-		'newQueryButton'
+		'newQueryButton',
+		'queriesCombinator'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -55,7 +56,7 @@ FQQueriesBrowserPresenter class >> modelExample [
 { #category : #'instance creation' }
 FQQueriesBrowserPresenter class >> open [
 	<script>
-	self default openWithSpec
+	(self on: self classesAndMethods) openWithSpec
 ]
 
 { #category : #specs }
@@ -70,7 +71,7 @@ FQQueriesBrowserPresenter >> defineInputPorts [
 
 { #category : #accessing }
 FQQueriesBrowserPresenter >> entities [
-	^ entities
+	^ queriesCombinator currentResult
 ]
 
 { #category : #accessing }
@@ -91,8 +92,8 @@ FQQueriesBrowserPresenter >> initializeQueriesTree [
 		headerTitle: 'Queries';
 		display: [ :query | query class label ];
 		whenSelectionChangedDo: [ :selection | 
-			self entities: (selection selectedItem runOn: self entities).
-			queryResult items: self entities.
+			queryResult
+				items: (queriesCombinator resultOfQuery: selection selectedItem).
 			self update ]
 ]
 
@@ -107,16 +108,13 @@ FQQueriesBrowserPresenter >> initializeQueryCreationButton [
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializeQueryResult [
 	queryResult := self newList
-		items: self entities;
+		items: queriesCombinator initialEntities;
 		display: #name
 ]
 
 { #category : #update }
 FQQueriesBrowserPresenter >> updateForQuery: aQuery [
-	queriesTree
-		items: queriesTree items , {aQuery};
-		selectItem: aQuery.
-	self
-		flag:
-			'This is not pretty but will change when the way queries are displayed changes'
+	queriesCombinator addQueryToSequence: aQuery.
+	queriesTree items: queriesCombinator queries.
+	queriesTree selectItem: queriesCombinator queries last
 ]
