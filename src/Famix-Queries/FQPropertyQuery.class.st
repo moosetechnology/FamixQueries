@@ -14,6 +14,11 @@ FQPropertyQuery class >> availablePropertyTypes [
 	^ FQPropertyQuery allSubclasses
 ]
 
+{ #category : #comparing }
+FQPropertyQuery >> = aQuery [
+	^ self class == aQuery class and: [ property == aQuery property ]
+]
+
 { #category : #'available parameters' }
 FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 	| collectedProperties |

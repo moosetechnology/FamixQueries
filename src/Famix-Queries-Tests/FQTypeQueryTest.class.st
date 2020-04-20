@@ -66,6 +66,32 @@ FQTypeQueryTest >> testDisplayOnTrait [
 		equals: 'aMooseGroup allUsing: FamixTClass'
 ]
 
+{ #category : #tests }
+FQTypeQueryTest >> testEquals [
+	query := self actualClass forType: FamixStClass.
+
+	"Same query"
+	self assert: query equals: (self actualClass forType: FamixStClass).
+
+	"Different types"
+	self
+		deny: query
+		equals:
+			(self actualClass
+				forTypes:
+					{FamixStClass.
+					FamixStMethod}).
+
+	"Different class of query"
+	self
+		deny: query
+		equals:
+			(FQNumericQuery
+				fromProperty: #numberOfMethods
+				comparator: #<=
+				withValue: 5)
+]
+
 { #category : #'tests - adding - removing' }
 FQTypeQueryTest >> testRemoveType [
 	query := self actualClass

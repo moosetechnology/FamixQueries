@@ -18,6 +18,13 @@ FQStringQuery class >> fromProperty: aPropertySelector comparator: aSelector wit
 		yourself
 ]
 
+{ #category : #comparing }
+FQStringQuery >> = aQuery [
+	^ super = aQuery
+		and: [ comparator = aQuery comparator
+				and: [ valueToCompare = aQuery valueToCompare ] ]
+]
+
 { #category : #'available parameters' }
 FQStringQuery >> availableComparators [
 	self flag: 'To improve'.

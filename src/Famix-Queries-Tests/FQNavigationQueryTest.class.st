@@ -104,6 +104,40 @@ FQNavigationQueryTest >> testDisplayOn [
 			result ]) asMooseGroup'
 ]
 
+{ #category : #tests }
+FQNavigationQueryTest >> testEquals [
+	query := FQNavigationQuery
+		direction: FQOutgoingNavigationQueryStrategy
+		association: FQAllAssociationsNavigationQueryStrategy new.
+
+	"Same query"
+	self
+		assert: query
+		equals:
+			(FQNavigationQuery
+				direction: FQOutgoingNavigationQueryStrategy
+				association: FQAllAssociationsNavigationQueryStrategy new).
+
+	"Different direction"
+	self
+		deny: query
+		equals:
+			(FQNavigationQuery
+				direction: FQIncomingNavigationQueryStrategy
+				association: FQAllAssociationsNavigationQueryStrategy new).
+
+	"Different association"
+	self
+		deny: query
+		equals:
+			(FQNavigationQuery
+				direction: FQOutgoingNavigationQueryStrategy
+				association: (FQAssociationNavigationQueryStrategy with: FamixStInvocation)).
+
+	"Different class of query"
+	self deny: query equals: (FQBooleanQuery fromProperty: #isAbstract)
+]
+
 { #category : #'tests - running' }
 FQNavigationQueryTest >> testIncomingInvocation [
 	| grp |

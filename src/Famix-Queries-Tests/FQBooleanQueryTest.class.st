@@ -33,6 +33,28 @@ FQBooleanQueryTest >> testDisplayOn [
 		equals: 'aMooseGroup select: [ :entity | entity isInstanceSide ]'
 ]
 
+{ #category : #tests }
+FQBooleanQueryTest >> testEquals [
+	query := self actualClass fromProperty: #isInstanceSide.
+	
+	"Same query"
+	self
+		assert: query
+		equals: (self actualClass fromProperty: #isInstanceSide).
+
+	"Different property"
+	self deny: query equals: (self actualClass fromProperty: #isAbstract).
+	
+	"Different class of query"
+	self
+		deny: query
+		equals:
+			(FQNumericQuery
+				fromProperty: #numberOfMethods
+				comparator: #<=
+				withValue: 5)
+]
+
 { #category : #'tests - available parameters' }
 FQBooleanQueryTest >> testNoAvailableProperties [
 	| availableProperties |

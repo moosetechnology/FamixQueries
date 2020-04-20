@@ -43,6 +43,38 @@ FQScopeQueryTest >> testDisplayOn [
 			'(MooseObjectQueryResult withAll: aMooseGroup) withScope: FamixStMethod'
 ]
 
+{ #category : #tests }
+FQScopeQueryTest >> testEquals [
+	query := FQScopeQuery
+		forScope: FamixStMethod
+		direction: FQAbstractScopeDirection defaultDirection.
+
+	"Same query"
+	self
+		assert: query
+		equals:
+			(FQScopeQuery
+				forScope: FamixStMethod
+				direction: FQAbstractScopeDirection defaultDirection).
+
+	"Different direction"
+	self
+		deny: query
+		equals:
+			(FQScopeQuery
+				forScope: FamixStClass
+				direction: FQAbstractScopeDirection defaultDirection).
+
+	"Different association"
+	self
+		deny: query
+		equals:
+			(FQScopeQuery forScope: FamixStMethod direction: FQScopeDownDirection).
+
+	"Different class of query"
+	self deny: query equals: (FQBooleanQuery fromProperty: #isAbstract)
+]
+
 { #category : #'tests - running' }
 FQScopeQueryTest >> testRunOn [
 	| classes queryResult expectedResult |

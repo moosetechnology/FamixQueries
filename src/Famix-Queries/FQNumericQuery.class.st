@@ -18,6 +18,13 @@ FQNumericQuery class >> fromProperty: aPropertySelector comparator: aComparisonS
 		yourself
 ]
 
+{ #category : #comparing }
+FQNumericQuery >> = aQuery [
+	^ super = aQuery
+		and: [ comparator = aQuery comparator
+				and: [ valueToCompare = aQuery valueToCompare ] ]
+]
+
 { #category : #'available parameters' }
 FQNumericQuery >> availableComparators [
 	self flag: 'To improve'.

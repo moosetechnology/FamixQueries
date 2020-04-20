@@ -34,6 +34,43 @@ FQNumericQueryTest >> testDisplayOn [
 ]
 
 { #category : #'tests - printing' }
+FQNumericQueryTest >> testEquals [
+	query := self actualClass
+		fromProperty: #numberOfMethods
+		comparator: #>
+		withValue: 10.
+	
+	"Same query"
+	self assert: query equals: (self actualClass
+		fromProperty: #numberOfMethods
+		comparator: #>
+		withValue: 10).
+	
+	"Different property"
+	self deny: query equals: (self actualClass
+		fromProperty: #numberOfMethods
+		comparator: #>
+		withValue: 5).
+	
+	"Different comparator"
+	self deny: query equals: (self actualClass
+		fromProperty: #numberOfMethods
+		comparator: #>=
+		withValue: 10).
+		
+		
+	"Different value to compare"
+	self deny: query equals: (self actualClass
+		fromProperty: #numberOfMembers
+		comparator: #>
+		withValue: 10).
+	
+	"Different class of query"
+	self deny: query equals: (FQBooleanQuery
+		fromProperty: #isAbstract)
+]
+
+{ #category : #'tests - printing' }
 FQNumericQueryTest >> testRunOn [
 	| classes queryResult expectedResult |	
 	classes := model allModelClasses.

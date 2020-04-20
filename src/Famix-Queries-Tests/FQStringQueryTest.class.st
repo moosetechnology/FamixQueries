@@ -33,12 +33,51 @@ FQStringQueryTest >> testDisplayOn [
 		equals: 'aMooseGroup select: [ :entity | entity name includesSubstring: ''LANP'' ]'
 ]
 
-{ #category : #'tests - available parameters' }
-FQStringQueryTest >> testDummy [
-	(classesAndMethods asArray
-		select: [ :entity | entity modifiers isNotEmpty ]
-		thenCollect: [ :entity | entity -> entity modifiers anyOne ])
-		inspect
+{ #category : #tests }
+FQStringQueryTest >> testEquals [
+	query := self actualClass
+		fromProperty: #name
+		comparator: #includesSubstring:
+		withValue: 'LAN'.
+
+	"Same query"
+	self
+		assert: query
+		equals:
+			(self actualClass
+				fromProperty: #name
+				comparator: #includesSubstring:
+				withValue: 'LAN').
+
+	"Different property"
+	self
+		deny: query
+		equals:
+			(self actualClass
+				fromProperty: #selector
+				comparator: #includesSubstring:
+				withValue: 'LAN').
+
+	"Different comparator"
+	self
+		deny: query
+		equals:
+			(self actualClass
+				fromProperty: #name
+				comparator: #beginsWith:
+				withValue: 'LAN').
+
+	"Different value to compare"
+	self
+		deny: query
+		equals:
+			(self actualClass
+				fromProperty: #name
+				comparator: #includesSubstring:
+				withValue: 'Toto').
+
+	"Different class of query"
+	self deny: query equals: (FQBooleanQuery fromProperty: #isAbstract)
 ]
 
 { #category : #'tests - running' }

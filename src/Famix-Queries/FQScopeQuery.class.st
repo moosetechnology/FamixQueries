@@ -16,6 +16,12 @@ FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
 		yourself
 ]
 
+{ #category : #comparing }
+FQScopeQuery >> = aQuery [
+	^ self class == aQuery class
+		and: [ direction == aQuery direction and: [ scope == aQuery scope ] ]
+]
+
 { #category : #'available parameters' }
 FQScopeQuery >> availableDirections [
 	^ FQAbstractScopeDirection availableDirections

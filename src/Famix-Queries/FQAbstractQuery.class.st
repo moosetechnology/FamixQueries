@@ -9,6 +9,11 @@ FQAbstractQuery class >> isAbstract [
 	^ self = FQAbstractQuery
 ]
 
+{ #category : #comparing }
+FQAbstractQuery >> = aQuery [
+	^ self subclassResponsibility
+]
+
 { #category : #running }
 FQAbstractQuery >> displayOn: aStream [ 
 	self displayOn: aStream with: 'aMooseGroup' 

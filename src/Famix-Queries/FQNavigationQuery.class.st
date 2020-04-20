@@ -16,6 +16,13 @@ FQNavigationQuery class >> direction: aDirectionStrategyClass association: anAss
 		yourself
 ]
 
+{ #category : #comparing }
+FQNavigationQuery >> = aQuery [
+	^ self class == aQuery class
+		and: [ direction == aQuery direction
+				and: [ association associations = aQuery association associations ] ]
+]
+
 { #category : #'adding - removing' }
 FQNavigationQuery >> addAssociation: anAssociation [
 	association := self association addAssociation: anAssociation

@@ -21,6 +21,11 @@ FQTypeQuery class >> forTypes: aTypesCollection [
 		yourself
 ]
 
+{ #category : #comparing }
+FQTypeQuery >> = aQuery [
+	^ self class == aQuery class and: [ types = aQuery types ]
+]
+
 { #category : #'adding - removing' }
 FQTypeQuery >> addType: aType [
 	(self types includes: aType)
