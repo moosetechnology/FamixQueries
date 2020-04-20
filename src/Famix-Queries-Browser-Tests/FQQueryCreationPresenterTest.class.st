@@ -14,7 +14,7 @@ FQQueryCreationPresenterTest >> setUp [
 	helper := FQBrowserTestsHelper new.
 	presenter := FQQueryCreationPresenter
 		owner: FQMockWindow new
-		on: FQQueriesBrowserPresenter default
+		on: (FQQueriesBrowserPresenter on: helper classesAndMethods)
 ]
 
 { #category : #tests }

@@ -32,13 +32,12 @@ FQQueryCreationCommand >> execute [
 				confirm: 'Do you want to apply this query ?'
 				label: 'This query result is empty')
 				ifFalse: [ ^ self ] ].
-	self flag: 'Make this work ?'.
-	"(self queryBuilder applyQuery
-		includesAll: self context owner queryResult)
+	(self queryBuilder applyQuery
+		includesAll: self queryBuilder entities)
 		ifTrue: [ (UIManager default
 				confirm: 'Do you want to apply this query ?'
 				label: 'Query input is identical to result')
-				ifFalse: [ ^ self ] ]."
+				ifFalse: [ ^ self ] ].
 	self context notifyAcceptedQuery
 ]
 

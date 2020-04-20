@@ -22,6 +22,19 @@ FQNavigationQueriesPresenterTest >> radioButtons [
 ]
 
 { #category : #tests }
+FQNavigationQueriesPresenterTest >> testCheckBoxeDisabledSinceFirstDisplay [
+	presenter := self presenterClass
+		on: helper modelExample allModelMethods.
+	(self radioButtons
+		detect: [ :radioButton | radioButton label = 'Local Incoming' ])
+		click.
+
+	"Only 1 association in the query, cannot be removed, so all checkBoxes are disabled"
+	self checkBoxes do: [ :cb | self deny: cb isEnabled ].
+	self assert: (self checkBoxes select: #state) size equals: 1
+]
+
+{ #category : #tests }
 FQNavigationQueriesPresenterTest >> testCheckBoxesDisabledWhenUnvailable [
 	| unAvailableAssociations |
 	unAvailableAssociations := self queryBuilder allPossibleAssociations \ self queryBuilder availableAssociations.

@@ -2,7 +2,6 @@ Class {
 	#name : #FQQueryCreationPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'entities',
 		'queryConfigurationPresenter',
 		'queryCode',
 		'queryTypesDropList',
@@ -157,7 +156,7 @@ FQQueryCreationPresenter >> defaultCommandsContext [
 
 { #category : #accessing }
 FQQueryCreationPresenter >> entities [
-	^ entities
+	^ browser entities
 ]
 
 { #category : #accessing }
@@ -206,7 +205,6 @@ FQQueryCreationPresenter >> initializeWindow: aWindowPresenter [
 
 { #category : #initialization }
 FQQueryCreationPresenter >> setModelBeforeInitialization: aQueriesPresenter [
-	entities := aQueriesPresenter entities.
 	browser := aQueriesPresenter
 ]
 

@@ -45,7 +45,8 @@ FQTypeQueriesPresenter >> configureTypeCheckBox: checkBox forType: type [
 				do: [ checkBox state: true
 					"Spec does not allow this to work" ] ];
 		whenChangedDo: [ self notifyQueryChanged ];
-		state: (queryBuilder currentQueryTypes includes: type)
+		state: (queryBuilder currentQueryTypes includes: type);
+		enabled: queryBuilder currentQueryTypes size > 1
 ]
 
 { #category : #initialization }
