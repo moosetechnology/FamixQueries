@@ -2,6 +2,7 @@ Class {
 	#name : #FQQueriesBrowserPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
+		'initialEntitiesButton',
 		'queriesTree',
 		'queryResult',
 		'entities',
@@ -33,7 +34,8 @@ FQQueriesBrowserPresenter class >> default [
 FQQueriesBrowserPresenter class >> defaultSpec [
 	^ SpPanedLayout newHorizontal
 		add:
-			(SpPanedLayout newVertical
+			(SpBoxLayout newVertical
+				add: #initialEntitiesButton height: self buttonHeight;
 				add: #queriesTree;
 				add: #newQueryButton;
 				yourself);
@@ -69,6 +71,15 @@ FQQueriesBrowserPresenter >> defineInputPorts [
 	^ {FQQueryPort new}
 ]
 
+{ #category : #initialization }
+FQQueriesBrowserPresenter >> displayLabelFor: query [
+	^ query class label
+		,
+			(query class == FQSequenceQuery
+				ifTrue: [ ' (' , query childrenQueries last class label , ')' ]
+				ifFalse: [ '' ])
+]
+
 { #category : #accessing }
 FQQueriesBrowserPresenter >> entities [
 	^ queriesCombinator currentResult
@@ -80,7 +91,16 @@ FQQueriesBrowserPresenter >> entities: anObject [
 ]
 
 { #category : #initialization }
+FQQueriesBrowserPresenter >> initializeInitialEntitiesButton [
+	initialEntitiesButton := self newButton
+		label: 'Initial entities';
+		whenActivatedDo: [ "queriesTree unselectAll."
+			queryResult items: queriesCombinator initialEntities ]
+]
+
+{ #category : #initialization }
 FQQueriesBrowserPresenter >> initializePresenters [
+	self initializeInitialEntitiesButton.
 	self initializeQueriesTree.
 	self initializeQueryCreationButton.
 	self initializeQueryResult
@@ -90,7 +110,8 @@ FQQueriesBrowserPresenter >> initializePresenters [
 FQQueriesBrowserPresenter >> initializeQueriesTree [
 	queriesTree := self newList
 		headerTitle: 'Queries';
-		display: [ :query | query class label ];
+		display:
+				[ :query | self displayLabelFor: query ];
 		whenSelectionChangedDo: [ :selection | 
 			queryResult
 				items: (queriesCombinator resultOfQuery: selection selectedItem).

@@ -161,8 +161,7 @@ FQQueryCreationPresenter >> entities [
 
 { #category : #initialization }
 FQQueryCreationPresenter >> initializePresenters [
-	"beText"
-	toolBar := self newToolBar.
+	toolBar := self newToolBar.	"beText"
 	queryCode := self newCode
 		whenTextIsAcceptedDo: [ :code | self updateForAcceptedCode: code ];
 		yourself.
