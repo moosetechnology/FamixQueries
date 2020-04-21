@@ -12,7 +12,7 @@ Class {
 FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
 	^ self new
 		scope: aFamixClass;
-		direction: aScopeDirectionClass;
+		directionStrategy: aScopeDirectionClass;
 		yourself
 ]
 
@@ -38,7 +38,13 @@ FQScopeQuery >> direction [
 ]
 
 { #category : #accessing }
-FQScopeQuery >> direction: anObject [
+FQScopeQuery >> direction: aSymbol [
+	direction := self availableDirections
+		detect: [ :dir | dir label asCamelCase = aSymbol asString ]
+]
+
+{ #category : #accessing }
+FQScopeQuery >> directionStrategy: anObject [
 	direction := anObject
 ]
 
@@ -76,6 +82,7 @@ FQScopeQuery >> scope: anObject [
 
 { #category : #printing }
 FQScopeQuery >> storeOn: aStream [
-	aStream << self simpleClassName << ' new direction: '
-		<< self direction name << '; scope: ' << self scope name
+	aStream << self simpleClassName << ' new direction: #'
+		<< self direction label asCamelCase << '; scope: '
+		<< self scope name
 ]

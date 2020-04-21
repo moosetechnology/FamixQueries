@@ -11,7 +11,7 @@ Class {
 { #category : #'instance creation' }
 FQNavigationQuery class >> direction: aDirectionStrategyClass association: anAssociationStrategy [
 	^ self new
-		direction: aDirectionStrategyClass;
+		directionStrategy: aDirectionStrategyClass;
 		association: anAssociationStrategy;
 		yourself
 ]
@@ -62,7 +62,13 @@ FQNavigationQuery >> direction [
 ]
 
 { #category : #accessing }
-FQNavigationQuery >> direction: anObject [
+FQNavigationQuery >> direction: aSymbol [
+	direction := self availableDirections
+		detect: [ :dir | dir label asCamelCase = aSymbol asString ]
+]
+
+{ #category : #accessing }
+FQNavigationQuery >> directionStrategy: anObject [
 	direction := anObject
 ]
 
@@ -108,8 +114,8 @@ FQNavigationQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQNavigationQuery >> storeOn: aStream [
-	aStream << self simpleClassName << ' new direction: '
-		<< self direction name << '; association: ('
+	aStream << self simpleClassName << ' new direction: #'
+		<< self direction label asCamelCase << '; association: ('
 		<< self association className << ' withAll: {'.
 	self association associations
 		do: [ :assoc | aStream << assoc name << $. ].

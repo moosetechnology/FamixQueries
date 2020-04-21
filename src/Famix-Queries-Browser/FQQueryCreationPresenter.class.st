@@ -161,13 +161,22 @@ FQQueryCreationPresenter >> entities [
 
 { #category : #initialization }
 FQQueryCreationPresenter >> initializePresenters [
-	toolBar := self newToolBar.	"beText"
-	queryCode := self newCode
-		whenTextIsAcceptedDo: [ :code | self updateForAcceptedCode: code ];
-		yourself.
+	"beText"
+	toolBar := self newToolBar.
+	self initializeQueryCode.
 	self initializeResultList.
 	self initializeQueryTypesDropList.
 	self initializeQueryConfigurationPresenter
+]
+
+{ #category : #initialization }
+FQQueryCreationPresenter >> initializeQueryCode [
+	queryCode := self newCode
+		whenTextIsAcceptedDo: [ :code | self updateForAcceptedCode: code ];
+		withoutSyntaxHighlight;
+		yourself.
+	self
+		flag: 'Is there a way to have bindings in Spec, so we can have syntax highlight ?'
 ]
 
 { #category : #initialization }
@@ -236,7 +245,9 @@ FQQueryCreationPresenter >> transmitFromConfigToCode [
 	queryConfigurationPresenter
 		transmitTo: queryCode
 		transform: [ :queryBuilder | 
-			queryCode syntaxHighlight: queryBuilder queryIsValid.
+			self flag:
+				'Is there a way to have bindings in Spec, so we can have syntax highlight ?'.
+			"queryCode syntaxHighlight: queryBuilder queryIsValid."
 			queryBuilder codeToDisplay ]
 ]
 

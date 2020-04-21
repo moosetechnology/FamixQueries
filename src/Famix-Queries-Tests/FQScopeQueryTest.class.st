@@ -20,7 +20,7 @@ FQScopeQueryTest >> testAvailableDirections [
 { #category : #'tests - available parameters' }
 FQScopeQueryTest >> testAvailableScopesFor [
 	| availableScopes |
-	query := self actualClass new direction: FQScopeUpDownDirection.
+	query := self actualClass new directionStrategy: FQScopeUpDownDirection.
 	availableScopes := query availableScopesFor: model.
 	self deny: (availableScopes anySatisfy: #isTrait).
 	self
@@ -97,7 +97,7 @@ FQScopeQueryTest >> testRunOn [
 FQScopeQueryTest >> testStoreOn [
 	| generatedQuery |
 	query := self actualClass new.
-	query direction: query availableDirections first.
+	query directionStrategy: query availableDirections first.
 	query scope: (query availableScopesFor: model) first.
 	
 	generatedQuery := self

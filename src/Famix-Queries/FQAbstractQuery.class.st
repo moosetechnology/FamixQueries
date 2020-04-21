@@ -17,7 +17,7 @@ FQAbstractQuery class >> projectPrefix [
 { #category : #'instance creation' }
 FQAbstractQuery class >> readFrom: aString [
 	| script |
-	script := 'FQ' , aString.
+	script := 'FQ' , aString trim.
 	^ self compiler evaluate: script
 ]
 

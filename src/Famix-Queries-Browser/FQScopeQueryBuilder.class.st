@@ -22,7 +22,7 @@ FQScopeQueryBuilder >> availableScopes [
 { #category : #'changing parameters' }
 FQScopeQueryBuilder >> changeQueryDirection: aDirection [
 	self flag: 'Manage this better'.
-	query direction: aDirection.
+	query directionStrategy: aDirection.
 	query scope: nil.
 	self availableScopes
 		ifEmpty: [ ImpossibleQuery signal: 'No scope available' ].
@@ -38,7 +38,7 @@ FQScopeQueryBuilder >> changeQueryScope: aScope [
 { #category : #initialization }
 FQScopeQueryBuilder >> initializeQuery [
 	super initializeQuery.
-	query direction: self availableScopeDirections first.
+	query directionStrategy: self availableScopeDirections first.
 	self availableScopes
 		ifEmpty: [ (ImpossibleQuery new builder: self) signal ].
 	query scope: self availableScopes first

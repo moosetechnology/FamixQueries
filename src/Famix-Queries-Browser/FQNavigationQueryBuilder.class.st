@@ -31,7 +31,7 @@ FQNavigationQueryBuilder >> availableDirections [
 
 { #category : #'changing parameters' }
 FQNavigationQueryBuilder >> changeQueryNavigationDirection: aDirection [
-	query direction: aDirection.
+	query directionStrategy: aDirection.
 	self availableAssociations
 		ifEmpty: [ ImpossibleQuery signal: 'No available associations' ].
 	query
@@ -48,7 +48,7 @@ FQNavigationQueryBuilder >> currentQueryAssociations [
 { #category : #initialization }
 FQNavigationQueryBuilder >> initializeQuery [
 	super initializeQuery.
-	query direction: self availableDirections first.
+	query directionStrategy: self availableDirections first.
 	self availableAssociations
 		ifEmpty: [ (ImpossibleQuery new builder: self) signal ].
 	query

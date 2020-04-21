@@ -21,6 +21,12 @@ FQTypeQuery class >> forTypes: aTypesCollection [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+FQTypeQuery class >> typeAsSymbol: aType [
+	^ (aType name piecesCutWhere: [ :char1 :char2 | char2 isUppercase ])
+		last asSymbol
+]
+
 { #category : #comparing }
 FQTypeQuery >> = aQuery [
 	^ self class == aQuery class and: [ types = aQuery types ]
@@ -31,6 +37,26 @@ FQTypeQuery >> addType: aType [
 	(self types includes: aType)
 		ifTrue: [ ^ self ].
 	self types add: aType
+]
+
+{ #category : #printing }
+FQTypeQuery >> addTypeSymbol: aTypeSymbol [
+	self flag: 'For future use if using only symbols is possible'.
+	(self types
+		anySatisfy: [ :type | (self class typeAsSymbol: type) = aTypeSymbol ])
+		ifTrue: [ ^ self ].
+	self addType: (Smalltalk classNamed: 'FamixT' , aTypeSymbol asString)
+	"We chose to recreate traits because the prefix is not meta-model-dependent. 
+	This may cause problems if the user meant to use a class. 
+	Example: 
+		The user wrote 
+			'TypeQuery new type: #Enum' 
+		because he·she wanted a query doing 
+			'aMooseGroup allWithType: FamixJavaEnum'.
+
+		We interpret it as 
+			'aMooseGroup allusing: FamixTEnum'
+		but this trait does not exist, so the query will fail."
 ]
 
 { #category : #running }
@@ -96,9 +122,20 @@ FQTypeQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQTypeQuery >> storeOn: aStream [
-	aStream << self simpleClassName << ' new types:' << '{'.
-	self types allButLast do: [ :type | aStream << type name << '. ' ].
-	aStream << self types last name << '}'
+	aStream << self simpleClassName << ' new '.
+	self types
+		allButLastDo: [ :type | 
+			aStream << 'type: '.
+			"(self class typeAsSymbol: type) storeOn: aStream."
+			aStream << type name << '; ' ].
+	aStream << 'type: ' << self types last name
+	"(self class typeAsSymbol: self types last) storeOn: aStream"
+]
+
+{ #category : #printing }
+FQTypeQuery >> type: aType [
+	self addType: aType
+	"self addTypeSymbol: aTypeSymbol"
 ]
 
 { #category : #accessing }

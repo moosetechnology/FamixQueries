@@ -12,7 +12,7 @@ FQNavigationQueryTest >> actualClass [
 { #category : #'tests adding - removing' }
 FQNavigationQueryTest >> testAddAllAssociations [
 	query := self actualClass new
-		direction: FQIncomingNavigationQueryStrategy;
+		directionStrategy: FQIncomingNavigationQueryStrategy;
 		association: FQAssociationNavigationQueryStrategy new.
 	query allPossibleAssociations
 		do: [ :assoc | query addAssociation: assoc ].
@@ -24,7 +24,7 @@ FQNavigationQueryTest >> testAddAllAssociations [
 { #category : #'tests adding - removing' }
 FQNavigationQueryTest >> testAddAssociation [
 	query := self actualClass new
-		direction: FQIncomingNavigationQueryStrategy;
+		directionStrategy: FQIncomingNavigationQueryStrategy;
 		association: FQAssociationNavigationQueryStrategy new.
 	
 	query addAssociation: FamixStAccess.
@@ -40,7 +40,7 @@ FQNavigationQueryTest >> testAddAssociation [
 FQNavigationQueryTest >> testAvailableAssociationsFor [
 	| availableAssociations |
 	query := self actualClass new
-		direction: FQIncomingNavigationQueryStrategy.
+		directionStrategy: FQIncomingNavigationQueryStrategy.
 	availableAssociations := query availableAssociationsFor: model.
 	self
 		assertCollection: FamixTAssociation users
@@ -219,7 +219,7 @@ FQNavigationQueryTest >> testOutgoingInheritance [
 { #category : #'tests adding - removing' }
 FQNavigationQueryTest >> testRemoveAssociation [
 	query := self actualClass new
-		direction: FQIncomingNavigationQueryStrategy;
+		directionStrategy: FQIncomingNavigationQueryStrategy;
 		association: FQAllAssociationsNavigationQueryStrategy new.
 		
 	query removeAssociation: FamixStAccess.
@@ -249,7 +249,7 @@ FQNavigationQueryTest >> testRunOn [
 FQNavigationQueryTest >> testStoreOn [
 	| generatedQuery |
 	query := self actualClass new.
-	query direction: query availableDirections first.
+	query directionStrategy: query availableDirections first.
 	query association: (FQAssociationNavigationQueryStrategy
 									withAll: (query availableAssociationsFor: model)).
 	
