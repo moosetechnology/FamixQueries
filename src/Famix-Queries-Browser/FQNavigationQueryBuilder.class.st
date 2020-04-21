@@ -35,7 +35,7 @@ FQNavigationQueryBuilder >> changeQueryNavigationDirection: aDirection [
 	self availableAssociations
 		ifEmpty: [ ImpossibleQuery signal: 'No available associations' ].
 	query
-		association:
+		associationStrategy:
 			(FQAssociationNavigationQueryStrategy
 				withAll: self availableAssociations)
 ]
@@ -52,7 +52,7 @@ FQNavigationQueryBuilder >> initializeQuery [
 	self availableAssociations
 		ifEmpty: [ (ImpossibleQuery new builder: self) signal ].
 	query
-		association:
+		associationStrategy:
 			(FQAssociationNavigationQueryStrategy
 				withAll: self availableAssociations)
 ]

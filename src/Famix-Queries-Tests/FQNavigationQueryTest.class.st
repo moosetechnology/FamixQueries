@@ -13,7 +13,7 @@ FQNavigationQueryTest >> actualClass [
 FQNavigationQueryTest >> testAddAllAssociations [
 	query := self actualClass new
 		directionStrategy: FQIncomingNavigationQueryStrategy;
-		association: FQAssociationNavigationQueryStrategy new.
+		associationStrategy: FQAssociationNavigationQueryStrategy new.
 	query allPossibleAssociations
 		do: [ :assoc | query addAssociation: assoc ].
 	self
@@ -25,7 +25,7 @@ FQNavigationQueryTest >> testAddAllAssociations [
 FQNavigationQueryTest >> testAddAssociation [
 	query := self actualClass new
 		directionStrategy: FQIncomingNavigationQueryStrategy;
-		association: FQAssociationNavigationQueryStrategy new.
+		associationStrategy: FQAssociationNavigationQueryStrategy new.
 	
 	query addAssociation: FamixStAccess.
 	self assert: (query association associations includes: FamixStAccess).
@@ -220,7 +220,7 @@ FQNavigationQueryTest >> testOutgoingInheritance [
 FQNavigationQueryTest >> testRemoveAssociation [
 	query := self actualClass new
 		directionStrategy: FQIncomingNavigationQueryStrategy;
-		association: FQAllAssociationsNavigationQueryStrategy new.
+		associationStrategy: FQAllAssociationsNavigationQueryStrategy new.
 		
 	query removeAssociation: FamixStAccess.
 	self deny: (query association associations includes: FamixStAccess).
@@ -228,7 +228,7 @@ FQNavigationQueryTest >> testRemoveAssociation [
 		assert: query association class
 		identicalTo: FQAssociationNavigationQueryStrategy.
 		
-	query association: (FQAssociationNavigationQueryStrategy with: FamixStAccess).
+	query associationStrategy: (FQAssociationNavigationQueryStrategy with: FamixStAccess).
 	self
 		should: [ query removeAssociation: FamixStAccess ]
 		raise: FQNavigationQueryMustHaveAtLeastOneAssociation
@@ -250,7 +250,7 @@ FQNavigationQueryTest >> testStoreOn [
 	| generatedQuery |
 	query := self actualClass new.
 	query directionStrategy: query availableDirections first.
-	query association: (FQAssociationNavigationQueryStrategy
+	query associationStrategy: (FQAssociationNavigationQueryStrategy
 									withAll: (query availableAssociationsFor: model)).
 	
 	generatedQuery := self

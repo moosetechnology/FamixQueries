@@ -8,11 +8,16 @@ Class {
 	#category : #'Famix-Queries-Terminal'
 }
 
+{ #category : #'as yet unclassified' }
+FQNavigationQuery class >> associationAsSymbol: anAssociation [
+	^ (anAssociation name withoutPrefix: 'FamixT') asSymbol
+]
+
 { #category : #'instance creation' }
 FQNavigationQuery class >> direction: aDirectionStrategyClass association: anAssociationStrategy [
 	^ self new
 		directionStrategy: aDirectionStrategyClass;
-		association: anAssociationStrategy;
+		associationStrategy: anAssociationStrategy;
 		yourself
 ]
 
@@ -39,8 +44,17 @@ FQNavigationQuery >> association [
 	^ association
 ]
 
+{ #category : #'adding - removing' }
+FQNavigationQuery >> association: aSymbol [
+	self
+		addAssociation:
+			(self allPossibleAssociations
+				detect:
+					[ :assoc | assoc name includesSubstring: aSymbol asString ])
+]
+
 { #category : #accessing }
-FQNavigationQuery >> association: anObject [
+FQNavigationQuery >> associationStrategy: anObject [
 	association := anObject
 ]
 
@@ -87,6 +101,12 @@ FQNavigationQuery >> displayOn: aStream with: aString [
 			result ]) asMooseGroup'
 ]
 
+{ #category : #initialization }
+FQNavigationQuery >> initialize [
+	super initialize.
+	association := FQAssociationNavigationQueryStrategy new
+]
+
 { #category : #testing }
 FQNavigationQuery >> isValid [
 	^ (self direction
@@ -98,7 +118,7 @@ FQNavigationQuery >> isValid [
 
 { #category : #'adding - removing' }
 FQNavigationQuery >> removeAssociation: anAssociation [
-	self association: (self association removeAssociation: anAssociation)
+	self associationStrategy: (self association removeAssociation: anAssociation)
 ]
 
 { #category : #running }
@@ -115,9 +135,13 @@ FQNavigationQuery >> runOn: aMooseGroup [
 { #category : #printing }
 FQNavigationQuery >> storeOn: aStream [
 	aStream << self simpleClassName << ' new direction: #'
-		<< self direction label asCamelCase << '; association: ('
-		<< self association className << ' withAll: {'.
+		<< self direction label asCamelCase << '; '.
 	self association associations
-		do: [ :assoc | aStream << assoc name << $. ].
-	aStream << '})'
+		allButLastDo: [ :assoc | 
+			aStream << 'association: '.
+			(self class associationAsSymbol: assoc) storeOn: aStream.
+			aStream << $; ].
+	aStream << 'association: '.
+	(self class associationAsSymbol: self association associations last)
+		storeOn: aStream
 ]

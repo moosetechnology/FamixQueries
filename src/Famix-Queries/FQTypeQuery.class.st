@@ -132,7 +132,7 @@ FQTypeQuery >> storeOn: aStream [
 	"(self class typeAsSymbol: self types last) storeOn: aStream"
 ]
 
-{ #category : #printing }
+{ #category : #'adding - removing' }
 FQTypeQuery >> type: aType [
 	self addType: aType
 	"self addTypeSymbol: aTypeSymbol"

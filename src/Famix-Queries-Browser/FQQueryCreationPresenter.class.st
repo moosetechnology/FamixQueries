@@ -172,11 +172,14 @@ FQQueryCreationPresenter >> initializePresenters [
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeQueryCode [
 	queryCode := self newCode
-		whenTextIsAcceptedDo: [ :code | self updateForAcceptedCode: code ];
+		whenTextIsAcceptedDo: [ :code | 
+			self updateForAcceptedCode: self projectPrefix , code.
+			self flag: 'This is a hack' ];
 		withoutSyntaxHighlight;
 		yourself.
 	self
-		flag: 'Is there a way to have bindings in Spec, so we can have syntax highlight ?'
+		flag:
+			'Is there a way to have bindings in Spec, so we can have syntax highlight and avoid this hack ?'
 ]
 
 { #category : #initialization }
@@ -204,6 +207,11 @@ FQQueryCreationPresenter >> initializeResultList [
 FQQueryCreationPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 650 @ 400
+]
+
+{ #category : #initialization }
+FQQueryCreationPresenter >> projectPrefix [
+	^ 'FQ'
 ]
 
 { #category : #initialization }
