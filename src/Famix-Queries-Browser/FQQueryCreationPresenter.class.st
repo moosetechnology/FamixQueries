@@ -159,11 +159,6 @@ FQQueryCreationPresenter >> entities [
 	^ browser entities
 ]
 
-{ #category : #accessing }
-FQQueryCreationPresenter >> entities: anObject [
-	entities := anObject
-]
-
 { #category : #initialization }
 FQQueryCreationPresenter >> initializePresenters [
 	"beText"

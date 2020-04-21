@@ -22,7 +22,7 @@ FQNavigationQueriesPresenterTest >> radioButtons [
 ]
 
 { #category : #tests }
-FQNavigationQueriesPresenterTest >> testCheckBoxeDisabledSinceFirstDisplay [
+FQNavigationQueriesPresenterTest >> testCheckBoxesDisabledSinceFirstDisplay [
 	presenter := self presenterClass
 		on: helper modelExample allModelMethods.
 	(self radioButtons

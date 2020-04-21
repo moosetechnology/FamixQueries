@@ -16,16 +16,6 @@ FQTypeQueriesPresenterTest >> presenterClass [
 ]
 
 { #category : #tests }
-FQTypeQueriesPresenterTest >> testCheckBoxeDisabledSinceFirstDisplay [
-	presenter := self presenterClass
-		on: helper modelExample allModelClasses.
-
-	"Only 1 type in the query, cannot be removed, so the checkBox is disabled"
-	self deny: self checkBoxes first isEnabled.
-	self assert: self checkBoxes first state
-]
-
-{ #category : #tests }
 FQTypeQueriesPresenterTest >> testCheckBoxesChangeQueryTypes [
 	| initialSize |
 	initialSize := self currentQuery types size.
@@ -35,6 +25,16 @@ FQTypeQueriesPresenterTest >> testCheckBoxesChangeQueryTypes [
 	
 	self checkBoxes first click.
 	self assert: self currentQuery types size equals: initialSize
+]
+
+{ #category : #tests }
+FQTypeQueriesPresenterTest >> testCheckBoxesDisabledSinceFirstDisplay [
+	presenter := self presenterClass
+		on: helper modelExample allModelClasses.
+
+	"Only 1 type in the query, cannot be removed, so the checkBox is disabled"
+	self deny: self checkBoxes first isEnabled.
+	self assert: self checkBoxes first state
 ]
 
 { #category : #tests }

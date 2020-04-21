@@ -112,6 +112,11 @@ FQQueriesBrowserPresenter >> initializeQueryResult [
 		display: #name
 ]
 
+{ #category : #initialization }
+FQQueriesBrowserPresenter >> setModelBeforeInitialization: aMooseGroup [
+	queriesCombinator := FQQueriesCombinator newWithEntities: aMooseGroup
+]
+
 { #category : #update }
 FQQueriesBrowserPresenter >> updateForQuery: aQuery [
 	queriesCombinator addQueryToSequence: aQuery.

@@ -8,6 +8,14 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
 }
 
+{ #category : #helpers }
+FQQueryCreationPresenterTest >> selectNavigationToAvoidEmptyResult [
+	presenter queryTypesDropList
+		selectItem:
+			(presenter queryTypesDropList listItems
+				detect: [ :item | item == FQNavigationQueriesPresenter ])
+]
+
 { #category : #running }
 FQQueryCreationPresenterTest >> setUp [
 	super setUp.
@@ -85,13 +93,14 @@ FQQueryCreationPresenterTest >> testResultListTitle [
 { #category : #tests }
 FQQueryCreationPresenterTest >> testToolBar [
 	| initialQueriesSize |
-	
 	self assert: presenter toolBar class identicalTo: SpToolBarPresenter.
 	self
 		assert: presenter toolBar presenters first class
 		identicalTo: SpToolBarButton.
-	
+		
 	initialQueriesSize := presenter browser queriesTree model items size.
+	self selectNavigationToAvoidEmptyResult.
+	
 	presenter toolBar presenters first click.
 	self
 		assert: presenter browser queriesTree model items size
