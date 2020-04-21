@@ -96,9 +96,9 @@ FQTypeQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQTypeQuery >> storeOn: aStream [
-	aStream << self className << ' new types:' << '{'.
+	aStream << self simpleClassName << ' new types:' << '{'.
 	self types allButLast do: [ :type | aStream << type name << '. ' ].
-	aStream << self types last name << '}; yourself'
+	aStream << self types last name << '}'
 ]
 
 { #category : #accessing }

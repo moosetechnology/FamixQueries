@@ -26,7 +26,7 @@ FQAbstractQueryTest >> actualClass [
 
 { #category : #'public access' }
 FQAbstractQueryTest >> evaluate: aString [
-	^ Smalltalk compiler evaluate: aString
+	^ FQAbstractQuery readFrom: aString
 ]
 
 { #category : #running }

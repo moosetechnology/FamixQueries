@@ -108,10 +108,10 @@ FQNavigationQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQNavigationQuery >> storeOn: aStream [
-	aStream << self className << ' new direction: '
+	aStream << self simpleClassName << ' new direction: '
 		<< self direction name << '; association: ('
 		<< self association className << ' withAll: {'.
 	self association associations
 		do: [ :assoc | aStream << assoc name << $. ].
-	aStream << '}); yourself'
+	aStream << '})'
 ]

@@ -9,6 +9,18 @@ FQAbstractQuery class >> isAbstract [
 	^ self = FQAbstractQuery
 ]
 
+{ #category : #'as yet unclassified' }
+FQAbstractQuery class >> projectPrefix [
+	^ 'FQ'
+]
+
+{ #category : #'instance creation' }
+FQAbstractQuery class >> readFrom: aString [
+	| script |
+	script := 'FQ' , aString.
+	^ self compiler evaluate: script
+]
+
 { #category : #comparing }
 FQAbstractQuery >> = aQuery [
 	^ self subclassResponsibility
@@ -34,4 +46,9 @@ FQAbstractQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
 
 	^ self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+FQAbstractQuery >> simpleClassName [
+	^ self className withoutPrefix: self class projectPrefix
 ]
