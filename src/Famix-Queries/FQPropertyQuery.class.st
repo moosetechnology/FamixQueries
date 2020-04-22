@@ -1,3 +1,38 @@
+"
+I am a query that can be applied on a MooseGroup.
+
+----- Query -----
+I select entities according to one of their properties.
+A property is a Boolean, numeric or String value. 
+Selection is based:
+	- on the value of the entity if it is Boolean. Example: 'aMooseGroup select: #isAbstract'.
+	- on the comparison between the entity and a reference value 
+		Examples: 'aMooseGroup select: [ :entity | entity numberOfMethods > 10 ]'
+			'aMooseGroup select: [ :entity | entity name includesSubstring: 'Prefix' ]'.
+
+----- Parameters -----
+I have tree parameters:
+	- property <Symbol>: the selector used to access the entities property.
+	- comparator <Symbol>: the comparison operator. Not necessary for Boolean queries.
+	- valueToCompare <Number or String>: the reference value. Not necessary for Boolean queries.
+
+----- API -----
+- Running : see FQAbstractQuery comment
+- Printing : see FQAbstractQuery comment
+- Changing parameters: 
+	Use setting accessors.
+- Comparing:
+	Two type queries are equal if their parameters are the same.
+- Available properties:
+	Accessors to properties of the correct type that are common to all entities in the input MooseGroup.
+
+----- Validity -----
+I am valid if my parameters are set.
+See subclasses for details
+
+----- Instance Creation -----
+See subclasses
+"
 Class {
 	#name : #FQPropertyQuery,
 	#superclass : #FQAbstractQuery,
@@ -63,7 +98,7 @@ FQPropertyQuery >> hasComparisonParameters [
 
 { #category : #testing }
 FQPropertyQuery >> isValid [
-	^ self property isNotNil
+	^ self property isSymbol
 ]
 
 { #category : #accessing }

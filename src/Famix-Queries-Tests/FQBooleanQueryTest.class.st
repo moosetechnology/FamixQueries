@@ -26,7 +26,7 @@ FQBooleanQueryTest >> testAvailablePropertiesFor [
 
 { #category : #'tests - printing' }
 FQBooleanQueryTest >> testDisplayOn [
-	query := self actualClass fromProperty: #isInstanceSide.
+	query := self actualClass forProperty: #isInstanceSide.
 	
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -35,22 +35,22 @@ FQBooleanQueryTest >> testDisplayOn [
 
 { #category : #tests }
 FQBooleanQueryTest >> testEquals [
-	query := self actualClass fromProperty: #isInstanceSide.
+	query := self actualClass forProperty: #isInstanceSide.
 	
 	"Same query"
 	self
 		assert: query
-		equals: (self actualClass fromProperty: #isInstanceSide).
+		equals: (self actualClass forProperty: #isInstanceSide).
 
 	"Different property"
-	self deny: query equals: (self actualClass fromProperty: #isAbstract).
+	self deny: query equals: (self actualClass forProperty: #isAbstract).
 	
 	"Different class of query"
 	self
 		deny: query
 		equals:
 			(FQNumericQuery
-				fromProperty: #numberOfMethods
+				forProperty: #numberOfMethods
 				comparator: #<=
 				withValue: 5)
 ]
@@ -69,7 +69,7 @@ FQBooleanQueryTest >> testRunOn [
 	| grp queryResult expectedResult |
 	grp := classesAndMethods.
 	
-	query := self actualClass fromProperty: #isAbstract .
+	query := self actualClass forProperty: #isAbstract .
 	queryResult := query runOn: grp.
 	
 	expectedResult := classesAndMethods select: #isAbstract.

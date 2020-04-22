@@ -26,7 +26,7 @@ FQStringQueryTest >> testAvailablePropertiesFor [
 
 { #category : #'tests - printing' }
 FQStringQueryTest >> testDisplayOn [
-	query := FQStringQuery fromProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
+	query := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
 
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -36,7 +36,7 @@ FQStringQueryTest >> testDisplayOn [
 { #category : #tests }
 FQStringQueryTest >> testEquals [
 	query := self actualClass
-		fromProperty: #name
+		forProperty: #name
 		comparator: #includesSubstring:
 		withValue: 'LAN'.
 
@@ -45,7 +45,7 @@ FQStringQueryTest >> testEquals [
 		assert: query
 		equals:
 			(self actualClass
-				fromProperty: #name
+				forProperty: #name
 				comparator: #includesSubstring:
 				withValue: 'LAN').
 
@@ -54,7 +54,7 @@ FQStringQueryTest >> testEquals [
 		deny: query
 		equals:
 			(self actualClass
-				fromProperty: #selector
+				forProperty: #selector
 				comparator: #includesSubstring:
 				withValue: 'LAN').
 
@@ -63,7 +63,7 @@ FQStringQueryTest >> testEquals [
 		deny: query
 		equals:
 			(self actualClass
-				fromProperty: #name
+				forProperty: #name
 				comparator: #beginsWith:
 				withValue: 'LAN').
 
@@ -72,12 +72,12 @@ FQStringQueryTest >> testEquals [
 		deny: query
 		equals:
 			(self actualClass
-				fromProperty: #name
+				forProperty: #name
 				comparator: #includesSubstring:
 				withValue: 'Toto').
 
 	"Different class of query"
-	self deny: query equals: (FQBooleanQuery fromProperty: #isAbstract)
+	self deny: query equals: (FQBooleanQuery forProperty: #isAbstract)
 ]
 
 { #category : #'tests - running' }
@@ -85,7 +85,7 @@ FQStringQueryTest >> testRunOn [
 	| classes queryResult expectedResult |	
 	classes := model allModelClasses select: #isInstanceSide.
 	
-	query := FQStringQuery fromProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
+	query := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
 	queryResult := query runOn: classes.
 	
 	expectedResult := #('LANPool' 'LANPacket' 'LANPrintServer').

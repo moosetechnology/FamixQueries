@@ -26,7 +26,7 @@ FQNumericQueryTest >> testAvailablePropertiesFor [
 
 { #category : #'tests - running' }
 FQNumericQueryTest >> testDisplayOn [
-	query := self actualClass fromProperty: #numberOfMethods comparator: #> withValue: 10.
+	query := self actualClass forProperty: #numberOfMethods comparator: #> withValue: 10.
 
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -36,38 +36,38 @@ FQNumericQueryTest >> testDisplayOn [
 { #category : #'tests - printing' }
 FQNumericQueryTest >> testEquals [
 	query := self actualClass
-		fromProperty: #numberOfMethods
+		forProperty: #numberOfMethods
 		comparator: #>
 		withValue: 10.
 	
 	"Same query"
 	self assert: query equals: (self actualClass
-		fromProperty: #numberOfMethods
+		forProperty: #numberOfMethods
 		comparator: #>
 		withValue: 10).
 	
 	"Different property"
 	self deny: query equals: (self actualClass
-		fromProperty: #numberOfMethods
+		forProperty: #numberOfMethods
 		comparator: #>
 		withValue: 5).
 	
 	"Different comparator"
 	self deny: query equals: (self actualClass
-		fromProperty: #numberOfMethods
+		forProperty: #numberOfMethods
 		comparator: #>=
 		withValue: 10).
 		
 		
 	"Different value to compare"
 	self deny: query equals: (self actualClass
-		fromProperty: #numberOfMembers
+		forProperty: #numberOfMembers
 		comparator: #>
 		withValue: 10).
 	
 	"Different class of query"
 	self deny: query equals: (FQBooleanQuery
-		fromProperty: #isAbstract)
+		forProperty: #isAbstract)
 ]
 
 { #category : #'tests - printing' }
@@ -75,7 +75,7 @@ FQNumericQueryTest >> testRunOn [
 	| classes queryResult expectedResult |	
 	classes := model allModelClasses.
 	
-	query := self actualClass fromProperty: #numberOfMethods comparator: #> withValue: 10.
+	query := self actualClass forProperty: #numberOfMethods comparator: #> withValue: 10.
 	queryResult := query runOn: classes.
 	
 	expectedResult := model allModelClasses

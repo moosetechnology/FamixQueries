@@ -1,3 +1,31 @@
+"
+I am a query that can be applied on a MooseGroup.
+
+----- Query -----
+I take a MooseGroup as input and apply a query on it.
+The query can be 
+	- a filter (TypeQuery and PropertyQuery)
+	- a navigation (NavigationQuery and ScopeQuery)
+	- a combination of 2 queries.
+I return a new MooseGroup.
+See subclasses for details.
+
+----- API -----
+- Running : My main responsibility.
+	The #runOn: method takes a MooseGroup as argument. 
+		It applies the query I represent on this group and returns a new MooseGroup with the result.
+
+- Printing :
+	- The #displayOn: method prints in Pharo code what the query is actually doing.
+	- The #runOn: method prints Pharo code that creates the equivalent of self when evaluated.
+
+----- Validity -----
+I am valid if my parameters are set.
+See subclasses.
+
+----- Instance Creation -----
+See subclasses
+"
 Class {
 	#name : #FQAbstractQuery,
 	#superclass : #Object,
@@ -48,7 +76,7 @@ FQAbstractQuery >> runOn: aMooseGroup [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQAbstractQuery >> simpleClassName [
 	^ self className withoutPrefix: self class projectPrefix
 ]

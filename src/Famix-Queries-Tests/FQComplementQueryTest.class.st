@@ -13,7 +13,7 @@ FQComplementQueryTest >> actualClass [
 FQComplementQueryTest >> testDisplayOn [
 	| subQuery |
 
-	subQuery := FQBooleanQuery fromProperty: #isInstanceSide.
+	subQuery := FQBooleanQuery forProperty: #isInstanceSide.
 	query := self actualClass forQuery: subQuery.
 
 	self
@@ -31,7 +31,7 @@ FQComplementQueryTest >> testRunOn [
 	| classes subQuery queryResult expectedResult |
 	classes := model allModelClasses.
 	
-	subQuery := FQBooleanQuery fromProperty: #isInstanceSide. 
+	subQuery := FQBooleanQuery forProperty: #isInstanceSide. 
 	query := self actualClass
 		forQuery: subQuery.
 	

@@ -12,8 +12,8 @@ FQIntersectionQueryTest >> actualClass [
 { #category : #tests }
 FQIntersectionQueryTest >> testDisplayOn [
 	| subQuery1 subQuery2 |
-	subQuery1 := FQBooleanQuery fromProperty: #isAbstract.
-	subQuery2 := FQStringQuery fromProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
+	subQuery1 := FQBooleanQuery forProperty: #isAbstract.
+	subQuery2 := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
 	query := self actualClass
 		forQueries:
 			{subQuery1.
@@ -36,8 +36,8 @@ FQIntersectionQueryTest >> testRunOn [
 	| classes subQuery1 subQuery2 queryResult expectedResult |
 	classes := model allModelClasses.
 	
-	subQuery1 := FQBooleanQuery fromProperty: #isInstanceSide.
-	subQuery2 := FQStringQuery fromProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
+	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
+	subQuery2 := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
 	query := self actualClass
 		forQueries:
 			{subQuery1.

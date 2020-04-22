@@ -12,8 +12,8 @@ FQSequenceQueryTest >> actualClass [
 { #category : #tests }
 FQSequenceQueryTest >> testDisplayOn [
 	| subQuery1 subQuery2 |
-	subQuery1 := FQBooleanQuery fromProperty: #isInstanceSide.
-	subQuery2 := FQStringQuery fromProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
+	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
+	subQuery2 := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
 	query := self actualClass
 		forQueries:
 			{subQuery1.
@@ -34,8 +34,8 @@ FQSequenceQueryTest >> testRunOn [
 	| classes subQuery1 subQuery2 queryResult expectedResult |
 	classes := model allModelClasses.
 	
-	subQuery1 := FQBooleanQuery fromProperty: #isInstanceSide.
-	subQuery2 := FQStringQuery fromProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
+	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
+	subQuery2 := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
 	query := self actualClass
 		forQueries:
 			{subQuery1.

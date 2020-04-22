@@ -1,3 +1,43 @@
+"
+I am a query that can be applied on a MooseGroup.
+
+----- Query -----
+I select entities according to their type.
+A type can be: 
+	- A Famix**Entity subclass (** depends on the meta-model, example: FamixStClass, FamixJavaMethod, ...). 
+		I will then select entities by doing: ""aMooseGroup allWithType: Famix***""
+	- A FamixTrait
+		I will then select entities by doing: ""aMooseGroup allUsing: FamixT**""
+
+----- Parameters -----
+I hold a collection of types. I can thus select entities of these types:
+	my final result is the union of the selection for each type.
+	Example: i can select all methods, classes and packages in the input mooseGroup.
+
+----- API -----
+- Running : see FQAbstractQuery comment
+- Printing : see FQAbstractQuery comment
+- Adding - removing types: 
+	Use #addType: and #removeType:.
+	You cannot add the same type twice.
+	Trying to remove the last type will raise a FQTypeQueryMustHaveAtLeastOneType exception.
+- Comparing:
+	Two type queries are equal if their types are the same.
+- Available types:
+	Classes of the named entities in the MooseGroup.
+
+----- Validity -----
+I am valid if I have at least 1 type.
+
+----- Instance Creation -----
+- Class method #forType: takes a single type as argument
+- Class method #forTypes: takes a collection of types as argument
+- Simplified creation API:
+		'FQTypeQuery new
+			type: aType1;
+			type: aType2'
+	/!\ Using this, it is possible to create an invalid query (with #types empty)
+"
 Class {
 	#name : #FQTypeQuery,
 	#superclass : #FQAbstractQuery,
@@ -70,6 +110,8 @@ FQTypeQuery >> allWantedIn: aMooseGroup [
 
 { #category : #'available parameters' }
 FQTypeQuery >> availableTypesFor: aMooseGroup [
+	self
+		flag: 'Selection of the named entities: all entities may not respond'.
 	^ ((aMooseGroup allUsing: FamixTNamedEntity) collect: #class)
 		removeDuplicates asOrderedCollection
 		sort: [ :type1 :type2 | type1 name < type2 name ]
@@ -94,7 +136,7 @@ FQTypeQuery >> displayStringForType: aType [
 		ifFalse: [ ' allWithType: ' ]) , aType name
 ]
 
-{ #category : #running }
+{ #category : #initialization }
 FQTypeQuery >> initialize [
 	super initialize.
 	types := OrderedCollection new
@@ -102,7 +144,13 @@ FQTypeQuery >> initialize [
 
 { #category : #testing }
 FQTypeQuery >> isValid [
+	"Large acceptance: 
+MooseEntity. Could be using FamixTNamedEntity, ... 
+isTrait could be more thorough."
+
 	^ self types isNotEmpty
+		and: [ types
+				allSatisfy: [ :type | (type inheritsFrom: MooseEntity) or: [ type isTrait ] ] ]
 ]
 
 { #category : #'adding - removing' }

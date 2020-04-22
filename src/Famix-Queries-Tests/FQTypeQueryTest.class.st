@@ -87,7 +87,7 @@ FQTypeQueryTest >> testEquals [
 		deny: query
 		equals:
 			(FQNumericQuery
-				fromProperty: #numberOfMethods
+				forProperty: #numberOfMethods
 				comparator: #<=
 				withValue: 5)
 ]

@@ -1,3 +1,41 @@
+"
+I am a query that can be applied on a MooseGroup.
+
+----- Query -----
+I collect scopes from entities.
+I use MooseQuery methods #atScope:, #toScope: and #withScope:.
+A scope is a Famix**Entity subclass (** depends on the meta-model). 
+My result will be entities of this class that <contain / are contained in / both> the entities of the input MooseGroup
+
+----- Parameters -----
+I have a direction strategy, to scope up, down or both.
+	See FQAbstractScopeDirection subclasses.
+	My direction is responsible for the call to MooseQuery.
+I hold a scope, i.e. a Famix**Entity subclass.
+
+----- API -----
+- Running : see FQAbstractQuery comment
+- Printing : see FQAbstractQuery comment
+- Changing scope: use #scope:.
+- Changing direction: 
+	Use #directionStrategy: with a subclass of FQAbstractScopeDirection as argument.
+	Use #direction: with a symbol (#Up #Down or #UpAndDown) as argument.
+- Comparing:
+	Two type queries are equal if their direction and scope are the same.
+- Available scopes:
+	Depending on the input MooseGroup. Responsibility of my direction.
+
+----- Validity -----
+I am valid if I have a direction (a subclass of FQAbstractScopeDirection)
+	and a valid scope (a subclass of MooseEntity).
+
+----- Instance Creation -----
+- Class method #forScope:direction: takes a Famix**Entity suclass and a FQAbstractScopeDirection as argument.
+- Simplified creation API:
+		'FQScopeQuery new
+			direction: #Up ""or #Down or #UpAndDown"";
+			scope: aScope'
+"
 Class {
 	#name : #FQScopeQuery,
 	#superclass : #FQAbstractQuery,
@@ -60,7 +98,7 @@ FQScopeQuery >> displayOn: aStream with: aString [
 { #category : #testing }
 FQScopeQuery >> isValid [
 	^ (self direction inheritsFrom: FQAbstractScopeDirection)
-		and: [ self scope isNotNil ]
+		and: [ self scope inheritsFrom: MooseEntity ]
 ]
 
 { #category : #running }

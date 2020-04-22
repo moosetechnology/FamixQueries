@@ -72,7 +72,7 @@ FQScopeQueryTest >> testEquals [
 			(FQScopeQuery forScope: FamixStMethod direction: FQScopeDownDirection).
 
 	"Different class of query"
-	self deny: query equals: (FQBooleanQuery fromProperty: #isAbstract)
+	self deny: query equals: (FQBooleanQuery forProperty: #isAbstract)
 ]
 
 { #category : #'tests - running' }

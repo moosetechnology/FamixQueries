@@ -135,7 +135,7 @@ FQNavigationQueryTest >> testEquals [
 				association: (FQAssociationNavigationQueryStrategy with: FamixStInvocation)).
 
 	"Different class of query"
-	self deny: query equals: (FQBooleanQuery fromProperty: #isAbstract)
+	self deny: query equals: (FQBooleanQuery forProperty: #isAbstract)
 ]
 
 { #category : #'tests - running' }
