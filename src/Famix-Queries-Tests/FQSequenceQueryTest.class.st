@@ -30,6 +30,64 @@ FQSequenceQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
+FQSequenceQueryTest >> testEquals [
+	| subQuery1 subQuery2 |
+	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
+	subQuery2 := FQBooleanQuery forProperty: #isAbstract.
+	query := self actualClass
+		forQueries:
+			{subQuery1.
+			subQuery2}.
+
+	"Same query"
+	self
+		assert: query
+		equals:
+			(self actualClass
+				forQueries:
+					{subQuery1.
+					subQuery2}).
+	
+	"Children in different order"
+	self
+		deny: query
+		equals:
+			(self actualClass
+				forQueries:
+					{subQuery2.
+					subQuery1}).
+	
+	"Different children"
+	self
+		deny: query
+		equals:
+			(self actualClass
+				forQueries:
+					{subQuery1.
+					(FQTypeQuery forType: FamixStClass)})
+]
+
+{ #category : #tests }
+FQSequenceQueryTest >> testIsValid [
+	| subQuery1 subQuery2 invalidQuery |
+	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
+	subQuery2 := FQBooleanQuery forProperty: #isAbstract.
+	invalidQuery := FQBooleanQuery new.
+	query := self actualClass
+		forQueries:
+			{subQuery1.
+			subQuery2}.
+			
+	self assert: query isValid.
+	
+	query := self actualClass
+		forQueries:
+			{subQuery1.
+			invalidQuery}.
+	self deny: query isValid.
+]
+
+{ #category : #tests }
 FQSequenceQueryTest >> testRunOn [
 	| classes subQuery1 subQuery2 queryResult expectedResult |
 	classes := model allModelClasses.

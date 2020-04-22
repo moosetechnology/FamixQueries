@@ -55,6 +55,18 @@ FQBooleanQueryTest >> testEquals [
 				withValue: 5)
 ]
 
+{ #category : #tests }
+FQBooleanQueryTest >> testIsValid [
+	query := self actualClass forProperty: #isAbstract.
+	self assert: query isValid.
+
+	query property: 'Not a selector'.
+	self deny: query isValid.
+
+	query := self actualClass new.
+	self deny: query isValid
+]
+
 { #category : #'tests - available parameters' }
 FQBooleanQueryTest >> testNoAvailableProperties [
 	| availableProperties |
@@ -66,11 +78,10 @@ FQBooleanQueryTest >> testNoAvailableProperties [
 
 { #category : #'tests - running' }
 FQBooleanQueryTest >> testRunOn [
-	| grp queryResult expectedResult |
-	grp := classesAndMethods.
+	| queryResult expectedResult |
 	
-	query := self actualClass forProperty: #isAbstract .
-	queryResult := query runOn: grp.
+	query := self actualClass forProperty: #isAbstract.
+	queryResult := query runOn: classesAndMethods.
 	
 	expectedResult := classesAndMethods select: #isAbstract.
 	

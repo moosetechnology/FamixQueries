@@ -92,6 +92,22 @@ FQTypeQueryTest >> testEquals [
 				withValue: 5)
 ]
 
+{ #category : #tests }
+FQTypeQueryTest >> testIsValid [
+	query := self actualClass forType: FamixStClass.
+	self assert: query isValid.
+	
+	query := self actualClass forType: FamixTClass.
+	self assert: query isValid.
+	
+	query := self actualClass forType: 'Not a type'.
+	self deny: query isValid.
+	
+	query := self actualClass new.
+	self deny: query isValid
+	
+]
+
 { #category : #'tests - adding - removing' }
 FQTypeQueryTest >> testRemoveType [
 	query := self actualClass

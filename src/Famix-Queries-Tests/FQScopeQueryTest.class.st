@@ -75,6 +75,27 @@ FQScopeQueryTest >> testEquals [
 	self deny: query equals: (FQBooleanQuery forProperty: #isAbstract)
 ]
 
+{ #category : #tests }
+FQScopeQueryTest >> testIsValid [
+	query := self actualClass
+		forScope: FamixStClass
+		direction: FQScopeDownDirection.
+	self assert: query isValid.
+	
+	query := self actualClass
+		forScope: 'Not a scope'
+		direction: FQScopeDownDirection.
+	self deny: query isValid.
+	
+	query := self actualClass
+		forScope: FamixStClass
+		direction: 'Not a direction'.
+	self deny: query isValid.
+	
+	query := self actualClass new.
+	self deny: query isValid
+]
+
 { #category : #'tests - running' }
 FQScopeQueryTest >> testRunOn [
 	| classes queryResult expectedResult |

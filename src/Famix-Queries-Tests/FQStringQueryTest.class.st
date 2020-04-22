@@ -80,6 +80,36 @@ FQStringQueryTest >> testEquals [
 	self deny: query equals: (FQBooleanQuery forProperty: #isAbstract)
 ]
 
+{ #category : #tests }
+FQStringQueryTest >> testIsValid [
+	query := self actualClass
+		forProperty: #name
+		comparator: #includesSubString:
+		withValue: 'LAN'.
+	self assert: query isValid.
+
+	query := self actualClass
+		forProperty: 'Not a selector'
+		comparator: #includesSubString:
+		withValue: 'LAN'.
+	self deny: query isValid.
+
+	query := self actualClass
+		forProperty: #name
+		comparator: 'Not a comparator'
+		withValue: 'LAN'.
+	self deny: query isValid.
+
+	query := self actualClass
+		forProperty: #name
+		comparator: #includesSubString:
+		withValue: 10.
+	self deny: query isValid.
+	
+	query := self actualClass new.
+	self deny: query isValid
+]
+
 { #category : #'tests - running' }
 FQStringQueryTest >> testRunOn [
 	| classes queryResult expectedResult |	

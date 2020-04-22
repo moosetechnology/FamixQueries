@@ -153,11 +153,12 @@ FQNavigationQuery >> initialize [
 
 { #category : #testing }
 FQNavigationQuery >> isValid [
-	^ (self direction
-		inheritsFrom: FQAbstractDirectionNavigationQueryStrategy)
-		and: [ (self association
-				isKindOf: FQAbstractAssociationNavigationQueryStrategy)
-				and: [ self association associations isNotEmpty ] ]
+	^ self direction isClass
+		and: [ (self direction
+				inheritsFrom: FQAbstractDirectionNavigationQueryStrategy)
+				and: [ (self association
+						isKindOf: FQAbstractAssociationNavigationQueryStrategy)
+						and: [ self association associations isNotEmpty ] ] ]
 ]
 
 { #category : #'adding - removing' }

@@ -51,6 +51,16 @@ FQAbstractQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
+FQAbstractQueryTest >> testEquals [
+	self subclassResponsibility
+]
+
+{ #category : #tests }
+FQAbstractQueryTest >> testIsValid [
+	self subclassResponsibility
+]
+
+{ #category : #tests }
 FQAbstractQueryTest >> testRunOn [
 	self subclassResponsibility
 ]

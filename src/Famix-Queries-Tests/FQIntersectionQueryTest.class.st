@@ -32,6 +32,55 @@ FQIntersectionQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
+FQIntersectionQueryTest >> testEquals [
+	| subQuery1 subQuery2 |
+	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
+	subQuery2 := FQBooleanQuery forProperty: #isAbstract.
+	query := self actualClass
+		forQueries:
+			{subQuery1.
+			subQuery2}.
+	
+	"Same children"
+	self
+		assert: query
+		equals:
+			(self actualClass
+				forQueries:
+					{subQuery1.
+					subQuery2}).
+					
+	"Different children"
+	self
+		deny: query
+		equals:
+			(self actualClass
+				forQueries:
+					{subQuery1.
+					(FQTypeQuery forType: FamixStClass)})
+]
+
+{ #category : #tests }
+FQIntersectionQueryTest >> testIsValid [
+	| subQuery1 subQuery2 invalidQuery |
+	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
+	subQuery2 := FQBooleanQuery forProperty: #isAbstract.
+	invalidQuery := FQBooleanQuery new.
+	query := self actualClass
+		forQueries:
+			{subQuery1.
+			subQuery2}.
+			
+	self assert: query isValid.
+	
+	query := self actualClass
+		forQueries:
+			{subQuery1.
+			invalidQuery}.
+	self deny: query isValid.
+]
+
+{ #category : #tests }
 FQIntersectionQueryTest >> testRunOn [
 	| classes subQuery1 subQuery2 queryResult expectedResult |
 	classes := model allModelClasses.

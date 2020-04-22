@@ -164,6 +164,27 @@ FQNavigationQueryTest >> testIncomingInvocation2 [
 	self assert: (query runOn: grp) size equals: 3
 ]
 
+{ #category : #tests }
+FQNavigationQueryTest >> testIsValid [
+	query := self actualClass
+		direction: FQOutgoingNavigationQueryStrategy
+		association: FQAllAssociationsNavigationQueryStrategy new.	
+	self assert: query isValid.
+	
+	query := self actualClass
+		direction: 'Not a Navigation strategy'
+		association: FQAllAssociationsNavigationQueryStrategy new.
+	self deny: query isValid.
+	
+	query := self actualClass
+		direction: FQOutgoingNavigationQueryStrategy
+		association: 'Not an association strategy'.	
+	self deny: query isValid.
+
+	query := self actualClass new.
+	self deny: query isValid.
+]
+
 { #category : #'tests - running' }
 FQNavigationQueryTest >> testLocalIncomingInvocation [
 	| grp |
@@ -239,9 +260,11 @@ FQNavigationQueryTest >> testRunOn [
 	| grp |
 	grp := MooseAbstractGroup new.
 	grp add: (model entityNamed: 'Smalltalk::LANNode.initialize()').
+	
 	query := FQNavigationQuery
 		direction: FQOutgoingNavigationQueryStrategy
 		association: FQAllAssociationsNavigationQueryStrategy new.
+	
 	self assert: (query runOn: grp) size equals: 2
 ]
 

@@ -70,6 +70,36 @@ FQNumericQueryTest >> testEquals [
 		forProperty: #isAbstract)
 ]
 
+{ #category : #tests }
+FQNumericQueryTest >> testIsValid [
+	query := self actualClass
+		forProperty: #numberOfMethods
+		comparator: #<=
+		withValue: 10.
+	self assert: query isValid.
+
+	query := self actualClass
+		forProperty: 'Not a selector'
+		comparator: #<=
+		withValue: 10.
+	self deny: query isValid.
+
+	query := self actualClass
+		forProperty: #numberOfMethods
+		comparator: 'Not a comparator'
+		withValue: 10.
+	self deny: query isValid.
+
+	query := self actualClass
+		forProperty: #numberOfMethods
+		comparator: #<=
+		withValue: 'Not a Number'.
+	self deny: query isValid.
+	
+	query := self actualClass new.
+	self deny: query isValid
+]
+
 { #category : #'tests - printing' }
 FQNumericQueryTest >> testRunOn [
 	| classes queryResult expectedResult |	

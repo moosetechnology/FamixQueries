@@ -97,8 +97,9 @@ FQScopeQuery >> displayOn: aStream with: aString [
 
 { #category : #testing }
 FQScopeQuery >> isValid [
-	^ (self direction inheritsFrom: FQAbstractScopeDirection)
-		and: [ self scope inheritsFrom: MooseEntity ]
+	^ self direction isClass
+		and: [ (self direction inheritsFrom: FQAbstractScopeDirection)
+				and: [ self scope isClass and: [ self scope inheritsFrom: MooseEntity ] ] ]
 ]
 
 { #category : #running }

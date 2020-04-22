@@ -27,6 +27,33 @@ FQComplementQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
+FQComplementQueryTest >> testEquals [
+	| subQuery |
+	subQuery := FQBooleanQuery forProperty: #isInstanceSide.
+	query := self actualClass forQuery: subQuery.
+	
+	self assert: query equals: (self actualClass forQuery: subQuery).
+	
+	self
+		deny: query
+		equals:
+			(self actualClass forQuery: (FQBooleanQuery forProperty: #isAbstract)).
+]
+
+{ #category : #tests }
+FQComplementQueryTest >> testIsValid [
+	| subQuery invalidQuery |
+	
+	subQuery := FQBooleanQuery forProperty: #isInstanceSide.
+	query := self actualClass forQuery: subQuery.
+	self assert: query isValid.
+	
+	invalidQuery := FQBooleanQuery new.
+	query := self actualClass forQuery: invalidQuery.
+	self deny: query isValid
+]
+
+{ #category : #tests }
 FQComplementQueryTest >> testRunOn [
 	| classes subQuery queryResult expectedResult |
 	classes := model allModelClasses.

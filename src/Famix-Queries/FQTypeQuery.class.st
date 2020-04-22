@@ -150,7 +150,9 @@ isTrait could be more thorough."
 
 	^ self types isNotEmpty
 		and: [ types
-				allSatisfy: [ :type | (type inheritsFrom: MooseEntity) or: [ type isTrait ] ] ]
+				allSatisfy: [ :type | 
+					(type isClass and: [ type inheritsFrom: MooseEntity ])
+						or: [ type isTrait ] ] ]
 ]
 
 { #category : #'adding - removing' }
