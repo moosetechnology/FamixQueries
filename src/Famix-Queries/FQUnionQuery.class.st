@@ -14,6 +14,12 @@ FQUnionQuery class >> forQueries: aCollectionOfQueries [
 		yourself
 ]
 
+{ #category : #comparing }
+FQUnionQuery >> = aQuery [
+	^ aQuery class == self class
+		and: [ aQuery childrenQueries = childrenQueries ]
+]
+
 { #category : #accessing }
 FQUnionQuery >> childrenQueries [
 	^ childrenQueries
@@ -36,6 +42,11 @@ FQUnionQuery >> displayOn: aStream with: aString [
 			aStream << ') | (' ].
 	self childrenQueries last displayOn: aStream with: aString.
 	aStream << ')'
+]
+
+{ #category : #testing }
+FQUnionQuery >> isValid [
+	^ childrenQueries allSatisfy: #isValid
 ]
 
 { #category : #running }

@@ -14,6 +14,12 @@ FQSubstractionQuery class >> forQueries: aCollectionOfQueries [
 		yourself
 ]
 
+{ #category : #comparing }
+FQSubstractionQuery >> = aQuery [
+	^ aQuery class == self class
+		and: [ aQuery childrenQueries = childrenQueries ]
+]
+
 { #category : #accessing }
 FQSubstractionQuery >> childrenQueries [
 	^ childrenQueries
@@ -36,6 +42,11 @@ FQSubstractionQuery >> displayOn: aStream with: aString [
 			aStream << ') \ (' ].
 	self childrenQueries last displayOn: aStream with: aString.
 	aStream << ')'
+]
+
+{ #category : #testing }
+FQSubstractionQuery >> isValid [
+	^ childrenQueries allSatisfy: #isValid
 ]
 
 { #category : #running }

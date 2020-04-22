@@ -14,6 +14,11 @@ FQComplementQuery class >> forQuery: aQuery [
 		yourself
 ]
 
+{ #category : #comparing }
+FQComplementQuery >> = aQuery [
+	^ aQuery class == self class and: [ aQuery childQuery = childQuery ]
+]
+
 { #category : #accessing }
 FQComplementQuery >> childQuery [
 	^ childQuery
@@ -29,6 +34,11 @@ FQComplementQuery >> displayOn: aStream with: aString [
 	aStream << aString << ' copyWithoutAll: ('.
 	self childQuery displayOn: aStream.
 	aStream << ')'
+]
+
+{ #category : #testing }
+FQComplementQuery >> isValid [
+	^ childQuery isValid
 ]
 
 { #category : #running }

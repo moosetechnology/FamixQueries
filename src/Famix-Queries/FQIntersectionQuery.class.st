@@ -14,6 +14,12 @@ FQIntersectionQuery class >> forQueries: aCollectionOfQueries [
 		yourself
 ]
 
+{ #category : #comparing }
+FQIntersectionQuery >> = aQuery [
+	^ aQuery class == self class
+		and: [ aQuery childrenQueries = childrenQueries ]
+]
+
 { #category : #accessing }
 FQIntersectionQuery >> childrenQueries [
 	^ childrenQueries
@@ -36,6 +42,11 @@ FQIntersectionQuery >> displayOn: aStream with: aString [
 			aStream << ') & (' ].
 	self childrenQueries last displayOn: aStream with: aString.
 	aStream << ')'
+]
+
+{ #category : #testing }
+FQIntersectionQuery >> isValid [
+	^ childrenQueries allSatisfy: #isValid
 ]
 
 { #category : #running }

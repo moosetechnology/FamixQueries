@@ -48,6 +48,11 @@ FQSequenceQuery >> displayOn: aStream with: aString [
 			query displayOn: aStream with: '' ]
 ]
 
+{ #category : #testing }
+FQSequenceQuery >> isValid [
+	^ childrenQueries allSatisfy: #isValid
+]
+
 { #category : #running }
 FQSequenceQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
