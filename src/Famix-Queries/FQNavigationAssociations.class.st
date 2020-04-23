@@ -1,3 +1,17 @@
+"
+I am an association strategy used by FQNavigationQuery.
+
+I am responsible for a call to MooseQuery to navigate associations.
+
+I query the opposite of the input entities for the associations I know, using MooseQuery.
+This is done by one of my #query***With: methods when it is called by a subclass of FQAbstractNavigationDirection.
+
+The associations I know are stored in #associations.
+You can add or remove associations.
+	- Adding all possible associations (Access, Invocation, Reference, Inheritance, TraitUsage) 
+		will return an FQAllNavigationAssociations instead os self.
+	- Trying to remove the last association will trigger a FQCannotRemoveLastNavigationAssociation error.
+"
 Class {
 	#name : #FQNavigationAssociations,
 	#superclass : #FQAbstractNavigationAssociations,

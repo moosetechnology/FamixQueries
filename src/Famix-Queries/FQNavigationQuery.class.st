@@ -8,34 +8,38 @@ My result will be entities of this class that are related to the entities of the
 
 ----- Parameters -----
 I have a direction strategy: Incoming or outgoing, Local or not (recursive).
-	See FQAbstractDirectionNavigationQueryStrategy subclasses.
+	See FQAbstractNavigationDirection subclasses.
 I have an association strategy, responsible for the call to MooseQuery.
-	FQAssociationNavigationQueryStrategy queries 1 or several specified associations.
-	FQAllAssociationsNavigationQueryStrategy queries all associations.
+	FQNavigationAssociations queries 1 or several specified associations.
+	FQAllNavigationAssociations queries all associations.
 
 ----- API -----
 - Running : see FQAbstractQuery comment
 - Printing : see FQAbstractQuery comment
 - Changing direction: 
-	Use #directionStrategy: with a subclass of FQAbstractScopeDirection as argument.
-	Use #direction: with a symbol (#Up #Down or #UpAndDown) as argument.
+	Use #directionStrategy: with a subclass of FQAbstractNavigationDirection as argument.
+	Use #direction: with a symbol (#Incoming, #Outgoing, #LocalIncoming or #LocalOutgoing) as argument.
 - Changing associations:
-	Use #associationStrategy: with a subclass of FQAbstractDirectionNavigationQueryStrategy as argument.
-	Use #association: with a symbol (#Incoming, #Outgoing, #LocalIncoming, #LocalOutgoing) as argument
+	Use #associationStrategy: with a subclass of FQAbstractNavigationAssociations as argument.
+- Adding - removing associations:
+	Use #association: with a Symbol (#Access, #Inheritance, #Invocation, #Reference or #TraitUsage) as argument
+	Use #addAssociation: and #removeAssociation with an association trait 
+		(one of 'FQAbstractNavigationAssociations allPossibleAssociations') as argument.
+		See FQAbstractNavigationAssociations subclasses comment for more details.
 - Comparing:
 	Two type queries are equal if their direction are the same and if their association strategies hold the same associations.
 - Available parameters:
-	- Available directions are input-independant: see FQAbstractDirectionNavigationQueryStrategy>>availableDirections
+	- Available directions are input-independant: see FQAbstractNavigationDirection>>availableDirections
 	- Available associations depend on the input MooseGroup and the direction.
 
 ----- Validity -----
-I am valid if I have a direction (a subclass of FQAbstractDirectionNavigationQueryStrategy)
-	and an association strategy (a subclass of FQAbstractAssociationNavigationQueryStrategy) 
+I am valid if I have a direction (a subclass of FQAbstractNavigationDirection)
+	and an association strategy (a subclass of FQAbstractNavigationAssociations) 
 	with at least one association to query.
 
 ----- Instance Creation -----
-- Class method #direction:association: takes a FQAbstractDirectionNavigationQueryStrategy suclass 
-	and a FQAbstractAssociationNavigationQueryStrategy instance as argument.
+- Class method #direction:association: takes a FQAbstractNavigationDirection suclass 
+	and a FQAbstractNavigationAssociations instance as argument.
 - Simplified creation API:
 		'FQNavigationQuery new
 			direction: #Incoming ""or another direction"";

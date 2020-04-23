@@ -20,7 +20,7 @@ I hold a collection of types. I can thus select entities of these types:
 - Adding - removing types: 
 	Use #addType: and #removeType:.
 	You cannot add the same type twice.
-	Trying to remove the last type will raise a FQTypeQueryMustHaveAtLeastOneType exception.
+	Trying to remove the last type will raise a FQCannotRemoveLastType exception.
 - Comparing:
 	Two type queries are equal if their types are the same.
 - Available types:

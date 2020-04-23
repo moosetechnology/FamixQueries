@@ -1,3 +1,15 @@
+"
+I am an association strategy used by FQNavigationQuery.
+
+I am responsible for a call to MooseQuery to navigate associations.
+
+I query the opposite of the input entities for all associations types, using MooseQuery.
+This is done by one of my #query***With: methods when it is called by a subclass of FQAbstractNavigationDirection.
+
+I know the API for adding and removing associations.
+	- Adding an association will do nothing (since I collect ALL associations anyway)
+	- Removing an association will return an FQNavigationAssociations with all association but the removed one, instead of self.
+"
 Class {
 	#name : #FQAllNavigationAssociations,
 	#superclass : #FQAbstractNavigationAssociations,

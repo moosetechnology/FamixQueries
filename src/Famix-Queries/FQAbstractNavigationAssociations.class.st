@@ -1,3 +1,13 @@
+"
+I am an association strategy used by FQNavigationQuery.
+
+I am responsible for a call to MooseQuery to navigate associations.
+
+I query the opposite of the input entities for the associations I know, using MooseQuery.
+This is done by one of my #query***With: methods when it is called by a subclass of FQAbstractNavigationDirection.
+
+To see reaction to adding/removing associations API, see my subclasses.
+"
 Class {
 	#name : #FQAbstractNavigationAssociations,
 	#superclass : #Object,
