@@ -33,7 +33,7 @@ FQNumericQueryTest >> testDisplayOn [
 		equals: 'aMooseGroup select: [ :entity | entity numberOfMethods > 10 ]'
 ]
 
-{ #category : #'tests - printing' }
+{ #category : #tests }
 FQNumericQueryTest >> testEquals [
 	query := self actualClass
 		forProperty: #numberOfMethods

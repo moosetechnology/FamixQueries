@@ -20,7 +20,7 @@ FQScopeQueryTest >> testAvailableDirections [
 { #category : #'tests - available parameters' }
 FQScopeQueryTest >> testAvailableScopesFor [
 	| availableScopes |
-	query := self actualClass new directionStrategy: FQScopeUpDownDirection.
+	query := self actualClass new directionStrategy: FQScopeUpAndDown.
 	availableScopes := query availableScopesFor: model.
 	self deny: (availableScopes anySatisfy: #isTrait).
 	self
@@ -69,7 +69,7 @@ FQScopeQueryTest >> testEquals [
 	self
 		deny: query
 		equals:
-			(FQScopeQuery forScope: FamixStMethod direction: FQScopeDownDirection).
+			(FQScopeQuery forScope: FamixStMethod direction: FQScopeDown).
 
 	"Different class of query"
 	self deny: query equals: (FQBooleanQuery forProperty: #isAbstract)
@@ -79,12 +79,12 @@ FQScopeQueryTest >> testEquals [
 FQScopeQueryTest >> testIsValid [
 	query := self actualClass
 		forScope: FamixStClass
-		direction: FQScopeDownDirection.
+		direction: FQScopeDown.
 	self assert: query isValid.
 	
 	query := self actualClass
 		forScope: 'Not a scope'
-		direction: FQScopeDownDirection.
+		direction: FQScopeDown.
 	self deny: query isValid.
 	
 	query := self actualClass
@@ -103,7 +103,7 @@ FQScopeQueryTest >> testRunOn [
 
 	query := FQScopeQuery
 		forScope: FamixStMethod
-		direction: FQScopeDownDirection.
+		direction: FQScopeDown.
 	queryResult := query runOn: classes.
 
 	expectedResult := ((MooseQueryResult new newObjectResultWith: classes)
@@ -134,6 +134,6 @@ FQScopeQueryTest >> testSyntacticSugar [
 	query := self actualClass new
 		direction: #Up;
 		scope: FamixStClass.
-	self assert: query directionStrategy identicalTo: FQScopeUpDirection.
+	self assert: query directionStrategy identicalTo: FQScopeUp.
 	self assert: query scope identicalTo: FamixStClass
 ]

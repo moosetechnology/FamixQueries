@@ -1,26 +1,26 @@
 Class {
-	#name : #FQAssociationNavigationQueryStrategy,
-	#superclass : #FQAbstractAssociationNavigationQueryStrategy,
+	#name : #FQNavigationAssociations,
+	#superclass : #FQAbstractNavigationAssociations,
 	#instVars : [
 		'associations'
 	],
-	#category : #'Famix-Queries-Utils'
+	#category : #'Famix-Queries-Navigation-Strategies'
 }
 
 { #category : #'instance creation' }
-FQAssociationNavigationQueryStrategy class >> with: aFamixClass [
+FQNavigationAssociations class >> with: aFamixClass [
 	^ self new
 		associations: {aFamixClass} asOrderedCollection;
 		yourself
 ]
 
 { #category : #'instance creation' }
-FQAssociationNavigationQueryStrategy class >> withAll: aCollection [
+FQNavigationAssociations class >> withAll: aCollection [
 	| associations |
 	associations := aCollection asOrderedCollection
 		removeAllSuchThat: #isNil.
 	associations
-		ifEmpty: [ FQNavigationQueryMustHaveAtLeastOneAssociation
+		ifEmpty: [ FQCannotRemoveLastNavigationAssociation
 				signal: 'You cannot create a navigation query without associations' ].
 	^ self new
 		associations: associations;
@@ -28,7 +28,7 @@ FQAssociationNavigationQueryStrategy class >> withAll: aCollection [
 ]
 
 { #category : #'adding - removing' }
-FQAssociationNavigationQueryStrategy >> addAssociation: anAssociation [
+FQNavigationAssociations >> addAssociation: anAssociation [
 	(self associations includes: anAssociation)
 		ifTrue: [ ^ self ].
 	self
@@ -36,21 +36,21 @@ FQAssociationNavigationQueryStrategy >> addAssociation: anAssociation [
 			'Removing this first conditional (if associations is a Set) changes checkboxes in the corresponding presenter. Should be revised when tests are ok.'.
 	self associations add: anAssociation.
 	(self associations includesAll: self class allPossibleAssociations)
-		ifTrue: [ ^ FQAllAssociationsNavigationQueryStrategy new ]
+		ifTrue: [ ^ FQAllNavigationAssociations new ]
 ]
 
 { #category : #accessing }
-FQAssociationNavigationQueryStrategy >> associations [
+FQNavigationAssociations >> associations [
 	^ associations
 ]
 
 { #category : #accessing }
-FQAssociationNavigationQueryStrategy >> associations: anObject [
+FQNavigationAssociations >> associations: anObject [
 	associations := anObject
 ]
 
 { #category : #printing }
-FQAssociationNavigationQueryStrategy >> displayIncomingOn: aStream [
+FQNavigationAssociations >> displayIncomingOn: aStream [
 	"The condition is not really needed since the generated script of one branch will be valid all the time, but it is present to print a nicer script to the user."
 
 	self associations size = 1
@@ -64,7 +64,7 @@ FQAssociationNavigationQueryStrategy >> displayIncomingOn: aStream [
 ]
 
 { #category : #printing }
-FQAssociationNavigationQueryStrategy >> displayLocalIncomingOn: aStream [
+FQNavigationAssociations >> displayLocalIncomingOn: aStream [
 	"The condition is not really needed since the generated script of one branch will be valid all the time, but it is present to print a nicer script to the user."
 
 	self associations size = 1
@@ -82,7 +82,7 @@ FQAssociationNavigationQueryStrategy >> displayLocalIncomingOn: aStream [
 ]
 
 { #category : #printing }
-FQAssociationNavigationQueryStrategy >> displayLocalOutgoingOn: aStream [
+FQNavigationAssociations >> displayLocalOutgoingOn: aStream [
 	"The condition is not really needed since the generated script of one branch will be valid all the time, but it is present to print a nicer script to the user."
 
 	self associations size = 1
@@ -100,7 +100,7 @@ FQAssociationNavigationQueryStrategy >> displayLocalOutgoingOn: aStream [
 ]
 
 { #category : #printing }
-FQAssociationNavigationQueryStrategy >> displayOutgoingOn: aStream [
+FQNavigationAssociations >> displayOutgoingOn: aStream [
 	"The condition is not really needed since the generated script of one branch will be valid all the time, but it is present to print a nicer script to the user."
 
 	self associations size = 1
@@ -114,37 +114,37 @@ FQAssociationNavigationQueryStrategy >> displayOutgoingOn: aStream [
 ]
 
 { #category : #initialization }
-FQAssociationNavigationQueryStrategy >> initialize [
+FQNavigationAssociations >> initialize [
 	super initialize.
 	associations := OrderedCollection new.
 	self flag: 'This is not a Set only because of displayOn tests.'
 ]
 
 { #category : #action }
-FQAssociationNavigationQueryStrategy >> queryIncomingWith: anEntity [
+FQNavigationAssociations >> queryIncomingWith: anEntity [
 	^ self associations flatCollect: [ :each | (anEntity queryIncoming: each) opposites ]
 ]
 
 { #category : #action }
-FQAssociationNavigationQueryStrategy >> queryLocalIncomingWith: anEntity [
+FQNavigationAssociations >> queryLocalIncomingWith: anEntity [
 	^ self associations flatCollect: [ :each | (anEntity queryLocalIncoming: each) opposites ]
 ]
 
 { #category : #action }
-FQAssociationNavigationQueryStrategy >> queryLocalOutgoingWith: anEntity [
+FQNavigationAssociations >> queryLocalOutgoingWith: anEntity [
 	^ self associations
 		flatCollect: [ :each | (anEntity queryLocalOutgoing: each) opposites ]
 ]
 
 { #category : #action }
-FQAssociationNavigationQueryStrategy >> queryOutgoingWith: anEntity [
+FQNavigationAssociations >> queryOutgoingWith: anEntity [
 	^ self associations flatCollect: [ :each | (anEntity queryOutgoing: each) opposites ]
 ]
 
 { #category : #removing }
-FQAssociationNavigationQueryStrategy >> removeAssociation: anAssociation [
+FQNavigationAssociations >> removeAssociation: anAssociation [
 	self associations size == 1
-		ifTrue: [ FQNavigationQueryMustHaveAtLeastOneAssociation
+		ifTrue: [ FQCannotRemoveLastNavigationAssociation
 				signal:
 					'Removing the last association of a ' , self className
 						, ' is forbidden' ].

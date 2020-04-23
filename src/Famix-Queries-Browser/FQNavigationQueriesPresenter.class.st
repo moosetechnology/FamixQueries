@@ -26,7 +26,7 @@ FQNavigationQueriesPresenter >> configureCheckBox: checkBox forNavigationAssocia
 		label: (associationTrait name withoutPrefix: 'FamixT');
 		whenActivatedDo: [ queryBuilder addAssociationToQuery: associationTrait ];
 		whenDeactivatedDo: [ [ queryBuilder removeAssociationFromQuery: associationTrait ]
-				on: FQNavigationQueryMustHaveAtLeastOneAssociation
+				on: FQCannotRemoveLastNavigationAssociation
 				do: [ checkBox state: true
 					"Spec does not allow this to work" ] ];
 		whenChangedDo: [ self notifyQueryChanged ];

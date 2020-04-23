@@ -11,10 +11,10 @@ FQScopeQueryBuilderTest >> queryBuilderClass [
 
 { #category : #initialization }
 FQScopeQueryBuilderTest >> testChangeQueryDirection [
-	queryBuilder changeQueryDirection: FQScopeDownDirection.
+	queryBuilder changeQueryDirection: FQScopeDown.
 	self
 		assert: queryBuilder query directionStrategy
-		identicalTo: FQScopeDownDirection
+		identicalTo: FQScopeDown
 ]
 
 { #category : #initialization }

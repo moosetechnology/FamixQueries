@@ -19,10 +19,10 @@ FQNavigationQueryBuilderTest >> testAddAssociationToQuery [
 { #category : #tests }
 FQNavigationQueryBuilderTest >> testChangeQueryNavigationDirection [
 	queryBuilder
-		changeQueryNavigationDirection: FQIncomingNavigationQueryStrategy.
+		changeQueryNavigationDirection: FQIncomingNavigation.
 	self
 		assert: queryBuilder query directionStrategy
-		identicalTo: FQIncomingNavigationQueryStrategy
+		identicalTo: FQIncomingNavigation
 ]
 
 { #category : #tests }
@@ -38,11 +38,11 @@ FQNavigationQueryBuilderTest >> testinitializeQuery [
 	self
 		assert:
 			(queryBuilder query directionStrategy
-				inheritsFrom: FQAbstractDirectionNavigationQueryStrategy).
+				inheritsFrom: FQAbstractNavigationDirection).
 	self
 		assert:
 			(queryBuilder query associationStrategy
-				isKindOf: FQAbstractAssociationNavigationQueryStrategy).
+				isKindOf: FQAbstractNavigationAssociations).
 	self
 		assert:
 			(queryBuilder availableAssociations

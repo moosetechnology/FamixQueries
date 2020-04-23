@@ -23,7 +23,7 @@ FQAbstractScopeDirectionTest >> setUp [
 FQAbstractScopeDirectionTest >> testAvailableScopesDown [
 	| directionStrategy classes availableScopes resultScopes |
 	
-	directionStrategy := FQScopeDownDirection.
+	directionStrategy := FQScopeDown.
 	classes := model allModelClasses.
 	
 	resultScopes := directionStrategy availableScopesFor: classes.
@@ -46,13 +46,13 @@ FQAbstractScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
 	
 	classes := model allModelClasses.
 	
-	directionStrategy := FQScopeUpDirection.
+	directionStrategy := FQScopeUp.
 	self assert: (( directionStrategy availableScopesFor: classes) noneSatisfy: #isTrait).
 	
-	directionStrategy := FQScopeUpDownDirection.
+	directionStrategy := FQScopeUpAndDown.
 	self assert: (( directionStrategy availableScopesFor: classes) noneSatisfy: #isTrait).
 	
-	directionStrategy := FQScopeDownDirection.
+	directionStrategy := FQScopeDown.
 	self assert: (( directionStrategy availableScopesFor: classes) noneSatisfy: #isTrait)
 ]
 
@@ -60,7 +60,7 @@ FQAbstractScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
 FQAbstractScopeDirectionTest >> testAvailableScopesUp [
 	| directionStrategy classes availableScopes resultScopes |
 	
-	directionStrategy := FQScopeUpDirection.
+	directionStrategy := FQScopeUp.
 	classes := model allModelClasses.
 	
 	resultScopes := directionStrategy availableScopesFor: classes.
@@ -74,7 +74,7 @@ FQAbstractScopeDirectionTest >> testAvailableScopesUp [
 FQAbstractScopeDirectionTest >> testAvailableScopesUpDown [
 	| directionStrategy classes availableScopes resultScopes |
 	
-	directionStrategy := FQScopeUpDownDirection.
+	directionStrategy := FQScopeUpAndDown.
 	classes := model allModelClasses.
 	
 	resultScopes := directionStrategy availableScopesFor: classes.

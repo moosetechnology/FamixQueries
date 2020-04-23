@@ -118,7 +118,7 @@ FQTypeQueryTest >> testRemoveType [
 	self deny: (query types includes: FamixStMethod).
 	self
 		should: [ query removeType: FamixStClass ]
-		raise: FQTypeQueryMustHaveAtLeastOneType
+		raise: FQCannotRemoveLastType
 ]
 
 { #category : #'tests - running' }

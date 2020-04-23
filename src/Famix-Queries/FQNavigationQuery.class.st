@@ -79,7 +79,7 @@ FQNavigationQuery >> addAssociation: anAssociation [
 
 { #category : #'available parameters' }
 FQNavigationQuery >> allPossibleAssociations [
-	^ FQAbstractAssociationNavigationQueryStrategy
+	^ FQAbstractNavigationAssociations
 		allPossibleAssociations
 ]
 
@@ -111,7 +111,7 @@ FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
 
 { #category : #'available parameters' }
 FQNavigationQuery >> availableDirections [
-	^ FQAbstractDirectionNavigationQueryStrategy availableDirections
+	^ FQAbstractNavigationDirection availableDirections
 ]
 
 { #category : #accessing }
@@ -148,16 +148,16 @@ FQNavigationQuery >> displayOn: aStream with: aString [
 { #category : #initialization }
 FQNavigationQuery >> initialize [
 	super initialize.
-	associationStrategy := FQAssociationNavigationQueryStrategy new
+	associationStrategy := FQNavigationAssociations new
 ]
 
 { #category : #testing }
 FQNavigationQuery >> isValid [
 	^ self directionStrategy isClass
 		and: [ (self directionStrategy
-				inheritsFrom: FQAbstractDirectionNavigationQueryStrategy)
+				inheritsFrom: FQAbstractNavigationDirection)
 				and: [ (self associationStrategy
-						isKindOf: FQAbstractAssociationNavigationQueryStrategy)
+						isKindOf: FQAbstractNavigationAssociations)
 						and: [ self associationStrategy associations isNotEmpty ] ] ]
 ]
 

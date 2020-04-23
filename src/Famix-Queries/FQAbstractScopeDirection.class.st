@@ -1,16 +1,16 @@
 Class {
 	#name : #FQAbstractScopeDirection,
 	#superclass : #Object,
-	#category : #'Famix-Queries-Utils'
+	#category : #'Famix-Queries-Scope-Strategies'
 }
 
 { #category : #accessing }
 FQAbstractScopeDirection class >> availableDirections [
 	" Not 'self allSubclasses' because we want this specific order"
 
-	^ {FQScopeUpDirection.
-	FQScopeUpDownDirection.
-	FQScopeDownDirection}
+	^ {FQScopeUp.
+	FQScopeUpAndDown.
+	FQScopeDown}
 ]
 
 { #category : #'available scopes' }
@@ -28,7 +28,12 @@ FQAbstractScopeDirection class >> availableScopesForEntity: entity [
 
 { #category : #default }
 FQAbstractScopeDirection class >> defaultDirection [
-	^ FQScopeUpDownDirection
+	^ FQScopeUpAndDown
+]
+
+{ #category : #'as yet unclassified' }
+FQAbstractScopeDirection class >> label [
+	^ self subclassResponsibility
 ]
 
 { #category : #'available scopes' }

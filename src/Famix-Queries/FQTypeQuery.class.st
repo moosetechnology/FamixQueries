@@ -158,7 +158,7 @@ isTrait could be more thorough."
 { #category : #'adding - removing' }
 FQTypeQuery >> removeType: aType [
 	self types size = 1
-		ifTrue: [ FQTypeQueryMustHaveAtLeastOneType
+		ifTrue: [ FQCannotRemoveLastType
 				signal: 'Removing the last type of a ' , self className , ' is forbidden' ].
 	self types remove: aType
 ]

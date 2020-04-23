@@ -41,7 +41,7 @@ FQTypeQueriesPresenter >> configureTypeCheckBox: checkBox forType: type [
 		label: (type name withoutPrefix: self modelPrefix);
 		whenActivatedDo: [ queryBuilder addTypeToQuery: type ];
 		whenDeactivatedDo: [ [ queryBuilder removeTypeFromQuery: type ]
-				on: FQTypeQueryMustHaveAtLeastOneType
+				on: FQCannotRemoveLastType
 				do: [ checkBox state: true
 					"Spec does not allow this to work" ] ];
 		whenChangedDo: [ self notifyQueryChanged ];

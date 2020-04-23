@@ -9,23 +9,23 @@ FQNavigationQueryTest >> actualClass [
 	^ FQNavigationQuery
 ]
 
-{ #category : #'tests adding - removing' }
+{ #category : #'tests - adding - removing' }
 FQNavigationQueryTest >> testAddAllAssociations [
 	query := self actualClass new
-		directionStrategy: FQIncomingNavigationQueryStrategy;
-		associationStrategy: FQAssociationNavigationQueryStrategy new.
+		directionStrategy: FQIncomingNavigation;
+		associationStrategy: FQNavigationAssociations new.
 	query allPossibleAssociations
 		do: [ :assoc | query addAssociation: assoc ].
 	self
 		assert: query associationStrategy class
-		identicalTo: FQAllAssociationsNavigationQueryStrategy
+		identicalTo: FQAllNavigationAssociations
 ]
 
-{ #category : #'tests adding - removing' }
+{ #category : #'tests - adding - removing' }
 FQNavigationQueryTest >> testAddAssociation [
 	query := self actualClass new
-		directionStrategy: FQIncomingNavigationQueryStrategy;
-		associationStrategy: FQAssociationNavigationQueryStrategy new.
+		directionStrategy: FQIncomingNavigation;
+		associationStrategy: FQNavigationAssociations new.
 	
 	query addAssociation: FamixStAccess.
 	self assert: (query associationStrategy associations includes: FamixStAccess).
@@ -40,7 +40,7 @@ FQNavigationQueryTest >> testAddAssociation [
 FQNavigationQueryTest >> testAvailableAssociationsFor [
 	| availableAssociations |
 	query := self actualClass new
-		directionStrategy: FQIncomingNavigationQueryStrategy.
+		directionStrategy: FQIncomingNavigation.
 	availableAssociations := query availableAssociationsFor: model.
 	self
 		assertCollection: FamixTAssociation users
@@ -52,14 +52,14 @@ FQNavigationQueryTest >> testAvailableDirections [
 	query := self actualClass new.
 	self
 		assertCollection: query availableDirections
-		includesAll: FQAbstractDirectionNavigationQueryStrategy availableDirections
+		includesAll: FQAbstractNavigationDirection availableDirections
 ]
 
 { #category : #'tests - printing' }
 FQNavigationQueryTest >> testDisplayIncomingInvocation [
 	query := FQNavigationQuery
-		direction: FQIncomingNavigationQueryStrategy
-		association: (FQAssociationNavigationQueryStrategy with: FamixStInvocation).
+		direction: FQIncomingNavigation
+		association: (FQNavigationAssociations with: FamixStInvocation).
 	self
 		assert: (String streamContents: [ :aStream | query displayOn: aStream ])
 		equals:
@@ -73,9 +73,9 @@ FQNavigationQueryTest >> testDisplayIncomingInvocation [
 { #category : #'tests - printing' }
 FQNavigationQueryTest >> testDisplayIncomingInvocation2 [
 	query := FQNavigationQuery
-		direction: FQIncomingNavigationQueryStrategy
+		direction: FQIncomingNavigation
 		association:
-			(FQAssociationNavigationQueryStrategy
+			(FQNavigationAssociations
 				withAll:
 					{FamixStInvocation.
 					FamixStInheritance}).
@@ -92,8 +92,8 @@ FQNavigationQueryTest >> testDisplayIncomingInvocation2 [
 { #category : #'tests - printing' }
 FQNavigationQueryTest >> testDisplayOn [
 	query := FQNavigationQuery
-		direction: FQOutgoingNavigationQueryStrategy
-		association: FQAllAssociationsNavigationQueryStrategy new.
+		direction: FQOutgoingNavigation
+		association: FQAllNavigationAssociations new.
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
@@ -107,32 +107,32 @@ FQNavigationQueryTest >> testDisplayOn [
 { #category : #tests }
 FQNavigationQueryTest >> testEquals [
 	query := FQNavigationQuery
-		direction: FQOutgoingNavigationQueryStrategy
-		association: FQAllAssociationsNavigationQueryStrategy new.
+		direction: FQOutgoingNavigation
+		association: FQAllNavigationAssociations new.
 
 	"Same query"
 	self
 		assert: query
 		equals:
 			(FQNavigationQuery
-				direction: FQOutgoingNavigationQueryStrategy
-				association: FQAllAssociationsNavigationQueryStrategy new).
+				direction: FQOutgoingNavigation
+				association: FQAllNavigationAssociations new).
 
 	"Different direction"
 	self
 		deny: query
 		equals:
 			(FQNavigationQuery
-				direction: FQIncomingNavigationQueryStrategy
-				association: FQAllAssociationsNavigationQueryStrategy new).
+				direction: FQIncomingNavigation
+				association: FQAllNavigationAssociations new).
 
 	"Different association"
 	self
 		deny: query
 		equals:
 			(FQNavigationQuery
-				direction: FQOutgoingNavigationQueryStrategy
-				association: (FQAssociationNavigationQueryStrategy with: FamixStInvocation)).
+				direction: FQOutgoingNavigation
+				association: (FQNavigationAssociations with: FamixStInvocation)).
 
 	"Different class of query"
 	self deny: query equals: (FQBooleanQuery forProperty: #isAbstract)
@@ -144,8 +144,8 @@ FQNavigationQueryTest >> testIncomingInvocation [
 	grp := MooseAbstractGroup new.
 	grp add: (model entityNamed: 'Smalltalk::LANPacket.contents()').
 	query := FQNavigationQuery
-		direction: FQIncomingNavigationQueryStrategy
-		association: (FQAssociationNavigationQueryStrategy with: FamixStInvocation).
+		direction: FQIncomingNavigation
+		association: (FQNavigationAssociations with: FamixStInvocation).
 	self assert: (query runOn: grp) size equals: 3
 ]
 
@@ -155,9 +155,9 @@ FQNavigationQueryTest >> testIncomingInvocation2 [
 	grp := MooseAbstractGroup new.
 	grp add: (model entityNamed: 'Smalltalk::LANPacket.contents()').
 	query := FQNavigationQuery
-		direction: FQIncomingNavigationQueryStrategy
+		direction: FQIncomingNavigation
 		association:
-			(FQAssociationNavigationQueryStrategy
+			(FQNavigationAssociations
 				withAll:
 					{FamixStInvocation.
 					FamixStInheritance}).
@@ -167,17 +167,17 @@ FQNavigationQueryTest >> testIncomingInvocation2 [
 { #category : #tests }
 FQNavigationQueryTest >> testIsValid [
 	query := self actualClass
-		direction: FQOutgoingNavigationQueryStrategy
-		association: FQAllAssociationsNavigationQueryStrategy new.	
+		direction: FQOutgoingNavigation
+		association: FQAllNavigationAssociations new.	
 	self assert: query isValid.
 	
 	query := self actualClass
 		direction: 'Not a Navigation strategy'
-		association: FQAllAssociationsNavigationQueryStrategy new.
+		association: FQAllNavigationAssociations new.
 	self deny: query isValid.
 	
 	query := self actualClass
-		direction: FQOutgoingNavigationQueryStrategy
+		direction: FQOutgoingNavigation
 		association: 'Not an association strategy'.	
 	self deny: query isValid.
 
@@ -192,15 +192,15 @@ FQNavigationQueryTest >> testLocalIncomingInvocation [
 	grp
 		add: (model entityNamed: 'Smalltalk::LANAbstractDestinationAddress').
 	query := FQNavigationQuery
-		direction: FQLocalIncomingNavigationQueryStrategy
-		association: FQAllAssociationsNavigationQueryStrategy new.
+		direction: FQLocalIncomingNavigation
+		association: FQAllNavigationAssociations new.
 	self assert: (query runOn: grp) size equals: 1.
 	self
 		assert: (query runOn: grp) anyOne mooseName
 		equals: 'Smalltalk::LANSingleDestinationAddress'.
 	query := FQNavigationQuery
-		direction: FQIncomingNavigationQueryStrategy
-		association: FQAllAssociationsNavigationQueryStrategy new.
+		direction: FQIncomingNavigation
+		association: FQAllNavigationAssociations new.
 	self assert: (query runOn: grp) size equals: 2
 ]
 
@@ -211,15 +211,15 @@ FQNavigationQueryTest >> testLocalOutgoingInvocation [
 	grp
 		add: (model entityNamed: 'Smalltalk::LANAbstractDestinationAddress').
 	query := FQNavigationQuery
-		direction: FQLocalOutgoingNavigationQueryStrategy
-		association: FQAllAssociationsNavigationQueryStrategy new.
+		direction: FQLocalOutgoingNavigation
+		association: FQAllNavigationAssociations new.
 	self assert: (query runOn: grp) size equals: 1.
 	self
 		assert: (query runOn: grp) anyOne mooseName
 		equals: 'Smalltalk::Object'.
 	query := FQNavigationQuery
-		direction: FQOutgoingNavigationQueryStrategy
-		association: FQAllAssociationsNavigationQueryStrategy new.
+		direction: FQOutgoingNavigation
+		association: FQAllNavigationAssociations new.
 	self assert: (query runOn: grp) size equals: 2
 ]
 
@@ -229,30 +229,30 @@ FQNavigationQueryTest >> testOutgoingInheritance [
 	grp := MooseAbstractGroup new.
 	grp add: (model entityNamed: 'Smalltalk::LANFileServer').
 	query := FQNavigationQuery
-		direction: FQOutgoingNavigationQueryStrategy
+		direction: FQOutgoingNavigation
 		association:
-			(FQAssociationNavigationQueryStrategy with: FamixTInheritance).	"FamixStInheritance"
+			(FQNavigationAssociations with: FamixTInheritance).	"FamixStInheritance"
 	self
 		assert: (query runOn: grp) anyOne
 		equals: (model entityNamed: 'Smalltalk::LANOutputServer')
 ]
 
-{ #category : #'tests adding - removing' }
+{ #category : #'tests - adding - removing' }
 FQNavigationQueryTest >> testRemoveAssociation [
 	query := self actualClass new
-		directionStrategy: FQIncomingNavigationQueryStrategy;
-		associationStrategy: FQAllAssociationsNavigationQueryStrategy new.
+		directionStrategy: FQIncomingNavigation;
+		associationStrategy: FQAllNavigationAssociations new.
 		
 	query removeAssociation: FamixStAccess.
 	self deny: (query associationStrategy associations includes: FamixStAccess).
 	self
 		assert: query associationStrategy class
-		identicalTo: FQAssociationNavigationQueryStrategy.
+		identicalTo: FQNavigationAssociations.
 		
-	query associationStrategy: (FQAssociationNavigationQueryStrategy with: FamixStAccess).
+	query associationStrategy: (FQNavigationAssociations with: FamixStAccess).
 	self
 		should: [ query removeAssociation: FamixStAccess ]
-		raise: FQNavigationQueryMustHaveAtLeastOneAssociation
+		raise: FQCannotRemoveLastNavigationAssociation
 ]
 
 { #category : #'tests - running' }
@@ -262,8 +262,8 @@ FQNavigationQueryTest >> testRunOn [
 	grp add: (model entityNamed: 'Smalltalk::LANNode.initialize()').
 	
 	query := FQNavigationQuery
-		direction: FQOutgoingNavigationQueryStrategy
-		association: FQAllAssociationsNavigationQueryStrategy new.
+		direction: FQOutgoingNavigation
+		association: FQAllNavigationAssociations new.
 	
 	self assert: (query runOn: grp) size equals: 2
 ]
@@ -273,7 +273,7 @@ FQNavigationQueryTest >> testStoreOn [
 	| generatedQuery |
 	query := self actualClass new.
 	query directionStrategy: query availableDirections first.
-	query associationStrategy: (FQAssociationNavigationQueryStrategy
+	query associationStrategy: (FQNavigationAssociations
 									withAll: (query availableAssociationsFor: model)).
 	
 	generatedQuery := self
@@ -293,10 +293,10 @@ FQNavigationQueryTest >> testSyntacticSugar [
 		association: #Inheritance.
 	self
 		assert: query directionStrategy
-		identicalTo: FQIncomingNavigationQueryStrategy.
+		identicalTo: FQIncomingNavigation.
 	self
 		assert: query associationStrategy class
-		identicalTo: FQAssociationNavigationQueryStrategy.
+		identicalTo: FQNavigationAssociations.
 	self
 		assertCollection: query associationStrategy associations
 		hasSameElements: {FamixTAccess. FamixTInheritance}
