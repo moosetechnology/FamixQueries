@@ -166,12 +166,12 @@ FQNavigationQueriesPresenterTest >> testRadioButtonsMatchAvailableDirections [
 FQNavigationQueriesPresenterTest >> testRadioButtonsMatchQuery [
 	self
 		assert: (self radioButtons detect: #state) label
-		equals: self currentQuery direction label.
+		equals: self currentQuery directionStrategy label.
 	
 	(self radioButtons detect: [ :rb | rb state not ]) click.
 	self
 		assert: (self radioButtons detect: #state) label
-		equals: self currentQuery direction label
+		equals: self currentQuery directionStrategy label
 ]
 
 { #category : #tests }

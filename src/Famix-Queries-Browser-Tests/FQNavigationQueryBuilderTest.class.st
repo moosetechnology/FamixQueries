@@ -21,7 +21,7 @@ FQNavigationQueryBuilderTest >> testChangeQueryNavigationDirection [
 	queryBuilder
 		changeQueryNavigationDirection: FQIncomingNavigationQueryStrategy.
 	self
-		assert: queryBuilder query direction
+		assert: queryBuilder query directionStrategy
 		identicalTo: FQIncomingNavigationQueryStrategy
 ]
 
@@ -37,11 +37,11 @@ FQNavigationQueryBuilderTest >> testinitializeQuery [
 	self assert: queryBuilder query class identicalTo: FQNavigationQuery.
 	self
 		assert:
-			(queryBuilder query direction
+			(queryBuilder query directionStrategy
 				inheritsFrom: FQAbstractDirectionNavigationQueryStrategy).
 	self
 		assert:
-			(queryBuilder query association
+			(queryBuilder query associationStrategy
 				isKindOf: FQAbstractAssociationNavigationQueryStrategy).
 	self
 		assert:

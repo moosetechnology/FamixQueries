@@ -57,7 +57,7 @@ FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
 { #category : #comparing }
 FQScopeQuery >> = aQuery [
 	^ self class == aQuery class
-		and: [ direction == aQuery direction and: [ scope == aQuery scope ] ]
+		and: [ direction == aQuery directionStrategy and: [ scope == aQuery scope ] ]
 ]
 
 { #category : #'available parameters' }
@@ -67,18 +67,18 @@ FQScopeQuery >> availableDirections [
 
 { #category : #'available parameters' }
 FQScopeQuery >> availableScopesFor: aMooseGroup [
-	^ self direction availableScopesFor: aMooseGroup
-]
-
-{ #category : #accessing }
-FQScopeQuery >> direction [
-	^ direction
+	^ self directionStrategy availableScopesFor: aMooseGroup
 ]
 
 { #category : #accessing }
 FQScopeQuery >> direction: aSymbol [
 	direction := self availableDirections
 		detect: [ :dir | dir label asCamelCase = aSymbol asString ]
+]
+
+{ #category : #accessing }
+FQScopeQuery >> directionStrategy [
+	^ direction
 ]
 
 { #category : #accessing }
@@ -89,7 +89,7 @@ FQScopeQuery >> directionStrategy: anObject [
 { #category : #running }
 FQScopeQuery >> displayOn: aStream with: aString [
 	aStream << '(MooseObjectQueryResult withAll: ' << aString << ') '
-		<< self direction scopingSelector asString.
+		<< self directionStrategy scopingSelector asString.
 	aStream
 		space;
 		<< self scope name
@@ -97,8 +97,8 @@ FQScopeQuery >> displayOn: aStream with: aString [
 
 { #category : #testing }
 FQScopeQuery >> isValid [
-	^ self direction isClass
-		and: [ (self direction inheritsFrom: FQAbstractScopeDirection)
+	^ self directionStrategy isClass
+		and: [ (self directionStrategy inheritsFrom: FQAbstractScopeDirection)
 				and: [ self scope isClass and: [ self scope inheritsFrom: MooseEntity ] ] ]
 ]
 
@@ -106,7 +106,7 @@ FQScopeQuery >> isValid [
 FQScopeQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
 
-	^ self direction scope: self scope on: aMooseGroup
+	^ self directionStrategy scope: self scope on: aMooseGroup
 ]
 
 { #category : #accessing }
@@ -122,6 +122,6 @@ FQScopeQuery >> scope: anObject [
 { #category : #printing }
 FQScopeQuery >> storeOn: aStream [
 	aStream << self simpleClassName << ' new direction: #'
-		<< self direction label asCamelCase << '; scope: '
+		<< self directionStrategy label asCamelCase << '; scope: '
 		<< self scope name
 ]

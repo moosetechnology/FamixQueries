@@ -13,7 +13,7 @@ FQScopeQueryBuilderTest >> queryBuilderClass [
 FQScopeQueryBuilderTest >> testChangeQueryDirection [
 	queryBuilder changeQueryDirection: FQScopeDownDirection.
 	self
-		assert: queryBuilder query direction
+		assert: queryBuilder query directionStrategy
 		identicalTo: FQScopeDownDirection
 ]
 
@@ -27,7 +27,7 @@ FQScopeQueryBuilderTest >> testChangeQueryScope [
 FQScopeQueryBuilderTest >> testInitializeQuery [
 	self assert: queryBuilder query class identicalTo: FQScopeQuery.
 	self
-		assert: (queryBuilder query direction inheritsFrom: FQAbstractScopeDirection).
+		assert: (queryBuilder query directionStrategy inheritsFrom: FQAbstractScopeDirection).
 	self assert: queryBuilder query scope isNotNil.
 	self
 		assert: (queryBuilder availableScopes includes: queryBuilder query scope)

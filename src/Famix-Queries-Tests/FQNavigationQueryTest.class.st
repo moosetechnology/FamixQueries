@@ -17,7 +17,7 @@ FQNavigationQueryTest >> testAddAllAssociations [
 	query allPossibleAssociations
 		do: [ :assoc | query addAssociation: assoc ].
 	self
-		assert: query association class
+		assert: query associationStrategy class
 		identicalTo: FQAllAssociationsNavigationQueryStrategy
 ]
 
@@ -28,11 +28,11 @@ FQNavigationQueryTest >> testAddAssociation [
 		associationStrategy: FQAssociationNavigationQueryStrategy new.
 	
 	query addAssociation: FamixStAccess.
-	self assert: (query association associations includes: FamixStAccess).
+	self assert: (query associationStrategy associations includes: FamixStAccess).
 	
 	query addAssociation: FamixStAccess.
 	self
-		assert: (query association associations occurrencesOf: FamixStAccess)
+		assert: (query associationStrategy associations occurrencesOf: FamixStAccess)
 		equals: 1
 ]
 
@@ -244,9 +244,9 @@ FQNavigationQueryTest >> testRemoveAssociation [
 		associationStrategy: FQAllAssociationsNavigationQueryStrategy new.
 		
 	query removeAssociation: FamixStAccess.
-	self deny: (query association associations includes: FamixStAccess).
+	self deny: (query associationStrategy associations includes: FamixStAccess).
 	self
-		assert: query association class
+		assert: query associationStrategy class
 		identicalTo: FQAssociationNavigationQueryStrategy.
 		
 	query associationStrategy: (FQAssociationNavigationQueryStrategy with: FamixStAccess).
@@ -280,7 +280,24 @@ FQNavigationQueryTest >> testStoreOn [
 		evaluate: (String streamContents: [ :s | query storeOn: s ]).
 	
 	self assert: generatedQuery class identicalTo: self actualClass.
-	self assert: generatedQuery direction identicalTo: query direction.
-	self assert: generatedQuery association class identicalTo: query association class.
-	self assertCollection: generatedQuery association associations hasSameElements: query association associations
+	self assert: generatedQuery directionStrategy identicalTo: query directionStrategy.
+	self assert: generatedQuery associationStrategy class identicalTo: query associationStrategy class.
+	self assertCollection: generatedQuery associationStrategy associations hasSameElements: query associationStrategy associations
+]
+
+{ #category : #tests }
+FQNavigationQueryTest >> testSyntacticSugar [
+	query := self actualClass new
+		direction: #Incoming;
+		association: #Access;
+		association: #Inheritance.
+	self
+		assert: query directionStrategy
+		identicalTo: FQIncomingNavigationQueryStrategy.
+	self
+		assert: query associationStrategy class
+		identicalTo: FQAssociationNavigationQueryStrategy.
+	self
+		assertCollection: query associationStrategy associations
+		hasSameElements: {FamixTAccess. FamixTInheritance}
 ]

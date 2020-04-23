@@ -30,7 +30,7 @@ FQNavigationQueriesPresenter >> configureCheckBox: checkBox forNavigationAssocia
 				do: [ checkBox state: true
 					"Spec does not allow this to work" ] ];
 		whenChangedDo: [ self notifyQueryChanged ];
-		enabled: queryBuilder query association associations size > 1.
+		enabled: queryBuilder query associationStrategy associations size > 1.
 	(queryBuilder availableAssociations includes: associationTrait)
 		ifTrue: [ checkBox state: true ]
 		ifFalse: [ checkBox

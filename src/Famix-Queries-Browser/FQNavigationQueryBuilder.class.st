@@ -42,7 +42,7 @@ FQNavigationQueryBuilder >> changeQueryNavigationDirection: aDirection [
 
 { #category : #accessing }
 FQNavigationQueryBuilder >> currentQueryAssociations [
-	^ query association associations
+	^ query associationStrategy associations
 ]
 
 { #category : #initialization }

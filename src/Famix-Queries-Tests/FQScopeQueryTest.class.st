@@ -125,6 +125,15 @@ FQScopeQueryTest >> testStoreOn [
 		evaluate: (String streamContents: [ :s | query storeOn: s ]).
 	
 	self assert: generatedQuery class identicalTo: self actualClass.
-	self assert: generatedQuery direction identicalTo: query direction.
+	self assert: generatedQuery directionStrategy identicalTo: query directionStrategy.
 	self assert: generatedQuery scope identicalTo: query scope
+]
+
+{ #category : #tests }
+FQScopeQueryTest >> testSyntacticSugar [
+	query := self actualClass new
+		direction: #Up;
+		scope: FamixStClass.
+	self assert: query directionStrategy identicalTo: FQScopeUpDirection.
+	self assert: query scope identicalTo: FamixStClass
 ]

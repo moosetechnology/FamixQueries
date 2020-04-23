@@ -46,13 +46,13 @@ Class {
 	#name : #FQNavigationQuery,
 	#superclass : #FQAbstractQuery,
 	#instVars : [
-		'association',
-		'direction'
+		'directionStrategy',
+		'associationStrategy'
 	],
 	#category : #'Famix-Queries-Terminal'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #utils }
 FQNavigationQuery class >> associationAsSymbol: anAssociation [
 	^ (anAssociation name withoutPrefix: 'FamixT') asSymbol
 ]
@@ -68,24 +68,19 @@ FQNavigationQuery class >> direction: aDirectionStrategyClass association: anAss
 { #category : #comparing }
 FQNavigationQuery >> = aQuery [
 	^ self class == aQuery class
-		and: [ direction == aQuery direction
-				and: [ association associations = aQuery association associations ] ]
+		and: [ directionStrategy == aQuery directionStrategy
+				and: [ associationStrategy associations = aQuery associationStrategy associations ] ]
 ]
 
 { #category : #'adding - removing' }
 FQNavigationQuery >> addAssociation: anAssociation [
-	association := self association addAssociation: anAssociation
+	associationStrategy := self associationStrategy addAssociation: anAssociation
 ]
 
 { #category : #'available parameters' }
 FQNavigationQuery >> allPossibleAssociations [
 	^ FQAbstractAssociationNavigationQueryStrategy
 		allPossibleAssociations
-]
-
-{ #category : #accessing }
-FQNavigationQuery >> association [
-	^ association
 ]
 
 { #category : #'adding - removing' }
@@ -98,13 +93,18 @@ FQNavigationQuery >> association: aSymbol [
 ]
 
 { #category : #accessing }
+FQNavigationQuery >> associationStrategy [
+	^ associationStrategy
+]
+
+{ #category : #accessing }
 FQNavigationQuery >> associationStrategy: anObject [
-	association := anObject
+	associationStrategy := anObject
 ]
 
 { #category : #'available parameters' }
 FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
-	^ ((self direction
+	^ ((self directionStrategy
 		availableAssociationsFor: (aMooseGroup allUsing: TEntityMetaLevelDependency))
 		collect: #implementingType) asOrderedCollection
 ]
@@ -115,22 +115,22 @@ FQNavigationQuery >> availableDirections [
 ]
 
 { #category : #accessing }
-FQNavigationQuery >> direction [
-	^ direction
-]
-
-{ #category : #accessing }
 FQNavigationQuery >> direction: aSymbol [
-	direction := self availableDirections
+	directionStrategy := self availableDirections
 		detect: [ :dir | dir label asCamelCase = aSymbol asString ]
 ]
 
 { #category : #accessing }
-FQNavigationQuery >> directionStrategy: anObject [
-	direction := anObject
+FQNavigationQuery >> directionStrategy [
+	^ directionStrategy
 ]
 
-{ #category : #running }
+{ #category : #accessing }
+FQNavigationQuery >> directionStrategy: anObject [
+	directionStrategy := anObject
+]
+
+{ #category : #printing }
 FQNavigationQuery >> displayOn: aStream with: aString [
 	aStream << '(' << aString
 		<<
@@ -138,7 +138,7 @@ FQNavigationQuery >> displayOn: aStream with: aString [
 		inject: Set new
 		into: [ :result :entity | 
 			result addAll: '.
-	self direction displayOn: aStream with: self association.
+	self directionStrategy displayOn: aStream with: self associationStrategy.
 	aStream
 		<<
 			'.
@@ -148,22 +148,22 @@ FQNavigationQuery >> displayOn: aStream with: aString [
 { #category : #initialization }
 FQNavigationQuery >> initialize [
 	super initialize.
-	association := FQAssociationNavigationQueryStrategy new
+	associationStrategy := FQAssociationNavigationQueryStrategy new
 ]
 
 { #category : #testing }
 FQNavigationQuery >> isValid [
-	^ self direction isClass
-		and: [ (self direction
+	^ self directionStrategy isClass
+		and: [ (self directionStrategy
 				inheritsFrom: FQAbstractDirectionNavigationQueryStrategy)
-				and: [ (self association
+				and: [ (self associationStrategy
 						isKindOf: FQAbstractAssociationNavigationQueryStrategy)
-						and: [ self association associations isNotEmpty ] ] ]
+						and: [ self associationStrategy associations isNotEmpty ] ] ]
 ]
 
 { #category : #'adding - removing' }
 FQNavigationQuery >> removeAssociation: anAssociation [
-	self associationStrategy: (self association removeAssociation: anAssociation)
+	self associationStrategy: (self associationStrategy removeAssociation: anAssociation)
 ]
 
 { #category : #running }
@@ -173,20 +173,20 @@ FQNavigationQuery >> runOn: aMooseGroup [
 	^ (aMooseGroup
 		inject: Set new
 		into: [ :result :entity | 
-			result addAll: (self direction query: entity with: self association).
+			result addAll: (self directionStrategy query: entity with: self associationStrategy).
 			result ]) asMooseGroup
 ]
 
 { #category : #printing }
 FQNavigationQuery >> storeOn: aStream [
 	aStream << self simpleClassName << ' new direction: #'
-		<< self direction label asCamelCase << '; '.
-	self association associations
+		<< self directionStrategy label asCamelCase << '; '.
+	self associationStrategy associations
 		allButLastDo: [ :assoc | 
 			aStream << 'association: '.
 			(self class associationAsSymbol: assoc) storeOn: aStream.
 			aStream << $; ].
 	aStream << 'association: '.
-	(self class associationAsSymbol: self association associations last)
+	(self class associationAsSymbol: self associationStrategy associations last)
 		storeOn: aStream
 ]

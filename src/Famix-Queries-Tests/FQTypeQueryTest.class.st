@@ -181,3 +181,16 @@ FQTypeQueryTest >> testStoreOn [
 		assertCollection: generatedQuery types
 		hasSameElements: query types
 ]
+
+{ #category : #tests }
+FQTypeQueryTest >> testSyntacticSugar [
+	query := self actualClass new
+		type: FamixTMethod;
+		type: FamixStClass.
+	
+	self
+		assertCollection: query types
+		hasSameElements:
+			{FamixTMethod.
+			FamixStClass}
+]
