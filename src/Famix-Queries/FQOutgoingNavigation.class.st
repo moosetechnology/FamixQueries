@@ -23,7 +23,7 @@ FQOutgoingNavigation class >> displayOn: aStream with: anAssociationStrategy [
 	anAssociationStrategy displayOutgoingOn: aStream
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 FQOutgoingNavigation class >> label [
 	^ 'Outgoing'
 ]

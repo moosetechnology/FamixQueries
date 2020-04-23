@@ -19,7 +19,7 @@ FQAbstractScopeDirectionTest >> setUp [
 				run ]
 ]
 
-{ #category : #tests }
+{ #category : #'tests - available scopes' }
 FQAbstractScopeDirectionTest >> testAvailableScopesDown [
 	| directionStrategy classes availableScopes resultScopes |
 	
@@ -33,16 +33,16 @@ FQAbstractScopeDirectionTest >> testAvailableScopesDown [
 	self assertCollection: resultScopes hasSameElements: availableScopes
 ]
 
-{ #category : #tests }
+{ #category : #'tests - available scopes' }
 FQAbstractScopeDirectionTest >> testAvailableScopesFor [
 	self testAvailableScopesUp.
 	self testAvailableScopesUpDown.
 	self testAvailableScopesDown
 ]
 
-{ #category : #tests }
+{ #category : #'tests - available scopes' }
 FQAbstractScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
-| directionStrategy classes |
+	| directionStrategy classes |
 	
 	classes := model allModelClasses.
 	
@@ -56,7 +56,7 @@ FQAbstractScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
 	self assert: (( directionStrategy availableScopesFor: classes) noneSatisfy: #isTrait)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - available scopes' }
 FQAbstractScopeDirectionTest >> testAvailableScopesUp [
 	| directionStrategy classes availableScopes resultScopes |
 	
@@ -70,7 +70,7 @@ FQAbstractScopeDirectionTest >> testAvailableScopesUp [
 	self assertCollection: resultScopes hasSameElements: availableScopes
 ]
 
-{ #category : #tests }
+{ #category : #'tests - available scopes' }
 FQAbstractScopeDirectionTest >> testAvailableScopesUpDown [
 	| directionStrategy classes availableScopes resultScopes |
 	
@@ -83,4 +83,20 @@ FQAbstractScopeDirectionTest >> testAvailableScopesUpDown [
 	
 	self assert: resultScopes size equals: availableScopes size.
 	self assertCollection: resultScopes hasSameElements: availableScopes
+]
+
+{ #category : #tests }
+FQAbstractScopeDirectionTest >> testScopeOn [
+	| direction |
+	direction := FQScopeUp.
+	(direction scope: FamixStPackage on: model allModelMethods)
+		do: [ :result | self assert: result class identicalTo: FamixStPackage ].
+	
+	direction := FQScopeUpAndDown.
+	(direction scope: FamixStClass on: model allModelMethods)
+		do: [ :result | self assert: result class identicalTo: FamixStClass ].
+	
+	direction := FQScopeDown.
+	(direction scope: FamixStMethod on: model allModelClasses)
+		do: [ :result | self assert: result class identicalTo: FamixStMethod ]
 ]

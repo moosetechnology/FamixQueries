@@ -14,7 +14,7 @@ FQAbstractNavigationDirection class >> displayOn: aStream with: anAssociationStr
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 FQAbstractNavigationDirection class >> label [
 	^ self subclassResponsibility
 ]

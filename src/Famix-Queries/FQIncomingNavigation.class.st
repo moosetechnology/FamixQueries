@@ -23,7 +23,7 @@ FQIncomingNavigation class >> displayOn: aStream with: anAssociationStrategy [
 	anAssociationStrategy displayIncomingOn: aStream
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 FQIncomingNavigation class >> label [
 	^ 'Incoming'
 ]

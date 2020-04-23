@@ -1,3 +1,20 @@
+"
+I am a direction strategy used by FQScopeQuery to scope entities.
+
+I am responsible for a call to MooseQuery to navigate containment.
+
+See my Class side.
+
+My main method is #scope:on:
+	- It takes as argument a scope; i.e. a Famix**Entity class (** depends on the meta-model)
+	and an input MooseGroup.
+	- It collects, for each entities of the input, the entities
+		- that contain the input entity
+		- which type is the scope.
+		
+I also provide #availableScopesForEntity: method.
+It returns the types of the entities that contain the input entity.
+"
 Class {
 	#name : #FQScopeUp,
 	#superclass : #FQAbstractScopeDirection,
@@ -9,7 +26,7 @@ FQScopeUp class >> availableScopesForEntity: entity [
 	^ entity allParentTypes
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 FQScopeUp class >> label [
 	^ 'Up'
 ]
@@ -20,7 +37,7 @@ FQScopeUp class >> scope: aFamixClass on: aMooseGroup [
 		asMooseGroup
 ]
 
-{ #category : #acessing }
+{ #category : #printing }
 FQScopeUp class >> scopingSelector [
 	^ #atScope:
 ]

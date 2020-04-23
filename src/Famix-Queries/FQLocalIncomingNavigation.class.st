@@ -9,12 +9,12 @@ FQLocalIncomingNavigation class >> availableAssociationsFor: aMooseGroup [
 	^ aMooseGroup entities flatCollectAsSet: #incomingMSEProperties
 ]
 
-{ #category : #action }
+{ #category : #printing }
 FQLocalIncomingNavigation class >> displayOn: aStream with: anAssociationStrategy [
 	anAssociationStrategy displayLocalIncomingOn: aStream
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 FQLocalIncomingNavigation class >> label [
 	^ 'Local Incoming'
 ]

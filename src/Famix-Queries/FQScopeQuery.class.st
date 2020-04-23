@@ -86,7 +86,7 @@ FQScopeQuery >> directionStrategy: anObject [
 	direction := anObject
 ]
 
-{ #category : #running }
+{ #category : #printing }
 FQScopeQuery >> displayOn: aStream with: aString [
 	aStream << '(MooseObjectQueryResult withAll: ' << aString << ') '
 		<< self directionStrategy scopingSelector asString.
@@ -104,8 +104,6 @@ FQScopeQuery >> isValid [
 
 { #category : #running }
 FQScopeQuery >> runOn: aMooseGroup [
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-
 	^ self directionStrategy scope: self scope on: aMooseGroup
 ]
 

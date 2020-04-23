@@ -14,7 +14,7 @@ FQLocalOutgoingNavigation class >> displayOn: aStream with: anAssociationStrateg
 	anAssociationStrategy displayLocalOutgoingOn: aStream
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 FQLocalOutgoingNavigation class >> label [
 	^ 'Local Outgoing'
 ]
