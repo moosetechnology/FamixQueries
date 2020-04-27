@@ -33,5 +33,5 @@ FQAbstractQueryBuilderTest >> setUp [
 FQAbstractQueryBuilderTest >> testErrorOnInitializeQuery [
 	self
 		should: [ self queryBuilderClass newWithEntities: helper noEntities ]
-		raise: ImpossibleQuery
+		raise: FQImpossibleQuery
 ]

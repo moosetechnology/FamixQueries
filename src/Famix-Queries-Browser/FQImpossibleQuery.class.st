@@ -1,5 +1,5 @@
 Class {
-	#name : #ImpossibleQuery,
+	#name : #FQImpossibleQuery,
 	#superclass : #Error,
 	#instVars : [
 		'builder'
@@ -8,18 +8,18 @@ Class {
 }
 
 { #category : #accessing }
-ImpossibleQuery class >> builder: aBuilder [
+FQImpossibleQuery class >> builder: aBuilder [
 	^ self new
 		builder: aBuilder;
 		yourself
 ]
 
 { #category : #accessing }
-ImpossibleQuery >> builder [
+FQImpossibleQuery >> builder [
 	^ builder
 ]
 
 { #category : #accessing }
-ImpossibleQuery >> builder: anObject [
+FQImpossibleQuery >> builder: anObject [
 	builder := anObject
 ]

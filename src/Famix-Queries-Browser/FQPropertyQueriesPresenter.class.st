@@ -78,7 +78,7 @@ FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 FQPropertyQueriesPresenter >> updateQueryBuilderFor: aPropertyQueryParametersPresenterClass [
 	queryBuilder := [ aPropertyQueryParametersPresenterClass
 		queryBuilderClass newWithEntities: queryBuilder entities ]
-		on: ImpossibleQuery
+		on: FQImpossibleQuery
 		do: [ :error | error builder ]
 ]
 

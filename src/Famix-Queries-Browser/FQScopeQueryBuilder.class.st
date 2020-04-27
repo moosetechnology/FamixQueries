@@ -25,7 +25,7 @@ FQScopeQueryBuilder >> changeQueryDirection: aDirection [
 	query directionStrategy: aDirection.
 	query scope: nil.
 	self availableScopes
-		ifEmpty: [ ImpossibleQuery signal: 'No scope available' ].
+		ifEmpty: [ FQImpossibleQuery signal: 'No scope available' ].
 	query scope: self availableScopes first
 ]
 
@@ -40,6 +40,6 @@ FQScopeQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query directionStrategy: self availableScopeDirections first.
 	self availableScopes
-		ifEmpty: [ (ImpossibleQuery new builder: self) signal ].
+		ifEmpty: [ (FQImpossibleQuery new builder: self) signal ].
 	query scope: self availableScopes first
 ]

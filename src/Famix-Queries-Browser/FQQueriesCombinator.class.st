@@ -2,7 +2,6 @@ Class {
 	#name : #FQQueriesCombinator,
 	#superclass : #Object,
 	#instVars : [
-		'initialEntities',
 		'queries'
 	],
 	#category : #'Famix-Queries-Browser-Builder'
@@ -16,41 +15,56 @@ FQQueriesCombinator class >> newWithEntities: entities [
 ]
 
 { #category : #adding }
-FQQueriesCombinator >> addQueryToSequence: aQuery [
-	| newQuery |
-	newQuery := queries
-		ifEmpty: [ self flag: 'Better way to do this ?'.
-			aQuery ]
-		ifNotEmpty: [ FQSequenceQuery
-				forQueries:
-					{queries last.
-					aQuery} ].
-	queries addLast: newQuery.
-	^ newQuery
+FQQueriesCombinator >> addQuery: aQuery after: anExistingQueryWrapper [
+	| queryWrapper |
+
+	(queries includes: anExistingQueryWrapper)
+		ifFalse: [ FQUnknownPrecedingQuery signal ].
+
+	queryWrapper := FQQueryWrapper new query: aQuery.
+	
+	queryWrapper parent: anExistingQueryWrapper.
+	anExistingQueryWrapper addChild: queryWrapper.
+	
+	^ queries addLast: queryWrapper.
+	
 ]
 
-{ #category : #accessing }
-FQQueriesCombinator >> currentResult [
-	self flag: 'Improvement needed'.
+{ #category : #adding }
+FQQueriesCombinator >> addQueryOnInitialEntities: aQuery [
 	^ queries
-		ifEmpty: [ initialEntities ]
-		ifNotEmpty: [ queries last runOn: initialEntities ]
+		addLast:
+			(FQQueryWrapper new
+				parent: queries first;
+				query: aQuery)
+]
+
+{ #category : #private }
+FQQueriesCombinator >> computeResultOf: aQueryWrapper [
+	aQueryWrapper
+		result:
+			(aQueryWrapper query runOn: (self resultOfQuery: aQueryWrapper parent)).
+	^ aQueryWrapper result
 ]
 
 { #category : #accessing }
 FQQueriesCombinator >> initialEntities [
-	^ initialEntities
+	^ queries first result
 ]
 
 { #category : #accessing }
-FQQueriesCombinator >> initialEntities: anObject [
-	initialEntities := anObject
+FQQueriesCombinator >> initialEntities: aMooseGroup [
+	queries
+		addFirst:
+			(FQQueryWrapper new
+				result: aMooseGroup;
+				label: 'Initial Entities';
+				yourself)
 ]
 
 { #category : #initialization }
 FQQueriesCombinator >> initialize [
 	super initialize.
-	initialEntities := MooseGroup new.
 	queries := OrderedCollection new
 ]
 
@@ -60,7 +74,6 @@ FQQueriesCombinator >> queries [
 ]
 
 { #category : #accessing }
-FQQueriesCombinator >> resultOfQuery: aQuery [
-	self flag: 'Cache ??'.
-	^ aQuery runOn: initialEntities
+FQQueriesCombinator >> resultOfQuery: aQueryWrapper [
+	^ aQueryWrapper result ifNil: [ self computeResultOf: aQueryWrapper ]
 ]

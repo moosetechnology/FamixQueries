@@ -19,7 +19,7 @@ I have an association strategy, responsible for the call to MooseQuery.
 - Changing direction: 
 	Use #directionStrategy: with a subclass of FQAbstractNavigationDirection as argument.
 	Use #direction: with a symbol (#Incoming, #Outgoing, #LocalIncoming or #LocalOutgoing) as argument.
-- Changing associations:
+- Changing association strategy:
 	Use #associationStrategy: with a subclass of FQAbstractNavigationAssociations as argument.
 - Adding - removing associations:
 	Use #association: with a Symbol (#Access, #Inheritance, #Invocation, #Reference or #TraitUsage) as argument

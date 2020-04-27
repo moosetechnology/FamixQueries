@@ -2,7 +2,6 @@ Class {
 	#name : #FQQueriesBrowserPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'initialEntitiesButton',
 		'queriesTree',
 		'queryResult',
 		'entities',
@@ -35,9 +34,8 @@ FQQueriesBrowserPresenter class >> defaultSpec [
 	^ SpPanedLayout newHorizontal
 		add:
 			(SpBoxLayout newVertical
-				add: #initialEntitiesButton height: self buttonHeight;
 				add: #queriesTree;
-				add: #newQueryButton;
+				add: #newQueryButton height: self buttonHeight;
 				yourself);
 		add: #queryResult;
 		yourself
@@ -67,22 +65,23 @@ FQQueriesBrowserPresenter class >> title [
 ]
 
 { #category : #initialization }
+FQQueriesBrowserPresenter >> connectPresenters [
+	queriesTree
+		transmitTo: queryResult
+		transform:
+			[ :item | item ifNotNil: [ queriesCombinator resultOfQuery: item ] ifNil: [ {} ] ]
+]
+
+{ #category : #initialization }
 FQQueriesBrowserPresenter >> defineInputPorts [
 	^ {FQQueryPort new}
 ]
 
-{ #category : #initialization }
-FQQueriesBrowserPresenter >> displayLabelFor: query [
-	^ query class label
-		,
-			(query class == FQSequenceQuery
-				ifTrue: [ ' (' , query childrenQueries last class label , ')' ]
-				ifFalse: [ '' ])
-]
-
 { #category : #accessing }
 FQQueriesBrowserPresenter >> entities [
-	^ queriesCombinator currentResult
+	^ queriesTree selectedItem
+		ifNil: [ queriesCombinator initialEntities ]
+		ifNotNil: [ queriesCombinator resultOfQuery: queriesTree selectedItem ]
 ]
 
 { #category : #accessing }
@@ -91,16 +90,7 @@ FQQueriesBrowserPresenter >> entities: anObject [
 ]
 
 { #category : #initialization }
-FQQueriesBrowserPresenter >> initializeInitialEntitiesButton [
-	initialEntitiesButton := self newButton
-		label: 'Initial entities';
-		whenActivatedDo: [ "queriesTree unselectAll."
-			queryResult items: queriesCombinator initialEntities ]
-]
-
-{ #category : #initialization }
 FQQueriesBrowserPresenter >> initializePresenters [
-	self initializeInitialEntitiesButton.
 	self initializeQueriesTree.
 	self initializeQueryCreationButton.
 	self initializeQueryResult
@@ -108,14 +98,15 @@ FQQueriesBrowserPresenter >> initializePresenters [
 
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializeQueriesTree [
-	queriesTree := self newList
-		headerTitle: 'Queries';
-		display:
-				[ :query | self displayLabelFor: query ];
-		whenSelectionChangedDo: [ :selection | 
-			queryResult
-				items: (queriesCombinator resultOfQuery: selection selectedItem).
-			self update ]
+	queriesTree := self newTreeTable
+		addColumn:
+			(SpCompositeTableColumn new
+				title: 'Queries';
+				addColumn: (SpStringTableColumn new evaluated: [ :wrapper | wrapper label ]));
+		roots: queriesCombinator queries;
+		children: #children;
+		selectItem: queriesCombinator queries first;
+		yourself
 ]
 
 { #category : #initialization }
@@ -140,7 +131,15 @@ FQQueriesBrowserPresenter >> setModelBeforeInitialization: aMooseGroup [
 
 { #category : #update }
 FQQueriesBrowserPresenter >> updateForQuery: aQuery [
-	queriesCombinator addQueryToSequence: aQuery.
-	queriesTree items: queriesCombinator queries.
-	queriesTree selectItem: queriesCombinator queries last
+	| newQueryWrapper |
+	newQueryWrapper := queriesTree selectedItem "Keep trace of the parent, independant of the selection ?"
+		ifNil: [ queriesCombinator addQueryOnInitialEntities: aQuery ]
+		ifNotNil: [ queriesCombinator addQuery: aQuery after: queriesTree selectedItem ].
+	queriesTree
+		roots:
+			(queriesCombinator queries select: [ :wrapper | wrapper parent isNil ]);
+		children: [ :wrapper | wrapper children ].
+	queriesTree selectItem: newQueryWrapper.
+	queryResult items: (queriesCombinator resultOfQuery: newQueryWrapper).
+	self update
 ]

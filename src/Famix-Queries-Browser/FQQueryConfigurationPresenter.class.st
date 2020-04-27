@@ -90,7 +90,7 @@ FQQueryConfigurationPresenter >> queryBuilder [
 FQQueryConfigurationPresenter >> setModelBeforeInitialization: entities [
 	queryBuilder := [ self class queryBuilderClass
 		newWithEntities: entities ]
-		on: ImpossibleQuery
+		on: FQImpossibleQuery
 		do: [ :error | error builder ]
 ]
 
