@@ -155,6 +155,16 @@ isTrait could be more thorough."
 						or: [ type isTrait ] ] ]
 ]
 
+{ #category : #printing }
+FQTypeQuery >> printOn: aStream [
+	aStream << self class label << ' ('.
+	self types
+		allButLastDo: [ :type | 
+			aStream << (self class typeAsSymbol: type).
+			aStream << ', ' ].
+	aStream << (self class typeAsSymbol: self types last) << ')'
+]
+
 { #category : #'adding - removing' }
 FQTypeQuery >> removeType: aType [
 	self types size = 1

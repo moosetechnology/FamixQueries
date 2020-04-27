@@ -100,6 +100,17 @@ FQNumericQueryTest >> testIsValid [
 	self deny: query isValid
 ]
 
+{ #category : #'tests - running' }
+FQNumericQueryTest >> testPrintOn [
+	query := self actualClass
+		forProperty: #numberOfMethods
+		comparator: #>
+		withValue: 10.
+	self
+		assert: query printString
+		equals: 'Number Property Query (numberOfMethods > 10)'
+]
+
 { #category : #'tests - printing' }
 FQNumericQueryTest >> testRunOn [
 	| classes queryResult expectedResult |	

@@ -76,6 +76,14 @@ FQBooleanQueryTest >> testNoAvailableProperties [
 	self assert: availableProperties isEmpty
 ]
 
+{ #category : #'tests - printing' }
+FQBooleanQueryTest >> testPrintOn [
+	query := self actualClass forProperty: #isAbstract.
+	self
+		assert: query printString
+		equals: 'Boolean Property Query (isAbstract)'
+]
+
 { #category : #'tests - running' }
 FQBooleanQueryTest >> testRunOn [
 	| queryResult expectedResult |

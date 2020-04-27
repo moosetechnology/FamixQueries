@@ -108,6 +108,15 @@ FQTypeQueryTest >> testIsValid [
 	
 ]
 
+{ #category : #tests }
+FQTypeQueryTest >> testPrintOn [
+	query := self actualClass
+		forTypes:
+			{FamixStClass.
+			FamixStMethod}.
+	self assert: query printString equals: 'Type Query (Class, Method)'
+]
+
 { #category : #'tests - adding - removing' }
 FQTypeQueryTest >> testRemoveType [
 	query := self actualClass

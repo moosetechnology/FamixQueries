@@ -29,7 +29,7 @@ FQQueryWrapper >> initialize [
 
 { #category : #accessing }
 FQQueryWrapper >> label [
-	^ label ifNil: [ label := query class label ]
+	^ label ifNil: [ label := query printString ]
 ]
 
 { #category : #accessing }

@@ -54,6 +54,12 @@ FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+FQScopeQuery class >> scopeAsString: aScopeClass [
+	^ (aScopeClass name
+		piecesCutWhere: [ :char1 :char2 | char2 isUppercase ]) last
+]
+
 { #category : #comparing }
 FQScopeQuery >> = aQuery [
 	^ self class == aQuery class
@@ -100,6 +106,12 @@ FQScopeQuery >> isValid [
 	^ self directionStrategy isClass
 		and: [ (self directionStrategy inheritsFrom: FQAbstractScopeDirection)
 				and: [ self scope isClass and: [ self scope inheritsFrom: MooseEntity ] ] ]
+]
+
+{ #category : #printing }
+FQScopeQuery >> printOn: aStream [
+	aStream << self class label << ' (' << self directionStrategy label
+		<< ', to ' << (self class scopeAsString: self scope) << ')'
 ]
 
 { #category : #running }

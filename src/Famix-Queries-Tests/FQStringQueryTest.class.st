@@ -110,12 +110,23 @@ FQStringQueryTest >> testIsValid [
 	self deny: query isValid
 ]
 
+{ #category : #tests }
+FQStringQueryTest >> testPrintOn [
+	query := self actualClass
+		forProperty: #name
+		comparator: #includesSubstring:
+		withValue: 'LAN'.
+	self
+		assert: query printString
+		equals: 'String Property Query (name includesSubstring: ''LAN'')'
+]
+
 { #category : #'tests - running' }
 FQStringQueryTest >> testRunOn [
 	| classes queryResult expectedResult |	
 	classes := model allModelClasses select: #isInstanceSide.
 	
-	query := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
+	query := self actualClass forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
 	queryResult := query runOn: classes.
 	
 	expectedResult := #('LANPool' 'LANPacket' 'LANPrintServer').

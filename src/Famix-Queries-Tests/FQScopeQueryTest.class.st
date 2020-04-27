@@ -96,6 +96,14 @@ FQScopeQueryTest >> testIsValid [
 	self deny: query isValid
 ]
 
+{ #category : #'tests - printing' }
+FQScopeQueryTest >> testPrintOn [
+	query := self actualClass
+		forScope: FamixStClass
+		direction: FQScopeDown.
+	self assert: query printString equals: 'Scope Query (Down, to Class)'
+]
+
 { #category : #'tests - running' }
 FQScopeQueryTest >> testRunOn [
 	| classes queryResult expectedResult |

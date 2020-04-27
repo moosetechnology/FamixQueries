@@ -57,6 +57,12 @@ Class {
 }
 
 { #category : #utils }
+FQNavigationQuery class >> associationAsString: anAssociation [
+	^ (anAssociation name withoutPrefix: 'FamixT') asLowercase
+		asEnglishPlural
+]
+
+{ #category : #utils }
 FQNavigationQuery class >> associationAsSymbol: anAssociation [
 	^ (anAssociation name withoutPrefix: 'FamixT') asSymbol
 ]
@@ -163,6 +169,20 @@ FQNavigationQuery >> isValid [
 				and: [ (self associationStrategy
 						isKindOf: FQAbstractNavigationAssociations)
 						and: [ self associationStrategy associations isNotEmpty ] ] ]
+]
+
+{ #category : #printing }
+FQNavigationQuery >> printOn: aStream [
+	aStream << self class label << ' (' << self directionStrategy label
+		<< ' '.
+	self associationStrategy associations
+		allButLastDo:
+			[ :assoc | aStream << (self class associationAsString: assoc) << ', ' ].
+	aStream
+		<<
+			(self class
+				associationAsString: self associationStrategy associations last)
+		<< ')'
 ]
 
 { #category : #'adding - removing' }

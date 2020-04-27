@@ -237,6 +237,20 @@ FQNavigationQueryTest >> testOutgoingInheritance [
 		equals: (model entityNamed: 'Smalltalk::LANOutputServer')
 ]
 
+{ #category : #'tests - printing' }
+FQNavigationQueryTest >> testPrintOn [
+	query := self actualClass
+		direction: FQLocalIncomingNavigation
+		association:
+			(FQNavigationAssociations
+				withAll:
+					{FamixTReference.
+					FamixTAccess}).
+	self
+		assert: (String streamContents: [ :stream | query printOn: stream ])
+		equals: 'Navigation Query (Local Incoming references, accesses)'
+]
+
 { #category : #'tests - adding - removing' }
 FQNavigationQueryTest >> testRemoveAssociation [
 	query := self actualClass new

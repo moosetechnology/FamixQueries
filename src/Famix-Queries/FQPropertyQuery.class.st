@@ -101,6 +101,15 @@ FQPropertyQuery >> isValid [
 	^ self property isSymbol
 ]
 
+{ #category : #printing }
+FQPropertyQuery >> printOn: aStream [
+	aStream << self class label << ' (' << self property.
+	self hasComparisonParameters
+		ifTrue: [ aStream << ' ' << self comparator << ' '
+				<< self valueToCompareAsString ].
+	aStream << ')'
+]
+
 { #category : #accessing }
 FQPropertyQuery >> property [
 	^ property
