@@ -11,6 +11,15 @@ Class {
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
+{ #category : #commands }
+FQQueriesBrowserPresenter class >> buildCommandsGroupWith: presenterIntance forRoot: rootCommandGroup [
+	rootCommandGroup
+		register:
+			(FQAddQueryCommand forSpec
+				iconName: #add;
+				yourself)
+]
+
 { #category : #entities }
 FQQueriesBrowserPresenter class >> classesAndMethods [
 	| model |
@@ -106,6 +115,9 @@ FQQueriesBrowserPresenter >> initializeQueriesTree [
 		roots: queriesCombinator queries;
 		children: #children;
 		selectItem: queriesCombinator queries first;
+		contextMenuFromCommandsGroup: [ self rootCommandsGroup ];
+		activateOnDoubleClick;
+		whenActivatedDo: [ :selection | (FQQueryCreationPresenter on: self) openWithSpec ];
 		yourself
 ]
 
