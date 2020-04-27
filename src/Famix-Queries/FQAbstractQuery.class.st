@@ -44,9 +44,7 @@ FQAbstractQuery class >> projectPrefix [
 
 { #category : #'instance creation' }
 FQAbstractQuery class >> readFrom: aString [
-	| script |
-	script := 'FQ' , aString trim.
-	^ self compiler evaluate: script
+	^ self compiler evaluate: aString
 ]
 
 { #category : #comparing }
@@ -78,5 +76,8 @@ FQAbstractQuery >> runOn: aMooseGroup [
 
 { #category : #accessing }
 FQAbstractQuery >> simpleClassName [
+	"This was used to remove the 'FQ' prefix in #storeOn: method.
+	Problem is, by removing it, the System does not know those classes and cannot evaluate correctly the provided code"
+
 	^ self className withoutPrefix: self class projectPrefix
 ]

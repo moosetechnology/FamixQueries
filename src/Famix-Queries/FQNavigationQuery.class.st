@@ -203,7 +203,7 @@ FQNavigationQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQNavigationQuery >> storeOn: aStream [
-	aStream << self simpleClassName << ' new direction: #'
+	aStream << self className << ' new direction: #'
 		<< self directionStrategy label asCamelCase << '; '.
 	self associationStrategy associations
 		allButLastDo: [ :assoc | 

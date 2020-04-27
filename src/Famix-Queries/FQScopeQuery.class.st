@@ -131,7 +131,7 @@ FQScopeQuery >> scope: anObject [
 
 { #category : #printing }
 FQScopeQuery >> storeOn: aStream [
-	aStream << self simpleClassName << ' new direction: #'
+	aStream << self className << ' new direction: #'
 		<< self directionStrategy label asCamelCase << '; scope: '
 		<< self scope name
 ]

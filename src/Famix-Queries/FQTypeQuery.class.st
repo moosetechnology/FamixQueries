@@ -182,7 +182,7 @@ FQTypeQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQTypeQuery >> storeOn: aStream [
-	aStream << self simpleClassName << ' new '.
+	aStream << self className << ' new '.
 	self types
 		allButLastDo: [ :type | 
 			aStream << 'type: '.

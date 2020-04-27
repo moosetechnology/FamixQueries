@@ -172,14 +172,9 @@ FQQueryCreationPresenter >> initializePresenters [
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeQueryCode [
 	queryCode := self newCode
-		whenTextIsAcceptedDo: [ :code | 
-			self updateForAcceptedCode: self projectPrefix , code.
-			self flag: 'This is a hack' ];
+		whenTextIsAcceptedDo: [ :code | self updateForAcceptedCode: code ];
 		withoutSyntaxHighlight;
-		yourself.
-	self
-		flag:
-			'Is there a way to have bindings in Spec, so we can have syntax highlight and avoid this hack ?'
+		yourself
 ]
 
 { #category : #initialization }
@@ -253,9 +248,7 @@ FQQueryCreationPresenter >> transmitFromConfigToCode [
 	queryConfigurationPresenter
 		transmitTo: queryCode
 		transform: [ :queryBuilder | 
-			self flag:
-				'Is there a way to have bindings in Spec, so we can have syntax highlight ?'.
-			"queryCode syntaxHighlight: queryBuilder queryIsValid."
+			queryCode syntaxHighlight: queryBuilder queryIsValid.
 			queryBuilder codeToDisplay ]
 ]
 
