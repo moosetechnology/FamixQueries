@@ -1,3 +1,13 @@
+"
+I am the model used by a FQQueryConfigurationPresenter.
+I build terminal queries (See FQAbstractQuery).
+
+- I provide information on the available parameters to build a query, depending on an input MooseGroup.
+- I build a query and gives the presenter the information it needs about it.
+- I can apply the query on an input MooseGroup and give the resulting MooseGroup.
+
+See my subclasses for specialized behavior depending on the type of query they build.
+"
 Class {
 	#name : #FQAbstractQueryBuilder,
 	#superclass : #Object,

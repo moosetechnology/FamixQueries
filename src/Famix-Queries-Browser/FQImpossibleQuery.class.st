@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'builder'
 	],
-	#category : #'Famix-Queries-Browser-Builder'
+	#category : #'Famix-Queries-Browser-Errors'
 }
 
 { #category : #accessing }

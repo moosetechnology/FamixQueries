@@ -21,7 +21,7 @@ FQQueriesCombinator >> addQuery: aQuery after: anExistingQueryWrapper [
 	(queries includes: anExistingQueryWrapper)
 		ifFalse: [ FQUnknownPrecedingQuery signal ].
 
-	queryWrapper := FQQueryWrapper new query: aQuery.
+	queryWrapper := FQTerminalQueryWrapper new query: aQuery.
 	
 	queryWrapper parent: anExistingQueryWrapper.
 	anExistingQueryWrapper addChild: queryWrapper.
@@ -34,9 +34,24 @@ FQQueriesCombinator >> addQuery: aQuery after: anExistingQueryWrapper [
 FQQueriesCombinator >> addQueryOnInitialEntities: aQuery [
 	^ queries
 		addLast:
-			(FQQueryWrapper new
+			(FQTerminalQueryWrapper new
 				parent: queries first;
 				query: aQuery)
+]
+
+{ #category : #adding }
+FQQueriesCombinator >> addUnionQueryBetween: firstParent and: secondParent [
+	| queryWrapper parents |
+	parents := {firstParent.
+	secondParent}.
+	(queries includesAll: parents)
+		ifFalse: [ FQUnknownPrecedingQuery signal ].
+	queryWrapper := FQCombinatorQueryWrapper new
+		query: (FQUnionQuery forQueries: parents);
+		label: 'Union'.
+	queryWrapper parents: parents.
+	parents do: [ :parent | parent addChild: queryWrapper ].
+	^ queries addLast: queryWrapper
 ]
 
 { #category : #private }
@@ -56,10 +71,16 @@ FQQueriesCombinator >> initialEntities [
 FQQueriesCombinator >> initialEntities: aMooseGroup [
 	queries
 		addFirst:
-			(FQQueryWrapper new
+			(FQTerminalQueryWrapper new
 				result: aMooseGroup;
 				label: 'Initial Entities';
+				color: (Color colorFrom: 'DDDDDD');
 				yourself)
+]
+
+{ #category : #accessing }
+FQQueriesCombinator >> initialQuery [
+	^ queries detect: [ :wrapper | wrapper parent isNil ]
 ]
 
 { #category : #initialization }
@@ -71,6 +92,17 @@ FQQueriesCombinator >> initialize [
 { #category : #accessing }
 FQQueriesCombinator >> queries [
 	^ queries
+]
+
+{ #category : #removing }
+FQQueriesCombinator >> removeQuery: aQueryWrapper [
+	aQueryWrapper children
+		ifNotEmpty: [ UIManager default
+				alert: 'Cannot remove a query with children for now'.
+			^ self ].
+	aQueryWrapper parent removeChild: aQueryWrapper.
+	queries remove: aQueryWrapper.
+	^ aQueryWrapper
 ]
 
 { #category : #accessing }

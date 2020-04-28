@@ -1,5 +1,5 @@
 Class {
 	#name : #FQUnknownPrecedingQuery,
 	#superclass : #Error,
-	#category : #'Famix-Queries-Browser-Builder'
+	#category : #'Famix-Queries-Browser-Errors'
 }
