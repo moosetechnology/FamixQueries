@@ -61,7 +61,7 @@ FQTypeQuery class >> forTypes: aTypesCollection [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utils }
 FQTypeQuery class >> typeAsSymbol: aType [
 	^ (aType name piecesCutWhere: [ :char1 :char2 | char2 isUppercase ])
 		last asSymbol

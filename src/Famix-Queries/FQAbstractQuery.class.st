@@ -37,7 +37,7 @@ FQAbstractQuery class >> isAbstract [
 	^ self = FQAbstractQuery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQAbstractQuery class >> projectPrefix [
 	^ 'FQ'
 ]

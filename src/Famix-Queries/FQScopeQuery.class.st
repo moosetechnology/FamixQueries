@@ -54,7 +54,7 @@ FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utils }
 FQScopeQuery class >> scopeAsString: aScopeClass [
 	^ (aScopeClass name
 		piecesCutWhere: [ :char1 :char2 | char2 isUppercase ]) last

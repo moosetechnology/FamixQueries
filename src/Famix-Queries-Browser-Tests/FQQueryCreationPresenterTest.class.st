@@ -97,10 +97,11 @@ FQQueryCreationPresenterTest >> testToolBar [
 	self
 		assert: presenter toolBar presenters first class
 		identicalTo: SpToolBarButton.
-		
-	initialQueriesSize := presenter browser queriesTree model items size.
+	initialQueriesSize := (presenter browser queriesTree roots
+		flatCollectAsSet: [ :root | 
+			{root.
+			(presenter browser queriesTree childrenFor: root)} ]) size.
 	self selectNavigationToAvoidEmptyResult.
-	
 	presenter toolBar presenters first click.
 	self
 		assert: presenter browser queriesTree model items size
