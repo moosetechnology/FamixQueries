@@ -100,7 +100,7 @@ FQQueriesCombinator >> removeQuery: aQueryWrapper [
 		ifNotEmpty: [ UIManager default
 				alert: 'Cannot remove a query with children for now'.
 			^ self ].
-	aQueryWrapper parent removeChild: aQueryWrapper.
+	aQueryWrapper prepareRemoval.
 	queries remove: aQueryWrapper.
 	^ aQueryWrapper
 ]

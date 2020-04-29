@@ -51,16 +51,17 @@ FQRoassalQueryBrowser class >> title [
 
 { #category : #roassal }
 FQRoassalQueryBrowser >> boxDraggedAction: event [
+	| potentialParents |
 	self selectedQuery: event shape model.
-	(event canvas shapes
+	potentialParents := event canvas shapes
 		select: [ :shape | 
 			(shape isKindOf: RSBox)
 				and: [ shape ~= event shape
 						and: [ shape encompassingRectangle
-								intersects: event shape encompassingRectangle ] ] ])
-		ifNotEmpty: [ :parents | 
-			queriesCombinator
-				addUnionQueryBetween: parents first model
+								intersects: event shape encompassingRectangle ] ] ].
+	potentialParents size == 1
+		ifTrue: [ queriesCombinator
+				addUnionQueryBetween: potentialParents first model
 				and: event shape model ].
 	queriesGraph refresh
 ]
@@ -150,12 +151,12 @@ FQRoassalQueryBrowser >> displayScript: canvas [
 			(RSMenuActivable new
 				menuDo: [ :menu :box | self boxMenu: menu box: box ]).
 	canvas addAll: boxes.
-	RSEdgeBuilder orthoVertical
+	RSEdgeBuilder line
 		canvas: canvas;
-		attachPoint: RSVerticalAttachPoint new;
+		attachPoint: RSBorderAttachPoint new;
 		shapes: boxes;
 		connectToAll: #children.
-	RSTreeLayout on: canvas nodes.
+	RSDominanceTreeLayout on: canvas nodes.
 	canvas @ RSCanvasController.
 	^ canvas
 ]

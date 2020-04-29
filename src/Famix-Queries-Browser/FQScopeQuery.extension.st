@@ -2,7 +2,9 @@ Extension { #name : #FQScopeQuery }
 
 { #category : #'*Famix-Queries-Browser' }
 FQScopeQuery class >> color [
-	^ Color colorFrom: 'FFAABB'
+	"Orange"
+
+	^ Color colorFrom: 'EE9977'
 ]
 
 { #category : #'*Famix-Queries-Browser' }
