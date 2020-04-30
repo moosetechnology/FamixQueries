@@ -11,9 +11,8 @@ Class {
 
 { #category : #specs }
 BrowserDisplayerPresenter class >> defaultSpec [
-	^ SpPanedLayout newHorizontal
+	^ SpBoxLayout newHorizontal
 		add: #open;
-		add: #roassal;
 		yourself
 ]
 
@@ -35,17 +34,11 @@ BrowserDisplayerPresenter >> initializePresenters [
 		iconName: #smallFind;
 		label: 'Open Famix Query Browser';
 		color: UITheme current borderColor;
-		yourself.
-	roassal := self newButton
-		whenActivatedDo: [ FQRoassalQueryBrowser open ];
-		iconName: #objects;
-		label: 'Open Roassal Browser';
-		color: UITheme current borderColor;
 		yourself
 ]
 
 { #category : #initialization }
 BrowserDisplayerPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 400 @ 150
+	aWindowPresenter initialExtent: 200 @ 150
 ]

@@ -63,6 +63,11 @@ FQQueriesBrowserPresenter class >> title [
 	^ 'Query Browser'
 ]
 
+{ #category : #update }
+FQQueriesBrowserPresenter >> addUnionQueryBetween: aQuery and: anotherQuery [
+	queriesCombinator addUnionQueryBetween: aQuery and: anotherQuery
+]
+
 { #category : #initialization }
 FQQueriesBrowserPresenter >> defineInputPorts [
 	^ {FQQueryPort new}
@@ -91,6 +96,28 @@ FQQueriesBrowserPresenter >> initializeQueryResult [
 	queryResult := self newList
 		items: queriesCombinator initialEntities;
 		display: #name
+]
+
+{ #category : #accessing }
+FQQueriesBrowserPresenter >> queries [
+	^ queriesCombinator queries
+]
+
+{ #category : #update }
+FQQueriesBrowserPresenter >> removeQuery: aQuery [
+	queriesCombinator removeQuery: aQuery
+]
+
+{ #category : #accessing }
+FQQueriesBrowserPresenter >> selectedQuery [
+	^ selectedQuery
+]
+
+{ #category : #accessing }
+FQQueriesBrowserPresenter >> selectedQuery: aQueryWrapper [
+	selectedQuery := aQueryWrapper.
+	queryResult items: (queriesCombinator resultOfQuery: aQueryWrapper).
+	self update
 ]
 
 { #category : #initialization }
