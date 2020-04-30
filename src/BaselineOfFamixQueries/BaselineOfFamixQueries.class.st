@@ -18,12 +18,19 @@ BaselineOfFamixQueries >> baseline: spec [
 			"Packages"
 			spec
 				package: 'Famix-Queries' with: [ spec requires: #('Famix') ];
-				package: 'Famix-Queries-Tests' with: [ spec requires: #('Famix-Queries') ].
+				package: 'Famix-Queries-Tests'
+					with: [ spec requires: #('Famix-Queries') ];
+				package: 'Famix-Queries-Browser'
+					with: [ spec requires: #('Famix-Queries') ];
+				package: 'Famix-Queries-Browser-Tests'
+					with: [ spec requires: #('Famix-Queries-Browser') ].
 
 			"Groups"
 			spec
 				group: 'Core' with: #('Famix-Queries');
-				group: 'Tests' with: #('Famix-Queries-Tests') ]
+				group: 'Tests' with: #('Famix-Queries-Tests');
+				group: 'Browser' with: #('Famix-Queries-Browser');
+				group: 'Browser-Tests' with: #('Famix-Queries-Browser-Tests') ]
 ]
 
 { #category : #dependencies }
