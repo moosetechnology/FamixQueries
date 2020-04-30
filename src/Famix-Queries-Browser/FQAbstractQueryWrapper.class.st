@@ -44,7 +44,7 @@ FQAbstractQueryWrapper >> color: aColor [
 { #category : #initialization }
 FQAbstractQueryWrapper >> initialize [
 	super initialize.
-	children := Set new
+	children := OrderedCollection new
 ]
 
 { #category : #accessing }

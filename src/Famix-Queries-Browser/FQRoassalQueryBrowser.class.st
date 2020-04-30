@@ -180,7 +180,7 @@ FQRoassalQueryBrowser >> openQueryCreationPresenter [
 { #category : #roassal }
 FQRoassalQueryBrowser >> removeQuery: aQuery [
 	queriesCombinator removeQuery: aQuery.
-	self update
+	queriesGraph refresh
 ]
 
 { #category : #accessing }
@@ -203,6 +203,5 @@ FQRoassalQueryBrowser >> setModelBeforeInitialization: aMooseGroup [
 FQRoassalQueryBrowser >> updateForQuery: aQuery [
 	self
 		selectedQuery: (queriesCombinator addQuery: aQuery after: self selectedQuery).
-	queriesGraph refresh.
-	self update
+	queriesGraph refresh
 ]

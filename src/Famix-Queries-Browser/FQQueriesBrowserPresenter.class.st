@@ -4,9 +4,8 @@ Class {
 	#instVars : [
 		'queriesTree',
 		'queryResult',
-		'entities',
-		'newQueryButton',
-		'queriesCombinator'
+		'queriesCombinator',
+		'selectedQuery'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -44,7 +43,6 @@ FQQueriesBrowserPresenter class >> defaultSpec [
 		add:
 			(SpBoxLayout newVertical
 				add: #queriesTree;
-				add: #newQueryButton height: self buttonHeight;
 				yourself);
 		add: #queryResult;
 		yourself
@@ -88,9 +86,7 @@ FQQueriesBrowserPresenter >> defineInputPorts [
 
 { #category : #accessing }
 FQQueriesBrowserPresenter >> entities [
-	^ queriesTree selectedItem
-		ifNil: [ queriesCombinator initialEntities ]
-		ifNotNil: [ queriesCombinator resultOfQuery: queriesTree selectedItem ]
+	^ queriesCombinator resultOfQuery: selectedQuery
 ]
 
 { #category : #accessing }
@@ -101,24 +97,14 @@ FQQueriesBrowserPresenter >> entities: anObject [
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializePresenters [
 	self initializeQueriesTree.
-	self initializeQueryCreationButton.
 	self initializeQueryResult
 ]
 
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializeQueriesTree [
-	queriesTree := self newTreeTable
-		addColumn:
-			(SpCompositeTableColumn new
-				title: 'Queries';
-				addColumn: (SpStringTableColumn new evaluated: [ :wrapper | wrapper label ]));
-		roots: queriesCombinator queries;
-		children: #children;
-		selectItem: queriesCombinator queries first;
-		contextMenuFromCommandsGroup: [ self rootCommandsGroup ];
-		activateOnDoubleClick;
-		whenActivatedDo: [ :selection | (FQQueryCreationPresenter on: self) openWithSpec ];
-		yourself
+	"queriesTree := (FQTreeTablePresenter owner: self) adaptToOwner"
+
+	queriesTree := (FQRoassalQueryPresenter owner: self) adaptToOwner
 ]
 
 { #category : #initialization }
@@ -138,20 +124,19 @@ FQQueriesBrowserPresenter >> initializeQueryResult [
 
 { #category : #initialization }
 FQQueriesBrowserPresenter >> setModelBeforeInitialization: aMooseGroup [
-	queriesCombinator := FQQueriesCombinator newWithEntities: aMooseGroup
+	queriesCombinator := FQQueriesCombinator newWithEntities: aMooseGroup.
+	selectedQuery := queriesCombinator initialQuery
 ]
 
 { #category : #update }
 FQQueriesBrowserPresenter >> updateForQuery: aQuery [
-	| newQueryWrapper |
-	newQueryWrapper := queriesTree selectedItem "Keep trace of the parent, independant of the selection ?"
-		ifNil: [ queriesCombinator addQueryOnInitialEntities: aQuery ]
-		ifNotNil: [ queriesCombinator addQuery: aQuery after: queriesTree selectedItem ].
-	queriesTree
-		roots:
-			(queriesCombinator queries select: [ :wrapper | wrapper parent isNil ]);
-		children: [ :wrapper | wrapper children ].
-	queriesTree selectItem: newQueryWrapper.
-	queryResult items: (queriesCombinator resultOfQuery: newQueryWrapper).
+	selectedQuery := queriesCombinator
+		addQuery: aQuery
+		after: selectedQuery.
+	queriesTree selectItem: selectedQuery.
+	self
+		flag:
+			'If we just selectItem in tabletree and in roassal, not useful to create this special method. Maybe not even the FQTreeTablePres class'.
+	queryResult items: (queriesCombinator resultOfQuery: selectedQuery).
 	self update
 ]

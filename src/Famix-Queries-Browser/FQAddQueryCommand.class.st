@@ -16,5 +16,5 @@ FQAddQueryCommand class >> defaultName [
 
 { #category : #executing }
 FQAddQueryCommand >> execute [
-	(FQQueryCreationPresenter on: self browser) openWithSpec
+	(FQQueryCreationPresenter on: self browser owner) openWithSpec
 ]
