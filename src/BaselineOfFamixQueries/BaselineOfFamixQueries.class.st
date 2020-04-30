@@ -13,7 +13,7 @@ BaselineOfFamixQueries >> baseline: spec [
 	spec
 		for: #common
 		do: [ "Dependencies"
-			self famix: spec.
+			"self famix: spec."
 
 			"Packages"
 			spec
