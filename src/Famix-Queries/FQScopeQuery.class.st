@@ -114,6 +114,17 @@ FQScopeQuery >> printOn: aStream [
 		<< ', to ' << (self class scopeAsString: self scope) << ')'
 ]
 
+{ #category : #printing }
+FQScopeQuery >> roassalLabel [
+	^ String
+		streamContents: [ :s | 
+			s
+				<< self directionStrategy label;
+				cr;
+				<< 'to ';
+				<< (self class scopeAsString: self scope) ]
+]
+
 { #category : #running }
 FQScopeQuery >> runOn: aMooseGroup [
 	^ self directionStrategy scope: self scope on: aMooseGroup

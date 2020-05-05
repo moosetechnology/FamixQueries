@@ -209,17 +209,6 @@ FQQueryCreationPresenter >> setModelBeforeInitialization: aQueriesPresenter [
 	browser := aQueriesPresenter
 ]
 
-{ #category : #update }
-FQQueryCreationPresenter >> showQueryResult: queryResult [
-	resultList
-		unselectAll;
-		items: queryResult.
-	queryResult
-		ifEmpty: [ resultList headerTitle: 'No entities to show' ]
-		ifNotEmpty: [ resultList hideHeaderTitle ].
-	self update
-]
-
 { #category : #transmissions }
 FQQueryCreationPresenter >> transmitAcceptedQuery [
 	queryConfigurationPresenter
@@ -258,7 +247,7 @@ FQQueryCreationPresenter >> transmitFromConfigToResultList [
 			result := queryBuilder applyQuery.
 			result
 				ifEmpty: [ resultList headerTitle: 'No entities to show' ]
-				ifNotEmpty: [ resultList hideHeaderTitle ].
+				ifNotEmpty: [ resultList headerTitle: (browser mooseGroupDetails: result) ].
 			result ]
 ]
 
@@ -269,9 +258,8 @@ FQQueryCreationPresenter >> updateForAcceptedCode: code [
 		text: queryConfigurationPresenter queryBuilder codeToDisplay.
 	self
 		flag:
-			#FQSpecPb
-				,
-					'This should go through transmissions but TextChangedPort is buggy in Spec for now. 
+			#FQSpecPb ,
+			'This should go through transmissions but TextChangedPort is buggy in Spec for now. 
 			FQCodeAcceptedPort is ready to accept a transmission'
 ]
 

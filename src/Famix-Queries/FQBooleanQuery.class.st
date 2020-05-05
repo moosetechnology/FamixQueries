@@ -46,6 +46,11 @@ FQBooleanQuery >> hasComparisonParameters [
 	^ false
 ]
 
+{ #category : #printing }
+FQBooleanQuery >> roassalLabel [
+	^ String streamContents: [ :s | s << self property ]
+]
+
 { #category : #running }
 FQBooleanQuery >> runOn: aMooseGroup [
 	^ aMooseGroup select: [ :entity | self property value: entity ]

@@ -173,6 +173,18 @@ FQTypeQuery >> removeType: aType [
 	self types remove: aType
 ]
 
+{ #category : #printing }
+FQTypeQuery >> roassalLabel [
+	^ String
+		streamContents: [ :s | 
+			self types
+				allButLastDo: [ :type | 
+					s
+						<< (self class typeAsSymbol: type) asEnglishPlural;
+						cr ].
+			s << (self class typeAsSymbol: self types last) asEnglishPlural ]
+]
+
 { #category : #running }
 FQTypeQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."

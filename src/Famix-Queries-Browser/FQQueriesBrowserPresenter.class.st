@@ -5,7 +5,8 @@ Class {
 		'queriesTree',
 		'queryResult',
 		'queriesCombinator',
-		'selectedQuery'
+		'selectedQuery',
+		'queryResultTitle'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -36,7 +37,11 @@ FQQueriesBrowserPresenter class >> defaultSpec [
 			(SpBoxLayout newVertical
 				add: #queriesTree;
 				yourself);
-		add: #queryResult;
+		add:
+			(SpBoxLayout newVertical
+				add: #queryResultTitle height: self labelHeight;
+				add: #queryResult;
+				yourself);
 		yourself
 ]
 
@@ -100,15 +105,36 @@ FQQueriesBrowserPresenter >> initializeQueriesTree [
 
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializeQueryResult [
+	queryResultTitle := self newLabel
+		label: 'Result of the selected query'.
 	queryResult := self newList
-		headerTitle: 'Result of the selected query';
-		items: queriesCombinator initialEntities;
+		headerTitle: (self mooseGroupDetails: self entities);
+		items: self entities;
 		display: #name
 ]
 
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializeWindow: aWindowPresenter [
+	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 500 @ 400
+]
+
+{ #category : #accessing }
+FQQueriesBrowserPresenter >> modelPrefix [
+	^ self entities first mooseModel className withoutSuffix: 'Model'
+]
+
+{ #category : #accessing }
+FQQueriesBrowserPresenter >> mooseGroupDetails: result [
+	^ String
+		streamContents: [ :stream | 
+			(result collectAsSet: #class)
+				do: [ :class | 
+					stream
+						<< (result select: [ :entity | entity class == class ]) size asString
+						<< ' '
+						<< (class name withoutPrefix: self modelPrefix) asEnglishPlural
+						<< ' ' ] ]
 ]
 
 { #category : #action }
@@ -133,9 +159,12 @@ FQQueriesBrowserPresenter >> selectQuery: aQueryWrapper [
 	queriesTree selectItem: selectedQuery.
 	self
 		flag:
-			#FQImprove,
+			#FQImprove
+				,
 					'If we just selectItem in tabletree and in roassal, maybe the FQTreeTablePres class is unsueful'.
-	queryResult items: (queriesCombinator resultOfQuery: aQueryWrapper).
+	queryResult items: (queriesCombinator resultOfQuery: selectedQuery).
+	queryResult
+		headerTitle: (self mooseGroupDetails: selectedQuery result).
 	self update
 ]
 

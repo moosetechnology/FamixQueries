@@ -38,7 +38,7 @@ FQTypeQueriesPresenter class >> title [
 { #category : #'widgets configuration' }
 FQTypeQueriesPresenter >> configureTypeCheckBox: checkBox forType: type [
 	checkBox
-		label: (type name withoutPrefix: self modelPrefix);
+		label: (type name withoutPrefix: owner browser modelPrefix);
 		whenActivatedDo: [ queryBuilder addTypeToQuery: type ];
 		whenDeactivatedDo: [ [ queryBuilder removeTypeFromQuery: type ]
 				on: FQCannotRemoveLastType

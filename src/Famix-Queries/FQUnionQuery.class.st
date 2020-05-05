@@ -49,6 +49,11 @@ FQUnionQuery >> isValid [
 	^ childrenQueries allSatisfy: #isValid
 ]
 
+{ #category : #printing }
+FQUnionQuery >> roassalLabel [
+	^ 'Union'
+]
+
 { #category : #running }
 FQUnionQuery >> runOn: aMooseGroup [
 	| childrenResults |

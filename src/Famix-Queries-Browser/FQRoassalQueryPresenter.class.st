@@ -30,9 +30,14 @@ FQRoassalQueryPresenter >> boxDraggedAction: event [
 FQRoassalQueryPresenter >> boxLabel [
 	| label |
 	label := RSLabeled new
-		text: [ :model | model label substrings first ].
+		text: [ :model | 
+			model query
+				ifNil: [ 'Initial
+Entities' ]
+				ifNotNil: [ :query | query roassalLabel ] ].
 	label location
 		inner;
+		center;
 		middle.
 	^ label
 ]
@@ -60,7 +65,8 @@ FQRoassalQueryPresenter >> boxMenu: aMenuMorph box: aBox [
 { #category : #'roassal script' }
 FQRoassalQueryPresenter >> boxPopup [
 	| label |
-	label := RSPopup new text: [ :model | model label ].
+	label := RSPopup new
+		text: [ :model | owner mooseGroupDetails: model result ].
 	^ label
 ]
 
@@ -72,7 +78,7 @@ FQRoassalQueryPresenter >> boxSelection: event [
 
 { #category : #'roassal script' }
 FQRoassalQueryPresenter >> boxSize [
-	^ 90
+	^ 150
 ]
 
 { #category : #'roassal script' }
@@ -97,6 +103,28 @@ FQRoassalQueryPresenter >> buildBoxFor: aQueryWrapper [
 FQRoassalQueryPresenter >> decorateSelectedBox: box [
 	box model == owner selectedQuery
 		ifTrue: [ box border: RSBorder new ]
+]
+
+{ #category : #'roassal script' }
+FQRoassalQueryPresenter >> legendOn: canvas [
+	| legend |
+	owner queries size == 1
+		ifTrue: [ ^ self ].
+	legend := RSLegend new.
+	legend container: canvas.
+	(owner queries allButFirst
+		collectAsSet: [ :query | query query class ])
+		do: [ :query | legend text: query label withCircleColor: query color ].
+	legend
+		leyendDo: [ :l | 
+			l
+				withBorder;
+				padding: 20 ].
+	legend location
+		outer;
+		bottom;
+		offset: 0 @ 70.
+	legend build
 ]
 
 { #category : #'accessing model' }
@@ -128,6 +156,7 @@ FQRoassalQueryPresenter >> roassalScript: canvas [
 		shapes: boxes;
 		connectToAll: #children.
 	RSDominanceTreeLayout on: canvas nodes.
+	self legendOn: canvas.
 	canvas @ RSCanvasController.
 	^ canvas
 ]

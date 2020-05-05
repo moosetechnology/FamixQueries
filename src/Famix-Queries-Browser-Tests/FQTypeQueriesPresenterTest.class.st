@@ -41,13 +41,9 @@ FQTypeQueriesPresenterTest >> testCheckBoxesDisabledSinceFirstDisplay [
 FQTypeQueriesPresenterTest >> testCheckBoxesMatchAvailableTypes [
 	| types |
 	types := self queryBuilder availableTypes.
-	
 	self assert: self checkBoxes size equals: types size.
-	
 	self
-		assertCollection:
-			(types
-				collect: [ :type | type name withoutPrefix: presenter modelPrefix ])
+		assertCollection: (types collect: [ :type | type name withoutPrefix: 'FamixSt' ])
 		hasSameElements: (self checkBoxes collect: #label)
 ]
 
@@ -58,7 +54,7 @@ FQTypeQueriesPresenterTest >> testCheckBoxesMatchQuery [
 	self checkBoxes first click.
 	
 	currentQueryTypes := self currentQuery types
-		collect: [ :type | type name withoutPrefix: presenter modelPrefix ].
+		collect: [ :type | type name withoutPrefix: 'FamixSt' ].
 	
 	self
 		assertCollection: currentQueryTypes

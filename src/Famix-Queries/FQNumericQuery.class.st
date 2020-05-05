@@ -72,6 +72,17 @@ FQNumericQuery >> isValid [
 		and: [ self comparator isSymbol and: [ self valueToCompare isNumber ] ]
 ]
 
+{ #category : #printing }
+FQNumericQuery >> roassalLabel [
+	^ String
+		streamContents: [ :s | 
+			s
+				<< self property;
+				cr;
+				<< self comparator;
+				<< self valueToCompareAsString ]
+]
+
 { #category : #'available parameters' }
 FQNumericQuery >> type [
 	^ FM3Number

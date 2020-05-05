@@ -77,6 +77,18 @@ FQStringQuery >> isValid [
 		and: [ self comparator isSymbol and: [ self valueToCompare isString ] ]
 ]
 
+{ #category : #printing }
+FQStringQuery >> roassalLabel [
+	^ String
+		streamContents: [ :s | 
+			s
+				<< self property;
+				cr;
+				<< self comparator;
+				cr;
+				<< self valueToCompareAsString ]
+]
+
 { #category : #'available parameters' }
 FQStringQuery >> type [
 	^ FM3String

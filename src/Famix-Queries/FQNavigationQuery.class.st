@@ -190,6 +190,24 @@ FQNavigationQuery >> removeAssociation: anAssociation [
 	self associationStrategy: (self associationStrategy removeAssociation: anAssociation)
 ]
 
+{ #category : #printing }
+FQNavigationQuery >> roassalLabel [
+	^ String
+		streamContents: [ :s | 
+			s
+				<< self directionStrategy label;
+				cr.
+			self associationStrategy associations
+				allButLastDo: [ :assoc | 
+					s
+						<< (self class associationAsString: assoc);
+						cr ].
+			s
+				<<
+					(self class
+						associationAsString: self associationStrategy associations last) ]
+]
+
 { #category : #running }
 FQNavigationQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
