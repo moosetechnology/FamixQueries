@@ -36,8 +36,15 @@ I am valid if my parameters are set: if #property and #comparator are symbols an
 Class {
 	#name : #FQStringQuery,
 	#superclass : #FQPropertyQuery,
-	#category : #'Famix-Queries-Terminal'
+	#category : #'Famix-Queries-Queries-Unary'
 }
+
+{ #category : #'as yet unclassified' }
+FQStringQuery class >> color [
+	"Light blue"
+
+	^ Color colorFrom: '77AADD'
+]
 
 { #category : #accessing }
 FQStringQuery class >> defaultValueToCompare [
@@ -51,6 +58,11 @@ FQStringQuery class >> forProperty: aPropertySelector comparator: aSelector with
 		comparator: aSelector;
 		valueToCompare: aString;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+FQStringQuery class >> label [
+	^ 'String ', super label
 ]
 
 { #category : #comparing }

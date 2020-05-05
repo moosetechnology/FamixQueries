@@ -15,42 +15,37 @@ FQQueriesCombinator class >> newWithEntities: entities [
 ]
 
 { #category : #adding }
-FQQueriesCombinator >> addQuery: aQuery after: anExistingQueryWrapper [
-	| queryWrapper |
-
-	(queries includes: anExistingQueryWrapper)
+FQQueriesCombinator >> addQuery: newQuery after: anExistingQuery [
+	(queries includes: anExistingQuery)
 		ifFalse: [ FQUnknownPrecedingQuery signal ].
-
-	queryWrapper := FQTerminalQueryWrapper new query: aQuery.
 	
-	queryWrapper parent: anExistingQueryWrapper.
-	anExistingQueryWrapper addChild: queryWrapper.
+	newQuery parent: anExistingQuery.
+	anExistingQuery addChild: newQuery.
 	
-	^ queries addLast: queryWrapper.
+	^ queries addLast: newQuery.
 	
 ]
 
 { #category : #adding }
 FQQueriesCombinator >> addUnionQueryBetween: firstParent and: secondParent [
-	| queryWrapper parents |
+	| newQuery parents |
 	parents := {firstParent.
 	secondParent}.
+	
 	(queries includesAll: parents)
 		ifFalse: [ FQUnknownPrecedingQuery signal ].
-	queryWrapper := FQCombinatorQueryWrapper new
-		query: (FQUnionQuery forQueries: parents);
-		label: 'Union'.
-	queryWrapper parents: parents.
-	parents do: [ :parent | parent addChild: queryWrapper ].
-	^ queries addLast: queryWrapper
+	
+	newQuery := FQUnionQuery forQueries: parents.
+	
+	newQuery parents: parents.
+	
+	parents do: [ :parent | parent addChild: newQuery ].
+	^ queries addLast: newQuery
 ]
 
 { #category : #private }
-FQQueriesCombinator >> computeResultOf: aQueryWrapper [
-	aQueryWrapper
-		result:
-			(aQueryWrapper query runOn: (self resultOfQuery: aQueryWrapper parent)).
-	^ aQueryWrapper result
+FQQueriesCombinator >> computeResultOf: aQuery [
+	^ aQuery result
 ]
 
 { #category : #accessing }
@@ -62,10 +57,8 @@ FQQueriesCombinator >> initialEntities [
 FQQueriesCombinator >> initialEntities: aMooseGroup [
 	queries
 		addFirst:
-			(FQTerminalQueryWrapper new
+			(FQMockQuery new
 				result: aMooseGroup;
-				label: 'Initial Entities';
-				color: (Color colorFrom: 'DDDDDD');
 				yourself)
 ]
 
@@ -86,14 +79,14 @@ FQQueriesCombinator >> queries [
 ]
 
 { #category : #removing }
-FQQueriesCombinator >> removeQuery: aQueryWrapper [
-	aQueryWrapper children
+FQQueriesCombinator >> removeQuery: aQuery [
+	aQuery children
 		ifNotEmpty: [ UIManager default
 				alert: 'Cannot remove a query with children for now'.
 			^ self ].
-	aQueryWrapper prepareRemoval.
-	queries remove: aQueryWrapper.
-	^ aQueryWrapper
+	aQuery prepareRemoval.
+	queries remove: aQuery.
+	^ aQuery
 ]
 
 { #category : #accessing }

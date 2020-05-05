@@ -40,12 +40,19 @@ I am valid if I have at least 1 type.
 "
 Class {
 	#name : #FQTypeQuery,
-	#superclass : #FQAbstractQuery,
+	#superclass : #FQUnaryQuery,
 	#instVars : [
 		'types'
 	],
-	#category : #'Famix-Queries-Terminal'
+	#category : #'Famix-Queries-Queries-Unary'
 }
+
+{ #category : #'as yet unclassified' }
+FQTypeQuery class >> color [
+	"Pear"
+
+	^ Color colorFrom: 'BBCC33'
+]
 
 { #category : #'instance creation' }
 FQTypeQuery class >> forType: aType [
@@ -59,6 +66,11 @@ FQTypeQuery class >> forTypes: aTypesCollection [
 	^ self new
 		types: aTypesCollection asOrderedCollection;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+FQTypeQuery class >> label [
+	^ 'Type Query'
 ]
 
 { #category : #utils }

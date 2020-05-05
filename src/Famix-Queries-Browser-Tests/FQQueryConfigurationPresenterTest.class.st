@@ -33,11 +33,21 @@ FQQueryConfigurationPresenterTest >> queryBuilder [
 	^ presenter queryBuilder
 ]
 
+{ #category : #helpers }
+FQQueryConfigurationPresenterTest >> resetPresenterWithEntities: aMooseGroup [
+	| superPresenter |
+	superPresenter := FQQueryCreationPresenter
+		on: (FQQueriesBrowserPresenter on: aMooseGroup).
+	presenter := self presenterClass
+		owner: superPresenter
+		on: aMooseGroup
+]
+
 { #category : #running }
 FQQueryConfigurationPresenterTest >> setUp [
 	super setUp.
 	helper := FQBrowserTestsHelper new.
-	presenter := self presenterClass on: helper classesAndMethods
+	self resetPresenterWithEntities: helper classesAndMethods
 ]
 
 { #category : #tests }

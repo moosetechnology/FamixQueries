@@ -48,12 +48,12 @@ I am valid if I have a direction (a subclass of FQAbstractNavigationDirection)
 "
 Class {
 	#name : #FQNavigationQuery,
-	#superclass : #FQAbstractQuery,
+	#superclass : #FQUnaryQuery,
 	#instVars : [
 		'directionStrategy',
 		'associationStrategy'
 	],
-	#category : #'Famix-Queries-Terminal'
+	#category : #'Famix-Queries-Queries-Unary'
 }
 
 { #category : #utils }
@@ -67,12 +67,24 @@ FQNavigationQuery class >> associationAsSymbol: anAssociation [
 	^ (anAssociation name withoutPrefix: 'FamixT') asSymbol
 ]
 
+{ #category : #'as yet unclassified' }
+FQNavigationQuery class >> color [
+	"Light yellow"
+
+	^ Color colorFrom: 'EEDD88'
+]
+
 { #category : #'instance creation' }
 FQNavigationQuery class >> direction: aDirectionStrategyClass association: anAssociationStrategy [
 	^ self new
 		directionStrategy: aDirectionStrategyClass;
 		associationStrategy: anAssociationStrategy;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+FQNavigationQuery class >> label [
+	^ 'Navigation Query'
 ]
 
 { #category : #comparing }

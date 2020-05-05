@@ -1,50 +1,37 @@
 Class {
 	#name : #FQSequenceQuery,
-	#superclass : #FQAbstractQuery,
-	#instVars : [
-		'childrenQueries'
-	],
-	#category : #'Famix-Queries-Combinator'
+	#superclass : #FQBinaryQuery,
+	#category : #'Famix-Queries-Queries-Binary'
 }
 
 { #category : #'instance creation' }
 FQSequenceQuery class >> forQueries: aCollectionOfQueries [
 	^ self new
-		childrenQueries: aCollectionOfQueries asOrderedCollection;
+		parents: aCollectionOfQueries asOrderedCollection;
 		yourself
 ]
 
 { #category : #comparing }
 FQSequenceQuery >> = aQuery [
-	^ aQuery class == self class
-		and: [ aQuery childrenQueries = childrenQueries ]
-]
-
-{ #category : #accessing }
-FQSequenceQuery >> childrenQueries [
-	^ childrenQueries
-]
-
-{ #category : #accessing }
-FQSequenceQuery >> childrenQueries: anObject [
-	childrenQueries := anObject
+	^ aQuery class == self class and: [ aQuery parents = parents ]
 ]
 
 { #category : #running }
 FQSequenceQuery >> displayOn: aStream with: aString [
-	1 to: self childrenQueries size - 1 do: [ :i | aStream << '(' ].
-	self childrenQueries first displayOn: aStream.
-	self childrenQueries
+	1 to: parents size - 1 do: [ :i | aStream << '(' ].
+	parents first displayOn: aStream.
+	parents
 		allButFirstDo: [ :query | 
 			aStream
-				<<')
+				<<
+					')
 	'.
 			query displayOn: aStream with: '' ]
 ]
 
 { #category : #testing }
 FQSequenceQuery >> isValid [
-	^ childrenQueries allSatisfy: #isValid
+	^ parents allSatisfy: #isValid
 ]
 
 { #category : #running }
@@ -53,7 +40,7 @@ FQSequenceQuery >> runOn: aMooseGroup [
 
 	^ MooseGroup
 		withAll:
-			(self childrenQueries allButFirst
-				inject: (self childrenQueries first runOn: aMooseGroup)
+			(parents allButFirst
+				inject: (parents first runOn: aMooseGroup)
 				into: [ :queryResult :otherQuery | otherQuery runOn: queryResult ])
 ]

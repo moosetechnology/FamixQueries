@@ -38,13 +38,20 @@ I am valid if I have a direction (a subclass of FQAbstractScopeDirection)
 "
 Class {
 	#name : #FQScopeQuery,
-	#superclass : #FQAbstractQuery,
+	#superclass : #FQUnaryQuery,
 	#instVars : [
 		'scope',
 		'direction'
 	],
-	#category : #'Famix-Queries-Terminal'
+	#category : #'Famix-Queries-Queries-Unary'
 }
+
+{ #category : #'as yet unclassified' }
+FQScopeQuery class >> color [
+	"Orange"
+
+	^ Color colorFrom: 'EE9977'
+]
 
 { #category : #'instance creation' }
 FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
@@ -52,6 +59,11 @@ FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
 		scope: aFamixClass;
 		directionStrategy: aScopeDirectionClass;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+FQScopeQuery class >> label [
+	^ 'Scope Query'
 ]
 
 { #category : #utils }

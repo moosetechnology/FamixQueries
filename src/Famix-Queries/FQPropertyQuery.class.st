@@ -35,18 +35,23 @@ See subclasses
 "
 Class {
 	#name : #FQPropertyQuery,
-	#superclass : #FQAbstractQuery,
+	#superclass : #FQUnaryQuery,
 	#instVars : [
 		'property',
 		'valueToCompare',
 		'comparator'
 	],
-	#category : #'Famix-Queries-Terminal'
+	#category : #'Famix-Queries-Queries-Unary'
 }
 
 { #category : #accessing }
 FQPropertyQuery class >> availablePropertyTypes [
 	^ FQPropertyQuery allSubclasses
+]
+
+{ #category : #'as yet unclassified' }
+FQPropertyQuery class >> label [
+	^ 'Property Query'
 ]
 
 { #category : #comparing }

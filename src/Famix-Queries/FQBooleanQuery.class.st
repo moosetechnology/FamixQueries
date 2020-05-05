@@ -31,14 +31,26 @@ I am valid if my property is a symbol.
 Class {
 	#name : #FQBooleanQuery,
 	#superclass : #FQPropertyQuery,
-	#category : #'Famix-Queries-Terminal'
+	#category : #'Famix-Queries-Queries-Unary'
 }
+
+{ #category : #'as yet unclassified' }
+FQBooleanQuery class >> color [
+	"Mint"
+
+	^ Color colorFrom: '44BB99'
+]
 
 { #category : #'instance creation' }
 FQBooleanQuery class >> forProperty: aBooleanSelector [
 	^ self new
 		property: aBooleanSelector;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+FQBooleanQuery class >> label [
+	^ 'Boolean ' , super label
 ]
 
 { #category : #testing }

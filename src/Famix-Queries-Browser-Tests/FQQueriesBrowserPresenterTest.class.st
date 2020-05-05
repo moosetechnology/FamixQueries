@@ -30,7 +30,7 @@ FQQueriesBrowserPresenterTest >> testAddUnionQueryBetweenAnd [
 	presenter addUnionQueryBetween: query1 and: query2.
 	self
 		assert: presenter selectedQuery class
-		identicalTo: FQCombinatorQueryWrapper.
+		identicalTo: FQUnionQuery.
 	unionQuery := presenter selectedQuery.
 	self
 		assert: presenter queriesCombinator queries last
@@ -105,11 +105,9 @@ FQQueriesBrowserPresenterTest >> testUpdateForQuery [
 	| query |
 	query := FQBooleanQuery new property: #isAbstract.
 	presenter updateForQuery: query.
-	self
-		assert: presenter queriesCombinator queries last query
-		equals: query.
-	self assert: presenter selectedQuery query equals: query.
-	self assert: presenter queriesTree selectedItem query equals: query.
+	self assert: presenter queriesCombinator queries last equals: query.
+	self assert: presenter selectedQuery equals: query.
+	self assert: presenter queriesTree selectedItem equals: query.
 	self
 		assertCollection: presenter queryResult items
 		hasSameElements: (helper classesAndMethods select: #isAbstract)

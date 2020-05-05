@@ -1,7 +1,7 @@
 Class {
 	#name : #FQComplementQueryTest,
 	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-Combinator'
+	#category : #'Famix-Queries-Tests-Terminal'
 }
 
 { #category : #helpers }

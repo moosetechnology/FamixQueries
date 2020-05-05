@@ -82,7 +82,7 @@ FQScopeQueriesPresenterTest >> testFirstParameter [
 
 { #category : #tests }
 FQScopeQueriesPresenterTest >> testNoScopesForADirection [
-	presenter := self presenterClass on: helper entitiesWithNoDownScope.
+	self resetPresenterWithEntities: helper entitiesWithNoDownScope.
 	
 	(presenter firstParameter presenters
 		detect: [ :radioButton | radioButton label = 'Down' ]) click.
@@ -102,7 +102,7 @@ FQScopeQueriesPresenterTest >> testQueryValidity [
 	self dropList selectItem: (self dropList listItems copyWithout: self dropList selectedItem) anyOne.
 	self assert: self queryBuilder queryIsValid.
 	
-	presenter := self presenterClass on: helper entitiesWithNoDownScope.
+	self resetPresenterWithEntities: helper entitiesWithNoDownScope.
 	(presenter firstParameter presenters
 		detect: [ :radioButton | radioButton label = 'Down' ]) click.
 	self deny: self queryBuilder queryIsValid.

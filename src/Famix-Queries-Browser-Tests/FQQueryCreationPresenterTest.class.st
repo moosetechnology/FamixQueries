@@ -98,15 +98,14 @@ FQQueryCreationPresenterTest >> testToolBar [
 		assert: presenter toolBar presenters first class
 		identicalTo: SpToolBarButton.
 	initialQueriesSize := presenter browser queries size.
-	
 	self selectNavigationToAvoidEmptyResult.
-	presenter toolBar presenters first click.
 	
+	presenter toolBar presenters first click.
 	self
 		assert: presenter browser queries size
 		equals: initialQueriesSize + 1.
 	self
-		assert: presenter browser selectedQuery query
+		assert: presenter browser selectedQuery
 		equals: presenter queryConfigurationPresenter queryBuilder query
 ]
 

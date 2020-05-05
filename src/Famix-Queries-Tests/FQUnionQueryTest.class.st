@@ -83,16 +83,18 @@ FQUnionQueryTest >> testIsValid [
 { #category : #tests }
 FQUnionQueryTest >> testRunOn [
 	| classes subQuery1 subQuery2 queryResult expectedResult |
+	self flag: #FQImprove , 'runOn: behavior has changed for combinator queries'.
 	classes := model allModelClasses.
 	
 	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
 	subQuery2 := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
+
 	query := self actualClass
 		forQueries:
 			{subQuery1.
 			subQuery2}.
 	
-	queryResult := query runOn: classes.
+	queryResult := query runOn: ({subQuery1. subQuery2} collect: [ :q | q runOn: classes ]).
 	expectedResult := (subQuery1 runOn: classes)
 		union: (subQuery2 runOn: classes).
 

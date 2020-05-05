@@ -31,7 +31,7 @@ FQRoassalQueryPresenter >> boxLabel [
 	| label |
 	label := RSLabeled new
 		text: [ :model | 
-			model query
+			model
 				ifNil: [ 'Initial
 Entities' ]
 				ifNotNil: [ :query | query roassalLabel ] ].
@@ -82,12 +82,12 @@ FQRoassalQueryPresenter >> boxSize [
 ]
 
 { #category : #'roassal script' }
-FQRoassalQueryPresenter >> buildBoxFor: aQueryWrapper [
+FQRoassalQueryPresenter >> buildBoxFor: aQuery [
 	| box |
 	box := RSBox new
 		size: self boxSize;
-		model: aQueryWrapper;
-		color: aQueryWrapper color;
+		model: aQuery;
+		color: aQuery class color;
 		addInteraction: self boxLabel;
 		addInteraction: self boxPopup;
 		when: RSMouseClick do: [ :event | self boxSelection: event ];
@@ -112,8 +112,7 @@ FQRoassalQueryPresenter >> legendOn: canvas [
 		ifTrue: [ ^ self ].
 	legend := RSLegend new.
 	legend container: canvas.
-	(owner queries allButFirst
-		collectAsSet: [ :query | query query class ])
+	(owner queries allButFirst collectAsSet: [ :query | query class ])
 		do: [ :query | legend text: query label withCircleColor: query color ].
 	legend
 		leyendDo: [ :l | 
@@ -124,6 +123,7 @@ FQRoassalQueryPresenter >> legendOn: canvas [
 		outer;
 		bottom;
 		offset: 0 @ 70.
+	legend onDemand: 'Legend'. "To remove for the legend to be always seen."
 	legend build
 ]
 
@@ -157,7 +157,7 @@ FQRoassalQueryPresenter >> roassalScript: canvas [
 		connectToAll: #children.
 	RSDominanceTreeLayout on: canvas nodes.
 	self legendOn: canvas.
-	canvas @ RSCanvasController.
+	canvas @ RSCanvasController new noLegend.
 	^ canvas
 ]
 

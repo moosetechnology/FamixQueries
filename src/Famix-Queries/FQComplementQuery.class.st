@@ -1,50 +1,35 @@
 Class {
 	#name : #FQComplementQuery,
-	#superclass : #FQAbstractQuery,
-	#instVars : [
-		'childQuery'
-	],
-	#category : #'Famix-Queries-Combinator'
+	#superclass : #FQUnaryQuery,
+	#category : #'Famix-Queries-Queries-Unary'
 }
 
 { #category : #'as yet unclassified' }
 FQComplementQuery class >> forQuery: aQuery [
 	^ self new
-		childQuery: aQuery;
+		parent: aQuery;
 		yourself
 ]
 
 { #category : #comparing }
 FQComplementQuery >> = aQuery [
-	^ aQuery class == self class and: [ aQuery childQuery = childQuery ]
-]
-
-{ #category : #accessing }
-FQComplementQuery >> childQuery [
-	^ childQuery
-]
-
-{ #category : #accessing }
-FQComplementQuery >> childQuery: anObject [
-	childQuery := anObject
+	^ aQuery class == self class and: [ aQuery parent = parent ]
 ]
 
 { #category : #running }
 FQComplementQuery >> displayOn: aStream with: aString [
 	aStream << aString << ' copyWithoutAll: ('.
-	self childQuery displayOn: aStream.
+	self parent displayOn: aStream.
 	aStream << ')'
 ]
 
 { #category : #testing }
 FQComplementQuery >> isValid [
-	^ childQuery isValid
+	^ parent isValid
 ]
 
 { #category : #running }
 FQComplementQuery >> runOn: aMooseGroup [
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-
 	^ MooseGroup
-		withAll: (aMooseGroup copyWithoutAll: (self childQuery runOn: aMooseGroup))
+		withAll: (aMooseGroup copyWithoutAll: (parent runOn: aMooseGroup))
 ]

@@ -1,52 +1,50 @@
 Class {
 	#name : #FQUnionQuery,
-	#superclass : #FQAbstractQuery,
-	#instVars : [
-		'childrenQueries'
-	],
-	#category : #'Famix-Queries-Combinator'
+	#superclass : #FQBinaryQuery,
+	#category : #'Famix-Queries-Queries-Binary'
 }
+
+{ #category : #'as yet unclassified' }
+FQUnionQuery class >> color [
+	"Pink"
+
+	^ Color colorFrom: 'FFAABB'
+]
 
 { #category : #'instance creation' }
 FQUnionQuery class >> forQueries: aCollectionOfQueries [
 	^ self new
-		childrenQueries: aCollectionOfQueries asOrderedCollection;
+		parents: aCollectionOfQueries asOrderedCollection;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+FQUnionQuery class >> label [
+	^ 'Union'
 ]
 
 { #category : #comparing }
 FQUnionQuery >> = aQuery [
-	^ aQuery class == self class
-		and: [ aQuery childrenQueries = childrenQueries ]
+	^ aQuery class == self class and: [ aQuery parents = parents ]
 ]
 
-{ #category : #accessing }
-FQUnionQuery >> childrenQueries [
-	^ childrenQueries
-]
-
-{ #category : #accessing }
-FQUnionQuery >> childrenQueries: anObject [
-	childrenQueries := anObject
-]
-
-{ #category : #running }
+{ #category : #printing }
 FQUnionQuery >> displayOn: aStream with: aString [
-	self childrenQueries size = 1
-		ifTrue: [ self childrenQueries first displayOn: aStream with: aString.
+	parents size = 1
+		ifTrue: [ parents first displayOn: aStream with: aString.
 			^ self ].
 	aStream << '('.
-	self childrenQueries
+	parents
 		allButLastDo: [ :query | 
 			query displayOn: aStream with: aString.
 			aStream << ') | (' ].
-	self childrenQueries last displayOn: aStream with: aString.
+	parents last displayOn: aStream with: aString.
 	aStream << ')'
 ]
 
 { #category : #testing }
 FQUnionQuery >> isValid [
-	^ childrenQueries allSatisfy: #isValid
+	^ parents allSatisfy: #isValid
 ]
 
 { #category : #printing }
@@ -55,12 +53,14 @@ FQUnionQuery >> roassalLabel [
 ]
 
 { #category : #running }
-FQUnionQuery >> runOn: aMooseGroup [
-	| childrenResults |
-	childrenResults := self childrenQueries
+FQUnionQuery >> runOn: twoMooseGroups [
+	^ twoMooseGroups first union: twoMooseGroups second
+
+	"| childrenResults |
+	childrenResults := parents
 		collect: [ :query | query runOn: aMooseGroup ].
 	^ MooseGroup
 		withAll:
 			(childrenResults
-				fold: [ :currentResult :otherResult | currentResult union: otherResult ])
+				fold: [ :currentResult :otherResult | currentResult union: otherResult ])"
 ]

@@ -29,6 +29,10 @@ See subclasses
 Class {
 	#name : #FQAbstractQuery,
 	#superclass : #Object,
+	#instVars : [
+		'result',
+		'children'
+	],
 	#category : #'Famix-Queries-Core'
 }
 
@@ -52,19 +56,55 @@ FQAbstractQuery >> = aQuery [
 	^ self subclassResponsibility
 ]
 
+{ #category : #adding }
+FQAbstractQuery >> addChild: aQuery [
+	children add: aQuery
+]
+
+{ #category : #accessing }
+FQAbstractQuery >> children [
+	^ children
+]
+
 { #category : #running }
+FQAbstractQuery >> computeResult [
+	^ self subclassResponsibility
+]
+
+{ #category : #printing }
 FQAbstractQuery >> displayOn: aStream [ 
 	self displayOn: aStream with: 'aMooseGroup' 
 ]
 
-{ #category : #running }
+{ #category : #printing }
 FQAbstractQuery >> displayOn: aStream with: aString [
 	^ self subclassResponsibility
+]
+
+{ #category : #initialization }
+FQAbstractQuery >> initialize [
+	super initialize.
+	children := OrderedCollection new
 ]
 
 { #category : #testing }
 FQAbstractQuery >> isValid [
 	^ self subclassResponsibility
+]
+
+{ #category : #removing }
+FQAbstractQuery >> prepareRemoval [
+	^ self subclassResponsibility
+]
+
+{ #category : #removing }
+FQAbstractQuery >> removeChild: aQuery [
+	children remove: aQuery
+]
+
+{ #category : #running }
+FQAbstractQuery >> result [
+	^ result ifNil: [ result := self computeResult ]
 ]
 
 { #category : #running }
@@ -79,5 +119,6 @@ FQAbstractQuery >> simpleClassName [
 	"This was used to remove the 'FQ' prefix in #storeOn: method.
 	Problem is, by removing it, the System does not know those classes and cannot evaluate correctly the provided code"
 
+	self flag: 'FQUnused'.
 	^ self className withoutPrefix: self class projectPrefix
 ]

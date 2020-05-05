@@ -29,8 +29,7 @@ FQTypeQueriesPresenterTest >> testCheckBoxesChangeQueryTypes [
 
 { #category : #tests }
 FQTypeQueriesPresenterTest >> testCheckBoxesDisabledSinceFirstDisplay [
-	presenter := self presenterClass
-		on: helper modelExample allModelClasses.
+	self resetPresenterWithEntities: helper modelExample allModelClasses.
 
 	"Only 1 type in the query, cannot be removed, so the checkBox is disabled"
 	self deny: self checkBoxes first isEnabled.

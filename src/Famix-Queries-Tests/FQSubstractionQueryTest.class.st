@@ -82,7 +82,7 @@ FQSubstractionQueryTest >> testIsValid [
 { #category : #tests }
 FQSubstractionQueryTest >> testRunOn [
 	| classes subQuery1 subQuery2 queryResult expectedResult |
-
+	self flag: #FQImprove , 'runOn: behavior has changed for combinator queries'.
 	classes := model allModelClasses.
 
 	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
@@ -92,7 +92,7 @@ FQSubstractionQueryTest >> testRunOn [
 			{subQuery1.
 			subQuery2}.
 
-	queryResult := query runOn: classes.
+	queryResult := query runOn: ({subQuery1. subQuery2} collect: [ :q | q runOn: classes ]).
 	expectedResult := (subQuery1 runOn: classes)
 		difference: (subQuery2 runOn: classes).
 	

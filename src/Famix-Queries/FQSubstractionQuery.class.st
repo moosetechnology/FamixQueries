@@ -1,62 +1,60 @@
 Class {
 	#name : #FQSubstractionQuery,
-	#superclass : #FQAbstractQuery,
-	#instVars : [
-		'childrenQueries'
-	],
-	#category : #'Famix-Queries-Combinator'
+	#superclass : #FQBinaryQuery,
+	#category : #'Famix-Queries-Queries-Binary'
 }
+
+{ #category : #'as yet unclassified' }
+FQSubstractionQuery class >> color [
+	"Pink"
+
+	^ Color colorFrom: 'FFAABB'
+]
 
 { #category : #'instance creation' }
 FQSubstractionQuery class >> forQueries: aCollectionOfQueries [
 	^ self new
-		childrenQueries: aCollectionOfQueries asOrderedCollection;
+		parents: aCollectionOfQueries asOrderedCollection;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+FQSubstractionQuery class >> label [
+	^ 'Union'
 ]
 
 { #category : #comparing }
 FQSubstractionQuery >> = aQuery [
-	^ aQuery class == self class
-		and: [ aQuery childrenQueries = childrenQueries ]
-]
-
-{ #category : #accessing }
-FQSubstractionQuery >> childrenQueries [
-	^ childrenQueries
-]
-
-{ #category : #accessing }
-FQSubstractionQuery >> childrenQueries: anObject [
-	childrenQueries := anObject
+	^ aQuery class == self class and: [ aQuery parents = parents ]
 ]
 
 { #category : #running }
 FQSubstractionQuery >> displayOn: aStream with: aString [
-	self childrenQueries size = 1
-		ifTrue: [ self childrenQueries first displayOn: aStream with: aString.
+	parents size = 1
+		ifTrue: [ parents first displayOn: aStream with: aString.
 			^ self ].
 	aStream << '('.
-	self childrenQueries
+	parents
 		allButLastDo: [ :query | 
 			query displayOn: aStream with: aString.
 			aStream << ') \ (' ].
-	self childrenQueries last displayOn: aStream with: aString.
+	parents last displayOn: aStream with: aString.
 	aStream << ')'
 ]
 
 { #category : #testing }
 FQSubstractionQuery >> isValid [
-	^ childrenQueries allSatisfy: #isValid
+	^ parents allSatisfy: #isValid
 ]
 
 { #category : #running }
-FQSubstractionQuery >> runOn: aMooseGroup [
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
+FQSubstractionQuery >> runOn: twoMooseGroups [
+	^ twoMooseGroups first difference: twoMooseGroups second
 
-	^ MooseGroup
+	"^ MooseGroup
 		withAll:
 			(self childrenQueries allButFirst
 				inject: (self childrenQueries first runOn: aMooseGroup)
 				into:
-					[ :queryResult :otherQuery | queryResult difference: (otherQuery runOn: aMooseGroup) ])
+					[ :queryResult :otherQuery | queryResult difference: (otherQuery runOn: aMooseGroup) ])"
 ]

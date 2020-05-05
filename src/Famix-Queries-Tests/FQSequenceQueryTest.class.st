@@ -6,6 +6,8 @@ Class {
 
 { #category : #helpers }
 FQSequenceQueryTest >> actualClass [
+	self
+		flag: #FQUnused , 'this class is not useful, maybe it shoud be removed.'.
 	^ FQSequenceQuery
 ]
 
