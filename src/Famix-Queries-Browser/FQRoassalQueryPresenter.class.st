@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'accessing model' }
-FQRoassalQueryPresenter >> adaptToOwner [
+FQRoassalQueryPresenter >> applyScript [
 	self script: [ :canvas | self roassalScript: canvas ]
 ]
 
@@ -163,5 +163,8 @@ FQRoassalQueryPresenter >> roassalScript: canvas [
 
 { #category : #update }
 FQRoassalQueryPresenter >> selectItem: aQuery [
+	"This method is called by my browser when queriesTree is a TreeTablePresenter. Here, it is actually useless"
+
+	self flag: #FQUnused.
 	self refresh
 ]

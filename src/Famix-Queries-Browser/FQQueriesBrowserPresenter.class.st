@@ -98,9 +98,20 @@ FQQueriesBrowserPresenter >> initializePresenters [
 
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializeQueriesTree [
-	"queriesTree := (FQTreeTablePresenter owner: self) adaptToOwner"
+	"queriesTree := (SpTreeTablePresenter owner: self)
+		addColumn:
+			(SpCompositeTableColumn new
+				title: 'Queries';
+				addColumn: (SpStringTableColumn new evaluated: [ :wrapper | wrapper label ]));
+		roots: {self initialQuery};
+		children: #children;
+		selectItem: self initialQuery;
+		contextMenuFromCommandsGroup: [ self rootCommandsGroup ];
+		activateOnDoubleClick;
+		whenSelectionChangedDo: [ :selection | self selectQuery: selection selectedItem ];
+		whenActivatedDo: [ :selection | self openQueryCreationPresenter ]"
 
-	queriesTree := (FQRoassalQueryPresenter owner: self) adaptToOwner
+	queriesTree := (FQRoassalQueryPresenter owner: self) applyScript
 ]
 
 { #category : #initialization }
