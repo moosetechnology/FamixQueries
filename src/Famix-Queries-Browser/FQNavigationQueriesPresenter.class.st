@@ -44,7 +44,7 @@ FQNavigationQueriesPresenter >> configureRadioButton: radioButton forNavigationD
 		label: direction label;
 		whenActivatedDo: [ [ queryBuilder changeQueryNavigationDirection: direction ]
 				on: FQImpossibleQuery
-				do: [ self flag: 'Manage this error better' ].
+				do: [ self flag: #ImpossibleQuery , 'Manage this error better' ].
 			self updateAccordingToDirection ]
 ]
 

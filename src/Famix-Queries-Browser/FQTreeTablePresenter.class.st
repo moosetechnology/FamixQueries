@@ -25,6 +25,6 @@ FQTreeTablePresenter >> adaptToOwner [
 		selectItem: owner initialQuery;
 		contextMenuFromCommandsGroup: [ self rootCommandsGroup ];
 		activateOnDoubleClick;
-		whenSelectionChangedDo: [ :selection | owner selectedQuery: selection selectedItem ];
-		whenActivatedDo: [ :selection | (FQQueryCreationPresenter on: owner) openWithSpec ]
+		whenSelectionChangedDo: [ :selection | owner selectQuery: selection selectedItem ];
+		whenActivatedDo: [ :selection | owner openQueryCreationPresenter ]
 ]

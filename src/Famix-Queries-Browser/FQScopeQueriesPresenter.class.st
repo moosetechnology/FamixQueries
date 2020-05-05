@@ -38,7 +38,7 @@ FQScopeQueriesPresenter >> configureRadioButton: radioButton forScopeDirection: 
 		label: direction label;
 		whenActivatedDo: [ [ self queryBuilder changeQueryDirection: direction ]
 				on: FQImpossibleQuery
-				do: [ self flag: 'Manage this error better !!' ].
+				do: [ self flag: #ImpossibleQuery , 'Manage this error better !!' ].
 			self updateAccordingToDirection.
 			self notifyQueryChanged ]
 ]

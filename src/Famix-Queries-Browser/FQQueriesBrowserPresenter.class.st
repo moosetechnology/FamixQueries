@@ -63,19 +63,26 @@ FQQueriesBrowserPresenter class >> title [
 	^ 'Query Browser'
 ]
 
-{ #category : #update }
+{ #category : #action }
 FQQueriesBrowserPresenter >> addUnionQueryBetween: aQuery and: anotherQuery [
-	queriesCombinator addUnionQueryBetween: aQuery and: anotherQuery
+	self
+		selectQuery: (queriesCombinator addUnionQueryBetween: aQuery and: anotherQuery)
 ]
 
 { #category : #initialization }
 FQQueriesBrowserPresenter >> defineInputPorts [
+	self flag: #FQUnused.
 	^ {FQQueryPort new}
 ]
 
 { #category : #accessing }
 FQQueriesBrowserPresenter >> entities [
 	^ queriesCombinator resultOfQuery: selectedQuery
+]
+
+{ #category : #accessing }
+FQQueriesBrowserPresenter >> initialQuery [
+	^ queriesCombinator initialQuery
 ]
 
 { #category : #initialization }
@@ -94,8 +101,19 @@ FQQueriesBrowserPresenter >> initializeQueriesTree [
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializeQueryResult [
 	queryResult := self newList
+		headerTitle: 'Result of the selected query';
 		items: queriesCombinator initialEntities;
 		display: #name
+]
+
+{ #category : #initialization }
+FQQueriesBrowserPresenter >> initializeWindow: aWindowPresenter [
+	aWindowPresenter initialExtent: 500 @ 400
+]
+
+{ #category : #action }
+FQQueriesBrowserPresenter >> openQueryCreationPresenter [
+	(FQQueryCreationPresenter on: self) openWithSpec
 ]
 
 { #category : #accessing }
@@ -103,9 +121,22 @@ FQQueriesBrowserPresenter >> queries [
 	^ queriesCombinator queries
 ]
 
-{ #category : #update }
+{ #category : #action }
 FQQueriesBrowserPresenter >> removeQuery: aQuery [
+	self selectQuery: aQuery parent.
 	queriesCombinator removeQuery: aQuery
+]
+
+{ #category : #action }
+FQQueriesBrowserPresenter >> selectQuery: aQueryWrapper [
+	selectedQuery := aQueryWrapper.
+	queriesTree selectItem: selectedQuery.
+	self
+		flag:
+			#FQImprove,
+					'If we just selectItem in tabletree and in roassal, maybe the FQTreeTablePres class is unsueful'.
+	queryResult items: (queriesCombinator resultOfQuery: aQueryWrapper).
+	self update
 ]
 
 { #category : #accessing }
@@ -113,28 +144,14 @@ FQQueriesBrowserPresenter >> selectedQuery [
 	^ selectedQuery
 ]
 
-{ #category : #accessing }
-FQQueriesBrowserPresenter >> selectedQuery: aQueryWrapper [
-	selectedQuery := aQueryWrapper.
-	queryResult items: (queriesCombinator resultOfQuery: aQueryWrapper).
-	self update
-]
-
-{ #category : #initialization }
+{ #category : #'accessing model' }
 FQQueriesBrowserPresenter >> setModelBeforeInitialization: aMooseGroup [
 	queriesCombinator := FQQueriesCombinator newWithEntities: aMooseGroup.
 	selectedQuery := queriesCombinator initialQuery
 ]
 
-{ #category : #update }
+{ #category : #action }
 FQQueriesBrowserPresenter >> updateForQuery: aQuery [
-	selectedQuery := queriesCombinator
-		addQuery: aQuery
-		after: selectedQuery.
-	queriesTree selectItem: selectedQuery.
 	self
-		flag:
-			'If we just selectItem in tabletree and in roassal, not useful to create this special method. Maybe not even the FQTreeTablePres class'.
-	queryResult items: (queriesCombinator resultOfQuery: selectedQuery).
-	self update
+		selectQuery: (queriesCombinator addQuery: aQuery after: selectedQuery)
 ]

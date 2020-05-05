@@ -79,7 +79,8 @@ FQPropertyQueriesPresenter >> updateQueryBuilderFor: aPropertyQueryParametersPre
 	queryBuilder := [ aPropertyQueryParametersPresenterClass
 		queryBuilderClass newWithEntities: queryBuilder entities ]
 		on: FQImpossibleQuery
-		do: [ :error | error builder ]
+		do: [ :error | error builder ].
+	self flag: #ImpossibleQuery
 ]
 
 { #category : #update }

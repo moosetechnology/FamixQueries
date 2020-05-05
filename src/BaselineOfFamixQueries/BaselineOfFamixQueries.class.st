@@ -22,7 +22,7 @@ BaselineOfFamixQueries >> baseline: spec [
 				package: 'Famix-Queries-Tests'
 					with: [ spec requires: #('Famix-Queries') ];
 				package: 'Famix-Queries-Browser'
-					with: [ spec requires: #('Famix-Queries') ];
+					with: [ spec requires: #('Famix-Queries' 'Roassal3') ];
 				package: 'Famix-Queries-Browser-Tests'
 					with: [ spec requires: #('Famix-Queries-Browser') ].
 

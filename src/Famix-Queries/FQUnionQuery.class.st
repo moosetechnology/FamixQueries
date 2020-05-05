@@ -51,14 +51,11 @@ FQUnionQuery >> isValid [
 
 { #category : #running }
 FQUnionQuery >> runOn: aMooseGroup [
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-
 	| childrenResults |
 	childrenResults := self childrenQueries
 		collect: [ :query | query runOn: aMooseGroup ].
 	^ MooseGroup
 		withAll:
 			(childrenResults
-				fold:
-					[ :currentResult :otherResult | currentResult union: otherResult ])
+				fold: [ :currentResult :otherResult | currentResult union: otherResult ])
 ]

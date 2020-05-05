@@ -21,7 +21,6 @@ FQScopeQueryBuilder >> availableScopes [
 
 { #category : #'changing parameters' }
 FQScopeQueryBuilder >> changeQueryDirection: aDirection [
-	self flag: 'Manage this better'.
 	query directionStrategy: aDirection.
 	query scope: nil.
 	self availableScopes

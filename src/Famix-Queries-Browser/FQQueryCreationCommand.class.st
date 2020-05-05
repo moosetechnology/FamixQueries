@@ -21,7 +21,7 @@ FQQueryCreationCommand class >> defaultName [
 
 { #category : #testing }
 FQQueryCreationCommand >> canBeExecuted [
-	self flag: 'Should be used when Spec is upgraded'.
+	self flag: #FQSpecPb , 'Should be used when Spec is upgraded'.
 	^ self queryBuilder queryIsValid
 ]
 

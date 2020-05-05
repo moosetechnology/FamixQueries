@@ -196,7 +196,7 @@ FQQueryCreationPresenter >> initializeResultList [
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 650 @ 400
+	aWindowPresenter initialExtent: 550 @ 400
 ]
 
 { #category : #initialization }
@@ -233,7 +233,9 @@ FQQueryCreationPresenter >> transmitAcceptedQuery [
 FQQueryCreationPresenter >> transmitFromCodeToConfig [
 	self
 		flag:
-			'Bug in spec transmission from SpCodePresenter. 
+			#FQSpecPb
+				,
+					'Bug in spec transmission from SpCodePresenter. 
 	FQCodeAcceptedPort is ready to accept a transmission'
 	"queryCode transmitTo: queryConfigurationPresenter"
 ]
@@ -267,7 +269,9 @@ FQQueryCreationPresenter >> updateForAcceptedCode: code [
 		text: queryConfigurationPresenter queryBuilder codeToDisplay.
 	self
 		flag:
-			'This should go through transmissions but TextChangedPort is buggy in Spec for now. 
+			#FQSpecPb
+				,
+					'This should go through transmissions but TextChangedPort is buggy in Spec for now. 
 			FQCodeAcceptedPort is ready to accept a transmission'
 ]
 

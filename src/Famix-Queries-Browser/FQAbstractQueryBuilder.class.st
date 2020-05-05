@@ -33,7 +33,7 @@ FQAbstractQueryBuilder class >> queryClass [
 
 { #category : #update }
 FQAbstractQueryBuilder >> applyQuery [
-	self flag: 'Maybe use a cache ?'.
+	self flag: #FQImprove , 'Maybe use a cache ?'.
 	^ query runOn: entities
 ]
 
@@ -86,7 +86,8 @@ FQAbstractQueryBuilder >> queryIsValid [
 { #category : #update }
 FQAbstractQueryBuilder >> updateForQueryCode: aString [
 	| newQuery |
-	self flag: 'Todo : modify current query and adapt presenter'.
+	self
+		flag: #FQImprove , 'Todo : modify current query and adapt presenter'.
 	newQuery := Smalltalk compiler evaluate: aString.	"self queryClass readFrom: aString"
 	newQuery inspect
 ]

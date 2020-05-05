@@ -12,7 +12,7 @@ FQRoassalQueryPresenter >> adaptToOwner [
 { #category : #'roassal script' }
 FQRoassalQueryPresenter >> boxDraggedAction: event [
 	| potentialParents |
-	owner selectedQuery: event shape model.
+	owner selectQuery: event shape model.
 	potentialParents := event canvas shapes
 		select: [ :shape | 
 			(shape isKindOf: RSBox)
@@ -66,7 +66,7 @@ FQRoassalQueryPresenter >> boxPopup [
 
 { #category : #'roassal script' }
 FQRoassalQueryPresenter >> boxSelection: event [
-	owner selectedQuery: event shape model.
+	owner selectQuery: event shape model.
 	self refresh
 ]
 

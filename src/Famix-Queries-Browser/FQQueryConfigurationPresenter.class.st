@@ -60,11 +60,6 @@ FQQueryConfigurationPresenter >> defineOutputPorts [
 	FQAcceptedQueryPort new}
 ]
 
-{ #category : #initialization }
-FQQueryConfigurationPresenter >> initialize [
-	super initialize.
-]
-
 { #category : #accessing }
 FQQueryConfigurationPresenter >> modelPrefix [
 	^ queryBuilder entities first mooseModel className
@@ -96,7 +91,8 @@ FQQueryConfigurationPresenter >> setModelBeforeInitialization: entities [
 	queryBuilder := [ self class queryBuilderClass
 		newWithEntities: entities ]
 		on: FQImpossibleQuery
-		do: [ :error | error builder ]
+		do: [ :error | error builder ].
+	self flag: #ImpossibleQuery
 ]
 
 { #category : #transmissions }
@@ -106,6 +102,6 @@ FQQueryConfigurationPresenter >> transmitInitialConfiguration [
 
 { #category : #update }
 FQQueryConfigurationPresenter >> updateForQueryCode: newQueryCode [
-	self flag: 'TODO: Match with modified code'.
+	self flag: #FQImprove , 'TODO: Match with modified code'.
 	queryBuilder updateForQueryCode: newQueryCode
 ]

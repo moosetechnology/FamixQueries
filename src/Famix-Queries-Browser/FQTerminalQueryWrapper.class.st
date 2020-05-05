@@ -18,6 +18,11 @@ Class {
 }
 
 { #category : #accessing }
+FQTerminalQueryWrapper >> computeResult [
+	^ query runOn: parent result
+]
+
+{ #category : #accessing }
 FQTerminalQueryWrapper >> parent [
 	^ parent
 ]
@@ -25,4 +30,10 @@ FQTerminalQueryWrapper >> parent [
 { #category : #accessing }
 FQTerminalQueryWrapper >> parent: anObject [
 	parent := anObject
+]
+
+{ #category : #removing }
+FQTerminalQueryWrapper >> prepareRemoval [
+	parent removeChild: self.
+	parent := nil
 ]

@@ -41,6 +41,11 @@ FQAbstractQueryWrapper >> color: aColor [
 	color := aColor
 ]
 
+{ #category : #accessing }
+FQAbstractQueryWrapper >> computeResult [
+	^ self subclassResponsibility
+]
+
 { #category : #initialization }
 FQAbstractQueryWrapper >> initialize [
 	super initialize.
@@ -55,6 +60,11 @@ FQAbstractQueryWrapper >> label [
 { #category : #accessing }
 FQAbstractQueryWrapper >> label: aString [
 	label := aString
+]
+
+{ #category : #removing }
+FQAbstractQueryWrapper >> prepareRemoval [
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -74,7 +84,7 @@ FQAbstractQueryWrapper >> removeChild: aQueryWrapper [
 
 { #category : #accessing }
 FQAbstractQueryWrapper >> result [
-	^ result
+	^ result ifNil: [ self computeResult ]
 ]
 
 { #category : #accessing }

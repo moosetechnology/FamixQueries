@@ -31,15 +31,6 @@ FQQueriesCombinator >> addQuery: aQuery after: anExistingQueryWrapper [
 ]
 
 { #category : #adding }
-FQQueriesCombinator >> addQueryOnInitialEntities: aQuery [
-	^ queries
-		addLast:
-			(FQTerminalQueryWrapper new
-				parent: queries first;
-				query: aQuery)
-]
-
-{ #category : #adding }
 FQQueriesCombinator >> addUnionQueryBetween: firstParent and: secondParent [
 	| queryWrapper parents |
 	parents := {firstParent.
@@ -64,7 +55,7 @@ FQQueriesCombinator >> computeResultOf: aQueryWrapper [
 
 { #category : #accessing }
 FQQueriesCombinator >> initialEntities [
-	^ queries first result
+	^ self initialQuery result
 ]
 
 { #category : #accessing }
@@ -107,5 +98,5 @@ FQQueriesCombinator >> removeQuery: aQueryWrapper [
 
 { #category : #accessing }
 FQQueriesCombinator >> resultOfQuery: aQueryWrapper [
-	^ aQueryWrapper result ifNil: [ self computeResultOf: aQueryWrapper ]
+	^ aQueryWrapper result
 ]
