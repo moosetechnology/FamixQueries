@@ -7,4 +7,4 @@ Evaluate this code in a Playground to load Famix Queries and the associated brow
 Metacello new
     baseline: 'FamixQueries';
     repository: 'github://ClotildeToullec/FamixQueries';
-    load.```
+    load.
