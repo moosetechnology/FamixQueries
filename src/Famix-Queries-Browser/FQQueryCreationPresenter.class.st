@@ -158,13 +158,11 @@ FQQueryCreationPresenter >> entities [
 
 { #category : #initialization }
 FQQueryCreationPresenter >> initializePresenters [
-	"beText"
-
-	toolBar := self newToolBar.
+	toolBar := self newToolBar.	"beText"
 	self initializeRoassalSequence.
+	self initializeQueryTypesDropList.
 	self initializeQueryCode.
 	self initializeResultList.
-	self initializeQueryTypesDropList.
 	self initializeQueryConfigurationPresenter
 ]
 
@@ -186,7 +184,7 @@ FQQueryCreationPresenter >> initializeQueryTypesDropList [
 	queryTypesDropList := self newDropList
 		items: self class queryConfigurationPresenters;
 		display: [ :presenter | presenter label ];
-		whenSelectedItemChangedDo: [ :presenter | self updateQueryConfigurationPresenter: presenter ]
+		whenSelectedItemChangedDo: [ :presenter | self update: presenter ]
 ]
 
 { #category : #initialization }
@@ -199,8 +197,10 @@ FQQueryCreationPresenter >> initializeResultList [
 
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeRoassalSequence [
-	sequence := SpRoassalPresenter on: self.
-	sequence script: [ :canvas | self roassalSequenceOn: canvas ]
+	sequence := (FQRoassalSequence
+		on: browser selectedQuery parentSequence)
+		shapeColor: [ :model | model class color ];
+		shapeLabel: [ :model | model roassalLabel substrings first ]
 ]
 
 { #category : #initialization }
@@ -209,44 +209,12 @@ FQQueryCreationPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter initialExtent: 550 @ 400
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 FQQueryCreationPresenter >> projectPrefix [
 	^ 'FQ'
 ]
 
-{ #category : #initialization }
-FQQueryCreationPresenter >> roassalSequenceOn: canvas [
-	| offset points label |
-	offset := 0.6.
-	points := {(-1 @ -1).
-	(offset @ -1).
-	(1 @ 0).
-	(offset @ 1).
-	(-1 @ 1).
-	(offset negated @ 0)}.
-	label := RSLabeled new
-		text: [ :query | query roassalLabel substrings first ].
-	label location
-		inner;
-		center;
-		middle.
-	browser selectedQuery parentSequence
-		, {queryConfigurationPresenter queryBuilder query}
-		withIndexDo: [ :query :i | 
-			| shape |
-			shape := (RSShapeFactory polygonWithPoints: points)
-				model: query;
-				extent: 100 @ self class toolbarHeight;
-				color: query class color;
-				addInteraction: label;
-				"popupText: [ :q | String streamContents: [ :s | q printOn: s ] ];" "Bothering"
-				position: ((i - 1) * 100) @ 0.
-			canvas add: shape ].
-	canvas @ RSCanvasController new noLegend.
-	^ canvas
-]
-
-{ #category : #initialization }
+{ #category : #'accessing model' }
 FQQueryCreationPresenter >> setModelBeforeInitialization: aQueriesPresenter [
 	browser := aQueriesPresenter
 ]
@@ -293,6 +261,29 @@ FQQueryCreationPresenter >> transmitFromConfigToResultList [
 			result ]
 ]
 
+{ #category : #transmissions }
+FQQueryCreationPresenter >> transmitFromConfigToSequence [
+	queryConfigurationPresenter
+		transmitTo: sequence
+		transform: [ :queryBuilder | queryBuilder query ]
+]
+
+{ #category : #update }
+FQQueryCreationPresenter >> update: aPresenterClass [
+	self updateConfigurationPresenter: aPresenterClass.
+	self updateToolBar.
+	self updateTransmissions.
+	queryConfigurationPresenter notifyQueryChanged.
+	self update
+]
+
+{ #category : #update }
+FQQueryCreationPresenter >> updateConfigurationPresenter: aPresenterClass [
+	queryConfigurationPresenter := aPresenterClass
+		owner: self
+		on: self entities
+]
+
 { #category : #update }
 FQQueryCreationPresenter >> updateForAcceptedCode: code [
 	queryConfigurationPresenter updateForQueryCode: code.
@@ -306,17 +297,6 @@ FQQueryCreationPresenter >> updateForAcceptedCode: code [
 ]
 
 { #category : #update }
-FQQueryCreationPresenter >> updateQueryConfigurationPresenter: aPresenterClass [
-	queryConfigurationPresenter := aPresenterClass
-		owner: self
-		on: self entities.
-	self updateToolBar.
-	self updateTransmissions.
-	queryConfigurationPresenter transmitInitialConfiguration.
-	self update
-]
-
-{ #category : #update }
 FQQueryCreationPresenter >> updateToolBar [
 	toolBar fillWith: self rootCommandsGroup
 ]
@@ -324,6 +304,7 @@ FQQueryCreationPresenter >> updateToolBar [
 { #category : #update }
 FQQueryCreationPresenter >> updateTransmissions [
 	self transmitFromConfigToCode.
+	self transmitFromConfigToSequence.
 	self transmitFromConfigToResultList.
 	self transmitAcceptedQuery
 ]

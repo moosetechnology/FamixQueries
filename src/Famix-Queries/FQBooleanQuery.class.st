@@ -60,6 +60,8 @@ FQBooleanQuery >> hasComparisonParameters [
 
 { #category : #printing }
 FQBooleanQuery >> roassalLabel [
+	self isValid
+		ifFalse: [ ^ 'Invalid' ].
 	^ String streamContents: [ :s | s << self property ]
 ]
 

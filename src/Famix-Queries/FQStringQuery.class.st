@@ -91,6 +91,8 @@ FQStringQuery >> isValid [
 
 { #category : #printing }
 FQStringQuery >> roassalLabel [
+	self isValid
+		ifFalse: [ ^ 'Invalid' ].
 	^ String
 		streamContents: [ :s | 
 			s

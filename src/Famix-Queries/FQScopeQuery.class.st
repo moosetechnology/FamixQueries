@@ -128,6 +128,8 @@ FQScopeQuery >> printOn: aStream [
 
 { #category : #printing }
 FQScopeQuery >> roassalLabel [
+	self isValid
+		ifFalse: [ ^ 'Invalid' ].
 	^ String
 		streamContents: [ :s | 
 			s

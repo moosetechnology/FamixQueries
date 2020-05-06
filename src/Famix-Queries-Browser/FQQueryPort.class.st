@@ -11,5 +11,6 @@ FQQueryPort class >> portName [
 
 { #category : #'handling transmission' }
 FQQueryPort >> incomingTransmission: aQuery from: outPort [
-	self destinationPresenter updateForQuery: aQuery
+	self destinationPresenter setModels: aQuery parentSequence.
+	self destinationPresenter refresh
 ]

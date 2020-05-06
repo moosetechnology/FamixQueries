@@ -86,6 +86,8 @@ FQNumericQuery >> isValid [
 
 { #category : #printing }
 FQNumericQuery >> roassalLabel [
+	self isValid
+		ifFalse: [ ^ 'Invalid' ].
 	^ String
 		streamContents: [ :s | 
 			s

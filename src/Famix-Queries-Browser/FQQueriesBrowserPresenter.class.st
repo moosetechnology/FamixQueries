@@ -74,12 +74,6 @@ FQQueriesBrowserPresenter >> addUnionQueryBetween: aQuery and: anotherQuery [
 		selectQuery: (queriesCombinator addUnionQueryBetween: aQuery and: anotherQuery)
 ]
 
-{ #category : #initialization }
-FQQueriesBrowserPresenter >> defineInputPorts [
-	self flag: #FQUnused.
-	^ {FQQueryPort new}
-]
-
 { #category : #accessing }
 FQQueriesBrowserPresenter >> entities [
 	^ queriesCombinator resultOfQuery: selectedQuery

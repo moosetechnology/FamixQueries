@@ -204,6 +204,8 @@ FQNavigationQuery >> removeAssociation: anAssociation [
 
 { #category : #printing }
 FQNavigationQuery >> roassalLabel [
+	self isValid
+		ifFalse: [ ^ 'Invalid' ].
 	^ String
 		streamContents: [ :s | 
 			s

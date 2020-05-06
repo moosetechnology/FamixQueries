@@ -187,6 +187,8 @@ FQTypeQuery >> removeType: aType [
 
 { #category : #printing }
 FQTypeQuery >> roassalLabel [
+	self isValid
+		ifFalse: [ ^ 'Invalid' ].
 	^ String
 		streamContents: [ :s | 
 			self types
