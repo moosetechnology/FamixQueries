@@ -29,6 +29,11 @@ FQMockQuery >> isValid [
 	^ true
 ]
 
+{ #category : #printing }
+FQMockQuery >> printOn: aStream [
+	aStream << 'Initial Entities'
+]
+
 { #category : #accessing }
 FQMockQuery >> result: aMooseGroup [
 	result := aMooseGroup

@@ -8,7 +8,8 @@ Class {
 		'resultList',
 		'toolBar',
 		'resultListTitle',
-		'browser'
+		'browser',
+		'sequence'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -43,6 +44,7 @@ FQQueryCreationPresenter class >> default [
 FQQueryCreationPresenter class >> defaultSpec [
 	^ SpBoxLayout newVertical
 		add: #toolBar height: self toolbarHeight;
+		add: #sequence height: self toolbarHeight;
 		add:
 			(SpPanedLayout newHorizontal
 				add: self queryConfigurationLayout;
@@ -157,7 +159,9 @@ FQQueryCreationPresenter >> entities [
 { #category : #initialization }
 FQQueryCreationPresenter >> initializePresenters [
 	"beText"
+
 	toolBar := self newToolBar.
+	self initializeRoassalSequence.
 	self initializeQueryCode.
 	self initializeResultList.
 	self initializeQueryTypesDropList.
@@ -194,6 +198,12 @@ FQQueryCreationPresenter >> initializeResultList [
 ]
 
 { #category : #initialization }
+FQQueryCreationPresenter >> initializeRoassalSequence [
+	sequence := SpRoassalPresenter on: self.
+	sequence script: [ :canvas | self roassalSequenceOn: canvas ]
+]
+
+{ #category : #initialization }
 FQQueryCreationPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 550 @ 400
@@ -202,6 +212,38 @@ FQQueryCreationPresenter >> initializeWindow: aWindowPresenter [
 { #category : #initialization }
 FQQueryCreationPresenter >> projectPrefix [
 	^ 'FQ'
+]
+
+{ #category : #initialization }
+FQQueryCreationPresenter >> roassalSequenceOn: canvas [
+	| offset points label |
+	offset := 0.6.
+	points := {(-1 @ -1).
+	(offset @ -1).
+	(1 @ 0).
+	(offset @ 1).
+	(-1 @ 1).
+	(offset negated @ 0)}.
+	label := RSLabeled new
+		text: [ :query | query roassalLabel substrings first ].
+	label location
+		inner;
+		center;
+		middle.
+	browser selectedQuery parentSequence
+		, {queryConfigurationPresenter queryBuilder query}
+		withIndexDo: [ :query :i | 
+			| shape |
+			shape := (RSShapeFactory polygonWithPoints: points)
+				model: query;
+				extent: 100 @ self class toolbarHeight;
+				color: query class color;
+				addInteraction: label;
+				"popupText: [ :q | String streamContents: [ :s | q printOn: s ] ];" "Bothering"
+				position: ((i - 1) * 100) @ 0.
+			canvas add: shape ].
+	canvas @ RSCanvasController new noLegend.
+	^ canvas
 ]
 
 { #category : #initialization }
