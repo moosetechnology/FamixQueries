@@ -14,3 +14,9 @@ FQStringPropertyQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query comparator: self availableComparators first
 ]
+
+{ #category : #initialization }
+FQStringPropertyQueryBuilder >> initializeQueryFromParent: aQuery [
+	super initializeQueryFromParent: aQuery.
+	query comparator: self availableComparators first
+]

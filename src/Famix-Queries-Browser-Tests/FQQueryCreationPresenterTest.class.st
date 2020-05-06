@@ -54,7 +54,7 @@ FQQueryCreationPresenterTest >> testQueryMatchesInAllSubpresenters [
 		assert: presenter queryConfigurationPresenter queryBuilder query
 		equals: (Smalltalk compiler evaluate: presenter queryCode text).
 	self
-		assertCollection: presenter queryConfigurationPresenter queryBuilder applyQuery
+		assertCollection: presenter queryConfigurationPresenter queryBuilder queryResult
 		hasSameElements: presenter resultList items
 ]
 
@@ -80,7 +80,7 @@ FQQueryCreationPresenterTest >> testResultList [
 	self assert: presenter resultList class identicalTo: SpListPresenter.
 	self
 		assertCollection: presenter resultList items
-		hasSameElements: presenter queryConfigurationPresenter queryBuilder applyQuery
+		hasSameElements: presenter queryConfigurationPresenter queryBuilder queryResult
 ]
 
 { #category : #tests }

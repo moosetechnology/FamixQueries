@@ -87,9 +87,9 @@ FQQueryConfigurationPresenter >> queryBuilder [
 ]
 
 { #category : #initialization }
-FQQueryConfigurationPresenter >> setModelBeforeInitialization: entities [
+FQQueryConfigurationPresenter >> setModelBeforeInitialization: aQuery [
 	queryBuilder := [ self class queryBuilderClass
-		newWithEntities: entities ]
+		newWithParentQuery: aQuery ]
 		on: FQImpossibleQuery
 		do: [ :error | error builder ].
 	self flag: #ImpossibleQuery

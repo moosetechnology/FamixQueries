@@ -26,15 +26,16 @@ FQAbstractQueryBuilder class >> newWithEntities: entities [
 		yourself
 ]
 
+{ #category : #'plugin interface' }
+FQAbstractQueryBuilder class >> newWithParentQuery: aQuery [
+	^ self new
+		initializeQueryFromParent: aQuery;
+		yourself
+]
+
 { #category : #accessing }
 FQAbstractQueryBuilder class >> queryClass [
 	^ self subclassResponsibility
-]
-
-{ #category : #update }
-FQAbstractQueryBuilder >> applyQuery [
-	self flag: #FQImprove , 'Maybe use a cache ?'.
-	^ query runOn: entities
 ]
 
 { #category : #transmissions }
@@ -49,7 +50,7 @@ FQAbstractQueryBuilder >> codeToDisplay [
 
 { #category : #accessing }
 FQAbstractQueryBuilder >> entities [
-	^ entities
+	^ query parent result
 ]
 
 { #category : #accessing }
@@ -57,15 +58,14 @@ FQAbstractQueryBuilder >> entities: anObject [
 	entities := anObject
 ]
 
-{ #category : #initialization }
-FQAbstractQueryBuilder >> initialize [
-	super initialize.
-	self initializeQuery
-]
-
 { #category : #update }
 FQAbstractQueryBuilder >> initializeQuery [
 	query := self class queryClass new
+]
+
+{ #category : #update }
+FQAbstractQueryBuilder >> initializeQueryFromParent: aQuery [
+	query := self class queryClass new parent: aQuery
 ]
 
 { #category : #accessing }
@@ -81,6 +81,16 @@ FQAbstractQueryBuilder >> query: anObject [
 { #category : #testing }
 FQAbstractQueryBuilder >> queryIsValid [
 	^ query isValid
+]
+
+{ #category : #accessing }
+FQAbstractQueryBuilder >> queryResult [
+	^ query result
+]
+
+{ #category : #update }
+FQAbstractQueryBuilder >> resetResult [
+	query resetResult
 ]
 
 { #category : #update }

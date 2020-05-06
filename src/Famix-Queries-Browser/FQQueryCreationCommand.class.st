@@ -27,12 +27,12 @@ FQQueryCreationCommand >> canBeExecuted [
 
 { #category : #executing }
 FQQueryCreationCommand >> execute [
-	self queryBuilder applyQuery
+	self queryBuilder queryResult
 		ifEmpty: [ (UIManager default
 				confirm: 'Do you want to apply this query ?'
 				label: 'This query result is empty')
 				ifFalse: [ ^ self ] ].
-	(self queryBuilder applyQuery
+	(self queryBuilder queryResult
 		includesAll: self queryBuilder entities)
 		ifTrue: [ (UIManager default
 				confirm: 'Do you want to apply this query ?'

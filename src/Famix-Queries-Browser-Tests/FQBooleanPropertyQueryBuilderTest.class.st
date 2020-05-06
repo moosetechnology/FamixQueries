@@ -23,3 +23,14 @@ FQBooleanPropertyQueryBuilderTest >> testInitializeQuery [
 			(queryBuilder availableProperties
 				includes: queryBuilder query property)
 ]
+
+{ #category : #tests }
+FQBooleanPropertyQueryBuilderTest >> testUpdateQueryResult [
+	| previousResult |
+	
+	previousResult := queryBuilder query result copy.
+	queryBuilder changeQueryProperty: #isAbstract.
+	self
+		denyCollection: queryBuilder query result
+		hasSameElements: previousResult.
+]

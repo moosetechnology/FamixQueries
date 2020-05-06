@@ -77,7 +77,7 @@ FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 { #category : #update }
 FQPropertyQueriesPresenter >> updateQueryBuilderFor: aPropertyQueryParametersPresenterClass [
 	queryBuilder := [ aPropertyQueryParametersPresenterClass
-		queryBuilderClass newWithEntities: queryBuilder entities ]
+		queryBuilderClass newWithParentQuery: queryBuilder query parent ]
 		on: FQImpossibleQuery
 		do: [ :error | error builder ].
 	self flag: #ImpossibleQuery

@@ -21,7 +21,7 @@ FQPropertyQueriesPresenterTest >> testFirstParameter [
 		(presenter firstParameter presenters
 			allSatisfy: [ :pres | pres class == SpRadioButtonPresenter ]).
 
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self assert:
 		(presenter firstParameter presenters
 			allSatisfy: [ :pres | pres class == SpRadioButtonPresenter ])
@@ -29,7 +29,7 @@ FQPropertyQueriesPresenterTest >> testFirstParameter [
 
 { #category : #tests }
 FQPropertyQueriesPresenterTest >> testNoAvailableProperties [
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	(self radioButtons detect: [ :rb | rb label = 'Number' ]) click.
 	self
 		assert: presenter secondParameter class
@@ -75,7 +75,7 @@ FQPropertyQueriesPresenterTest >> testQueryValidity [
 	(self radioButtons detect: [ :rb | rb state not ]) click.
 	self assert: self queryBuilder queryIsValid.
 	
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self deny: self queryBuilder queryIsValid
 ]
 
@@ -101,7 +101,7 @@ FQPropertyQueriesPresenterTest >> testSecondParameter [
 		assert: presenter secondParameter class label
 		equals: (self radioButtons detect: #state) label.
 	
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self
 		assert: presenter secondParameter class
 		identicalTo: FQNoPossibleQueryPresenter

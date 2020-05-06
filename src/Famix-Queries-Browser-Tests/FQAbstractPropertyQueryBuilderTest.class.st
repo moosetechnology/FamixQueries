@@ -8,8 +8,3 @@ Class {
 FQAbstractPropertyQueryBuilderTest class >> isAbstract [
 	^ self == FQAbstractPropertyQueryBuilderTest
 ]
-
-{ #category : #running }
-FQAbstractPropertyQueryBuilderTest >> entities [
-	^ helper classesAndMethods
-]

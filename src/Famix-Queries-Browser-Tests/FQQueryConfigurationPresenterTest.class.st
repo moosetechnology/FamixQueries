@@ -20,7 +20,7 @@ FQQueryConfigurationPresenterTest >> currentQuery [
 
 { #category : #helpers }
 FQQueryConfigurationPresenterTest >> initializePresenterForNoEntities [
-	presenter := self presenterClass on: helper noEntities
+	self resetPresenterWithEntities: helper noEntities
 ]
 
 { #category : #helpers }
@@ -40,7 +40,7 @@ FQQueryConfigurationPresenterTest >> resetPresenterWithEntities: aMooseGroup [
 		on: (FQQueriesBrowserPresenter on: aMooseGroup).
 	presenter := self presenterClass
 		owner: superPresenter
-		on: aMooseGroup
+		on: superPresenter browser selectedQuery	"(FQMockQuery new result: aMooseGroup)"
 ]
 
 { #category : #running }

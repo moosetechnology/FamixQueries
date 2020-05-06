@@ -4,6 +4,14 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
 
+{ #category : #tests }
+FQNumericPropertyQueryBuilderTest >> preUpdateConfiguration [
+	queryBuilder := self queryBuilderClass
+		newWithParentQuery: (FQMockQuery new result: helper modelExample allModelClasses).
+	queryBuilder changeQueryProperty: #numberOfMethods.
+	queryBuilder changeQueryValueToCompare: 3
+]
+
 { #category : #initialization }
 FQNumericPropertyQueryBuilderTest >> queryBuilderClass [
 	^ FQNumericPropertyQueryBuilder
@@ -22,6 +30,12 @@ FQNumericPropertyQueryBuilderTest >> testChangeQueryProperty [
 ]
 
 { #category : #tests }
+FQNumericPropertyQueryBuilderTest >> testChangeQueryValueToCompare [
+	queryBuilder changeQueryValueToCompare: 10.
+	self assert: queryBuilder query valueToCompare equals: 10
+]
+
+{ #category : #tests }
 FQNumericPropertyQueryBuilderTest >> testInitializeQuery [
 	self assert: queryBuilder query class identicalTo: FQNumericQuery.
 	self
@@ -32,4 +46,31 @@ FQNumericPropertyQueryBuilderTest >> testInitializeQuery [
 		assert:
 			(queryBuilder availableComparators
 				includes: queryBuilder query comparator)
+]
+
+{ #category : #tests }
+FQNumericPropertyQueryBuilderTest >> testUpdateQueryResult [
+	| previousResult |
+	self preUpdateConfiguration.
+	
+	"Change property"
+	previousResult := queryBuilder query result copy.
+	queryBuilder changeQueryProperty: #numberOfChildren.
+	self
+		denyCollection: queryBuilder query result
+		hasSameElements: previousResult.
+	
+	"Change comparator"
+	previousResult := queryBuilder query result copy.
+	queryBuilder changeQueryComparator: #<=.
+	self
+		denyCollection: queryBuilder query result
+		hasSameElements: previousResult.
+	
+	"Change value to compare"
+	previousResult := queryBuilder query result copy.
+	queryBuilder changeQueryValueToCompare: 5.
+	self
+		denyCollection: queryBuilder query result
+		hasSameElements: previousResult
 ]

@@ -11,12 +11,13 @@ FQTypeQueryBuilder class >> queryClass [
 
 { #category : #'changing parameters' }
 FQTypeQueryBuilder >> addTypeToQuery: aType [
-	query addType: aType
+	query addType: aType.
+	self resetResult
 ]
 
 { #category : #'available parameters' }
 FQTypeQueryBuilder >> availableTypes [
-	^ query availableTypesFor: entities
+	^ query availableTypesFor: self entities
 ]
 
 { #category : #accessing }
@@ -32,7 +33,16 @@ FQTypeQueryBuilder >> initializeQuery [
 	query types: self availableTypes
 ]
 
+{ #category : #initialization }
+FQTypeQueryBuilder >> initializeQueryFromParent: aQuery [
+	super initializeQueryFromParent: aQuery.
+	self availableTypes
+		ifEmpty: [ (FQImpossibleQuery new builder: self) signal ].
+	query types: self availableTypes
+]
+
 { #category : #'changing parameters' }
 FQTypeQueryBuilder >> removeTypeFromQuery: aType [
-	query removeType: aType
+	query removeType: aType.
+	self resetResult
 ]

@@ -32,3 +32,20 @@ FQScopeQueryBuilderTest >> testInitializeQuery [
 	self
 		assert: (queryBuilder availableScopes includes: queryBuilder query scope)
 ]
+
+{ #category : #initialization }
+FQScopeQueryBuilderTest >> testUpdateQueryResult [
+	| previousResult |
+	
+	previousResult := queryBuilder query result copy.
+	queryBuilder changeQueryDirection: FQScopeDown.
+	self
+		denyCollection: queryBuilder query result
+		hasSameElements: previousResult.
+	
+	previousResult := queryBuilder query result copy.
+	queryBuilder changeQueryScope: FamixStAttribute.
+	self
+		denyCollection: queryBuilder query result
+		hasSameElements: previousResult
+]

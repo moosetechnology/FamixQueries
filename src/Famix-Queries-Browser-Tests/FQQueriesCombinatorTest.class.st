@@ -61,32 +61,6 @@ FQQueriesCombinatorTest >> testAddUnionQueryBetweenAnd [
 ]
 
 { #category : #tests }
-FQQueriesCombinatorTest >> testComputeResultOf [
-	| query1 query2 |
-	query1 := self addTypeQuery.
-	self
-		assertCollection: (combinator computeResultOf: query1)
-		hasSameElements: (combinator initialEntities select: #isClass).
-	query2 := combinator
-		addQuery:
-			(FQStringQuery new
-				property: #name;
-				comparator: #includesSubstring:;
-				valueToCompare: 'Server')
-		after: query1.
-	self
-		denyCollection: (combinator computeResultOf: query2)
-		hasSameElements:
-			(combinator initialEntities
-				select: [ :class | class name includesSubstring: 'Server' ]).
-	self
-		assertCollection: (combinator computeResultOf: query2)
-		hasSameElements:
-			(query1 result
-				select: [ :class | class name includesSubstring: 'Server' ])
-]
-
-{ #category : #tests }
 FQQueriesCombinatorTest >> testInitialEntities [
 	self
 		assertCollection: combinator initialEntities
@@ -128,4 +102,30 @@ FQQueriesCombinatorTest >> testRemoveQuery [
 	self assert: wrapper parent isNil.
 	self assert: combinator initialQuery children isEmpty.
 	self deny: (combinator queries includes: wrapper)
+]
+
+{ #category : #tests }
+FQQueriesCombinatorTest >> testResultOfQuery [
+	| query1 query2 |
+	query1 := self addTypeQuery.
+	self
+		assertCollection: (combinator resultOfQuery: query1)
+		hasSameElements: (combinator initialEntities select: #isClass).
+	query2 := combinator
+		addQuery:
+			(FQStringQuery new
+				property: #name;
+				comparator: #includesSubstring:;
+				valueToCompare: 'Server')
+		after: query1.
+	self
+		denyCollection: (combinator resultOfQuery: query2)
+		hasSameElements:
+			(combinator initialEntities
+				select: [ :class | class name includesSubstring: 'Server' ]).
+	self
+		assertCollection: (combinator resultOfQuery: query2)
+		hasSameElements:
+			(query1 result
+				select: [ :class | class name includesSubstring: 'Server' ])
 ]

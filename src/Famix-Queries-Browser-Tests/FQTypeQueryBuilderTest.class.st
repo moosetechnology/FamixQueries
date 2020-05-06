@@ -28,3 +28,13 @@ FQTypeQueryBuilderTest >> testRemoveTypeFromQuery [
 	queryBuilder removeTypeFromQuery: FamixStMethod.
 	self deny: (queryBuilder currentQueryTypes includes: FamixStMethod)
 ]
+
+{ #category : #tests }
+FQTypeQueryBuilderTest >> testUpdateQueryResult [
+	| previousResult |
+	previousResult := queryBuilder query result copy.
+	queryBuilder removeTypeFromQuery: FamixStMethod.
+	self
+		denyCollection: queryBuilder query result
+		hasSameElements: previousResult
+]

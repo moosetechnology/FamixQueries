@@ -11,7 +11,8 @@ FQNavigationQueryBuilder class >> queryClass [
 
 { #category : #'changing parameters' }
 FQNavigationQueryBuilder >> addAssociationToQuery: anAssociation [
-	query addAssociation: anAssociation
+	query addAssociation: anAssociation.
+	self resetResult
 ]
 
 { #category : #'available parameters' }
@@ -21,7 +22,7 @@ FQNavigationQueryBuilder >> allPossibleAssociations [
 
 { #category : #'available parameters' }
 FQNavigationQueryBuilder >> availableAssociations [
-	^ query availableAssociationsFor: entities
+	^ query availableAssociationsFor: self entities
 ]
 
 { #category : #'available parameters' }
@@ -37,7 +38,8 @@ FQNavigationQueryBuilder >> changeQueryNavigationDirection: aDirection [
 	query
 		associationStrategy:
 			(FQNavigationAssociations
-				withAll: self availableAssociations)
+				withAll: self availableAssociations).
+	self resetResult
 ]
 
 { #category : #accessing }
@@ -57,7 +59,20 @@ FQNavigationQueryBuilder >> initializeQuery [
 				withAll: self availableAssociations)
 ]
 
+{ #category : #initialization }
+FQNavigationQueryBuilder >> initializeQueryFromParent: aQuery [
+	super initializeQueryFromParent: aQuery.
+	query directionStrategy: self availableDirections first.
+	self availableAssociations
+		ifEmpty: [ (FQImpossibleQuery new builder: self) signal ].
+	query
+		associationStrategy:
+			(FQNavigationAssociations
+				withAll: self availableAssociations)
+]
+
 { #category : #'changing parameters' }
 FQNavigationQueryBuilder >> removeAssociationFromQuery: anAssociation [
-	query removeAssociation: anAssociation
+	query removeAssociation: anAssociation.
+	self resetResult
 ]

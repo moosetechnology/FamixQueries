@@ -43,11 +43,6 @@ FQQueriesCombinator >> addUnionQueryBetween: firstParent and: secondParent [
 	^ queries addLast: newQuery
 ]
 
-{ #category : #private }
-FQQueriesCombinator >> computeResultOf: aQuery [
-	^ aQuery result
-]
-
 { #category : #accessing }
 FQQueriesCombinator >> initialEntities [
 	^ self initialQuery result

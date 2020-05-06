@@ -70,7 +70,7 @@ FQTypeQueriesPresenterTest >> testFirstParameter [
 		assert: presenter firstParameter class
 		identicalTo: SpNullPresenter.
 		
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self
 		assert: presenter firstParameter class
 		identicalTo: SpNullPresenter.
@@ -104,7 +104,7 @@ FQTypeQueriesPresenterTest >> testQueryValidity [
 	self checkBoxes first click.
 	self assert: self queryBuilder queryIsValid.
 
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self deny: self queryBuilder queryIsValid
 ]
 
@@ -118,7 +118,7 @@ FQTypeQueriesPresenterTest >> testSecondParameter [
 				but it is not the case here, since there is only 2 types"
 				and: [ pres state ] ]).
 				
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self
 		assert: presenter secondParameter class
 		identicalTo: FQNoPossibleQueryPresenter

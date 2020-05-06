@@ -254,7 +254,7 @@ FQQueryCreationPresenter >> transmitFromConfigToResultList [
 		transmitTo: resultList
 		transform: [ :queryBuilder | 
 			| result |
-			result := queryBuilder applyQuery.
+			result := queryBuilder queryResult.
 			result
 				ifEmpty: [ resultList headerTitle: 'No entities to show' ]
 				ifNotEmpty: [ resultList headerTitle: (browser mooseGroupDetails: result) ].
@@ -281,7 +281,7 @@ FQQueryCreationPresenter >> update: aPresenterClass [
 FQQueryCreationPresenter >> updateConfigurationPresenter: aPresenterClass [
 	queryConfigurationPresenter := aPresenterClass
 		owner: self
-		on: self entities
+		on: browser selectedQuery
 ]
 
 { #category : #update }

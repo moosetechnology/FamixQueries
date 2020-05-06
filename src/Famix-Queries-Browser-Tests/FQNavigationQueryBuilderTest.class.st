@@ -1,3 +1,6 @@
+"
+This class contains tests
+"
 Class {
 	#name : #FQNavigationQueryBuilderTest,
 	#superclass : #FQAbstractQueryBuilderTest,
@@ -30,6 +33,23 @@ FQNavigationQueryBuilderTest >> testRemoveAssociationFromQuery [
 	queryBuilder removeAssociationFromQuery: FamixTInvocation.
 	self
 		deny: (queryBuilder currentQueryAssociations includes: FamixTInvocation)
+]
+
+{ #category : #tests }
+FQNavigationQueryBuilderTest >> testUpdateQueryResult [
+	| previousResult |
+	
+	previousResult := queryBuilder query result copy.
+	queryBuilder changeQueryNavigationDirection: FQOutgoingNavigation.
+	self
+		denyCollection: queryBuilder query result
+		hasSameElements: previousResult.
+	
+	previousResult := queryBuilder query result copy.
+	queryBuilder removeAssociationFromQuery: FamixTInvocation.
+	self
+		denyCollection: queryBuilder query result
+		hasSameElements: previousResult
 ]
 
 { #category : #tests }

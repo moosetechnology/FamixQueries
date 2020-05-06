@@ -24,7 +24,7 @@ FQPropertyQueryParametersPresenterTest >> setUp [
 	super setUp.
 	helper := FQBrowserTestsHelper new.
 	superPresenter := FQPropertyQueriesPresenter
-		on: helper modelExample allBehaviourals.	"So there is more than 1 property for each type"
+		on: (FQMockQuery new result: helper modelExample allBehaviourals).	"So there is more than 1 property for each type"
 	superPresenter updateQueryParametersPresenter: self presenterClass.
 	presenter := superPresenter secondParameter
 ]

@@ -74,7 +74,7 @@ FQScopeQueriesPresenterTest >> testFirstParameter [
 		(presenter firstParameter presenters
 			allSatisfy: [ :pres | pres class == SpRadioButtonPresenter ]).
 
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self assert:
 		(presenter firstParameter presenters
 			allSatisfy: [ :pres | pres class == SpRadioButtonPresenter ])
@@ -107,7 +107,7 @@ FQScopeQueriesPresenterTest >> testQueryValidity [
 		detect: [ :radioButton | radioButton label = 'Down' ]) click.
 	self deny: self queryBuilder queryIsValid.
 	
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self deny: self queryBuilder queryIsValid. 
 ]
 
@@ -141,7 +141,7 @@ FQScopeQueriesPresenterTest >> testSecondParameter [
 		assert: presenter secondParameter class
 		identicalTo: SpDropListPresenter.
 	
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self
 		assert: presenter secondParameter class
 		identicalTo: FQNoPossibleQueryPresenter

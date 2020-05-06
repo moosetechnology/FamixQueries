@@ -23,8 +23,7 @@ FQNavigationQueriesPresenterTest >> radioButtons [
 
 { #category : #tests }
 FQNavigationQueriesPresenterTest >> testCheckBoxesDisabledSinceFirstDisplay [
-	presenter := self presenterClass
-		on: helper modelExample allModelMethods.
+	self resetPresenterWithEntities: helper modelExample allModelMethods.
 	(self radioButtons
 		detect: [ :radioButton | radioButton label = 'Local Incoming' ])
 		click.
@@ -127,7 +126,7 @@ FQNavigationQueriesPresenterTest >> testFirstParameter [
 		(presenter firstParameter presenters
 			allSatisfy: [ :pres | pres class == SpRadioButtonPresenter ]).
 
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self assert:
 		(presenter firstParameter presenters
 			allSatisfy: [ :pres | pres class == SpRadioButtonPresenter ])
@@ -146,7 +145,7 @@ FQNavigationQueriesPresenterTest >> testQueryValidity [
 	self checkBoxes first click.
 	self assert: self queryBuilder queryIsValid.
 	
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self deny: self queryBuilder queryIsValid.
 ]
 
@@ -183,7 +182,7 @@ FQNavigationQueriesPresenterTest >> testSecondParameter [
 				"Could be some SpNullPresenter depending on the dynamic layout 
 				but it is not the case here" ]).
 
-	presenter := self presenterClass on: helper noEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self
 		assert: presenter secondParameter class
 		identicalTo: FQNoPossibleQueryPresenter

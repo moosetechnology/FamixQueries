@@ -14,3 +14,9 @@ FQNumericPropertyQueryBuilder >> initializeQuery [
 	super initializeQuery.
 	query comparator: self availableComparators first
 ]
+
+{ #category : #initialization }
+FQNumericPropertyQueryBuilder >> initializeQueryFromParent: aQuery [
+	super initializeQueryFromParent: aQuery.
+	query comparator: self availableComparators first
+]

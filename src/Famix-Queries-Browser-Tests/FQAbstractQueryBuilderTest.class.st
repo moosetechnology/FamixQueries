@@ -15,7 +15,7 @@ FQAbstractQueryBuilderTest class >> isAbstract [
 
 { #category : #running }
 FQAbstractQueryBuilderTest >> entities [
-	^ helper modelExample
+	^ helper classesAndMethods
 ]
 
 { #category : #initialization }
@@ -26,12 +26,14 @@ FQAbstractQueryBuilderTest >> queryBuilderClass [
 { #category : #running }
 FQAbstractQueryBuilderTest >> setUp [
 	helper := FQBrowserTestsHelper new.
-	queryBuilder := self queryBuilderClass newWithEntities: self entities
+	queryBuilder := self queryBuilderClass
+		newWithParentQuery: (FQMockQuery new result: self entities)
 ]
 
 { #category : #tests }
 FQAbstractQueryBuilderTest >> testErrorOnInitializeQuery [
 	self
-		should: [ self queryBuilderClass newWithEntities: helper noEntities ]
+		should: [ self queryBuilderClass
+				newWithParentQuery: (FQMockQuery new result: helper noEntities) ]
 		raise: FQImpossibleQuery
 ]
