@@ -35,7 +35,7 @@ FQQueriesCombinator >> addUnionQueryBetween: firstParent and: secondParent [
 	(queries includesAll: parents)
 		ifFalse: [ FQUnknownPrecedingQuery signal ].
 	
-	newQuery := FQUnionQuery forQueries: parents.
+	newQuery := FQUnionQuery new.
 	
 	newQuery parents: parents.
 	
@@ -59,7 +59,7 @@ FQQueriesCombinator >> initialEntities: aMooseGroup [
 
 { #category : #accessing }
 FQQueriesCombinator >> initialQuery [
-	^ queries detect: [ :wrapper | wrapper parent isNil ]
+	^ queries detect: [ :query | query parent isNil ]
 ]
 
 { #category : #initialization }
@@ -85,6 +85,6 @@ FQQueriesCombinator >> removeQuery: aQuery [
 ]
 
 { #category : #accessing }
-FQQueriesCombinator >> resultOfQuery: aQueryWrapper [
-	^ aQueryWrapper result
+FQQueriesCombinator >> resultOfQuery: aQuery [
+	^ aQuery result
 ]

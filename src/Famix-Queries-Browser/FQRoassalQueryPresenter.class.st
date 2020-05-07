@@ -1,6 +1,13 @@
 Class {
 	#name : #FQRoassalQueryPresenter,
 	#superclass : #SpRoassalPresenter,
+	#instVars : [
+		'hasInteractions',
+		'queries',
+		'selectedQuery',
+		'shapePopup',
+		'browser'
+	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
@@ -9,24 +16,23 @@ FQRoassalQueryPresenter >> applyScript [
 	self script: [ :canvas | self roassalScript: canvas ]
 ]
 
-{ #category : #'roassal script' }
-FQRoassalQueryPresenter >> boxDraggedAction: event [
+{ #category : #'boxes configuration' }
+FQRoassalQueryPresenter >> boxDraggedAction: box [
 	| potentialParents |
-	owner selectQuery: event shape model.
-	potentialParents := event canvas shapes
+	owner selectQuery: box model.
+	potentialParents := box canvas shapes
 		select: [ :shape | 
 			(shape isKindOf: RSBox)
-				and: [ shape ~= event shape
-						and: [ shape encompassingRectangle
-								intersects: event shape encompassingRectangle ] ] ].
+				and: [ shape ~= box
+						and:
+							[ shape encompassingRectangle intersects: box encompassingRectangle ] ] ].
 	potentialParents size == 1
-		ifTrue: [ owner
-				addUnionQueryBetween: potentialParents first model
-				and: event shape model ].
+		ifTrue:
+			[ owner combineQuery: potentialParents first model with: box model ].
 	self refresh
 ]
 
-{ #category : #'roassal script' }
+{ #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> boxLabel [
 	| label |
 	label := RSLabeled new
@@ -42,18 +48,18 @@ Entities' ]
 	^ label
 ]
 
-{ #category : #'roassal script' }
+{ #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> boxMenu: aMenuMorph box: aBox [
 	(aMenuMorph
 		add: 'Create a new query after this one'
-		target: self
+		target: browser
 		selector: #openQueryCreationPresenter)
 		icon: (UITheme iconNamed: #add).
 	(aMenuMorph
 		add: 'Inspect query'
 		target: aBox model
 		selector: #inspect) icon: (UITheme iconNamed: #inspect).
-	aBox model == owner initialQuery
+	aBox model == browser initialQuery
 		ifTrue: [ ^ self ].
 	(aMenuMorph
 		add: 'Remove this query'
@@ -62,26 +68,26 @@ FQRoassalQueryPresenter >> boxMenu: aMenuMorph box: aBox [
 		argumentList: {aBox model}) icon: (UITheme iconNamed: #remove)
 ]
 
-{ #category : #'roassal script' }
+{ #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> boxPopup [
 	| label |
 	label := RSPopup new
-		text: [ :model | owner mooseGroupDetails: model result ].
+		text: [ :model | browser mooseGroupDetails: model result ].
 	^ label
 ]
 
-{ #category : #'roassal script' }
+{ #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> boxSelection: event [
-	owner selectQuery: event shape model.
+	browser selectQuery: event shape model.
 	self refresh
 ]
 
-{ #category : #'roassal script' }
+{ #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> boxSize [
 	^ 150
 ]
 
-{ #category : #'roassal script' }
+{ #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> buildBoxFor: aQuery [
 	| box |
 	box := RSBox new
@@ -90,29 +96,26 @@ FQRoassalQueryPresenter >> buildBoxFor: aQuery [
 		color: aQuery class color;
 		addInteraction: self boxLabel;
 		addInteraction: self boxPopup;
-		when: RSMouseClick do: [ :event | self boxSelection: event ];
-		when: RSMouseDoubleClick
-			do: [ :event | self openQueryCreationPresenter ];
-		when: RSMouseDragEnd do: [ :event | self boxDraggedAction: event ];
 		yourself.
+	self boxInteractions: box.
 	self decorateSelectedBox: box.
 	^ box
 ]
 
-{ #category : #'roassal script' }
+{ #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> decorateSelectedBox: box [
-	box model == owner selectedQuery
+	box model == selectedQuery
 		ifTrue: [ box border: RSBorder new ]
 ]
 
 { #category : #'roassal script' }
 FQRoassalQueryPresenter >> legendOn: canvas [
 	| legend |
-	owner queries size == 1
+	queries size == 1
 		ifTrue: [ ^ self ].
 	legend := RSLegend new.
 	legend container: canvas.
-	(owner queries allButFirst collectAsSet: [ :query | query class ])
+	(queries allButFirst collectAsSet: [ :query | query class ])
 		do: [ :query | legend text: query label withCircleColor: query color ].
 	legend
 		leyendDo: [ :l | 
@@ -123,7 +126,7 @@ FQRoassalQueryPresenter >> legendOn: canvas [
 		outer;
 		bottom;
 		offset: 0 @ 70.
-	legend onDemand: 'Legend'. "To remove for the legend to be always seen."
+	legend onDemand: 'Legend'.	"To remove for the legend to be always seen."
 	legend build
 ]
 
@@ -132,7 +135,7 @@ FQRoassalQueryPresenter >> openQueryCreationPresenter [
 	(FQQueryCreationPresenter on: owner) openWithSpec
 ]
 
-{ #category : #'roassal script' }
+{ #category : #update }
 FQRoassalQueryPresenter >> removeQuery: aQuery [
 	owner removeQuery: aQuery.
 	self refresh
@@ -163,8 +166,6 @@ FQRoassalQueryPresenter >> roassalScript: canvas [
 
 { #category : #update }
 FQRoassalQueryPresenter >> selectItem: aQuery [
-	"This method is called by my browser when queriesTree is a TreeTablePresenter. Here, it is actually useless"
-
-	self flag: #FQUnused.
+	selectedQuery := aQuery.
 	self refresh
 ]

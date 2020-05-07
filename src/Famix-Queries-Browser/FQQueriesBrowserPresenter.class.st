@@ -96,7 +96,7 @@ FQQueriesBrowserPresenter >> initializeQueriesTree [
 		addColumn:
 			(SpCompositeTableColumn new
 				title: 'Queries';
-				addColumn: (SpStringTableColumn new evaluated: [ :wrapper | wrapper label ]));
+				addColumn: (SpStringTableColumn new evaluated: [ :query | query class label ]));
 		roots: {self initialQuery};
 		children: #children;
 		selectItem: self initialQuery;
@@ -105,7 +105,8 @@ FQQueriesBrowserPresenter >> initializeQueriesTree [
 		whenSelectionChangedDo: [ :selection | self selectQuery: selection selectedItem ];
 		whenActivatedDo: [ :selection | self openQueryCreationPresenter ]"
 
-	queriesTree := (FQRoassalQueryPresenter owner: self) applyScript
+	queriesTree := (FQRoassalQueryPresenter owner: self on: self queries)
+		adaptToBrowser: self
 ]
 
 { #category : #initialization }
@@ -159,15 +160,9 @@ FQQueriesBrowserPresenter >> removeQuery: aQuery [
 ]
 
 { #category : #action }
-FQQueriesBrowserPresenter >> selectQuery: aQueryWrapper [
-	selectedQuery := aQueryWrapper.
+FQQueriesBrowserPresenter >> selectQuery: aQuery [
+	selectedQuery := aQuery.
 	queriesTree selectItem: selectedQuery.
-	self
-		flag:
-			#FQImprove
-				,
-					'If we just selectItem in tabletree and in roassal, maybe the FQTreeTablePres class is unsueful'.
-	queryResult items: (queriesCombinator resultOfQuery: selectedQuery).
 	queryResult
 		headerTitle: (self mooseGroupDetails: selectedQuery result).
 	self update

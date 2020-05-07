@@ -94,14 +94,14 @@ FQQueriesCombinatorTest >> testRemoveCombinatorQuery [
 
 { #category : #tests }
 FQQueriesCombinatorTest >> testRemoveQuery [
-	| wrapper |
-	wrapper := self addBooleanQuery.
+	| query |
+	query := self addBooleanQuery.
 	
-	combinator removeQuery: wrapper.
+	combinator removeQuery: query.
 	
-	self assert: wrapper parent isNil.
+	self assert: query parent isNil.
 	self assert: combinator initialQuery children isEmpty.
-	self deny: (combinator queries includes: wrapper)
+	self deny: (combinator queries includes: query)
 ]
 
 { #category : #tests }

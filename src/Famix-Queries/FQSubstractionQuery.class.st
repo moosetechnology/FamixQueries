@@ -6,9 +6,9 @@ Class {
 
 { #category : #'as yet unclassified' }
 FQSubstractionQuery class >> color [
-	"Pink"
+	"Violet"
 
-	^ Color colorFrom: 'FFAABB'
+	^ Color colorFrom: 'd9b6fc'
 ]
 
 { #category : #'instance creation' }
@@ -20,7 +20,7 @@ FQSubstractionQuery class >> forQueries: aCollectionOfQueries [
 
 { #category : #'as yet unclassified' }
 FQSubstractionQuery class >> label [
-	^ 'Union'
+	^ 'Substraction'
 ]
 
 { #category : #comparing }
@@ -45,6 +45,11 @@ FQSubstractionQuery >> displayOn: aStream with: aString [
 { #category : #testing }
 FQSubstractionQuery >> isValid [
 	^ parents allSatisfy: #isValid
+]
+
+{ #category : #printing }
+FQSubstractionQuery >> roassalLabel [
+	^ 'Substraction'
 ]
 
 { #category : #running }

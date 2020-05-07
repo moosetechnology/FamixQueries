@@ -48,9 +48,9 @@ Class {
 
 { #category : #'as yet unclassified' }
 FQScopeQuery class >> color [
-	"Orange"
+	"Blue-green"
 
-	^ Color colorFrom: 'EE9977'
+	^ Color colorFrom: '009292'
 ]
 
 { #category : #'instance creation' }

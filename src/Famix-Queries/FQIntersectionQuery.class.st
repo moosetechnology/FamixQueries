@@ -6,9 +6,9 @@ Class {
 
 { #category : #'as yet unclassified' }
 FQIntersectionQuery class >> color [
-	"Pear"
+	"Orange"
 
-	^ Color colorFrom: 'BBCC33'
+	^ Color colorFrom: 'EE9977'
 ]
 
 { #category : #'instance creation' }
@@ -45,6 +45,11 @@ FQIntersectionQuery >> displayOn: aStream with: aString [
 { #category : #testing }
 FQIntersectionQuery >> isValid [
 	^ parents allSatisfy: #isValid
+]
+
+{ #category : #printing }
+FQIntersectionQuery >> roassalLabel [
+	^ 'Intersection'
 ]
 
 { #category : #running }
