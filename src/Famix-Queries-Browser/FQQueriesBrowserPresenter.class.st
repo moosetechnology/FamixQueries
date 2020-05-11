@@ -6,7 +6,8 @@ Class {
 		'queryResult',
 		'queriesCombinator',
 		'selectedQuery',
-		'queryResultTitle'
+		'queryResultTitle',
+		'queries'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -68,20 +69,14 @@ FQQueriesBrowserPresenter class >> title [
 	^ 'Query Browser'
 ]
 
-{ #category : #action }
-FQQueriesBrowserPresenter >> addUnionQueryBetween: aQuery and: anotherQuery [
-	self
-		selectQuery: (queriesCombinator addUnionQueryBetween: aQuery and: anotherQuery)
-]
-
 { #category : #accessing }
 FQQueriesBrowserPresenter >> entities [
-	^ queriesCombinator resultOfQuery: selectedQuery
+	^ selectedQuery result
 ]
 
 { #category : #accessing }
 FQQueriesBrowserPresenter >> initialQuery [
-	^ queriesCombinator initialQuery
+	^ queries detect: [ :query | query parent isNil ]
 ]
 
 { #category : #initialization }
@@ -150,13 +145,18 @@ FQQueriesBrowserPresenter >> openQueryCreationPresenter [
 
 { #category : #accessing }
 FQQueriesBrowserPresenter >> queries [
-	^ queriesCombinator queries
+	^ queries
 ]
 
 { #category : #action }
 FQQueriesBrowserPresenter >> removeQuery: aQuery [
-	self selectQuery: aQuery parent.
-	queriesCombinator removeQuery: aQuery
+	aQuery children
+		ifNotEmpty: [ UIManager default
+				alert: 'Cannot remove a query with children for now'.
+			^ self ].
+	aQuery prepareRemovalFrom: self.
+	queries remove: aQuery.
+	^ aQuery
 ]
 
 { #category : #action }
@@ -164,6 +164,7 @@ FQQueriesBrowserPresenter >> selectQuery: aQuery [
 	selectedQuery := aQuery.
 	queriesTree selectItem: selectedQuery.
 	queryResult
+		items: selectedQuery result;
 		headerTitle: (self mooseGroupDetails: selectedQuery result).
 	self update
 ]
@@ -175,12 +176,18 @@ FQQueriesBrowserPresenter >> selectedQuery [
 
 { #category : #'accessing model' }
 FQQueriesBrowserPresenter >> setModelBeforeInitialization: aMooseGroup [
-	queriesCombinator := FQQueriesCombinator newWithEntities: aMooseGroup.
-	selectedQuery := queriesCombinator initialQuery
+	queries := OrderedCollection new
+		add:
+			(FQMockQuery new
+				result: aMooseGroup;
+				yourself);
+		yourself.
+	selectedQuery := self initialQuery
 ]
 
 { #category : #action }
 FQQueriesBrowserPresenter >> updateForQuery: aQuery [
-	self
-		selectQuery: (queriesCombinator addQuery: aQuery after: selectedQuery)
+	aQuery parent: selectedQuery.
+	selectedQuery addChild: aQuery.
+	self selectQuery: (queries addLast: aQuery)
 ]

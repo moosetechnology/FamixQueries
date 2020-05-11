@@ -21,31 +21,7 @@ FQQueriesBrowserPresenterTest >> setUp [
 ]
 
 { #category : #tests }
-FQQueriesBrowserPresenterTest >> testAddUnionQueryBetweenAnd [
-	| query1 query2 unionQuery |
-	presenter updateForQuery: (FQBooleanQuery new property: #isAbstract).
-	query1 := presenter selectedQuery.
-	presenter updateForQuery: (FQTypeQuery new type: FamixStClass).
-	query2 := presenter selectedQuery.
-	presenter addUnionQueryBetween: query1 and: query2.
-	self
-		assert: presenter selectedQuery class
-		identicalTo: FQUnionQuery.
-	unionQuery := presenter selectedQuery.
-	self
-		assert: presenter queriesCombinator queries last
-		equals: unionQuery.
-	self assert: presenter queriesTree selectedItem equals: unionQuery.
-	self
-		assertCollection: presenter queryResult items
-		hasSameElements: (presenter queriesCombinator resultOfQuery: unionQuery)
-]
-
-{ #category : #tests }
 FQQueriesBrowserPresenterTest >> testInitialization [
-	self
-		assert: presenter queriesCombinator class
-		identicalTo: FQQueriesCombinator.
 	self
 		assertCollection: presenter entities
 		hasSameElements: helper classesAndMethods
@@ -72,14 +48,19 @@ FQQueriesBrowserPresenterTest >> testRemoveQuery [
 	| query |
 	query := FQBooleanQuery new property: #isAbstract.
 	presenter updateForQuery: query.
+	
 	presenter removeQuery: presenter selectedQuery.
-	self assert: presenter queriesCombinator queries size equals: 1.
+	
+	self
+		deny:
+			(presenter queries
+				anySatisfy: [ :q | q == query  ]).
 	self
 		assert: presenter selectedQuery
-		equals: presenter queriesCombinator initialQuery.
+		equals: presenter initialQuery.
 	self
 		assert: presenter queriesTree selectedItem
-		equals: presenter queriesCombinator initialQuery.
+		equals: presenter initialQuery.
 	self
 		assertCollection: presenter queryResult items
 		hasSameElements: helper classesAndMethods
@@ -97,7 +78,7 @@ FQQueriesBrowserPresenterTest >> testSelectQuery [
 	self assert: presenter queriesTree selectedItem equals: query1.
 	self
 		assertCollection: presenter queryResult items
-		hasSameElements: (presenter queriesCombinator resultOfQuery: query1)
+		hasSameElements: query1 result
 ]
 
 { #category : #tests }
@@ -105,7 +86,7 @@ FQQueriesBrowserPresenterTest >> testUpdateForQuery [
 	| query |
 	query := FQBooleanQuery new property: #isAbstract.
 	presenter updateForQuery: query.
-	self assert: presenter queriesCombinator queries last equals: query.
+	self assert: (presenter queries includes: query).
 	self assert: presenter selectedQuery equals: query.
 	self assert: presenter queriesTree selectedItem equals: query.
 	self
