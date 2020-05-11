@@ -149,7 +149,8 @@ FQQueriesBrowserPresenter >> initializeWindow: aWindowPresenter [
 
 { #category : #accessing }
 FQQueriesBrowserPresenter >> modelPrefix [
-	^ self entities first mooseModel className withoutSuffix: 'Model'
+	^ self initialQuery result first mooseModel className
+		withoutSuffix: 'Model'
 ]
 
 { #category : #accessing }
