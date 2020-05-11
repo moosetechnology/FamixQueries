@@ -8,7 +8,8 @@ Class {
 		'parentQueries',
 		'newQuery',
 		'browser',
-		'toolBar'
+		'toolBar',
+		'queryWasValidated'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -64,11 +65,6 @@ FQQueriesCombinationPresenter >> initializePresenters [
 ]
 
 { #category : #initialization }
-FQQueriesCombinationPresenter >> initializeQueriesTree [
-	queriesTree := SpNullPresenter new
-]
-
-{ #category : #initialization }
 FQQueriesCombinationPresenter >> initializeResultList [
 	resultList := self newList
 		display: #name;
@@ -84,7 +80,8 @@ FQQueriesCombinationPresenter >> initializeToolBar [
 FQQueriesCombinationPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter
-		whenClosedDo: [ parentQueries do: [ :parent | parent removeChild: newQuery ] ]
+		whenClosedDo: [ queryWasValidated
+				ifFalse: [ parentQueries do: [ :parent | parent removeChild: newQuery ] ] ]
 ]
 
 { #category : #accessing }
@@ -94,22 +91,23 @@ FQQueriesCombinationPresenter >> newQuery [
 
 { #category : #update }
 FQQueriesCombinationPresenter >> notifyAcceptedQuery [
+	queryWasValidated := true.
 	browser addCombinationQuery: newQuery
 ]
 
-{ #category : #accessing }
-FQQueriesCombinationPresenter >> openOnQueries: aQueriesCollection [
+{ #category : #opening }
+FQQueriesCombinationPresenter >> onQueries: aQueriesCollection [
 	parentQueries := aQueriesCollection.
 	(queriesTree := FQRoassalQueryPresenter on: parentQueries)
 		noInteractions;
 		adaptToBrowser: browser.
-	combinationsDroplist selectIndex: 1.
-	self openWithSpec
+	combinationsDroplist selectIndex: 1
 ]
 
 { #category : #'accessing model' }
 FQQueriesCombinationPresenter >> setModelBeforeInitialization: aBrowser [
-	browser := aBrowser
+	browser := aBrowser.
+	queryWasValidated := false
 ]
 
 { #category : #update }

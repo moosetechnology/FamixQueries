@@ -73,27 +73,16 @@ FQQueriesBrowserPresenter class >> title [
 FQQueriesBrowserPresenter >> addCombinationQuery: newQuery [
 	(queries includesAll: newQuery parents)
 		ifFalse: [ FQUnknownPrecedingQuery signal ].
-	newQuery parents do: [ :parent | parent addChild: newQuery ].
-	self selectQuery: (queries addLast: newQuery)
-]
-
-{ #category : #action }
-FQQueriesBrowserPresenter >> addCombinationQuery: aBinaryQueryClass between: parentQueries [
-	| newQuery |
-	(queries includesAll: parentQueries)
-		ifFalse: [ FQUnknownPrecedingQuery signal ].
-	newQuery := aBinaryQueryClass new.
-	newQuery parents: parentQueries.
-	parentQueries do: [ :parent | parent addChild: newQuery ].
 	self selectQuery: (queries addLast: newQuery)
 ]
 
 { #category : #action }
 FQQueriesBrowserPresenter >> combineQuery: aQuery with: anotherQuery [
 	(FQQueriesCombinationPresenter on: self)
-		openOnQueries:
+		onQueries:
 			{aQuery.
-			anotherQuery}
+			anotherQuery};
+		openWithSpec
 ]
 
 { #category : #accessing }

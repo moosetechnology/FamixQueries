@@ -35,11 +35,6 @@ FQRoassalSequenceTest >> modelsCollection [
 ]
 
 { #category : #running }
-FQRoassalSequenceTest >> openInstance [
-	window ifNil: [ window := presenter openWithSpec ]
-]
-
-{ #category : #running }
 FQRoassalSequenceTest >> setUp [
 	super setUp.
 	presenter := self classToTest on: self modelsCollection
