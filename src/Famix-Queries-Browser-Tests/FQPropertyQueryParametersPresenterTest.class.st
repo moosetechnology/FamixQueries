@@ -1,9 +1,8 @@
 Class {
 	#name : #FQPropertyQueryParametersPresenterTest,
-	#superclass : #TestCase,
+	#superclass : #SpTest,
 	#instVars : [
-		'helper',
-		'presenter'
+		'helper'
 	],
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
 }
@@ -13,19 +12,13 @@ FQPropertyQueryParametersPresenterTest class >> isAbstract [
 	^ self == FQPropertyQueryParametersPresenterTest
 ]
 
-{ #category : #helpers }
-FQPropertyQueryParametersPresenterTest >> presenterClass [
-	^ self subclassResponsibility
-]
-
 { #category : #running }
 FQPropertyQueryParametersPresenterTest >> setUp [
 	| superPresenter |
-	super setUp.
 	helper := FQBrowserTestsHelper new.
 	superPresenter := FQPropertyQueriesPresenter
 		on: (FQMockQuery new result: helper modelExample allBehaviourals).	"So there is more than 1 property for each type"
-	superPresenter updateQueryParametersPresenter: self presenterClass.
+	superPresenter updateQueryParametersPresenter: self classToTest.
 	presenter := superPresenter secondParameter
 ]
 
@@ -41,10 +34,10 @@ FQPropertyQueryParametersPresenterTest >> testMatchesQuery [
 FQPropertyQueryParametersPresenterTest >> testNormalQueryBuilderInitialization [
 	self
 		assert: presenter queryBuilder class
-		identicalTo: self presenterClass queryBuilderClass.
+		identicalTo: self classToTest queryBuilderClass.
 	self
 		assert: presenter queryBuilder query class
-		identicalTo: self presenterClass queryBuilderClass queryClass.
+		identicalTo: self classToTest queryBuilderClass queryClass.
 	self assert: presenter queryBuilder queryIsValid
 ]
 

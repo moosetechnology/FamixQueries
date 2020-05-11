@@ -5,13 +5,13 @@ Class {
 }
 
 { #category : #helpers }
-FQScopeQueriesPresenterTest >> dropList [
-	^ presenter secondParameter
+FQScopeQueriesPresenterTest >> classToTest [
+	^ FQScopeQueriesPresenter
 ]
 
 { #category : #helpers }
-FQScopeQueriesPresenterTest >> presenterClass [
-	^ FQScopeQueriesPresenter
+FQScopeQueriesPresenterTest >> dropList [
+	^ presenter secondParameter
 ]
 
 { #category : #helpers }

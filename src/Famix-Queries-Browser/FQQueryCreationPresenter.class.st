@@ -298,6 +298,8 @@ FQQueryCreationPresenter >> updateForAcceptedCode: code [
 
 { #category : #update }
 FQQueryCreationPresenter >> updateToolBar [
+	"Toolbar must be updated because its context is querConfigurationPresenter. See #defaultCommandsContext"
+
 	toolBar fillWith: self rootCommandsGroup
 ]
 

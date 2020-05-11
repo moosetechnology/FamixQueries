@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #helpers }
-FQPropertyQueriesPresenterTest >> presenterClass [
+FQPropertyQueriesPresenterTest >> classToTest [
 	^ FQPropertyQueriesPresenter
 ]
 

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #helpers }
-FQNumericQueryParametersPresenterTest >> presenterClass [
+FQNumericQueryParametersPresenterTest >> classToTest [
 	^ FQNumericQueryParametersPresenter
 ]
 

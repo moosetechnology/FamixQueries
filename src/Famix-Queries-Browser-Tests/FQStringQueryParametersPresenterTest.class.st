@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #helpers }
-FQStringQueryParametersPresenterTest >> presenterClass [
+FQStringQueryParametersPresenterTest >> classToTest [
 	^ FQStringQueryParametersPresenter
 ]
 

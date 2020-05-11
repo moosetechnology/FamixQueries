@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #helpers }
-FQBooleanQueryParametersPresenterTest >> presenterClass [
+FQBooleanQueryParametersPresenterTest >> classToTest [
 	^ FQBooleanQueryParametersPresenter
 ]

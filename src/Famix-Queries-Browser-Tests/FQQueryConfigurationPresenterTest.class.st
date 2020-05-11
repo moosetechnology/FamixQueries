@@ -1,8 +1,7 @@
 Class {
 	#name : #FQQueryConfigurationPresenterTest,
-	#superclass : #TestCase,
+	#superclass : #SpTest,
 	#instVars : [
-		'presenter',
 		'helper'
 	],
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
@@ -11,6 +10,11 @@ Class {
 { #category : #testing }
 FQQueryConfigurationPresenterTest class >> isAbstract [
 	^ self == FQQueryConfigurationPresenterTest
+]
+
+{ #category : #helpers }
+FQQueryConfigurationPresenterTest >> classToTest [
+	^ self subclassResponsibility
 ]
 
 { #category : #helpers }
@@ -23,9 +27,12 @@ FQQueryConfigurationPresenterTest >> initializePresenterForNoEntities [
 	self resetPresenterWithEntities: helper noEntities
 ]
 
-{ #category : #helpers }
-FQQueryConfigurationPresenterTest >> presenterClass [
-	^ self subclassResponsibility
+{ #category : #running }
+FQQueryConfigurationPresenterTest >> openInstance [
+	window
+		ifNil: [ window := presenter owner
+				queryConfigurationPresenter: presenter;
+				openWithSpec ]
 ]
 
 { #category : #helpers }
@@ -38,14 +45,13 @@ FQQueryConfigurationPresenterTest >> resetPresenterWithEntities: aMooseGroup [
 	| superPresenter |
 	superPresenter := FQQueryCreationPresenter
 		on: (FQQueriesBrowserPresenter on: aMooseGroup).
-	presenter := self presenterClass
+	presenter := self classToTest
 		owner: superPresenter
 		on: superPresenter browser selectedQuery	"(FQMockQuery new result: aMooseGroup)"
 ]
 
 { #category : #running }
 FQQueryConfigurationPresenterTest >> setUp [
-	super setUp.
 	helper := FQBrowserTestsHelper new.
 	self resetPresenterWithEntities: helper classesAndMethods
 ]
@@ -55,10 +61,10 @@ FQQueryConfigurationPresenterTest >> testImpossibleQueryBuilderInitialization [
 	self initializePresenterForNoEntities.
 	self
 		assert: presenter queryBuilder class
-		identicalTo: self presenterClass queryBuilderClass.
+		identicalTo: self classToTest queryBuilderClass.
 	self
 		assert: presenter queryBuilder query class
-		identicalTo: self presenterClass queryBuilderClass queryClass.
+		identicalTo: self classToTest queryBuilderClass queryClass.
 	self deny: presenter queryBuilder queryIsValid
 ]
 
@@ -66,9 +72,9 @@ FQQueryConfigurationPresenterTest >> testImpossibleQueryBuilderInitialization [
 FQQueryConfigurationPresenterTest >> testNormalQueryBuilderInitialization [
 	self
 		assert: presenter queryBuilder class
-		identicalTo: self presenterClass queryBuilderClass.
+		identicalTo: self classToTest queryBuilderClass.
 	self
 		assert: presenter queryBuilder query class
-		identicalTo: self presenterClass queryBuilderClass queryClass.
+		identicalTo: self classToTest queryBuilderClass queryClass.
 	self assert: presenter queryBuilder queryIsValid
 ]

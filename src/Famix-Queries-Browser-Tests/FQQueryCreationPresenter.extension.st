@@ -16,6 +16,11 @@ FQQueryCreationPresenter >> queryConfigurationPresenter [
 ]
 
 { #category : #'*Famix-Queries-Browser-Tests' }
+FQQueryCreationPresenter >> queryConfigurationPresenter: anObject [
+	queryConfigurationPresenter := anObject
+]
+
+{ #category : #'*Famix-Queries-Browser-Tests' }
 FQQueryCreationPresenter >> queryTypesDropList [
 	^ queryTypesDropList
 ]

@@ -1,12 +1,16 @@
 Class {
 	#name : #FQQueryCreationPresenterTest,
-	#superclass : #TestCase,
+	#superclass : #SpTest,
 	#instVars : [
-		'presenter',
 		'helper'
 	],
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
 }
+
+{ #category : #running }
+FQQueryCreationPresenterTest >> classToTest [
+	^ FQQueryCreationPresenter
+]
 
 { #category : #helpers }
 FQQueryCreationPresenterTest >> selectNavigationToAvoidEmptyResult [
@@ -18,10 +22,8 @@ FQQueryCreationPresenterTest >> selectNavigationToAvoidEmptyResult [
 
 { #category : #running }
 FQQueryCreationPresenterTest >> setUp [
-	super setUp.
 	helper := FQBrowserTestsHelper new.
 	presenter := FQQueryCreationPresenter
-		owner: FQMockWindow new
 		on: (FQQueriesBrowserPresenter on: helper classesAndMethods)
 ]
 
@@ -93,6 +95,7 @@ FQQueryCreationPresenterTest >> testResultListTitle [
 { #category : #tests }
 FQQueryCreationPresenterTest >> testToolBar [
 	| initialQueriesSize |
+	self openInstance.
 	self assert: presenter toolBar class identicalTo: SpToolBarPresenter.
 	self
 		assert: presenter toolBar presenters first class
@@ -117,4 +120,23 @@ FQQueryCreationPresenterTest >> testTransmissions [
 	self testQueryMatchesInAllSubpresenters.
 	presenter queryTypesDropList selectIndex: 4.
 	self testQueryMatchesInAllSubpresenters
+]
+
+{ #category : #tests }
+FQQueryCreationPresenterTest >> testWindowClosedAction [
+	| initialQueriesSize |
+	self openInstance.
+	initialQueriesSize := presenter browser queries size.
+	self selectNavigationToAvoidEmptyResult.
+	presenter window close.
+	self
+		assert: presenter browser queries size
+		equals: initialQueriesSize.
+	self
+		assert: presenter browser selectedQuery
+		equals: presenter queryConfigurationPresenter queryBuilder query parent.
+	self
+		deny:
+			(presenter browser queries
+				includes: presenter queryConfigurationPresenter queryBuilder query)
 ]

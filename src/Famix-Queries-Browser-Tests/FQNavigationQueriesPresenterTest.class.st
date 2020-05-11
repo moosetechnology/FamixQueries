@@ -11,7 +11,7 @@ FQNavigationQueriesPresenterTest >> checkBoxes [
 ]
 
 { #category : #helpers }
-FQNavigationQueriesPresenterTest >> presenterClass [
+FQNavigationQueriesPresenterTest >> classToTest [
 	^ FQNavigationQueriesPresenter
 ]
 

@@ -1,8 +1,7 @@
 Class {
 	#name : #FQQueriesBrowserPresenterTest,
-	#superclass : #TestCase,
+	#superclass : #SpTest,
 	#instVars : [
-		'presenter',
 		'helper'
 	],
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
@@ -22,15 +21,14 @@ FQQueriesBrowserPresenterTest >> addTwoQueriesAndUnion [
 ]
 
 { #category : #running }
-FQQueriesBrowserPresenterTest >> presenterClass [
+FQQueriesBrowserPresenterTest >> classToTest [
 	^ FQQueriesBrowserPresenter
 ]
 
 { #category : #running }
 FQQueriesBrowserPresenterTest >> setUp [
-	super setUp.
 	helper := FQBrowserTestsHelper new.
-	presenter := self presenterClass on: helper classesAndMethods
+	presenter := self classToTest on: helper classesAndMethods
 ]
 
 { #category : #tests }
