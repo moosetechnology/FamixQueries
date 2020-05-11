@@ -9,3 +9,8 @@ FQAbstractQuery class >> color [
 FQAbstractQuery class >> label [
 	^ self subclassResponsibility
 ]
+
+{ #category : #'*Famix-Queries-Browser' }
+FQAbstractQuery >> prepareRemovalFrom: aBrowser [
+	^ self subclassResponsibility
+]

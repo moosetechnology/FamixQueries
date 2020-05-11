@@ -21,6 +21,27 @@ FQQueriesBrowserPresenterTest >> setUp [
 ]
 
 { #category : #tests }
+FQQueriesBrowserPresenterTest >> testAddCombinationQueryBetween [
+	| query1 query2 unionQuery |
+	query1 := FQBooleanQuery new property: #isAbstract.
+	presenter updateForQuery: query1.
+	query2 := FQTypeQuery new type: FamixStClass.
+	presenter updateForQuery: query2.
+	presenter
+		addCombinationQuery: FQUnionQuery
+		between: {query1. query2}.
+	
+	unionQuery := presenter selectedQuery.
+	self assert: unionQuery class identicalTo: FQUnionQuery.
+	self
+		assert: (presenter queries includes: unionQuery).
+	self assert: presenter queriesTree selectedItem equals: unionQuery.
+	self
+		assertCollection: presenter queryResult items
+		hasSameElements: (unionQuery result)
+]
+
+{ #category : #tests }
 FQQueriesBrowserPresenterTest >> testInitialization [
 	self
 		assertCollection: presenter entities
@@ -41,6 +62,28 @@ FQQueriesBrowserPresenterTest >> testQueryResult [
 	self
 		assertCollection: presenter queryResult items
 		hasSameElements: presenter entities
+]
+
+{ #category : #tests }
+FQQueriesBrowserPresenterTest >> testRemoveBinaryQuery [
+	| query1 query2 unionQuery |
+	query1 := FQBooleanQuery new property: #isAbstract.
+	presenter updateForQuery: query1.
+	query2 := FQTypeQuery new type: FamixStClass.
+	presenter updateForQuery: query2.
+	presenter
+		addCombinationQuery: FQUnionQuery
+		between: {query1. query2}.
+	unionQuery := presenter selectedQuery.
+	
+	presenter removeQuery: unionQuery.
+	self
+		deny: (presenter queries anySatisfy: [ :query | query == unionQuery ]).
+	self assert: presenter selectedQuery equals: query1.
+	self assert: presenter queriesTree selectedItem equals: query1.
+	self
+		assertCollection: presenter queryResult items
+		hasSameElements: query1 result
 ]
 
 { #category : #tests }

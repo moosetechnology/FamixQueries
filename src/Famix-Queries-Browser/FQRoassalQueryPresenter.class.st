@@ -11,6 +11,13 @@ Class {
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
+{ #category : #'roassal script' }
+FQRoassalQueryPresenter >> adaptToBrowser: aBrowser [
+	browser := aBrowser.
+	selectedQuery := aBrowser selectedQuery.
+	self script: [ :canvas | self roassalScriptOn: canvas ]
+]
+
 { #category : #'accessing model' }
 FQRoassalQueryPresenter >> applyScript [
 	self script: [ :canvas | self roassalScript: canvas ]
@@ -30,6 +37,20 @@ FQRoassalQueryPresenter >> boxDraggedAction: box [
 		ifTrue:
 			[ owner combineQuery: potentialParents first model with: box model ].
 	self refresh
+]
+
+{ #category : #'boxes configuration' }
+FQRoassalQueryPresenter >> boxInteractions: box [
+	hasInteractions
+		ifFalse: [ ^ self ].
+	box @ RSDraggable.
+	box
+		when: RSMouseClick
+			do: [ :event | self boxSelectionAction: event shape ];
+		when: RSMouseDoubleClick
+			do: [ :event | browser openQueryCreationPresenter ];
+		when: RSMouseDragEnd
+			do: [ :event | self boxDraggedAction: event shape ]
 ]
 
 { #category : #'boxes configuration' }
@@ -83,6 +104,13 @@ FQRoassalQueryPresenter >> boxSelection: event [
 ]
 
 { #category : #'boxes configuration' }
+FQRoassalQueryPresenter >> boxSelectionAction: box [
+	selectedQuery := box model.
+	browser selectQuery: selectedQuery.
+	self refresh
+]
+
+{ #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> boxSize [
 	^ 150
 ]
@@ -102,10 +130,39 @@ FQRoassalQueryPresenter >> buildBoxFor: aQuery [
 	^ box
 ]
 
+{ #category : #'roassal script' }
+FQRoassalQueryPresenter >> buildTreeOn: canvas for: boxes [
+	RSEdgeBuilder line
+		canvas: canvas;
+		attachPoint: RSBorderAttachPoint new;
+		shapes: boxes;
+		connectToAll: #children.
+	RSDominanceTreeLayout on: canvas nodes
+]
+
+{ #category : #'roassal script' }
+FQRoassalQueryPresenter >> createBoxes [
+	| boxes |
+	boxes := queries
+		collect: [ :query | self buildBoxFor: query ]
+		as: RSGroup.
+	boxes
+		@
+			(RSMenuActivable new
+				menuDo: [ :menu :box | self boxMenu: menu box: box ]).
+	^ boxes
+]
+
 { #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> decorateSelectedBox: box [
 	box model == selectedQuery
 		ifTrue: [ box border: RSBorder new ]
+]
+
+{ #category : #initialization }
+FQRoassalQueryPresenter >> initialize [
+	super initialize.
+	self withInteractions
 ]
 
 { #category : #'roassal script' }
@@ -128,6 +185,11 @@ FQRoassalQueryPresenter >> legendOn: canvas [
 		offset: 0 @ 70.
 	legend onDemand: 'Legend'.	"To remove for the legend to be always seen."
 	legend build
+]
+
+{ #category : #interactions }
+FQRoassalQueryPresenter >> noInteractions [
+	hasInteractions := false
 ]
 
 { #category : #'accessing model' }
@@ -164,8 +226,41 @@ FQRoassalQueryPresenter >> roassalScript: canvas [
 	^ canvas
 ]
 
+{ #category : #'roassal script' }
+FQRoassalQueryPresenter >> roassalScriptOn: canvas [
+	| boxes |
+	boxes := self createBoxes.
+	canvas addAll: boxes.
+	self buildTreeOn: canvas for: boxes.
+	self legendOn: canvas.
+	canvas @ RSCanvasController new noLegend.
+	^ canvas
+]
+
 { #category : #update }
 FQRoassalQueryPresenter >> selectItem: aQuery [
 	selectedQuery := aQuery.
 	self refresh
+]
+
+{ #category : #'accessing model' }
+FQRoassalQueryPresenter >> setModelBeforeInitialization: aQueriesCollection [
+	queries := aQueriesCollection asOrderedCollection
+]
+
+{ #category : #update }
+FQRoassalQueryPresenter >> updateForQuery: newQuery [
+	queries add: newQuery.
+	self selectItem: newQuery
+]
+
+{ #category : #update }
+FQRoassalQueryPresenter >> updateWithQueries: aQueriesCollection [
+	queries := aQueriesCollection asOrderedCollection.
+	self selectItem: aQueriesCollection last
+]
+
+{ #category : #interactions }
+FQRoassalQueryPresenter >> withInteractions [
+	hasInteractions := true
 ]
