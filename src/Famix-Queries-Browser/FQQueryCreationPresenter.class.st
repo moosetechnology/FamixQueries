@@ -7,7 +7,6 @@ Class {
 		'queryTypesDropList',
 		'resultList',
 		'toolBar',
-		'resultListTitle',
 		'browser',
 		'sequence'
 	],
@@ -128,7 +127,6 @@ FQQueryCreationPresenter class >> queryConfigurationPresenters [
 { #category : #specs }
 FQQueryCreationPresenter class >> queryResultLayout [
 	^ SpBoxLayout newVertical
-		add: #resultListTitle height: self labelHeight;
 		add: #resultList;
 		yourself
 ]
@@ -169,7 +167,7 @@ FQQueryCreationPresenter >> initializePresenters [
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeQueryCode [
 	queryCode := self newCode
-		whenTextIsAcceptedDo: [ :code | self updateForAcceptedCode: code ];
+		"whenTextIsAcceptedDo:"whenSubmitDo: [ :code | self updateForAcceptedCode: code ];
 		withoutSyntaxHighlight;
 		yourself
 ]
@@ -189,9 +187,10 @@ FQQueryCreationPresenter >> initializeQueryTypesDropList [
 
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeResultList [
-	resultListTitle := self newLabel label: 'Query result'.
-	resultList := self newList
-		display: #name;
+	resultList := (self
+		instantiate: FQResultTreePresenter
+		on: self browser)
+		updateForEntities: browser entities;
 		yourself
 ]
 
@@ -221,11 +220,11 @@ FQQueryCreationPresenter >> setModelBeforeInitialization: aQueriesPresenter [
 
 { #category : #transmissions }
 FQQueryCreationPresenter >> transmitAcceptedQuery [
-	queryConfigurationPresenter
-		transmitPort: #acceptedQuery
-		do: [ :query | 
-			browser updateForQuery: query.
-			self window close ]
+	queryConfigurationPresenter queryAcceptedPort
+		transmitTo: browser defaultInputPort
+		transform: [ :query | 
+			self window close.
+			query ]
 ]
 
 { #category : #transmissions }
@@ -241,8 +240,8 @@ FQQueryCreationPresenter >> transmitFromCodeToConfig [
 
 { #category : #transmissions }
 FQQueryCreationPresenter >> transmitFromConfigToCode [
-	queryConfigurationPresenter
-		transmitTo: queryCode
+	queryConfigurationPresenter queryChangedPort
+		transmitTo: queryCode defaultInputPort
 		transform: [ :queryBuilder | 
 			queryCode syntaxHighlight: queryBuilder queryIsValid.
 			queryBuilder codeToDisplay ]
@@ -250,8 +249,8 @@ FQQueryCreationPresenter >> transmitFromConfigToCode [
 
 { #category : #transmissions }
 FQQueryCreationPresenter >> transmitFromConfigToResultList [
-	queryConfigurationPresenter
-		transmitTo: resultList
+	queryConfigurationPresenter queryChangedPort
+		transmitTo: resultList defaultInputPort
 		transform: [ :queryBuilder | 
 			| result |
 			result := queryBuilder queryResult.
@@ -263,8 +262,8 @@ FQQueryCreationPresenter >> transmitFromConfigToResultList [
 
 { #category : #transmissions }
 FQQueryCreationPresenter >> transmitFromConfigToSequence [
-	queryConfigurationPresenter
-		transmitTo: sequence
+	queryConfigurationPresenter queryChangedPort
+		transmitTo: sequence defaultInputPort
 		transform: [ :queryBuilder | queryBuilder query ]
 ]
 
@@ -307,6 +306,8 @@ FQQueryCreationPresenter >> updateToolBar [
 FQQueryCreationPresenter >> updateTransmissions [
 	self transmitFromConfigToCode.
 	self transmitFromConfigToSequence.
-	self transmitFromConfigToResultList.
+	"	self transmitFromConfigToResultList."
+	resultList
+		updateForEntities: queryConfigurationPresenter queryBuilder queryResult.
 	self transmitAcceptedQuery
 ]

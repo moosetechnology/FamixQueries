@@ -37,6 +37,16 @@ FQRoassalSequence class >> title [
 	^ 'Roassal Sequence'
 ]
 
+{ #category : #initialization }
+FQRoassalSequence >> defaultInputPort [
+	^ FQQueryPort newPresenter: self
+]
+
+{ #category : #initialization }
+FQRoassalSequence >> defaultInputPorts [
+	^ {FQQueryPort new}
+]
+
 { #category : #default }
 FQRoassalSequence >> defaultShapeColor [
 	^ [ :model | Color gray ]

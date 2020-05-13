@@ -79,7 +79,9 @@ FQQueryCreationPresenterTest >> testQueryTypesDropList [
 
 { #category : #tests }
 FQQueryCreationPresenterTest >> testResultList [
-	self assert: presenter resultList class identicalTo: SpListPresenter.
+	self
+		assert: presenter resultList class
+		identicalTo: FQResultTreePresenter.
 	self
 		assertCollection: presenter resultList items
 		hasSameElements: presenter queryConfigurationPresenter queryBuilder queryResult
@@ -99,7 +101,7 @@ FQQueryCreationPresenterTest >> testToolBar [
 	self assert: presenter toolBar class identicalTo: SpToolBarPresenter.
 	self
 		assert: presenter toolBar presenters first class
-		identicalTo: SpToolBarButton.
+		identicalTo: SpToolBarButtonPresenter.
 	initialQueriesSize := presenter browser queries size.
 	self selectNavigationToAvoidEmptyResult.
 	

@@ -1,10 +1,9 @@
 Class {
 	#name : #FQQueriesBrowserPresenter,
-	#superclass : #SpPresenter,
+	#superclass : #MiAbstractBrowser,
 	#instVars : [
 		'queriesTree',
 		'queryResult',
-		'queriesCombinator',
 		'selectedQuery',
 		'queryResultTitle',
 		'queries'
@@ -33,14 +32,10 @@ FQQueriesBrowserPresenter class >> classesAndMethods [
 
 { #category : #specs }
 FQQueriesBrowserPresenter class >> defaultSpec [
-	^ SpPanedLayout newHorizontal
+	^ super defaultSpec
 		add:
-			(SpBoxLayout newVertical
+			(SpPanedLayout newHorizontal
 				add: #queriesTree;
-				yourself);
-		add:
-			(SpBoxLayout newVertical
-				add: #queryResultTitle height: self labelHeight;
 				add: #queryResult;
 				yourself);
 		yourself
@@ -64,9 +59,20 @@ FQQueriesBrowserPresenter class >> open [
 	(self on: self classesAndMethods) openWithSpec
 ]
 
+{ #category : #'instance creation' }
+FQQueriesBrowserPresenter class >> openEmpty [
+	<script>
+	(self on: MooseGroup new) openWithSpec
+]
+
 { #category : #specs }
 FQQueriesBrowserPresenter class >> title [
 	^ 'Query Browser'
+]
+
+{ #category : #'as yet unclassified' }
+FQQueriesBrowserPresenter >> accept: anObject [
+	^ anObject isKindOf: MooseAbstractGroup
 ]
 
 { #category : #action }
@@ -85,9 +91,30 @@ FQQueriesBrowserPresenter >> combineQuery: aQuery with: anotherQuery [
 		openWithSpec
 ]
 
+{ #category : #transmissions }
+FQQueriesBrowserPresenter >> defaultInputPort [
+	^ FQQueryCreatedPort newPresenter: self
+]
+
 { #category : #accessing }
 FQQueriesBrowserPresenter >> entities [
 	^ selectedQuery result
+]
+
+{ #category : #'as yet unclassified' }
+FQQueriesBrowserPresenter >> followAction [
+	(self accept: toSelect)
+		ifFalse: [ ^ self ].
+	queries do: #resetResult.
+	self initialQuery result: (toSelect allUsing: FamixTNamedEntity).
+	self initialQuery label: toSelect name.
+	self selectQuery: self initialQuery
+]
+
+{ #category : #'as yet unclassified' }
+FQQueriesBrowserPresenter >> highlightAction [
+	(self accept: toSelect)
+		ifFalse: [ ^ self ]
 ]
 
 { #category : #accessing }
@@ -97,6 +124,7 @@ FQQueriesBrowserPresenter >> initialQuery [
 
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializePresenters [
+	super initializePresenters.
 	self initializeQueriesTree.
 	self initializeQueryResult
 ]
@@ -122,12 +150,9 @@ FQQueriesBrowserPresenter >> initializeQueriesTree [
 
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializeQueryResult [
-	queryResultTitle := self newLabel
-		label: 'Result of the selected query'.
-	queryResult := self newList
-		headerTitle: (self mooseGroupDetails: self entities);
-		items: self entities;
-		display: #name
+	queryResult := (self instantiate: FQResultTreePresenter on: self)
+		updateForEntities: self entities;
+		yourself
 ]
 
 { #category : #initialization }
@@ -180,9 +205,7 @@ FQQueriesBrowserPresenter >> removeQuery: aQuery [
 FQQueriesBrowserPresenter >> selectQuery: aQuery [
 	selectedQuery := aQuery.
 	queriesTree selectItem: selectedQuery.
-	queryResult
-		items: selectedQuery result;
-		headerTitle: (self mooseGroupDetails: selectedQuery result).
+	queryResult updateForEntities: aQuery result.
 	self update
 ]
 
@@ -200,6 +223,15 @@ FQQueriesBrowserPresenter >> setModelBeforeInitialization: aMooseGroup [
 				yourself);
 		yourself.
 	selectedQuery := self initialQuery
+]
+
+{ #category : #accessing }
+FQQueriesBrowserPresenter >> sortedEntities [
+	| types |
+	types := (self entities collectAsSet: #class) asOrderedCollection.
+	^ (types
+		collect: [ :type | self entities select: [ :entity | entity class == type ] ])
+		flatten
 ]
 
 { #category : #action }

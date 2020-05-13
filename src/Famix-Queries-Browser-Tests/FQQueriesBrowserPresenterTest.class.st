@@ -64,7 +64,9 @@ FQQueriesBrowserPresenterTest >> testQueriesTree [
 
 { #category : #tests }
 FQQueriesBrowserPresenterTest >> testQueryResult [
-	self assert: presenter queryResult class identicalTo: SpListPresenter.
+	self
+		assert: presenter queryResult class
+		identicalTo: FQResultTreePresenter.
 	self
 		assertCollection: presenter queryResult items
 		hasSameElements: presenter entities

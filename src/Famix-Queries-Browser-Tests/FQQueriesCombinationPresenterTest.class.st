@@ -53,7 +53,7 @@ FQQueriesCombinationPresenterTest >> testBasicInitialization [
 	self assert: presenter toolBar class identicalTo: SpToolBarPresenter.
 	self
 		assert: presenter toolBar presenters first class
-		identicalTo: SpToolBarButton
+		identicalTo: SpToolBarButtonPresenter
 ]
 
 { #category : #tests }

@@ -66,9 +66,7 @@ FQQueriesCombinationPresenter >> initializePresenters [
 
 { #category : #initialization }
 FQQueriesCombinationPresenter >> initializeResultList [
-	resultList := self newList
-		display: #name;
-		yourself
+	resultList := self instantiate: FQResultTreePresenter on: browser
 ]
 
 { #category : #initialization }
@@ -117,5 +115,5 @@ FQQueriesCombinationPresenter >> updateForQueryClass: queryClass [
 	newQuery := queryClass new parents: parentQueries.
 	parentQueries do: [ :parent | parent addChild: newQuery ].
 	queriesTree updateWithQueries: parentQueries , {newQuery}.
-	resultList items: newQuery result
+	resultList updateForEntities: newQuery result
 ]

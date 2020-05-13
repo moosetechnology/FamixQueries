@@ -1,6 +1,9 @@
 Class {
 	#name : #FQMockQuery,
 	#superclass : #FQUnaryQuery,
+	#instVars : [
+		'label'
+	],
 	#category : #'Famix-Queries-Browser'
 }
 
@@ -29,6 +32,11 @@ FQMockQuery >> isValid [
 	^ true
 ]
 
+{ #category : #accessing }
+FQMockQuery >> label: aString [
+	label := aString
+]
+
 { #category : #printing }
 FQMockQuery >> printOn: aStream [
 	aStream << 'Initial Entities'
@@ -41,7 +49,8 @@ FQMockQuery >> result: aMooseGroup [
 
 { #category : #accessing }
 FQMockQuery >> roassalLabel [
-	^ 'Initial Entities'
+	self flag: #FQImprove.
+	^ label ifNil: [ label := 'Model' ]
 ]
 
 { #category : #running }
