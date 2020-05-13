@@ -156,7 +156,11 @@ FQRoassalQueryPresenter >> createBoxes [
 { #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> decorateSelectedBox: box [
 	box model == selectedQuery
-		ifTrue: [ box border: RSBorder new ]
+		ifFalse: [ ^ self ].
+	box border: (RSBorder new width: 2).
+
+	"Does not work because the label is built (then known from the shape) only when the canvas is built."
+	box properties at: #RSLabeled ifPresent: [ :label | label bold ]
 ]
 
 { #category : #initialization }

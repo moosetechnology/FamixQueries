@@ -44,7 +44,7 @@ FQRoassalSequence >> defaultInputPort [
 
 { #category : #initialization }
 FQRoassalSequence >> defaultInputPorts [
-	^ {FQQueryPort new}
+	self flag: #FQRemove
 ]
 
 { #category : #default }
