@@ -6,7 +6,7 @@ Class {
 
 { #category : #default }
 FQQueryCreationCommand class >> defaultDescription [
-	^ 'Apply definitely this query'
+	^ 'Apply this query'
 ]
 
 { #category : #default }
@@ -16,29 +16,45 @@ FQQueryCreationCommand class >> defaultIconName [
 
 { #category : #default }
 FQQueryCreationCommand class >> defaultName [
-	^ 'Create Query'
+	^ 'Apply'
 ]
 
 { #category : #testing }
 FQQueryCreationCommand >> canBeExecuted [
 	self flag: #FQSpecPb , 'Should be used when Spec is upgraded'.
-	^ self queryBuilder queryIsValid
+	^ self context query isValid
+]
+
+{ #category : #executing }
+FQQueryCreationCommand >> confirmEmptyResult [
+	^ UIManager default
+		confirm: 'Do you want to apply this query ?'
+		label: 'This query result is empty'
+]
+
+{ #category : #executing }
+FQQueryCreationCommand >> confirmUnchangedResult [
+	^ UIManager default
+		confirm: 'Do you want to apply this query ?'
+		label: 'Query input is identical to result'
 ]
 
 { #category : #executing }
 FQQueryCreationCommand >> execute [
-	self queryBuilder queryResult
-		ifEmpty: [ (UIManager default
-				confirm: 'Do you want to apply this query ?'
-				label: 'This query result is empty')
+	self context query result
+		ifEmpty: [ self confirmEmptyResult
 				ifFalse: [ ^ self ] ].
-	(self queryBuilder queryResult
-		includesAll: self queryBuilder entities)
-		ifTrue: [ (UIManager default
-				confirm: 'Do you want to apply this query ?'
-				label: 'Query input is identical to result')
+	self
+		flag:
+			#FQImprove
+				,
+					'calling browser entities ?? How to be relevant with binary queries (2 parents)'.
+	(self context query result
+		hasEqualElements: self context browser entities)
+		ifTrue: [ self confirmUnchangedResult
 				ifFalse: [ ^ self ] ].
-	self context notifyAcceptedQuery
+	self context notifyAcceptedQuery.
+	self context window close
 ]
 
 { #category : #accessing }

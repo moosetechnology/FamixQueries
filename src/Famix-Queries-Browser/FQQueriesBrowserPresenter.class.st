@@ -70,7 +70,7 @@ FQQueriesBrowserPresenter class >> title [
 	^ 'Query Browser'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #midas }
 FQQueriesBrowserPresenter >> accept: anObject [
 	^ anObject isKindOf: MooseAbstractGroup
 ]
@@ -101,7 +101,7 @@ FQQueriesBrowserPresenter >> entities [
 	^ selectedQuery result
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #midas }
 FQQueriesBrowserPresenter >> followAction [
 	(self accept: toSelect)
 		ifFalse: [ ^ self ].
@@ -111,7 +111,7 @@ FQQueriesBrowserPresenter >> followAction [
 	self selectQuery: self initialQuery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #midas }
 FQQueriesBrowserPresenter >> highlightAction [
 	(self accept: toSelect)
 		ifFalse: [ ^ self ]
@@ -161,14 +161,16 @@ FQQueriesBrowserPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter initialExtent: 500 @ 400
 ]
 
-{ #category : #accessing }
+{ #category : #utils }
 FQQueriesBrowserPresenter >> modelPrefix [
 	^ self initialQuery result first mooseModel className
 		withoutSuffix: 'Model'
 ]
 
-{ #category : #accessing }
+{ #category : #utils }
 FQQueriesBrowserPresenter >> mooseGroupDetails: result [
+	self
+		flag: #FQImprove , 'Is this really useful and should it be here ?'.
 	^ String
 		streamContents: [ :stream | 
 			(result collectAsSet: #class)
@@ -181,6 +183,15 @@ FQQueriesBrowserPresenter >> mooseGroupDetails: result [
 ]
 
 { #category : #action }
+FQQueriesBrowserPresenter >> openCombinationPresenterFor: aQuery and: anotherQuery [
+	(FQQueriesCombinationPresenter on: self)
+		onQueries:
+			{aQuery.
+			anotherQuery};
+		openWithSpec
+]
+
+{ #category : #action }
 FQQueriesBrowserPresenter >> openQueryCreationPresenter [
 	(FQQueryCreationPresenter on: self) openWithSpec
 ]
@@ -188,6 +199,11 @@ FQQueriesBrowserPresenter >> openQueryCreationPresenter [
 { #category : #accessing }
 FQQueriesBrowserPresenter >> queries [
 	^ queries
+]
+
+{ #category : #transmissions }
+FQQueriesBrowserPresenter >> queryInputPort [
+	^ FQQueryInputPort newPresenter: self
 ]
 
 { #category : #action }
@@ -236,7 +252,8 @@ FQQueriesBrowserPresenter >> sortedEntities [
 
 { #category : #action }
 FQQueriesBrowserPresenter >> updateForQuery: aQuery [
-	aQuery parent: selectedQuery.
-	selectedQuery addChild: aQuery.
+	"This method is called from FQQueryCreationPresenter and FQQueriesCombinationPresenter. 
+	They have the responsibility to establish the [parent* - child] relationship between queries"
+
 	self selectQuery: (queries addLast: aQuery)
 ]

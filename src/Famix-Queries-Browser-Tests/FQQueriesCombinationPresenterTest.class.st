@@ -14,6 +14,7 @@ FQQueriesCombinationPresenterTest >> browserWithTwoQueries [
 	{(FQBooleanQuery new property: #isAbstract).
 	(FQTypeQuery new type: FamixStClass)}
 		do: [ :parent | 
+			parent beChildOf: browser initialQuery.
 			browser updateForQuery: parent.
 			browser selectQuery: browser initialQuery ].
 	^ browser
@@ -34,7 +35,6 @@ FQQueriesCombinationPresenterTest >> openInstance [
 
 { #category : #running }
 FQQueriesCombinationPresenterTest >> setUp [
-	super setUp.
 	helper := FQBrowserTestsHelper new.
 	presenter := self classToTest on: self browserWithTwoQueries
 ]
@@ -64,7 +64,7 @@ FQQueriesCombinationPresenterTest >> testNeverKeepFalseChildren [
 	presenter parentQueries
 		do: [ :parent | 
 			self assert: parent children size equals: 1.
-			self assert: parent children first identicalTo: presenter newQuery.
+			self assert: (parent children includes: presenter newQuery).
 			self assert: (presenter newQuery parents includes: parent) ].
 		
 	presenter combinationsDroplist selectItem: FQIntersectionQuery.
@@ -72,7 +72,7 @@ FQQueriesCombinationPresenterTest >> testNeverKeepFalseChildren [
 	presenter parentQueries
 		do: [ :parent | 
 			self assert: parent children size equals: 1.
-			self assert: parent children first identicalTo: presenter newQuery.
+			self assert: (parent children includes: presenter newQuery).
 			self assert: (presenter newQuery parents includes: parent) ].
 ]
 
@@ -114,7 +114,7 @@ FQQueriesCombinationPresenterTest >> testToolBarAction [
 			presenter newQuery})
 		do: [ :parent | 
 			self assert: parent children size equals: 1.
-			self assert: parent children first identicalTo: presenter newQuery ]
+			self assert: (parent children includes: presenter newQuery) ]
 ]
 
 { #category : #tests }
@@ -127,7 +127,7 @@ FQQueriesCombinationPresenterTest >> testUpdateForQueryClass [
 	presenter parentQueries
 		do: [ :parent | 
 			self assert: parent children size equals: 1.
-			self assert: parent children first identicalTo: presenter newQuery.
+			self assert: (parent children includes: presenter newQuery).
 			self assert: (presenter newQuery parents includes: parent) ].
 	
 	self

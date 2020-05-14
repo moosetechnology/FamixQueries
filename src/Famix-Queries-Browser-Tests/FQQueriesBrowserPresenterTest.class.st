@@ -77,7 +77,7 @@ FQQueriesBrowserPresenterTest >> testRemoveBinaryQuery [
 
 	| unionQuery firstParent |
 	unionQuery := self unionQuery.
-	presenter addCombinationQuery: unionQuery.
+	presenter updateForQuery: unionQuery.
 	firstParent := unionQuery parents first.
 	
 	presenter removeQuery: unionQuery.
@@ -94,6 +94,7 @@ FQQueriesBrowserPresenterTest >> testRemoveBinaryQuery [
 FQQueriesBrowserPresenterTest >> testRemoveQuery [
 	| query |
 	query := FQBooleanQuery new property: #isAbstract.
+	query beChildOf: presenter initialQuery.
 	presenter updateForQuery: query.
 	
 	presenter removeQuery: presenter selectedQuery.
@@ -116,11 +117,15 @@ FQQueriesBrowserPresenterTest >> testRemoveQuery [
 { #category : #tests }
 FQQueriesBrowserPresenterTest >> testSelectQuery [
 	| query1 |
-	presenter updateForQuery: (FQBooleanQuery new property: #isAbstract).
-	query1 := presenter selectedQuery.
-	presenter updateForQuery: (FQTypeQuery new type: FamixStClass).
+	query1 := FQBooleanQuery new
+		property: #isAbstract;
+		beChildOf: presenter initialQuery.
+	presenter updateForQuery: query1.
+	presenter
+		updateForQuery: ((FQTypeQuery new type: FamixStClass) beChildOf: query1).
 	
 	presenter selectQuery: query1.
+	
 	self assert: presenter selectedQuery equals: query1.
 	self assert: presenter queriesTree selectedItem equals: query1.
 	self
@@ -129,16 +134,30 @@ FQQueriesBrowserPresenterTest >> testSelectQuery [
 ]
 
 { #category : #tests }
+FQQueriesBrowserPresenterTest >> testUpdateForBinaryQuery [
+	| unionQuery |
+	unionQuery := self unionQuery.
+	presenter updateForQuery: unionQuery.
+	self assert: (presenter queries includes: unionQuery).
+	self assert: presenter selectedQuery equals: unionQuery.
+	self assert: presenter queriesTree selectedItem equals: unionQuery.
+	self
+		assertCollection: presenter queryResult items
+		hasSameElements: unionQuery result
+]
+
+{ #category : #tests }
 FQQueriesBrowserPresenterTest >> testUpdateForQuery [
 	| query |
-	query := FQBooleanQuery new property: #isAbstract.
+	query := (FQBooleanQuery new property: #isAbstract)
+		beChildOf: presenter initialQuery.
 	presenter updateForQuery: query.
 	self assert: (presenter queries includes: query).
 	self assert: presenter selectedQuery equals: query.
 	self assert: presenter queriesTree selectedItem equals: query.
 	self
 		assertCollection: presenter queryResult items
-		hasSameElements: (helper classesAndMethods select: #isAbstract)
+		hasSameElements: query result
 ]
 
 { #category : #running }
@@ -149,6 +168,7 @@ FQQueriesBrowserPresenterTest >> unionQuery [
 	union := FQUnionQuery new.
 	parents
 		do: [ :parent | 
+			parent beChildOf: presenter initialQuery.
 			presenter updateForQuery: parent.
 			parent addChild: union ].
 	union parents: parents.

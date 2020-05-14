@@ -8,7 +8,7 @@ Class {
 		'shapePopup',
 		'browser'
 	],
-	#category : #'Famix-Queries-Browser-Presenters'
+	#category : #'Famix-Queries-Browser-Widgets'
 }
 
 { #category : #'roassal script' }
@@ -31,11 +31,11 @@ FQRoassalQueryPresenter >> boxDraggedAction: box [
 		select: [ :shape | 
 			(shape isKindOf: RSBox)
 				and: [ shape ~= box
-						and:
-							[ shape encompassingRectangle intersects: box encompassingRectangle ] ] ].
+						and: [ shape encompassingRectangle intersects: box encompassingRectangle ] ] ].
 	potentialParents size == 1
-		ifTrue:
-			[ owner combineQuery: potentialParents first model with: box model ].
+		ifTrue: [ owner
+				openCombinationPresenterFor: potentialParents first model
+				and: box model ].
 	self refresh
 ]
 
@@ -187,7 +187,7 @@ FQRoassalQueryPresenter >> legendOn: canvas [
 		outer;
 		bottom;
 		offset: 0 @ 70.
-	legend onDemand: 'Legend'.	"To remove for the legend to be always seen."
+	legend onDemand: 'Legend'.
 	legend build
 ]
 
@@ -247,6 +247,11 @@ FQRoassalQueryPresenter >> selectItem: aQuery [
 	self refresh
 ]
 
+{ #category : #accessing }
+FQRoassalQueryPresenter >> selectedItem [
+	^ selectedQuery
+]
+
 { #category : #'accessing model' }
 FQRoassalQueryPresenter >> setModelBeforeInitialization: aQueriesCollection [
 	queries := aQueriesCollection asOrderedCollection
@@ -254,6 +259,10 @@ FQRoassalQueryPresenter >> setModelBeforeInitialization: aQueriesCollection [
 
 { #category : #update }
 FQRoassalQueryPresenter >> updateForQuery: newQuery [
+	self
+		flag:
+			#FQImprove
+				, 'maybe change mechanism, why is there 2 #update... methods ?'.
 	queries add: newQuery.
 	self selectItem: newQuery
 ]

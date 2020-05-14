@@ -50,6 +50,7 @@ FQAbstractQueryBuilder >> codeToDisplay [
 
 { #category : #accessing }
 FQAbstractQueryBuilder >> entities [
+	self flag: #FQImprove , 'Rename'.
 	^ query parent result
 ]
 
@@ -65,7 +66,7 @@ FQAbstractQueryBuilder >> initializeQuery [
 
 { #category : #update }
 FQAbstractQueryBuilder >> initializeQueryFromParent: aQuery [
-	query := self class queryClass new parent: aQuery
+	query := self class queryClass new beChildOf: aQuery
 ]
 
 { #category : #accessing }

@@ -14,6 +14,13 @@ FQUnaryQuery >> addToParentsSequence: sequence [
 	^ sequence
 ]
 
+{ #category : #adding }
+FQUnaryQuery >> beChildOf: aQuery [
+	parent ifNotNil: [ self prepareRemoval ].
+	self parent: aQuery.
+	aQuery addChild: self
+]
+
 { #category : #running }
 FQUnaryQuery >> computeResult [
 	^ self computeResultFromParent

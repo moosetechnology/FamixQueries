@@ -61,6 +61,11 @@ FQAbstractQuery >> addChild: aQuery [
 	children add: aQuery
 ]
 
+{ #category : #adding }
+FQAbstractQuery >> beChildOf: aQueryOrCollection [
+	self subclassResponsibility
+]
+
 { #category : #accessing }
 FQAbstractQuery >> children [
 	^ children
@@ -84,7 +89,7 @@ FQAbstractQuery >> displayOn: aStream with: aString [
 { #category : #initialization }
 FQAbstractQuery >> initialize [
 	super initialize.
-	children := OrderedCollection new
+	children := Set new
 ]
 
 { #category : #testing }

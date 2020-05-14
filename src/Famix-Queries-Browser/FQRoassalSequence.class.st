@@ -29,7 +29,7 @@ Class {
 		'shapeLabel',
 		'shapePopup'
 	],
-	#category : #'Famix-Queries-Browser-Presenters'
+	#category : #'Famix-Queries-Browser-Widgets'
 }
 
 { #category : #specs }
@@ -132,7 +132,8 @@ FQRoassalSequence >> setModelBeforeInitialization: aCollectionOfModelObjects [
 
 { #category : #'accessing model' }
 FQRoassalSequence >> setModels: aCollection [
-	models := aCollection
+	models := aCollection.
+	self refresh
 ]
 
 { #category : #accessing }

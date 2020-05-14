@@ -3,8 +3,7 @@ Class {
 	#superclass : #SpPresenter,
 	#instVars : [
 		'#queryBuilder',
-		'#queryHasChanged => SpObservableSlot',
-		'#acceptedQuery => SpObservableSlot',
+		'#query => SpObservableSlot',
 		'#firstParameter',
 		'#secondParameter'
 	],
@@ -94,7 +93,12 @@ FQQueryConfigurationPresenter >> notifyAcceptedQuery [
 
 { #category : #transmissions }
 FQQueryConfigurationPresenter >> notifyQueryChanged [
-	self notifyPropertyChanged: #queryHasChanged
+	self notifyPropertyChanged: #query
+]
+
+{ #category : #accessing }
+FQQueryConfigurationPresenter >> query [
+	^ queryBuilder query
 ]
 
 { #category : #transmissions }
@@ -109,7 +113,7 @@ FQQueryConfigurationPresenter >> queryBuilder [
 
 { #category : #transmissions }
 FQQueryConfigurationPresenter >> queryChangedPort [
-	^ FQQueryHasChangedPort newPresenter: self
+	^ FQQueryOutputPort newPresenter: self
 ]
 
 { #category : #initialization }

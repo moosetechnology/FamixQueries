@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'browser'
 	],
-	#category : #'Famix-Queries-Browser-Presenters'
+	#category : #'Famix-Queries-Browser-Widgets'
 }
 
 { #category : #initialization }
@@ -20,7 +20,7 @@ FQResultTreePresenter >> initialize [
 						evaluated: [ :item | self stringForItem: item ]))
 ]
 
-{ #category : #'accessing model' }
+{ #category : #accessing }
 FQResultTreePresenter >> items [
 	^ (self roots collect: [ :root | self childrenFor: root ]) flatten
 ]
@@ -42,6 +42,10 @@ FQResultTreePresenter >> stringForItem: item [
 
 { #category : #naming }
 FQResultTreePresenter >> stringForType: item nbOfEntities: nbEntities [
+	self
+		flag:
+			#FQImprove
+				, 'should this call browser or should modelPrefix be defined here ?'.
 	^ String
 		streamContents: [ :stream | 
 			stream << nbEntities asString << ' '
@@ -51,7 +55,7 @@ FQResultTreePresenter >> stringForType: item nbOfEntities: nbEntities [
 						ifFalse: [ item name withoutPrefix: browser modelPrefix ]) ]
 ]
 
-{ #category : #initialization }
+{ #category : #update }
 FQResultTreePresenter >> updateForEntities: entities [
 	self
 		roots: (entities collectAsSet: #class) asOrderedCollection;

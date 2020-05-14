@@ -2,14 +2,15 @@ Class {
 	#name : #FQQueriesCombinationPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'queriesTree',
-		'resultList',
-		'combinationsDroplist',
-		'parentQueries',
-		'newQuery',
-		'browser',
-		'toolBar',
-		'queryWasValidated'
+		'#queriesTree',
+		'#resultList',
+		'#combinationsDroplist',
+		'#parentQueries',
+		'#newQuery',
+		'#browser',
+		'#toolBar',
+		'#queryWasValidated',
+		'#query => SpObservableSlot'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -18,7 +19,7 @@ Class {
 FQQueriesCombinationPresenter class >> buildCommandsGroupWith: presenter forRoot: aCmCommandsGroup [
 	aCmCommandsGroup
 		register:
-			((FQQueryCombinationCommand forSpecWithIconNamed: #glamorousGo)
+			((FQQueryCreationCommand forSpecWithIconNamed: #glamorousGo)
 				context: presenter)
 ]
 
@@ -46,6 +47,20 @@ FQQueriesCombinationPresenter class >> title [
 { #category : #initialization }
 FQQueriesCombinationPresenter >> basicInitializeQueriesTree [
 	queriesTree := SpNullPresenter new
+]
+
+{ #category : #initialization }
+FQQueriesCombinationPresenter >> connectPresenters [
+	self queryAcceptedPort
+		transmitTo: browser queryInputPort
+		transform: [ :q | 
+			self window close.
+			q ]
+]
+
+{ #category : #initialization }
+FQQueriesCombinationPresenter >> initialize [
+	super initialize.
 ]
 
 { #category : #initialization }
@@ -87,10 +102,10 @@ FQQueriesCombinationPresenter >> newQuery [
 	^ newQuery
 ]
 
-{ #category : #update }
+{ #category : #transmissions }
 FQQueriesCombinationPresenter >> notifyAcceptedQuery [
 	queryWasValidated := true.
-	browser addCombinationQuery: newQuery
+	self notifyPropertyChanged: #query
 ]
 
 { #category : #opening }
@@ -100,6 +115,16 @@ FQQueriesCombinationPresenter >> onQueries: aQueriesCollection [
 		noInteractions;
 		adaptToBrowser: browser.
 	combinationsDroplist selectIndex: 1
+]
+
+{ #category : #accessing }
+FQQueriesCombinationPresenter >> query [
+	^ newQuery
+]
+
+{ #category : #transmissions }
+FQQueriesCombinationPresenter >> queryAcceptedPort [
+	^ FQQueryOutputPort newPresenter: self
 ]
 
 { #category : #'accessing model' }

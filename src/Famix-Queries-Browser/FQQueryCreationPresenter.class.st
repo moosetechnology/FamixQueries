@@ -2,13 +2,14 @@ Class {
 	#name : #FQQueryCreationPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'queryConfigurationPresenter',
-		'queryCode',
-		'queryTypesDropList',
-		'resultList',
-		'toolBar',
-		'browser',
-		'sequence'
+		'#queryConfigurationPresenter',
+		'#queryCode',
+		'#queryTypesDropList',
+		'#resultList',
+		'#toolBar',
+		'#browser',
+		'#sequence',
+		'#query => SpObservableSlot'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -144,6 +145,20 @@ FQQueryCreationPresenter class >> unnamedEntities [
 		withAll: (model copyWithoutAll: (model allUsing: FamixTNamedEntity))
 ]
 
+{ #category : #accessing }
+FQQueryCreationPresenter >> browser [
+	self
+		flag:
+			#FQImprove
+				, 'Used ony by FQCreationCommand. Should be move to tests package'.
+	^ browser
+]
+
+{ #category : #initialization }
+FQQueryCreationPresenter >> connectPresenters [
+	self queryAcceptedPort transmitTo: browser queryInputPort
+]
+
 { #category : #commands }
 FQQueryCreationPresenter >> defaultCommandsContext [
 	^ queryConfigurationPresenter
@@ -155,8 +170,13 @@ FQQueryCreationPresenter >> entities [
 ]
 
 { #category : #initialization }
+FQQueryCreationPresenter >> initialize [
+	super initialize.
+]
+
+{ #category : #initialization }
 FQQueryCreationPresenter >> initializePresenters [
-	toolBar := self newToolBar.	"beText"
+	self initializeToolBar.
 	self initializeRoassalSequence.
 	self initializeQueryTypesDropList.
 	self initializeQueryCode.
@@ -181,15 +201,14 @@ FQQueryCreationPresenter >> initializeQueryConfigurationPresenter [
 FQQueryCreationPresenter >> initializeQueryTypesDropList [
 	queryTypesDropList := self newDropList
 		items: self class queryConfigurationPresenters;
-		display: [ :presenter | presenter label ];
-		whenSelectedItemChangedDo: [ :presenter | self update: presenter ]
+		display: [ :presenterClass | presenterClass label ];
+		whenSelectedItemChangedDo:
+				[ :presenterClass | self updateConfigurationPresenter: presenterClass ]
 ]
 
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeResultList [
-	resultList := (self
-		instantiate: FQResultTreePresenter
-		on: self browser)
+	resultList := (self instantiate: FQResultTreePresenter on: browser)
 		updateForEntities: browser entities;
 		yourself
 ]
@@ -203,14 +222,45 @@ FQQueryCreationPresenter >> initializeRoassalSequence [
 ]
 
 { #category : #initialization }
+FQQueryCreationPresenter >> initializeToolBar [
+	toolBar := self newToolBar.	"beText"
+	toolBar fillWith: self rootCommandsGroup
+]
+
+{ #category : #initialization }
 FQQueryCreationPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 550 @ 400
 ]
 
+{ #category : #transmissions }
+FQQueryCreationPresenter >> notifyAcceptedQuery [
+	self notifyPropertyChanged: #query
+]
+
 { #category : #accessing }
 FQQueryCreationPresenter >> projectPrefix [
 	^ 'FQ'
+]
+
+{ #category : #accessing }
+FQQueryCreationPresenter >> query [
+	^ queryConfigurationPresenter query
+]
+
+{ #category : #transmissions }
+FQQueryCreationPresenter >> queryAcceptedPort [
+	^ FQQueryOutputPort newPresenter: self
+]
+
+{ #category : #accessing }
+FQQueryCreationPresenter >> queryBuilder [
+	^ queryConfigurationPresenter queryBuilder
+]
+
+{ #category : #transmissions }
+FQQueryCreationPresenter >> queryChangedPort [
+	^ FQQueryInputPort newPresenter: self
 ]
 
 { #category : #'accessing model' }
@@ -280,7 +330,11 @@ FQQueryCreationPresenter >> update: aPresenterClass [
 FQQueryCreationPresenter >> updateConfigurationPresenter: aPresenterClass [
 	queryConfigurationPresenter := aPresenterClass
 		owner: self
-		on: browser selectedQuery
+		on: browser selectedQuery.
+	queryConfigurationPresenter queryChangedPort
+		transmitTo: self queryChangedPort.
+	queryConfigurationPresenter transmitInitialConfiguration.
+	self update
 ]
 
 { #category : #update }
@@ -293,6 +347,17 @@ FQQueryCreationPresenter >> updateForAcceptedCode: code [
 			#FQSpecPb ,
 			'This should go through transmissions but TextChangedPort is buggy in Spec for now. 
 			FQCodeAcceptedPort is ready to accept a transmission'
+]
+
+{ #category : #update }
+FQQueryCreationPresenter >> updateForQuery: aQuery [
+	resultList updateForEntities: aQuery result.
+	queryCode
+		syntaxHighlight: aQuery isValid;
+		text: queryConfigurationPresenter queryBuilder codeToDisplay.
+	sequence setModels: aQuery parentSequence.
+	self flag: #FQImprove , 'Use transmission ?'.
+	self update
 ]
 
 { #category : #update }

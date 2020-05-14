@@ -71,7 +71,7 @@ FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 FQScopeQueriesPresenter >> scopesDropList [
 	^ self newDropList
 		items: self queryBuilder availableScopes;
-		display: [ :item | item name withoutPrefix: owner browser modelPrefix ];
+		display: [ :item | item name withoutPrefix: self modelPrefix ];
 		whenSelectedItemChangedDo: [ :scope | 
 			self queryBuilder changeQueryScope: scope.
 			self notifyQueryChanged ]

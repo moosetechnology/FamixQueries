@@ -7,7 +7,7 @@ Class {
 		'null1',
 		'null2'
 	],
-	#category : #'Famix-Queries-Browser-Presenters'
+	#category : #'Famix-Queries-Browser-Widgets'
 }
 
 { #category : #specs }

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'open',
 		'openWithoutEntities',
-		'roassal'
+		'roassal',
+		'openEmpty'
 	],
 	#category : #'Famix-Queries-DevHelp'
 }
@@ -13,6 +14,7 @@ Class {
 BrowserDisplayerPresenter class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		add: #open;
+		add: #openEmpty;
 		yourself
 ]
 
@@ -32,7 +34,13 @@ BrowserDisplayerPresenter >> initializePresenters [
 	open := self newButton
 		whenActivatedDo: [ FQQueriesBrowserPresenter open ];
 		iconName: #smallFind;
-		label: 'Open Famix Query Browser';
+		label: 'Famix Query Browser';
+		color: UITheme current borderColor;
+		yourself.
+	openEmpty := self newButton
+		whenActivatedDo: [ FQQueriesBrowserPresenter openEmpty ];
+		iconName: #smallFind;
+		label: 'Empty Famix Query Browser';
 		color: UITheme current borderColor;
 		yourself
 ]
@@ -40,5 +48,5 @@ BrowserDisplayerPresenter >> initializePresenters [
 { #category : #initialization }
 BrowserDisplayerPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 200 @ 150
+	aWindowPresenter initialExtent: 400 @ 150
 ]
