@@ -1,7 +1,7 @@
 Class {
 	#name : #FQBooleanQueryTest,
 	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-Terminal'
+	#category : #'Famix-Queries-Tests-Unary'
 }
 
 { #category : #helpers }
@@ -68,11 +68,19 @@ FQBooleanQueryTest >> testIsValid [
 ]
 
 { #category : #'tests - printing' }
+FQBooleanQueryTest >> testName [
+	query := self actualClass forProperty: #isAbstract.
+	self assert: query name equals: 'isAbstract'.
+	query := self actualClass new.
+	self assert: query name equals: 'Invalid Boolean Query'
+]
+
+{ #category : #'tests - printing' }
 FQBooleanQueryTest >> testPrintOn [
 	query := self actualClass forProperty: #isAbstract.
 	self
 		assert: query printString
-		equals: 'Boolean Property Query (isAbstract)'
+		equals: 'a FQBooleanQuery (isAbstract)'
 ]
 
 { #category : #'tests - running' }

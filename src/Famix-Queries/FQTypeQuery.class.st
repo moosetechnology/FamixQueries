@@ -47,13 +47,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'as yet unclassified' }
-FQTypeQuery class >> color [
-	"Pear"
-
-	^ Color colorFrom: 'BBCC33'
-]
-
 { #category : #'instance creation' }
 FQTypeQuery class >> forType: aType [
 	^ self new
@@ -68,20 +61,15 @@ FQTypeQuery class >> forTypes: aTypesCollection [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQTypeQuery class >> label [
 	^ 'Type Query'
 ]
 
 { #category : #utils }
-FQTypeQuery class >> typeAsSymbol: aType [
+FQTypeQuery class >> stringForType: aType [
 	^ (aType name piecesCutWhere: [ :char1 :char2 | char2 isUppercase ])
-		last asSymbol
-]
-
-{ #category : #comparing }
-FQTypeQuery >> = aQuery [
-	^ self class == aQuery class and: [ types = aQuery types ]
+		last asEnglishPlural
 ]
 
 { #category : #'adding - removing' }
@@ -89,26 +77,6 @@ FQTypeQuery >> addType: aType [
 	(self types includes: aType)
 		ifTrue: [ ^ self ].
 	self types add: aType
-]
-
-{ #category : #printing }
-FQTypeQuery >> addTypeSymbol: aTypeSymbol [
-	self flag: 'For future use if using only symbols is possible'.
-	(self types
-		anySatisfy: [ :type | (self class typeAsSymbol: type) = aTypeSymbol ])
-		ifTrue: [ ^ self ].
-	self addType: (Smalltalk classNamed: 'FamixT' , aTypeSymbol asString)
-	"We chose to recreate traits because the prefix is not meta-model-dependent. 
-	This may cause problems if the user meant to use a class. 
-	Example: 
-		The user wrote 
-			'TypeQuery new type: #Enum' 
-		because he·she wanted a query doing 
-			'aMooseGroup allWithType: FamixJavaEnum'.
-
-		We interpret it as 
-			'aMooseGroup allusing: FamixTEnum'
-		but this trait does not exist, so the query will fail."
 ]
 
 { #category : #running }
@@ -130,6 +98,15 @@ FQTypeQuery >> availableTypesFor: aMooseGroup [
 ]
 
 { #category : #printing }
+FQTypeQuery >> defaultName [
+	^ String
+		streamContents: [ :s | 
+			self types
+				allButLastDo: [ :type | s << (self class stringForType: type) << ', ' ].
+			s << (self class stringForType: self types last) ]
+]
+
+{ #category : #printing }
 FQTypeQuery >> displayOn: aStream with: aString [
 	self types size == 1
 		ifTrue:
@@ -146,6 +123,11 @@ FQTypeQuery >> displayStringForType: aType [
 	^ (aType isTrait
 		ifTrue: [ ' allUsing: ' ]
 		ifFalse: [ ' allWithType: ' ]) , aType name
+]
+
+{ #category : #comparing }
+FQTypeQuery >> hasSameParametersAs: aQuery [
+	^ types = aQuery types
 ]
 
 { #category : #initialization }
@@ -167,36 +149,12 @@ isTrait could be more thorough."
 						or: [ type isTrait ] ] ]
 ]
 
-{ #category : #printing }
-FQTypeQuery >> printOn: aStream [
-	aStream << self class label << ' ('.
-	self types
-		allButLastDo: [ :type | 
-			aStream << (self class typeAsSymbol: type).
-			aStream << ', ' ].
-	aStream << (self class typeAsSymbol: self types last) << ')'
-]
-
 { #category : #'adding - removing' }
 FQTypeQuery >> removeType: aType [
 	self types size = 1
 		ifTrue: [ FQCannotRemoveLastType
 				signal: 'Removing the last type of a ' , self className , ' is forbidden' ].
 	self types remove: aType
-]
-
-{ #category : #printing }
-FQTypeQuery >> roassalLabel [
-	self isValid
-		ifFalse: [ ^ 'Invalid' ].
-	^ String
-		streamContents: [ :s | 
-			self types
-				allButLastDo: [ :type | 
-					s
-						<< (self class typeAsSymbol: type) asEnglishPlural;
-						cr ].
-			s << (self class typeAsSymbol: self types last) asEnglishPlural ]
 ]
 
 { #category : #running }

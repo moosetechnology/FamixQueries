@@ -11,6 +11,13 @@ Class {
 	#category : #'Famix-Queries-Browser-Widgets'
 }
 
+{ #category : #'boxes configuration' }
+FQRoassalQueryPresenter >> adaptName: aString [
+	^ aString
+		copyReplaceAll: Character space asString
+		with: Character cr asString
+]
+
 { #category : #'roassal script' }
 FQRoassalQueryPresenter >> adaptToBrowser: aBrowser [
 	browser := aBrowser.
@@ -53,10 +60,8 @@ FQRoassalQueryPresenter >> boxLabel [
 	| label |
 	label := RSLabeled new
 		text: [ :model | 
-			model
-				ifNil: [ 'Initial
-Entities' ]
-				ifNotNil: [ :query | query roassalLabel ] ].
+			self flag: #FQImprove.
+			self adaptName: model name ].
 	label location
 		inner;
 		center;
@@ -172,7 +177,7 @@ FQRoassalQueryPresenter >> legendOn: canvas [
 	legend := RSLegend new.
 	legend container: canvas.
 	(queries allButFirst collectAsSet: [ :query | query class ])
-		do: [ :query | legend text: query label withCircleColor: query color ].
+		do: [ :queryClass | legend text: queryClass label withCircleColor: queryClass color ].
 	legend
 		leyendDo: [ :l | 
 			l

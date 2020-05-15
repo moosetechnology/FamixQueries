@@ -4,13 +4,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
-{ #category : #'as yet unclassified' }
-FQSubstractionQuery class >> color [
-	"Violet"
-
-	^ Color colorFrom: 'd9b6fc'
-]
-
 { #category : #'instance creation' }
 FQSubstractionQuery class >> forQueries: aCollectionOfQueries [
 	^ self new
@@ -18,7 +11,7 @@ FQSubstractionQuery class >> forQueries: aCollectionOfQueries [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQSubstractionQuery class >> label [
 	^ 'Substraction'
 ]
@@ -26,6 +19,11 @@ FQSubstractionQuery class >> label [
 { #category : #comparing }
 FQSubstractionQuery >> = aQuery [
 	^ aQuery class == self class and: [ aQuery parents = parents ]
+]
+
+{ #category : #printing }
+FQSubstractionQuery >> defaultName [
+	^ 'Substraction'
 ]
 
 { #category : #running }
@@ -45,11 +43,6 @@ FQSubstractionQuery >> displayOn: aStream with: aString [
 { #category : #testing }
 FQSubstractionQuery >> isValid [
 	^ parents allSatisfy: #isValid
-]
-
-{ #category : #printing }
-FQSubstractionQuery >> roassalLabel [
-	^ 'Substraction'
 ]
 
 { #category : #running }

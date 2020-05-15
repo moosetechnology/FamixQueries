@@ -49,14 +49,9 @@ FQPropertyQuery class >> availablePropertyTypes [
 	^ FQPropertyQuery allSubclasses
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQPropertyQuery class >> label [
 	^ 'Property Query'
-]
-
-{ #category : #comparing }
-FQPropertyQuery >> = aQuery [
-	^ self class == aQuery class and: [ property == aQuery property ]
 ]
 
 { #category : #'available parameters' }
@@ -84,6 +79,16 @@ FQPropertyQuery >> comparator: anObject [
 ]
 
 { #category : #printing }
+FQPropertyQuery >> defaultName [
+	^ String
+		streamContents: [ :aStream | 
+			aStream << self property.
+			self hasComparisonParameters
+				ifTrue: [ aStream << ' ' << self comparator << ' '
+						<< self valueToCompareAsString ] ]
+]
+
+{ #category : #printing }
 FQPropertyQuery >> displayOn: aStream with: aString [
 	aStream << aString << ' select: [ :entity | entity '
 		<< self property asString.
@@ -101,18 +106,14 @@ FQPropertyQuery >> hasComparisonParameters [
 	^ true
 ]
 
+{ #category : #comparing }
+FQPropertyQuery >> hasSameParametersAs: aQuery [
+	^ property == aQuery property
+]
+
 { #category : #testing }
 FQPropertyQuery >> isValid [
 	^ self property isSymbol
-]
-
-{ #category : #printing }
-FQPropertyQuery >> printOn: aStream [
-	aStream << self class label << ' (' << self property.
-	self hasComparisonParameters
-		ifTrue: [ aStream << ' ' << self comparator << ' '
-				<< self valueToCompareAsString ].
-	aStream << ')'
 ]
 
 { #category : #accessing }

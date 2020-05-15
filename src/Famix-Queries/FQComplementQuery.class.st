@@ -11,16 +11,16 @@ FQComplementQuery class >> forQuery: aQuery [
 		yourself
 ]
 
-{ #category : #comparing }
-FQComplementQuery >> = aQuery [
-	^ aQuery class == self class and: [ aQuery parent = parent ]
-]
-
 { #category : #running }
 FQComplementQuery >> displayOn: aStream with: aString [
 	aStream << aString << ' copyWithoutAll: ('.
 	self parent displayOn: aStream.
 	aStream << ')'
+]
+
+{ #category : #comparing }
+FQComplementQuery >> hasSameParametersAs: aQuery [
+	^ aQuery parent = parent
 ]
 
 { #category : #testing }

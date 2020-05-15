@@ -39,13 +39,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'as yet unclassified' }
-FQNumericQuery class >> color [
-	"Light cyan"
-
-	^ Color colorFrom: '99DDFF'
-]
-
 { #category : #accessing }
 FQNumericQuery class >> defaultValueToCompare [
 	^ 0
@@ -60,16 +53,9 @@ FQNumericQuery class >> forProperty: aPropertySelector comparator: aComparisonSe
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQNumericQuery class >> label [
-	^ 'Number ', super label
-]
-
-{ #category : #comparing }
-FQNumericQuery >> = aQuery [
-	^ super = aQuery
-		and: [ comparator = aQuery comparator
-				and: [ valueToCompare = aQuery valueToCompare ] ]
+	^ 'Numeric Query'
 ]
 
 { #category : #'available parameters' }
@@ -78,23 +64,17 @@ FQNumericQuery >> availableComparators [
 	^ {#> . #>= . #= . #<= . #<}
 ]
 
+{ #category : #comparing }
+FQNumericQuery >> hasSameParametersAs: aQuery [
+	^ (super hasSameParametersAs: aQuery)
+		and: [ comparator = aQuery comparator
+				and: [ valueToCompare = aQuery valueToCompare ] ]
+]
+
 { #category : #testing }
 FQNumericQuery >> isValid [
 	^ super isValid
 		and: [ self comparator isSymbol and: [ self valueToCompare isNumber ] ]
-]
-
-{ #category : #printing }
-FQNumericQuery >> roassalLabel [
-	self isValid
-		ifFalse: [ ^ 'Invalid' ].
-	^ String
-		streamContents: [ :s | 
-			s
-				<< self property;
-				cr;
-				<< self comparator;
-				<< self valueToCompareAsString ]
 ]
 
 { #category : #'available parameters' }

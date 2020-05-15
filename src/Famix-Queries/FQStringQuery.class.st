@@ -39,13 +39,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'as yet unclassified' }
-FQStringQuery class >> color [
-	"Light blue"
-
-	^ Color colorFrom: '77AADD'
-]
-
 { #category : #accessing }
 FQStringQuery class >> defaultValueToCompare [
 	^ ''
@@ -60,16 +53,9 @@ FQStringQuery class >> forProperty: aPropertySelector comparator: aSelector with
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQStringQuery class >> label [
-	^ 'String ', super label
-]
-
-{ #category : #comparing }
-FQStringQuery >> = aQuery [
-	^ super = aQuery
-		and: [ comparator = aQuery comparator
-				and: [ valueToCompare = aQuery valueToCompare ] ]
+	^ 'String Query'
 ]
 
 { #category : #'available parameters' }
@@ -83,24 +69,17 @@ FQStringQuery >> comparator [
 	^ comparator ifNil: [ comparator := #includesSubString: ]
 ]
 
+{ #category : #comparing }
+FQStringQuery >> hasSameParametersAs: aQuery [
+	^ (super hasSameParametersAs: aQuery)
+		and: [ comparator = aQuery comparator
+				and: [ valueToCompare = aQuery valueToCompare ] ]
+]
+
 { #category : #testing }
 FQStringQuery >> isValid [
 	^ super isValid
 		and: [ self comparator isSymbol and: [ self valueToCompare isString ] ]
-]
-
-{ #category : #printing }
-FQStringQuery >> roassalLabel [
-	self isValid
-		ifFalse: [ ^ 'Invalid' ].
-	^ String
-		streamContents: [ :s | 
-			s
-				<< self property;
-				cr;
-				<< self comparator;
-				cr;
-				<< self valueToCompareAsString ]
 ]
 
 { #category : #'available parameters' }

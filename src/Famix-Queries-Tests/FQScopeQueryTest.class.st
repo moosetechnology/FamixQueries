@@ -1,7 +1,7 @@
 Class {
 	#name : #FQScopeQueryTest,
 	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-Terminal'
+	#category : #'Famix-Queries-Tests-Unary'
 }
 
 { #category : #helpers }
@@ -97,11 +97,23 @@ FQScopeQueryTest >> testIsValid [
 ]
 
 { #category : #'tests - printing' }
+FQScopeQueryTest >> testName [
+	query := self actualClass
+		forScope: FamixStClass
+		direction: FQScopeDown.
+	self assert: query name equals: 'Down to Classes'.
+	query := self actualClass new.
+	self assert: query name equals: 'Invalid Scope Query'
+]
+
+{ #category : #'tests - printing' }
 FQScopeQueryTest >> testPrintOn [
 	query := self actualClass
 		forScope: FamixStClass
 		direction: FQScopeDown.
-	self assert: query printString equals: 'Scope Query (Down, to Class)'
+	self
+		assert: query printString
+		equals: 'a FQScopeQuery (Down to Classes)'
 ]
 
 { #category : #'tests - running' }

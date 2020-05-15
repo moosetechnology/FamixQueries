@@ -1,7 +1,7 @@
 Class {
 	#name : #FQNavigationQueryTest,
 	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-Terminal'
+	#category : #'Famix-Queries-Tests-Unary'
 }
 
 { #category : #helpers }
@@ -223,6 +223,20 @@ FQNavigationQueryTest >> testLocalOutgoingInvocation [
 	self assert: (query runOn: grp) size equals: 2
 ]
 
+{ #category : #'tests - printing' }
+FQNavigationQueryTest >> testName [
+	query := self actualClass
+		direction: FQLocalIncomingNavigation
+		association:
+			(FQNavigationAssociations
+				withAll:
+					{FamixTReference.
+					FamixTAccess}).
+	self assert: query name equals: 'Local Incoming references, accesses'.
+	query := self actualClass new.
+	self assert: query name equals: 'Invalid Navigation Query'
+]
+
 { #category : #'tests - running' }
 FQNavigationQueryTest >> testOutgoingInheritance [
 	| grp |
@@ -247,8 +261,8 @@ FQNavigationQueryTest >> testPrintOn [
 					{FamixTReference.
 					FamixTAccess}).
 	self
-		assert: (String streamContents: [ :stream | query printOn: stream ])
-		equals: 'Navigation Query (Local Incoming references, accesses)'
+		assert: query printString
+		equals: 'a FQNavigationQuery (Local Incoming references, accesses)'
 ]
 
 { #category : #'tests - adding - removing' }

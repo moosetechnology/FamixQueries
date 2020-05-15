@@ -1,7 +1,7 @@
 Class {
 	#name : #FQStringQueryTest,
 	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-Terminal'
+	#category : #'Famix-Queries-Tests-Unary'
 }
 
 { #category : #helpers }
@@ -111,6 +111,19 @@ FQStringQueryTest >> testIsValid [
 ]
 
 { #category : #tests }
+FQStringQueryTest >> testName [
+	query := self actualClass
+		forProperty: #name
+		comparator: #includesSubstring:
+		withValue: 'LAN'.
+	self
+		assert: query name
+		equals: 'name includesSubstring: ''LAN'''.
+	query := self actualClass new.
+	self assert: query name equals: 'Invalid String Query'
+]
+
+{ #category : #tests }
 FQStringQueryTest >> testPrintOn [
 	query := self actualClass
 		forProperty: #name
@@ -118,7 +131,7 @@ FQStringQueryTest >> testPrintOn [
 		withValue: 'LAN'.
 	self
 		assert: query printString
-		equals: 'String Property Query (name includesSubstring: ''LAN'')'
+		equals: 'a FQStringQuery (name includesSubstring: ''LAN'')'
 ]
 
 { #category : #'tests - running' }

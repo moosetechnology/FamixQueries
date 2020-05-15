@@ -56,24 +56,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #utils }
-FQNavigationQuery class >> associationAsString: anAssociation [
-	^ (anAssociation name withoutPrefix: 'FamixT') asLowercase
-		asEnglishPlural
-]
-
-{ #category : #utils }
-FQNavigationQuery class >> associationAsSymbol: anAssociation [
-	^ (anAssociation name withoutPrefix: 'FamixT') asSymbol
-]
-
-{ #category : #'as yet unclassified' }
-FQNavigationQuery class >> color [
-	"Light yellow"
-
-	^ Color colorFrom: 'EEDD88'
-]
-
 { #category : #'instance creation' }
 FQNavigationQuery class >> direction: aDirectionStrategyClass association: anAssociationStrategy [
 	^ self new
@@ -82,16 +64,20 @@ FQNavigationQuery class >> direction: aDirectionStrategyClass association: anAss
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQNavigationQuery class >> label [
 	^ 'Navigation Query'
 ]
 
-{ #category : #comparing }
-FQNavigationQuery >> = aQuery [
-	^ self class == aQuery class
-		and: [ directionStrategy == aQuery directionStrategy
-				and: [ associationStrategy associations = aQuery associationStrategy associations ] ]
+{ #category : #utils }
+FQNavigationQuery class >> stringForAssociation: anAssociation [
+	^ (anAssociation name withoutPrefix: 'FamixT') asLowercase
+		asEnglishPlural
+]
+
+{ #category : #utils }
+FQNavigationQuery class >> symbolForAssociation: anAssociation [
+	^ (anAssociation name withoutPrefix: 'FamixT') asSymbol
 ]
 
 { #category : #'adding - removing' }
@@ -136,6 +122,19 @@ FQNavigationQuery >> availableDirections [
 	^ FQAbstractNavigationDirection availableDirections
 ]
 
+{ #category : #printing }
+FQNavigationQuery >> defaultName [
+	^ String
+		streamContents: [ :s | 
+			s << self directionStrategy label << Character space.
+			self associationStrategy associations
+				allButLastDo: [ :assoc | s << (self class stringForAssociation: assoc) << ', ' ].
+			s
+				<<
+					(self class
+						stringForAssociation: self associationStrategy associations last) ]
+]
+
 { #category : #accessing }
 FQNavigationQuery >> direction: aSymbol [
 	directionStrategy := self availableDirections
@@ -167,6 +166,13 @@ FQNavigationQuery >> displayOn: aStream with: aString [
 			result ]) asMooseGroup'
 ]
 
+{ #category : #comparing }
+FQNavigationQuery >> hasSameParametersAs: aQuery [
+	^ directionStrategy == aQuery directionStrategy
+		and: [ associationStrategy associations
+				= aQuery associationStrategy associations ]
+]
+
 { #category : #initialization }
 FQNavigationQuery >> initialize [
 	super initialize.
@@ -183,43 +189,9 @@ FQNavigationQuery >> isValid [
 						and: [ self associationStrategy associations isNotEmpty ] ] ]
 ]
 
-{ #category : #printing }
-FQNavigationQuery >> printOn: aStream [
-	aStream << self class label << ' (' << self directionStrategy label
-		<< ' '.
-	self associationStrategy associations
-		allButLastDo:
-			[ :assoc | aStream << (self class associationAsString: assoc) << ', ' ].
-	aStream
-		<<
-			(self class
-				associationAsString: self associationStrategy associations last)
-		<< ')'
-]
-
 { #category : #'adding - removing' }
 FQNavigationQuery >> removeAssociation: anAssociation [
 	self associationStrategy: (self associationStrategy removeAssociation: anAssociation)
-]
-
-{ #category : #printing }
-FQNavigationQuery >> roassalLabel [
-	self isValid
-		ifFalse: [ ^ 'Invalid' ].
-	^ String
-		streamContents: [ :s | 
-			s
-				<< self directionStrategy label;
-				cr.
-			self associationStrategy associations
-				allButLastDo: [ :assoc | 
-					s
-						<< (self class associationAsString: assoc);
-						cr ].
-			s
-				<<
-					(self class
-						associationAsString: self associationStrategy associations last) ]
 ]
 
 { #category : #running }
@@ -240,9 +212,10 @@ FQNavigationQuery >> storeOn: aStream [
 	self associationStrategy associations
 		allButLastDo: [ :assoc | 
 			aStream << 'association: '.
-			(self class associationAsSymbol: assoc) storeOn: aStream.
+			(self class symbolForAssociation: assoc) storeOn: aStream.
 			aStream << $; ].
 	aStream << 'association: '.
-	(self class associationAsSymbol: self associationStrategy associations last)
+	(self class
+		symbolForAssociation: self associationStrategy associations last)
 		storeOn: aStream
 ]

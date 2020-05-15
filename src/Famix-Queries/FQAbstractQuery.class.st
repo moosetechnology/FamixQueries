@@ -30,6 +30,7 @@ Class {
 	#name : #FQAbstractQuery,
 	#superclass : #Object,
 	#instVars : [
+		'name',
 		'result',
 		'children'
 	],
@@ -42,8 +43,8 @@ FQAbstractQuery class >> isAbstract [
 ]
 
 { #category : #accessing }
-FQAbstractQuery class >> projectPrefix [
-	^ 'FQ'
+FQAbstractQuery class >> label [
+	^ self subclassResponsibility
 ]
 
 { #category : #'instance creation' }
@@ -53,7 +54,8 @@ FQAbstractQuery class >> readFrom: aString [
 
 { #category : #comparing }
 FQAbstractQuery >> = aQuery [
-	^ self subclassResponsibility
+	^ self class == aQuery class
+		and: [ self hasSameParametersAs: aQuery ]
 ]
 
 { #category : #adding }
@@ -64,6 +66,13 @@ FQAbstractQuery >> addChild: aQuery [
 { #category : #adding }
 FQAbstractQuery >> beChildOf: aQueryOrCollection [
 	self subclassResponsibility
+]
+
+{ #category : #printing }
+FQAbstractQuery >> buildDefaultName [
+	self isValid
+		ifFalse: [ ^ 'Invalid ' , self class label ].
+	^ self defaultName
 ]
 
 { #category : #accessing }
@@ -77,12 +86,22 @@ FQAbstractQuery >> computeResult [
 ]
 
 { #category : #printing }
+FQAbstractQuery >> defaultName [
+	^ self subclassResponsibility
+]
+
+{ #category : #printing }
 FQAbstractQuery >> displayOn: aStream [ 
 	self displayOn: aStream with: 'aMooseGroup' 
 ]
 
 { #category : #printing }
 FQAbstractQuery >> displayOn: aStream with: aString [
+	^ self subclassResponsibility
+]
+
+{ #category : #comparing }
+FQAbstractQuery >> hasSameParametersAs: aQuery [
 	^ self subclassResponsibility
 ]
 
@@ -97,9 +116,25 @@ FQAbstractQuery >> isValid [
 	^ self subclassResponsibility
 ]
 
+{ #category : #accessing }
+FQAbstractQuery >> name [
+	^ name ifNil: [ name := self buildDefaultName ]
+]
+
+{ #category : #accessing }
+FQAbstractQuery >> name: aString [
+	name := aString
+]
+
 { #category : #removing }
 FQAbstractQuery >> prepareRemoval [
 	^ self subclassResponsibility
+]
+
+{ #category : #printing }
+FQAbstractQuery >> printOn: aStream [
+	super printOn: aStream.
+	aStream << Character space << (self name join: '()')
 ]
 
 { #category : #removing }
@@ -122,13 +157,4 @@ FQAbstractQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
 
 	^ self subclassResponsibility
-]
-
-{ #category : #accessing }
-FQAbstractQuery >> simpleClassName [
-	"This was used to remove the 'FQ' prefix in #storeOn: method.
-	Problem is, by removing it, the System does not know those classes and cannot evaluate correctly the provided code"
-
-	self flag: 'FQUnused'.
-	^ self className withoutPrefix: self class projectPrefix
 ]

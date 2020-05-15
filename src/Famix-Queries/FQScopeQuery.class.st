@@ -46,13 +46,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'as yet unclassified' }
-FQScopeQuery class >> color [
-	"Blue-green"
-
-	^ Color colorFrom: '009292'
-]
-
 { #category : #'instance creation' }
 FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
 	^ self new
@@ -61,21 +54,16 @@ FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQScopeQuery class >> label [
 	^ 'Scope Query'
 ]
 
 { #category : #utils }
-FQScopeQuery class >> scopeAsString: aScopeClass [
+FQScopeQuery class >> stringForScope: aScopeClass [
 	^ (aScopeClass name
 		piecesCutWhere: [ :char1 :char2 | char2 isUppercase ]) last
-]
-
-{ #category : #comparing }
-FQScopeQuery >> = aQuery [
-	^ self class == aQuery class
-		and: [ direction == aQuery directionStrategy and: [ scope == aQuery scope ] ]
+		asEnglishPlural
 ]
 
 { #category : #'available parameters' }
@@ -86,6 +74,16 @@ FQScopeQuery >> availableDirections [
 { #category : #'available parameters' }
 FQScopeQuery >> availableScopesFor: aMooseGroup [
 	^ self directionStrategy availableScopesFor: aMooseGroup
+]
+
+{ #category : #printing }
+FQScopeQuery >> defaultName [
+	^ String
+		streamContents: [ :s | 
+			s
+				<< self directionStrategy label;
+				<< ' to ';
+				<< (self class stringForScope: self scope) ]
 ]
 
 { #category : #accessing }
@@ -113,30 +111,17 @@ FQScopeQuery >> displayOn: aStream with: aString [
 		<< self scope name
 ]
 
+{ #category : #comparing }
+FQScopeQuery >> hasSameParametersAs: aQuery [
+	^ direction == aQuery directionStrategy
+		and: [ scope == aQuery scope ]
+]
+
 { #category : #testing }
 FQScopeQuery >> isValid [
 	^ self directionStrategy isClass
 		and: [ (self directionStrategy inheritsFrom: FQAbstractScopeDirection)
 				and: [ self scope isClass and: [ self scope inheritsFrom: MooseEntity ] ] ]
-]
-
-{ #category : #printing }
-FQScopeQuery >> printOn: aStream [
-	aStream << self class label << ' (' << self directionStrategy label
-		<< ', to ' << (self class scopeAsString: self scope) << ')'
-]
-
-{ #category : #printing }
-FQScopeQuery >> roassalLabel [
-	self isValid
-		ifFalse: [ ^ 'Invalid' ].
-	^ String
-		streamContents: [ :s | 
-			s
-				<< self directionStrategy label;
-				cr;
-				<< 'to ';
-				<< (self class scopeAsString: self scope) ]
 ]
 
 { #category : #running }

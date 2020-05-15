@@ -4,13 +4,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
-{ #category : #'as yet unclassified' }
-FQUnionQuery class >> color [
-	"Pink"
-
-	^ Color colorFrom: 'FFAABB'
-]
-
 { #category : #'instance creation' }
 FQUnionQuery class >> forQueries: aCollectionOfQueries [
 	^ self new
@@ -18,7 +11,7 @@ FQUnionQuery class >> forQueries: aCollectionOfQueries [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQUnionQuery class >> label [
 	^ 'Union'
 ]
@@ -26,6 +19,11 @@ FQUnionQuery class >> label [
 { #category : #comparing }
 FQUnionQuery >> = aQuery [
 	^ aQuery class == self class and: [ aQuery parents = parents ]
+]
+
+{ #category : #printing }
+FQUnionQuery >> defaultName [
+	^ 'Union'
 ]
 
 { #category : #printing }
@@ -45,11 +43,6 @@ FQUnionQuery >> displayOn: aStream with: aString [
 { #category : #testing }
 FQUnionQuery >> isValid [
 	^ parents allSatisfy: #isValid
-]
-
-{ #category : #printing }
-FQUnionQuery >> roassalLabel [
-	^ 'Union'
 ]
 
 { #category : #running }

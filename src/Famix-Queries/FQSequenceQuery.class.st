@@ -16,6 +16,11 @@ FQSequenceQuery >> = aQuery [
 	^ aQuery class == self class and: [ aQuery parents = parents ]
 ]
 
+{ #category : #printing }
+FQSequenceQuery >> defaultName [
+	^ 'Sequence'
+]
+
 { #category : #running }
 FQSequenceQuery >> displayOn: aStream with: aString [
 	1 to: parents size - 1 do: [ :i | aStream << '(' ].

@@ -4,13 +4,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
-{ #category : #'as yet unclassified' }
-FQIntersectionQuery class >> color [
-	"Orange"
-
-	^ Color colorFrom: 'EE9977'
-]
-
 { #category : #'instance creation' }
 FQIntersectionQuery class >> forQueries: aCollectionOfQueries [
 	^ self new
@@ -18,7 +11,7 @@ FQIntersectionQuery class >> forQueries: aCollectionOfQueries [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQIntersectionQuery class >> label [
 	^ 'Intersection'
 ]
@@ -26,6 +19,11 @@ FQIntersectionQuery class >> label [
 { #category : #comparing }
 FQIntersectionQuery >> = aQuery [
 	^ aQuery class == self class and: [ aQuery parents = parents ]
+]
+
+{ #category : #printing }
+FQIntersectionQuery >> defaultName [
+	^ 'Intersection'
 ]
 
 { #category : #running }
@@ -45,11 +43,6 @@ FQIntersectionQuery >> displayOn: aStream with: aString [
 { #category : #testing }
 FQIntersectionQuery >> isValid [
 	^ parents allSatisfy: #isValid
-]
-
-{ #category : #printing }
-FQIntersectionQuery >> roassalLabel [
-	^ 'Intersection'
 ]
 
 { #category : #running }

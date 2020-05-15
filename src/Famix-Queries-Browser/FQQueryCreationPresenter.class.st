@@ -209,7 +209,7 @@ FQQueryCreationPresenter >> initializeRoassalSequence [
 	sequence := (FQRoassalSequence
 		on: browser selectedQuery parentSequence)
 		shapeColor: [ :model | model class color ];
-		shapeLabel: [ :model | model roassalLabel substrings first ]
+		shapeLabel: [ :model | model name substrings first ]
 ]
 
 { #category : #initialization }

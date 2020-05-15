@@ -1,7 +1,7 @@
 Class {
 	#name : #FQIntersectionQueryTest,
 	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-Combinator'
+	#category : #'Famix-Queries-Tests-Binary'
 }
 
 { #category : #helpers }

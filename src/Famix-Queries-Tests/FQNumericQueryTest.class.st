@@ -1,7 +1,7 @@
 Class {
 	#name : #FQNumericQueryTest,
 	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-Terminal'
+	#category : #'Famix-Queries-Tests-Unary'
 }
 
 { #category : #helpers }
@@ -101,6 +101,17 @@ FQNumericQueryTest >> testIsValid [
 ]
 
 { #category : #'tests - running' }
+FQNumericQueryTest >> testName [
+	query := self actualClass
+		forProperty: #numberOfMethods
+		comparator: #>
+		withValue: 10.
+	self assert: query name equals: 'numberOfMethods > 10'.
+	query := self actualClass new.
+	self assert: query name equals: 'Invalid Numeric Query'
+]
+
+{ #category : #'tests - running' }
 FQNumericQueryTest >> testPrintOn [
 	query := self actualClass
 		forProperty: #numberOfMethods
@@ -108,7 +119,7 @@ FQNumericQueryTest >> testPrintOn [
 		withValue: 10.
 	self
 		assert: query printString
-		equals: 'Number Property Query (numberOfMethods > 10)'
+		equals: 'a FQNumericQuery (numberOfMethods > 10)'
 ]
 
 { #category : #'tests - printing' }

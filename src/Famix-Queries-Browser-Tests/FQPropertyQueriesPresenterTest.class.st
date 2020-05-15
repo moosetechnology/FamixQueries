@@ -30,7 +30,7 @@ FQPropertyQueriesPresenterTest >> testFirstParameter [
 { #category : #tests }
 FQPropertyQueriesPresenterTest >> testNoAvailableProperties [
 	self resetPresenterWithEntities: helper noEntities.
-	(self radioButtons detect: [ :rb | rb label = 'Number' ]) click.
+	(self radioButtons detect: [ :rb | rb label = 'Numeric' ]) click.
 	self
 		assert: presenter secondParameter class
 		identicalTo: FQNoPossibleQueryPresenter.
@@ -49,7 +49,7 @@ FQPropertyQueriesPresenterTest >> testQueryBuilderType [
 	(self radioButtons detect: [ :rb | rb label ='Boolean' ]) click.
 	self assert: presenter secondParameter class identicalTo: FQBooleanQueryParametersPresenter.
 	
-	(self radioButtons detect: [ :rb | rb label ='Number' ]) click.
+	(self radioButtons detect: [ :rb | rb label ='Numeric' ]) click.
 	self assert: presenter secondParameter class identicalTo: FQNumericQueryParametersPresenter.
 	
 	(self radioButtons detect: [ :rb | rb label ='String' ]) click.
@@ -61,7 +61,7 @@ FQPropertyQueriesPresenterTest >> testQueryType [
 	(self radioButtons detect: [ :rb | rb label ='Boolean' ]) click.
 	self assert: self queryBuilder query class identicalTo: FQBooleanQuery.
 	
-	(self radioButtons detect: [ :rb | rb label ='Number' ]) click.
+	(self radioButtons detect: [ :rb | rb label ='Numeric' ]) click.
 	self assert: self queryBuilder query class identicalTo: FQNumericQuery.
 	
 	(self radioButtons detect: [ :rb | rb label ='String' ]) click.

@@ -1,7 +1,7 @@
 Class {
 	#name : #FQTypeQueryTest,
 	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-Terminal'
+	#category : #'Famix-Queries-Tests-Unary'
 }
 
 { #category : #helpers }
@@ -108,13 +108,26 @@ FQTypeQueryTest >> testIsValid [
 	
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
+FQTypeQueryTest >> testName [
+	query := self actualClass
+		forTypes:
+			{FamixStClass.
+			FamixStMethod}.
+	self assert: query name equals: 'Classes, Methods'.
+	query := self actualClass new.
+	self assert: query name equals: 'Invalid Type Query'
+]
+
+{ #category : #'tests - printing' }
 FQTypeQueryTest >> testPrintOn [
 	query := self actualClass
 		forTypes:
 			{FamixStClass.
 			FamixStMethod}.
-	self assert: query printString equals: 'Type Query (Class, Method)'
+	self
+		assert: query printString
+		equals: 'a FQTypeQuery (Classes, Methods)'
 ]
 
 { #category : #'tests - adding - removing' }

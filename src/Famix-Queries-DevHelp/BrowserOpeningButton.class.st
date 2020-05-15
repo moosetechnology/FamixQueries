@@ -1,5 +1,5 @@
 Class {
-	#name : #BrowserDisplayerPresenter,
+	#name : #BrowserOpeningButton,
 	#superclass : #SpPresenter,
 	#instVars : [
 		'open',
@@ -7,11 +7,11 @@ Class {
 		'roassal',
 		'openEmpty'
 	],
-	#category : #'Famix-Queries-DevHelp'
+	#category : #'Famix-Queries-DevHelp-StartButton'
 }
 
 { #category : #specs }
-BrowserDisplayerPresenter class >> defaultSpec [
+BrowserOpeningButton class >> defaultSpec [
 	^ SpBoxLayout newHorizontal
 		add: #open;
 		add: #openEmpty;
@@ -19,18 +19,18 @@ BrowserDisplayerPresenter class >> defaultSpec [
 ]
 
 { #category : #specs }
-BrowserDisplayerPresenter class >> open [
+BrowserOpeningButton class >> open [
 	<script>
 	self new openWithSpec
 ]
 
 { #category : #specs }
-BrowserDisplayerPresenter class >> title [
+BrowserOpeningButton class >> title [
 	^ 'Famix Query Button'
 ]
 
 { #category : #initialization }
-BrowserDisplayerPresenter >> initializePresenters [
+BrowserOpeningButton >> initializePresenters [
 	open := self newButton
 		whenActivatedDo: [ FQQueriesBrowserPresenter open ];
 		iconName: #smallFind;
@@ -46,7 +46,7 @@ BrowserDisplayerPresenter >> initializePresenters [
 ]
 
 { #category : #initialization }
-BrowserDisplayerPresenter >> initializeWindow: aWindowPresenter [
+BrowserOpeningButton >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 400 @ 150
 ]

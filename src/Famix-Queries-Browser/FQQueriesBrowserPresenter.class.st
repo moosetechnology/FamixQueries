@@ -77,7 +77,7 @@ FQQueriesBrowserPresenter >> followAction [
 		ifFalse: [ ^ self ].
 	queries do: #resetResult.
 	self initialQuery result: (toSelect allUsing: FamixTNamedEntity).
-	self initialQuery label: toSelect name.
+	self initialQuery name: toSelect name.
 	self selectQuery: self initialQuery
 ]
 

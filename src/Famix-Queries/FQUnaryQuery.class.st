@@ -7,7 +7,7 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 FQUnaryQuery >> addToParentsSequence: sequence [
 	parent ifNotNil: [ parent addToParentsSequence: sequence ].
 	sequence addLast: self.
@@ -41,7 +41,7 @@ FQUnaryQuery >> parent: anObject [
 	parent := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQUnaryQuery >> parentSequence [
 	| sequence |
 	sequence := OrderedCollection new.

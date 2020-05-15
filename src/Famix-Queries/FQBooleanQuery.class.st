@@ -34,13 +34,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'as yet unclassified' }
-FQBooleanQuery class >> color [
-	"Mint"
-
-	^ Color colorFrom: '44BB99'
-]
-
 { #category : #'instance creation' }
 FQBooleanQuery class >> forProperty: aBooleanSelector [
 	^ self new
@@ -48,21 +41,14 @@ FQBooleanQuery class >> forProperty: aBooleanSelector [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQBooleanQuery class >> label [
-	^ 'Boolean ' , super label
+	^ 'Boolean Query'
 ]
 
 { #category : #testing }
 FQBooleanQuery >> hasComparisonParameters [
 	^ false
-]
-
-{ #category : #printing }
-FQBooleanQuery >> roassalLabel [
-	self isValid
-		ifFalse: [ ^ 'Invalid' ].
-	^ String streamContents: [ :s | s << self property ]
 ]
 
 { #category : #running }
