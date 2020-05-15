@@ -67,15 +67,6 @@ FQBooleanQueryTest >> testIsValid [
 	self deny: query isValid
 ]
 
-{ #category : #'tests - available parameters' }
-FQBooleanQueryTest >> testNoAvailableProperties [
-	| availableProperties |
-	query := self actualClass new.
-	availableProperties := query availablePropertiesFor: model.
-	
-	self assert: availableProperties isEmpty
-]
-
 { #category : #'tests - printing' }
 FQBooleanQueryTest >> testPrintOn [
 	query := self actualClass forProperty: #isAbstract.

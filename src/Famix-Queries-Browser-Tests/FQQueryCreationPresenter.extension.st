@@ -26,11 +26,6 @@ FQQueryCreationPresenter >> resultList [
 ]
 
 { #category : #'*Famix-Queries-Browser-Tests' }
-FQQueryCreationPresenter >> resultListTitle [
-	^ resultListTitle
-]
-
-{ #category : #'*Famix-Queries-Browser-Tests' }
 FQQueryCreationPresenter >> toolBar [
 	^ toolBar
 ]

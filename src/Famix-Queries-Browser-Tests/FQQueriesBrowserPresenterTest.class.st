@@ -32,22 +32,6 @@ FQQueriesBrowserPresenterTest >> setUp [
 ]
 
 { #category : #tests }
-FQQueriesBrowserPresenterTest >> testAddCombinationQuery [
-	| unionQuery |
-	unionQuery := self unionQuery.
-	presenter addCombinationQuery: unionQuery.
-	
-	unionQuery := presenter selectedQuery.
-	self assert: unionQuery class identicalTo: FQUnionQuery.
-	self
-		assert: (presenter queries includes: unionQuery).
-	self assert: presenter queriesTree selectedItem equals: unionQuery.
-	self
-		assertCollection: presenter queryResult items
-		hasSameElements: (unionQuery result)
-]
-
-{ #category : #tests }
 FQQueriesBrowserPresenterTest >> testInitialization [
 	self
 		assertCollection: presenter entities

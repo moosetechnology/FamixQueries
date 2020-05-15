@@ -19,14 +19,6 @@ Class {
 }
 
 { #category : #'plugin interface' }
-FQAbstractQueryBuilder class >> newWithEntities: entities [
-	^ self basicNew
-		entities: entities;
-		initialize;
-		yourself
-]
-
-{ #category : #'plugin interface' }
 FQAbstractQueryBuilder class >> newWithParentQuery: aQuery [
 	^ self new
 		initializeQueryFromParent: aQuery;
@@ -54,16 +46,6 @@ FQAbstractQueryBuilder >> entities [
 	^ query parent result
 ]
 
-{ #category : #accessing }
-FQAbstractQueryBuilder >> entities: anObject [
-	entities := anObject
-]
-
-{ #category : #update }
-FQAbstractQueryBuilder >> initializeQuery [
-	query := self class queryClass new
-]
-
 { #category : #update }
 FQAbstractQueryBuilder >> initializeQueryFromParent: aQuery [
 	query := self class queryClass new beChildOf: aQuery
@@ -72,11 +54,6 @@ FQAbstractQueryBuilder >> initializeQueryFromParent: aQuery [
 { #category : #accessing }
 FQAbstractQueryBuilder >> query [
 	^ query
-]
-
-{ #category : #accessing }
-FQAbstractQueryBuilder >> query: anObject [
-	query := anObject
 ]
 
 { #category : #testing }

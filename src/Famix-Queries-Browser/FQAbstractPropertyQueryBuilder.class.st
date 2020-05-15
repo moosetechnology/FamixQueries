@@ -43,14 +43,6 @@ FQAbstractPropertyQueryBuilder >> changeQueryValueToCompare: aValue [
 ]
 
 { #category : #initialization }
-FQAbstractPropertyQueryBuilder >> initializeQuery [
-	super initializeQuery.
-	self availableProperties
-		ifEmpty: [ (FQImpossibleQuery new builder: self) signal ].
-	query property: self availableProperties first
-]
-
-{ #category : #initialization }
 FQAbstractPropertyQueryBuilder >> initializeQueryFromParent: aQuery [
 	super initializeQueryFromParent: aQuery.
 	self availableProperties

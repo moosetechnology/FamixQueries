@@ -11,15 +11,6 @@ Class {
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
-{ #category : #commands }
-FQQueriesBrowserPresenter class >> buildCommandsGroupWith: presenterIntance forRoot: rootCommandGroup [
-	rootCommandGroup
-		register:
-			(FQAddQueryCommand forSpec
-				iconName: #add;
-				yourself)
-]
-
 { #category : #entities }
 FQQueriesBrowserPresenter class >> classesAndMethods [
 	| model |
@@ -73,27 +64,6 @@ FQQueriesBrowserPresenter class >> title [
 { #category : #midas }
 FQQueriesBrowserPresenter >> accept: anObject [
 	^ anObject isKindOf: MooseAbstractGroup
-]
-
-{ #category : #action }
-FQQueriesBrowserPresenter >> addCombinationQuery: newQuery [
-	(queries includesAll: newQuery parents)
-		ifFalse: [ FQUnknownPrecedingQuery signal ].
-	self selectQuery: (queries addLast: newQuery)
-]
-
-{ #category : #action }
-FQQueriesBrowserPresenter >> combineQuery: aQuery with: anotherQuery [
-	(FQQueriesCombinationPresenter on: self)
-		onQueries:
-			{aQuery.
-			anotherQuery};
-		openWithSpec
-]
-
-{ #category : #transmissions }
-FQQueriesBrowserPresenter >> defaultInputPort [
-	^ FQQueryCreatedPort newPresenter: self
 ]
 
 { #category : #accessing }
@@ -239,15 +209,6 @@ FQQueriesBrowserPresenter >> setModelBeforeInitialization: aMooseGroup [
 				yourself);
 		yourself.
 	selectedQuery := self initialQuery
-]
-
-{ #category : #accessing }
-FQQueriesBrowserPresenter >> sortedEntities [
-	| types |
-	types := (self entities collectAsSet: #class) asOrderedCollection.
-	^ (types
-		collect: [ :type | self entities select: [ :entity | entity class == type ] ])
-		flatten
 ]
 
 { #category : #action }

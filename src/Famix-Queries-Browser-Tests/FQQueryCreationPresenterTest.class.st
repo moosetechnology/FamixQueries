@@ -88,13 +88,6 @@ FQQueryCreationPresenterTest >> testResultList [
 ]
 
 { #category : #tests }
-FQQueryCreationPresenterTest >> testResultListTitle [
-	self
-		assert: presenter resultListTitle class
-		identicalTo: SpLabelPresenter
-]
-
-{ #category : #tests }
 FQQueryCreationPresenterTest >> testToolBar [
 	| initialQueriesSize |
 	self openInstance.

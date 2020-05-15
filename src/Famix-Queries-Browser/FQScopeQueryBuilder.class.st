@@ -37,15 +37,6 @@ FQScopeQueryBuilder >> changeQueryScope: aScope [
 ]
 
 { #category : #initialization }
-FQScopeQueryBuilder >> initializeQuery [
-	super initializeQuery.
-	query directionStrategy: self availableScopeDirections first.
-	self availableScopes
-		ifEmpty: [ (FQImpossibleQuery new builder: self) signal ].
-	query scope: self availableScopes first
-]
-
-{ #category : #initialization }
 FQScopeQueryBuilder >> initializeQueryFromParent: aQuery [
 	super initializeQueryFromParent: aQuery.
 	query directionStrategy: self availableScopeDirections first.

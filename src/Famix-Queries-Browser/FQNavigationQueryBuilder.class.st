@@ -48,18 +48,6 @@ FQNavigationQueryBuilder >> currentQueryAssociations [
 ]
 
 { #category : #initialization }
-FQNavigationQueryBuilder >> initializeQuery [
-	super initializeQuery.
-	query directionStrategy: self availableDirections first.
-	self availableAssociations
-		ifEmpty: [ (FQImpossibleQuery new builder: self) signal ].
-	query
-		associationStrategy:
-			(FQNavigationAssociations
-				withAll: self availableAssociations)
-]
-
-{ #category : #initialization }
 FQNavigationQueryBuilder >> initializeQueryFromParent: aQuery [
 	super initializeQueryFromParent: aQuery.
 	query directionStrategy: self availableDirections first.

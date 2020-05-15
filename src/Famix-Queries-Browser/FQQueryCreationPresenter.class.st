@@ -159,11 +159,6 @@ FQQueryCreationPresenter >> connectPresenters [
 	self queryAcceptedPort transmitTo: browser queryInputPort
 ]
 
-{ #category : #commands }
-FQQueryCreationPresenter >> defaultCommandsContext [
-	^ queryConfigurationPresenter
-]
-
 { #category : #accessing }
 FQQueryCreationPresenter >> entities [
 	^ browser entities
@@ -239,11 +234,6 @@ FQQueryCreationPresenter >> notifyAcceptedQuery [
 ]
 
 { #category : #accessing }
-FQQueryCreationPresenter >> projectPrefix [
-	^ 'FQ'
-]
-
-{ #category : #accessing }
 FQQueryCreationPresenter >> query [
 	^ queryConfigurationPresenter query
 ]
@@ -266,64 +256,6 @@ FQQueryCreationPresenter >> queryChangedPort [
 { #category : #'accessing model' }
 FQQueryCreationPresenter >> setModelBeforeInitialization: aQueriesPresenter [
 	browser := aQueriesPresenter
-]
-
-{ #category : #transmissions }
-FQQueryCreationPresenter >> transmitAcceptedQuery [
-	queryConfigurationPresenter queryAcceptedPort
-		transmitTo: browser defaultInputPort
-		transform: [ :query | 
-			self window close.
-			query ]
-]
-
-{ #category : #transmissions }
-FQQueryCreationPresenter >> transmitFromCodeToConfig [
-	self
-		flag:
-			#FQSpecPb
-				,
-					'Bug in spec transmission from SpCodePresenter. 
-	FQCodeAcceptedPort is ready to accept a transmission'
-	"queryCode transmitTo: queryConfigurationPresenter"
-]
-
-{ #category : #transmissions }
-FQQueryCreationPresenter >> transmitFromConfigToCode [
-	queryConfigurationPresenter queryChangedPort
-		transmitTo: queryCode defaultInputPort
-		transform: [ :queryBuilder | 
-			queryCode syntaxHighlight: queryBuilder queryIsValid.
-			queryBuilder codeToDisplay ]
-]
-
-{ #category : #transmissions }
-FQQueryCreationPresenter >> transmitFromConfigToResultList [
-	queryConfigurationPresenter queryChangedPort
-		transmitTo: resultList defaultInputPort
-		transform: [ :queryBuilder | 
-			| result |
-			result := queryBuilder queryResult.
-			result
-				ifEmpty: [ resultList headerTitle: 'No entities to show' ]
-				ifNotEmpty: [ resultList headerTitle: (browser mooseGroupDetails: result) ].
-			result ]
-]
-
-{ #category : #transmissions }
-FQQueryCreationPresenter >> transmitFromConfigToSequence [
-	queryConfigurationPresenter queryChangedPort
-		transmitTo: sequence defaultInputPort
-		transform: [ :queryBuilder | queryBuilder query ]
-]
-
-{ #category : #update }
-FQQueryCreationPresenter >> update: aPresenterClass [
-	self updateConfigurationPresenter: aPresenterClass.
-	self updateToolBar.
-	self updateTransmissions.
-	queryConfigurationPresenter notifyQueryChanged.
-	self update
 ]
 
 { #category : #update }
@@ -358,21 +290,4 @@ FQQueryCreationPresenter >> updateForQuery: aQuery [
 	sequence setModels: aQuery parentSequence.
 	self flag: #FQImprove , 'Use transmission ?'.
 	self update
-]
-
-{ #category : #update }
-FQQueryCreationPresenter >> updateToolBar [
-	"Toolbar must be updated because its context is querConfigurationPresenter. See #defaultCommandsContext"
-
-	toolBar fillWith: self rootCommandsGroup
-]
-
-{ #category : #update }
-FQQueryCreationPresenter >> updateTransmissions [
-	self transmitFromConfigToCode.
-	self transmitFromConfigToSequence.
-	"	self transmitFromConfigToResultList."
-	resultList
-		updateForEntities: queryConfigurationPresenter queryBuilder queryResult.
-	self transmitAcceptedQuery
 ]

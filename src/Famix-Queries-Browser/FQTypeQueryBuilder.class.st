@@ -26,14 +26,6 @@ FQTypeQueryBuilder >> currentQueryTypes [
 ]
 
 { #category : #initialization }
-FQTypeQueryBuilder >> initializeQuery [
-	super initializeQuery.
-	self availableTypes
-		ifEmpty: [ (FQImpossibleQuery new builder: self) signal ].
-	query types: self availableTypes
-]
-
-{ #category : #initialization }
 FQTypeQueryBuilder >> initializeQueryFromParent: aQuery [
 	super initializeQueryFromParent: aQuery.
 	self availableTypes

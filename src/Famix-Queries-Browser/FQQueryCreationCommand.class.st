@@ -56,8 +56,3 @@ FQQueryCreationCommand >> execute [
 	self context notifyAcceptedQuery.
 	self context window close
 ]
-
-{ #category : #accessing }
-FQQueryCreationCommand >> queryBuilder [
-	^ self context queryBuilder
-]

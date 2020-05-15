@@ -49,28 +49,6 @@ FQQueryConfigurationPresenter class >> queryBuilderClass [
 ]
 
 { #category : #initialization }
-FQQueryConfigurationPresenter >> defaultInputPort [
-	^ {FQCodeAcceptedPort new}
-]
-
-{ #category : #initialization }
-FQQueryConfigurationPresenter >> defaultOutputPort [
-	^ {FQQueryHasChangedPort new.
-	FQAcceptedQueryPort new}
-]
-
-{ #category : #initialization }
-FQQueryConfigurationPresenter >> defineInputPorts [
-	^ {FQCodeAcceptedPort new}
-]
-
-{ #category : #initialization }
-FQQueryConfigurationPresenter >> defineOutputPorts [
-	^ {FQQueryHasChangedPort new.
-	FQAcceptedQueryPort new}
-]
-
-{ #category : #initialization }
 FQQueryConfigurationPresenter >> initialize [
 	super initialize.
 ]
@@ -87,11 +65,6 @@ FQQueryConfigurationPresenter >> noParameterMessage: aParameterName [
 ]
 
 { #category : #transmissions }
-FQQueryConfigurationPresenter >> notifyAcceptedQuery [
-	self notifyPropertyChanged: #acceptedQuery
-]
-
-{ #category : #transmissions }
 FQQueryConfigurationPresenter >> notifyQueryChanged [
 	self notifyPropertyChanged: #query
 ]
@@ -99,11 +72,6 @@ FQQueryConfigurationPresenter >> notifyQueryChanged [
 { #category : #accessing }
 FQQueryConfigurationPresenter >> query [
 	^ queryBuilder query
-]
-
-{ #category : #transmissions }
-FQQueryConfigurationPresenter >> queryAcceptedPort [
-	^ FQAcceptedQueryPort newPresenter: self
 ]
 
 { #category : #accessing }

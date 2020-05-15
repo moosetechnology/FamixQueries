@@ -18,11 +18,6 @@ FQRoassalQueryPresenter >> adaptToBrowser: aBrowser [
 	self script: [ :canvas | self roassalScriptOn: canvas ]
 ]
 
-{ #category : #'accessing model' }
-FQRoassalQueryPresenter >> applyScript [
-	self script: [ :canvas | self roassalScript: canvas ]
-]
-
 { #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> boxDraggedAction: box [
 	| potentialParents |
@@ -205,29 +200,6 @@ FQRoassalQueryPresenter >> openQueryCreationPresenter [
 FQRoassalQueryPresenter >> removeQuery: aQuery [
 	owner removeQuery: aQuery.
 	self refresh
-]
-
-{ #category : #'roassal script' }
-FQRoassalQueryPresenter >> roassalScript: canvas [
-	| boxes |
-	boxes := owner queries
-		collect: [ :queryWrapper | self buildBoxFor: queryWrapper ]
-		as: RSGroup.
-	boxes @ RSDraggable.
-	boxes
-		@
-			(RSMenuActivable new
-				menuDo: [ :menu :box | self boxMenu: menu box: box ]).
-	canvas addAll: boxes.
-	RSEdgeBuilder line
-		canvas: canvas;
-		attachPoint: RSBorderAttachPoint new;
-		shapes: boxes;
-		connectToAll: #children.
-	RSDominanceTreeLayout on: canvas nodes.
-	self legendOn: canvas.
-	canvas @ RSCanvasController new noLegend.
-	^ canvas
 ]
 
 { #category : #'roassal script' }
