@@ -12,19 +12,19 @@ FQQueryCreationPresenterTest >> classToTest [
 	^ FQQueryCreationPresenter
 ]
 
-{ #category : #helpers }
-FQQueryCreationPresenterTest >> selectNavigationToAvoidEmptyResult [
-	presenter queryTypesDropList
-		selectItem:
-			(presenter queryTypesDropList listItems
-				detect: [ :item | item == FQNavigationQueriesPresenter ])
-]
-
 { #category : #running }
 FQQueryCreationPresenterTest >> setUp [
 	helper := FQBrowserTestsHelper new.
 	presenter := FQQueryCreationPresenter
 		on: (FQQueriesBrowserPresenter on: helper classesAndMethods)
+]
+
+{ #category : #tests }
+FQQueryCreationPresenterTest >> testDisabledToolBarButton [
+	presenter := FQQueryCreationPresenter
+		on: (FQQueriesBrowserPresenter on: helper noEntities).
+	self openInstance.
+	self deny: presenter toolBar presenters first isEnabled
 ]
 
 { #category : #tests }
@@ -95,8 +95,8 @@ FQQueryCreationPresenterTest >> testToolBar [
 	self
 		assert: presenter toolBar presenters first class
 		identicalTo: SpToolBarButtonPresenter.
+	self assert: presenter toolBar presenters first isEnabled.
 	initialQueriesSize := presenter browser queries size.
-	self selectNavigationToAvoidEmptyResult.
 	
 	presenter toolBar presenters first click.
 	self
@@ -122,7 +122,6 @@ FQQueryCreationPresenterTest >> testWindowClosedAction [
 	| initialQueriesSize |
 	self openInstance.
 	initialQueriesSize := presenter browser queries size.
-	self selectNavigationToAvoidEmptyResult.
 	presenter window close.
 	self
 		assert: presenter browser queries size
