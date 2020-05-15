@@ -19,7 +19,7 @@ FQQueryCreationPresenter class >> buildCommandsGroupWith: presenter forRoot: aCm
 	aCmCommandsGroup
 		register:
 			((FQQueryCreationCommand forSpecWithIconNamed: #glamorousGo)
-				context: presenter)
+				context: presenter).
 ]
 
 { #category : #entities }
@@ -167,6 +167,8 @@ FQQueryCreationPresenter >> entities [
 { #category : #initialization }
 FQQueryCreationPresenter >> initialize [
 	super initialize.
+	queryTypesDropList
+		selectItem: self class queryConfigurationPresenters first
 ]
 
 { #category : #initialization }
@@ -175,21 +177,15 @@ FQQueryCreationPresenter >> initializePresenters [
 	self initializeRoassalSequence.
 	self initializeQueryTypesDropList.
 	self initializeQueryCode.
-	self initializeResultList.
-	self initializeQueryConfigurationPresenter
+	self initializeResultList
 ]
 
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeQueryCode [
 	queryCode := self newCode
-		"whenTextIsAcceptedDo:"whenSubmitDo: [ :code | self updateForAcceptedCode: code ];
+		whenSubmitDo: [ :code | self updateForAcceptedCode: code ];
 		withoutSyntaxHighlight;
 		yourself
-]
-
-{ #category : #initialization }
-FQQueryCreationPresenter >> initializeQueryConfigurationPresenter [
-	queryTypesDropList selectIndex: 1
 ]
 
 { #category : #initialization }
@@ -218,8 +214,7 @@ FQQueryCreationPresenter >> initializeRoassalSequence [
 
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeToolBar [
-	toolBar := self newToolBar.	"beText"
-	toolBar fillWith: self rootCommandsGroup
+	toolBar := self newToolBar	"beText"
 ]
 
 { #category : #initialization }
@@ -265,8 +260,7 @@ FQQueryCreationPresenter >> updateConfigurationPresenter: aPresenterClass [
 		on: browser selectedQuery.
 	queryConfigurationPresenter queryChangedPort
 		transmitTo: self queryChangedPort.
-	queryConfigurationPresenter transmitInitialConfiguration.
-	self update
+	queryConfigurationPresenter transmitInitialConfiguration
 ]
 
 { #category : #update }
@@ -276,9 +270,9 @@ FQQueryCreationPresenter >> updateForAcceptedCode: code [
 		text: queryConfigurationPresenter queryBuilder codeToDisplay.
 	self
 		flag:
-			#FQSpecPb ,
-			'This should go through transmissions but TextChangedPort is buggy in Spec for now. 
-			FQCodeAcceptedPort is ready to accept a transmission'
+			#FQSpecPb
+				,
+					'This should go through transmissions but TextChangedPort is buggy in Spec for now.'
 ]
 
 { #category : #update }
@@ -289,5 +283,16 @@ FQQueryCreationPresenter >> updateForQuery: aQuery [
 		text: queryConfigurationPresenter queryBuilder codeToDisplay.
 	sequence setModels: aQuery parentSequence.
 	self flag: #FQImprove , 'Use transmission ?'.
+	self updateToolBar.
 	self update
+]
+
+{ #category : #update }
+FQQueryCreationPresenter >> updateToolBar [
+	| commandGroup |
+	self flag: #FQSpecPb , 'Disabling a toolbar button does nothing.'.
+	commandGroup := self rootCommandsGroup.
+	toolBar fillWith: commandGroup.
+	commandGroup allCommands do: #updateEnableStatus.
+	toolBar update
 ]
