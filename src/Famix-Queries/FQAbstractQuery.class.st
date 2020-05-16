@@ -71,7 +71,7 @@ FQAbstractQuery >> beChildOf: aQueryOrCollection [
 { #category : #printing }
 FQAbstractQuery >> buildDefaultName [
 	self isValid
-		ifFalse: [ ^ 'Invalid ' , self class label ].
+		ifFalse: [ ^ self invalidDefaultName ].
 	^ self defaultName
 ]
 
@@ -111,6 +111,11 @@ FQAbstractQuery >> initialize [
 	children := Set new
 ]
 
+{ #category : #printing }
+FQAbstractQuery >> invalidDefaultName [
+	^ 'Invalid ' , self class label
+]
+
 { #category : #testing }
 FQAbstractQuery >> isValid [
 	^ self subclassResponsibility
@@ -118,7 +123,7 @@ FQAbstractQuery >> isValid [
 
 { #category : #accessing }
 FQAbstractQuery >> name [
-	^ name ifNil: [ name := self buildDefaultName ]
+	^ name ifNil: [ self buildDefaultName ]
 ]
 
 { #category : #accessing }
