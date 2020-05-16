@@ -140,5 +140,6 @@ FQQueriesCombinationPresenter >> updateForQueryClass: queryClass [
 	newQuery := queryClass new parents: parentQueries.
 	parentQueries do: [ :parent | parent addChild: newQuery ].
 	queriesTree updateWithQueries: parentQueries , {newQuery}.
-	resultList updateForEntities: newQuery result
+	resultList updateForEntities: newQuery result.
+	self update
 ]

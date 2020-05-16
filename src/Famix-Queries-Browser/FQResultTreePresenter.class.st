@@ -7,17 +7,32 @@ Class {
 	#category : #'Famix-Queries-Browser-Widgets'
 }
 
+{ #category : #testing }
+FQResultTreePresenter >> canCreateQueries [
+	^ owner == browser
+]
+
+{ #category : #action }
+FQResultTreePresenter >> createQueryForType: aClass [
+	browser
+		updateForQuery:
+			(FQTypeQuery new
+				type: aClass;
+				beChildOf: browser selectedQuery)
+]
+
 { #category : #initialization }
 FQResultTreePresenter >> initialize [
 	super initialize.
 	self
-		lazilyComputeChildren;
+		"lazilyComputeChildren;"	"useful in case of slowdown. See implementor"
 		addColumn:
 			(SpCompositeTableColumn new
 				title: 'Result of current query';
 				addColumn:
 					(SpStringTableColumn new
-						evaluated: [ :item | self stringForItem: item ]))
+						evaluated: [ :item | self stringForItem: item ]));
+		whenSelectionChangedDo: [ :selection | self updateMenu ]
 ]
 
 { #category : #accessing }
@@ -62,4 +77,16 @@ FQResultTreePresenter >> updateForEntities: entities [
 		children: [ :type | 
 			(entities select: [ :entity | entity class == type ])
 				sorted: [ :e1 :e2 | e1 name < e2 name ] ]
+]
+
+{ #category : #update }
+FQResultTreePresenter >> updateMenu [
+	self contextMenu: self newMenu.
+	(self canCreateQueries
+		and: [ self roots includes: self selectedItem ])
+		ifTrue: [ self contextMenu
+				addItem: [ :menuItem | 
+					menuItem
+						name: 'Select ' , (self stringForItem: self selectedItem) substrings last;
+						action: [ self createQueryForType: self selectedItem ] ] ]
 ]
