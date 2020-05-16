@@ -7,6 +7,11 @@ Class {
 	#category : #'Famix-Queries-Browser-Widgets'
 }
 
+{ #category : #accessing }
+FQResultTreePresenter class >> headerTitle [
+	^ 'Result of current query'
+]
+
 { #category : #testing }
 FQResultTreePresenter >> canCreateQueries [
 	^ owner == browser
@@ -24,11 +29,10 @@ FQResultTreePresenter >> createQueryForType: aClass [
 { #category : #initialization }
 FQResultTreePresenter >> initialize [
 	super initialize.
+	"self lazilyComputeChildren"	"useful in case of slowdown. See implementor"
 	self
-		"lazilyComputeChildren;"	"useful in case of slowdown. See implementor"
 		addColumn:
-			(SpCompositeTableColumn new
-				title: 'Result of current query';
+			((SpCompositeTableColumn new title: self class headerTitle)
 				addColumn:
 					(SpStringTableColumn new
 						evaluated: [ :item | self stringForItem: item ]));
@@ -84,9 +88,10 @@ FQResultTreePresenter >> updateMenu [
 	self contextMenu: self newMenu.
 	(self canCreateQueries
 		and: [ self roots includes: self selectedItem ])
-		ifTrue: [ self contextMenu
-				addItem: [ :menuItem | 
-					menuItem
-						name: 'Select ' , (self stringForItem: self selectedItem) substrings last;
-						action: [ self createQueryForType: self selectedItem ] ] ]
+		ifFalse: [ ^ self ].
+	self contextMenu
+		addItem: [ :menuItem | 
+			menuItem
+				name: 'Select ' , (self stringForItem: self selectedItem) substrings last;
+				action: [ self createQueryForType: self selectedItem ] ]
 ]

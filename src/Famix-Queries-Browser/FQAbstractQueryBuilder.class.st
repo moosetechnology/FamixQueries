@@ -48,7 +48,7 @@ FQAbstractQueryBuilder >> entities [
 
 { #category : #update }
 FQAbstractQueryBuilder >> initializeQueryFromParent: aQuery [
-	query := self class queryClass new beChildOf: aQuery
+	query := self class queryClass new parent: aQuery
 ]
 
 { #category : #accessing }

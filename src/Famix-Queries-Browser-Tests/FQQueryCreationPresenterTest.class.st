@@ -8,8 +8,24 @@ Class {
 }
 
 { #category : #running }
+FQQueryCreationPresenterTest >> changeQueryType [
+	presenter queryTypesDropList
+		selectItem:
+			(presenter queryTypesDropList listItems
+				detect: [ :item | presenter queryTypesDropList selectedItem ~= item ]).
+	presenter queryTypesDropList selectItem: FQScopeQueriesPresenter
+]
+
+{ #category : #running }
 FQQueryCreationPresenterTest >> classToTest [
 	^ FQQueryCreationPresenter
+]
+
+{ #category : #running }
+FQQueryCreationPresenterTest >> queryFromCode [
+	^ (Smalltalk compiler evaluate: presenter queryCode text)
+		beChildOf: presenter browser selectedQuery; "Necessary to be equal to actual query"
+		yourself
 ]
 
 { #category : #running }
@@ -17,6 +33,22 @@ FQQueryCreationPresenterTest >> setUp [
 	helper := FQBrowserTestsHelper new.
 	presenter := FQQueryCreationPresenter
 		on: (FQQueriesBrowserPresenter on: helper classesAndMethods)
+]
+
+{ #category : #tests }
+FQQueryCreationPresenterTest >> testCreateOnlyOneChild [
+	self openInstance.
+	self assert: presenter browser initialQuery children isEmpty.
+	
+	self changeQueryType.
+	self assert: presenter browser initialQuery children isEmpty.
+	
+	presenter toolBar presenters first click.
+	
+	self assert: presenter browser initialQuery children size equals: 1.
+	self
+		assert: presenter browser initialQuery children anyOne
+		identicalTo: presenter query
 ]
 
 { #category : #tests }
@@ -31,7 +63,7 @@ FQQueryCreationPresenterTest >> testDisabledToolBarButton [
 FQQueryCreationPresenterTest >> testQueryCode [
 	| query |
 	self assert: presenter queryCode class identicalTo: SpCodePresenter.
-	query := Smalltalk compiler evaluate: presenter queryCode text.
+	query := self queryFromCode.
 	self assert: (query isKindOf: FQAbstractQuery).
 	self assert: query isValid.
 	self
@@ -52,9 +84,7 @@ FQQueryCreationPresenterTest >> testQueryConfigurationPresenter [
 
 { #category : #tests }
 FQQueryCreationPresenterTest >> testQueryMatchesInAllSubpresenters [
-	self
-		assert: presenter queryConfigurationPresenter queryBuilder query
-		equals: (Smalltalk compiler evaluate: presenter queryCode text).
+	self assert: presenter query equals: self queryFromCode.
 	self
 		assertCollection: presenter queryConfigurationPresenter queryBuilder queryResult
 		hasSameElements: presenter resultList items

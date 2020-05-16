@@ -55,12 +55,18 @@ FQAbstractQuery class >> readFrom: aString [
 { #category : #comparing }
 FQAbstractQuery >> = aQuery [
 	^ self class == aQuery class
-		and: [ self hasSameParametersAs: aQuery ]
+		and: [ (self hasSameParentsHas: aQuery)
+				and: [ self hasSameParametersAs: aQuery ] ]
 ]
 
 { #category : #adding }
 FQAbstractQuery >> addChild: aQuery [
 	children add: aQuery
+]
+
+{ #category : #adding }
+FQAbstractQuery >> addToParentsSequence: sequence [
+	self subclassResponsibility
 ]
 
 { #category : #adding }
@@ -105,6 +111,11 @@ FQAbstractQuery >> hasSameParametersAs: aQuery [
 	^ self subclassResponsibility
 ]
 
+{ #category : #comparing }
+FQAbstractQuery >> hasSameParentsHas: aQuery [
+	^ self subclassResponsibility
+]
+
 { #category : #initialization }
 FQAbstractQuery >> initialize [
 	super initialize.
@@ -129,6 +140,14 @@ FQAbstractQuery >> name [
 { #category : #accessing }
 FQAbstractQuery >> name: aString [
 	name := aString
+]
+
+{ #category : #accessing }
+FQAbstractQuery >> parentSequence [
+	| sequence |
+	sequence := OrderedCollection new.
+	self addToParentsSequence: sequence.
+	^ sequence
 ]
 
 { #category : #removing }

@@ -225,6 +225,7 @@ FQQueryCreationPresenter >> initializeWindow: aWindowPresenter [
 
 { #category : #transmissions }
 FQQueryCreationPresenter >> notifyAcceptedQuery [
+	browser selectedQuery addChild: self query.
 	self notifyPropertyChanged: #query
 ]
 

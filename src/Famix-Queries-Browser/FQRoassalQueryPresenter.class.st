@@ -196,11 +196,6 @@ FQRoassalQueryPresenter >> noInteractions [
 	hasInteractions := false
 ]
 
-{ #category : #'accessing model' }
-FQRoassalQueryPresenter >> openQueryCreationPresenter [
-	(FQQueryCreationPresenter on: owner) openWithSpec
-]
-
 { #category : #update }
 FQRoassalQueryPresenter >> removeQuery: aQuery [
 	owner removeQuery: aQuery.

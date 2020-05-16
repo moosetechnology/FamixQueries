@@ -31,6 +31,11 @@ FQUnaryQuery >> computeResultFromParent [
 	^ self runOn: parent result
 ]
 
+{ #category : #comparing }
+FQUnaryQuery >> hasSameParentsHas: aQuery [
+	^ parent = aQuery parent
+]
+
 { #category : #accessing }
 FQUnaryQuery >> parent [
 	^ parent
@@ -39,14 +44,6 @@ FQUnaryQuery >> parent [
 { #category : #accessing }
 FQUnaryQuery >> parent: anObject [
 	parent := anObject
-]
-
-{ #category : #accessing }
-FQUnaryQuery >> parentSequence [
-	| sequence |
-	sequence := OrderedCollection new.
-	self addToParentsSequence: sequence.
-	^ sequence
 ]
 
 { #category : #removing }
