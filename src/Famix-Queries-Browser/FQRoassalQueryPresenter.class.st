@@ -176,8 +176,10 @@ FQRoassalQueryPresenter >> legendOn: canvas [
 		ifTrue: [ ^ self ].
 	legend := RSLegend new.
 	legend container: canvas.
-	(queries allButFirst collectAsSet: [ :query | query class ])
-		do: [ :queryClass | legend text: queryClass label withCircleColor: queryClass color ].
+	((queries collectAsSet: [ :query | query class ])
+		copyWithout: FQMockQuery)
+		do:
+			[ :queryClass | legend text: queryClass label withCircleColor: queryClass color ].
 	legend
 		leyendDo: [ :l | 
 			l
