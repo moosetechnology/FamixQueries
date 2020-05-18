@@ -2,7 +2,8 @@ Class {
 	#name : #FQResultTreePresenter,
 	#superclass : #SpTreeTablePresenter,
 	#instVars : [
-		'browser'
+		'browser',
+		'items'
 	],
 	#category : #'Famix-Queries-Browser-Widgets'
 }
@@ -41,7 +42,7 @@ FQResultTreePresenter >> initialize [
 
 { #category : #accessing }
 FQResultTreePresenter >> items [
-	^ (self roots collect: [ :root | self childrenFor: root ]) flatten
+	^ items ifNil: [ items := MooseGroup new ]
 ]
 
 { #category : #'accessing model' }
@@ -76,10 +77,11 @@ FQResultTreePresenter >> stringForType: item nbOfEntities: nbEntities [
 
 { #category : #update }
 FQResultTreePresenter >> updateForEntities: entities [
+	items := entities.
 	self
-		roots: (entities collectAsSet: #class) asOrderedCollection;
+		roots: (items collectAsSet: #class) asOrderedCollection;
 		children: [ :type | 
-			(entities select: [ :entity | entity class == type ])
+			(items select: [ :entity | entity class == type ])
 				sorted: [ :e1 :e2 | e1 name < e2 name ] ]
 ]
 
