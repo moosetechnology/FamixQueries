@@ -1,23 +1,27 @@
 Class {
 	#name : #FQBinaryQuery,
 	#superclass : #FQAbstractQuery,
-	#instVars : [
-		'parents'
-	],
 	#category : #'Famix-Queries-Core'
 }
+
+{ #category : #'as yet unclassified' }
+FQBinaryQuery class >> availableCombinations [
+	^ {FQUnionQuery.
+	FQIntersectionQuery.
+	FQSubstractionQuery}
+]
 
 { #category : #adding }
 FQBinaryQuery >> addToParentsSequence: sequence [
 	self flag: #FQImprove , 'Need for a specific order ?'.
-	parents do: [ :parent | parent addToParentsSequence: sequence ].
+	self parents do: [ :parent | parent addToParentsSequence: sequence ].
 	sequence addLast: self.
 	^ sequence
 ]
 
 { #category : #adding }
 FQBinaryQuery >> beChildOf: parentQueries [
-	parents ifNotEmpty: [ self prepareRemoval ].
+	self parents ifNotEmpty: [ self prepareRemoval ].
 	self parents: parentQueries.
 	parentQueries do: [ :newParent | newParent addChild: self ]
 ]
@@ -29,32 +33,60 @@ FQBinaryQuery >> computeResult [
 
 { #category : #running }
 FQBinaryQuery >> computeResultFromParents [
-	^ self runOn: (parents collect: #result)
+	^ self runOn: (self parents collect: #result)
+]
+
+{ #category : #printing }
+FQBinaryQuery >> displayOn: aStream with: aString [
+	self parents size = 1
+		ifTrue: [ self parents first displayOn: aStream with: aString.
+			^ self ].
+	aStream << '('.
+	self parents
+		allButLastDo: [ :query | 
+			query displayOn: aStream with: aString.
+			aStream << (self operator join: {') ' . ' ('}) ].
+	self parents last displayOn: aStream with: aString.
+	aStream << ')'
+]
+
+{ #category : #comparing }
+FQBinaryQuery >> hasSameParametersAs: aQuery [
+	^ true
 ]
 
 { #category : #comparing }
 FQBinaryQuery >> hasSameParentsHas: aQuery [
-	^ parents = aQuery parents
+	^ self parents = aQuery parents
 ]
 
-{ #category : #initialization }
-FQBinaryQuery >> initialize [
-	super initialize.
-	parents := Set new
+{ #category : #testing }
+FQBinaryQuery >> isValid [
+	^ self parents allSatisfy: #isValid
+]
+
+{ #category : #printing }
+FQBinaryQuery >> operator [
+	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
 FQBinaryQuery >> parents [
-	^ parents
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
 FQBinaryQuery >> parents: anObject [
-	parents := anObject
+	self subclassResponsibility
 ]
 
 { #category : #removing }
 FQBinaryQuery >> prepareRemoval [
-	parents do: [ :parent | parent removeChild: self ].
-	parents := Set new
+	self parents do: [ :parent | parent removeChild: self ].
+	self resetParents
+]
+
+{ #category : #removing }
+FQBinaryQuery >> resetParents [
+	self subclassResponsibility
 ]

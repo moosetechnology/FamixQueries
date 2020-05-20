@@ -1,6 +1,6 @@
 Class {
 	#name : #FQUnionQuery,
-	#superclass : #FQBinaryQuery,
+	#superclass : #FQCommutativeQuery,
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
@@ -16,33 +16,14 @@ FQUnionQuery class >> label [
 	^ 'Union'
 ]
 
-{ #category : #comparing }
-FQUnionQuery >> = aQuery [
-	^ aQuery class == self class and: [ aQuery parents = parents ]
-]
-
 { #category : #printing }
 FQUnionQuery >> defaultName [
 	^ 'Union'
 ]
 
 { #category : #printing }
-FQUnionQuery >> displayOn: aStream with: aString [
-	parents size = 1
-		ifTrue: [ parents first displayOn: aStream with: aString.
-			^ self ].
-	aStream << '('.
-	parents
-		allButLastDo: [ :query | 
-			query displayOn: aStream with: aString.
-			aStream << ') | (' ].
-	parents last displayOn: aStream with: aString.
-	aStream << ')'
-]
-
-{ #category : #testing }
-FQUnionQuery >> isValid [
-	^ parents allSatisfy: #isValid
+FQUnionQuery >> operator [
+	^ $|
 ]
 
 { #category : #running }

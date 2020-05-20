@@ -42,7 +42,7 @@ FQQueriesCombinationPresenterTest >> setUp [
 { #category : #tests }
 FQQueriesCombinationPresenterTest >> testBasicInitialization [
 	self
-		assertCollection: (presenter combinationsDroplist model items collect: #model)
+		assertCollection: presenter combinationsDroplist listItems
 		hasSameElements:
 			{FQUnionQuery.
 			FQIntersectionQuery.
@@ -74,6 +74,42 @@ FQQueriesCombinationPresenterTest >> testNeverKeepFalseChildren [
 			self assert: parent children size equals: 1.
 			self assert: (parent children includes: presenter newQuery).
 			self assert: (presenter newQuery parents includes: parent) ].
+]
+
+{ #category : #tests }
+FQQueriesCombinationPresenterTest >> testNonCommutativeQueryButton [
+	| firstParent secondParent initialResult |
+	self openInstance.
+	presenter combinationsDroplist selectItem: FQSubstractionQuery.
+	firstParent := presenter newQuery parents first.
+	secondParent := presenter newQuery parents second.
+	initialResult := presenter newQuery result.
+	(presenter presenters
+		detect: [ :pres | pres class == SpButtonPresenter ]) click.
+	self
+		assert: presenter newQuery parents first
+		identicalTo: secondParent.
+	self
+		assert: presenter newQuery parents second
+		identicalTo: firstParent.
+	self
+		denyCollection: presenter newQuery result
+		hasSameElements: initialResult.
+	self
+		assertCollection: presenter resultList items
+		hasSameElements: presenter newQuery result
+]
+
+{ #category : #tests }
+FQQueriesCombinationPresenterTest >> testNonCommutativeQueryLabels [
+	self openInstance.
+	presenter combinationsDroplist selectItem: FQSubstractionQuery.
+	self
+		assertCollection:
+			((presenter presenters
+				select: [ :pres | pres class == SpLabelPresenter ])
+				collect: #label)
+		hasSameElements: {'isAbstract' . '\' . 'Classes'}
 ]
 
 { #category : #tests }

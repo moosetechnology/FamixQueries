@@ -1,6 +1,6 @@
 Class {
 	#name : #FQSequenceQuery,
-	#superclass : #FQBinaryQuery,
+	#superclass : #FQNonCommutativeQuery,
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
@@ -11,11 +11,6 @@ FQSequenceQuery class >> forQueries: aCollectionOfQueries [
 		yourself
 ]
 
-{ #category : #comparing }
-FQSequenceQuery >> = aQuery [
-	^ aQuery class == self class and: [ aQuery parents = parents ]
-]
-
 { #category : #printing }
 FQSequenceQuery >> defaultName [
 	^ 'Sequence'
@@ -23,9 +18,9 @@ FQSequenceQuery >> defaultName [
 
 { #category : #running }
 FQSequenceQuery >> displayOn: aStream with: aString [
-	1 to: parents size - 1 do: [ :i | aStream << '(' ].
-	parents first displayOn: aStream.
-	parents
+	1 to: self parents size - 1 do: [ :i | aStream << '(' ].
+	firstParent displayOn: aStream.
+	self parents
 		allButFirstDo: [ :query | 
 			aStream
 				<<
@@ -34,18 +29,13 @@ FQSequenceQuery >> displayOn: aStream with: aString [
 			query displayOn: aStream with: '' ]
 ]
 
-{ #category : #testing }
-FQSequenceQuery >> isValid [
-	^ parents allSatisfy: #isValid
-]
-
 { #category : #running }
 FQSequenceQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
 
 	^ MooseGroup
 		withAll:
-			(parents allButFirst
-				inject: (parents first runOn: aMooseGroup)
+			(self parents allButFirst
+				inject: (self parents first runOn: aMooseGroup)
 				into: [ :queryResult :otherQuery | otherQuery runOn: queryResult ])
 ]

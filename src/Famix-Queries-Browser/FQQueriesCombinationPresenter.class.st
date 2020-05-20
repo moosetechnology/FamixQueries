@@ -10,7 +10,11 @@ Class {
 		'#browser',
 		'#toolBar',
 		'#queryWasValidated',
-		'#query => SpObservableSlot'
+		'#query => SpObservableSlot',
+		'#firstParent',
+		'#secondParent',
+		'#reverseButton',
+		'#queryOperator'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -32,6 +36,33 @@ FQQueriesCombinationPresenter class >> defaultSpec [
 				add:
 					(SpBoxLayout newVertical
 						add: #combinationsDroplist height: self buttonHeight;
+						add: #queriesTree;
+						yourself);
+				add: #resultList;
+				yourself);
+		yourself
+]
+
+{ #category : #specs }
+FQQueriesCombinationPresenter class >> nonCommuntativeQueryLayout [
+	^ SpBoxLayout newVertical
+		add: #toolBar height: self toolbarHeight;
+		add:
+			(SpPanedLayout newHorizontal
+				add:
+					(SpBoxLayout newVertical
+						add: #combinationsDroplist height: self buttonHeight;
+						add:
+							(SpBoxLayout newHorizontal
+								add:
+									(SpBoxLayout newVertical
+										add: #firstParent;
+										add: #queryOperator;
+										add: #secondParent;
+										yourself);
+								add: #reverseButton width: self buttonHeight;
+								yourself)
+							height: self labelHeight * 3;
 						add: #queriesTree;
 						yourself);
 				add: #resultList;
@@ -66,9 +97,20 @@ FQQueriesCombinationPresenter >> initialize [
 { #category : #initialization }
 FQQueriesCombinationPresenter >> initializeDropList [
 	combinationsDroplist := self newDropList
-		items: (FQBinaryQuery allSubclasses copyWithout: FQSequenceQuery);
+		items: FQBinaryQuery availableCombinations;
 		display: [ :queryClass | queryClass label ];
 		whenSelectedItemChangedDo: [ :queryClass | self updateForQueryClass: queryClass ]
+]
+
+{ #category : #initialization }
+FQQueriesCombinationPresenter >> initializeNonCommutativeConfiguration [
+	firstParent := self newLabel.
+	secondParent := self newLabel.
+	queryOperator := self newLabel.
+	reverseButton := self newButton
+		icon: (self theme iconNamed: #glamorousRefresh);
+		action: [ newQuery reverseParents.
+			self updateSubPresenters ]
 ]
 
 { #category : #initialization }
@@ -76,7 +118,8 @@ FQQueriesCombinationPresenter >> initializePresenters [
 	self initializeToolBar.
 	self initializeDropList.
 	self basicInitializeQueriesTree.
-	self initializeResultList
+	self initializeResultList.
+	self initializeNonCommutativeConfiguration
 ]
 
 { #category : #initialization }
@@ -95,6 +138,13 @@ FQQueriesCombinationPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		whenClosedDo: [ queryWasValidated
 				ifFalse: [ parentQueries do: [ :parent | parent removeChild: newQuery ] ] ]
+]
+
+{ #category : #update }
+FQQueriesCombinationPresenter >> labelsForNonCommutativeQuery: aQuery [
+	firstParent label: aQuery parents first name.
+	secondParent label: aQuery parents second name.
+	queryOperator label: newQuery operator asString
 ]
 
 { #category : #accessing }
@@ -135,11 +185,25 @@ FQQueriesCombinationPresenter >> setModelBeforeInitialization: aBrowser [
 
 { #category : #update }
 FQQueriesCombinationPresenter >> updateForQueryClass: queryClass [
-	newQuery
-		ifNotNil: [ parentQueries do: [ :parent | parent removeChild: newQuery ] ].
-	newQuery := queryClass new parents: parentQueries.
-	parentQueries do: [ :parent | parent addChild: newQuery ].
-	queriesTree updateWithQueries: parentQueries , {newQuery}.
-	resultList updateForEntities: newQuery result.
+	newQuery ifNotNil: [ newQuery prepareRemoval ].
+	newQuery := queryClass new
+		beChildOf: parentQueries;
+		yourself.
+	self updateLayoutForQueryClass: queryClass.
+	self updateSubPresenters.
 	self update
+]
+
+{ #category : #update }
+FQQueriesCombinationPresenter >> updateLayoutForQueryClass: queryClass [
+	layout := queryClass isCommutative
+		ifTrue: [ self class defaultSpec ]
+		ifFalse: [ self class nonCommuntativeQueryLayout ]
+]
+
+{ #category : #update }
+FQQueriesCombinationPresenter >> updateSubPresenters [
+	self labelsForNonCommutativeQuery: newQuery.
+	queriesTree updateWithQueries: newQuery parents , {newQuery}.
+	resultList updateForEntities: newQuery result
 ]
