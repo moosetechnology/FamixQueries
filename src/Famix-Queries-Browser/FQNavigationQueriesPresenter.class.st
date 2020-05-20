@@ -29,13 +29,13 @@ FQNavigationQueriesPresenter >> configureCheckBox: checkBox forNavigationAssocia
 				on: FQCannotRemoveLastNavigationAssociation
 				do: [ checkBox state: true
 					"Spec does not allow this to work" ] ];
-		whenChangedDo: [ self notifyQueryChanged ];
 		enabled: queryBuilder query associationStrategy associations size > 1.
 	(queryBuilder availableAssociations includes: associationTrait)
 		ifTrue: [ checkBox state: true ]
 		ifFalse: [ checkBox
 				state: false;
-				disable ]
+				disable ].
+	checkBox whenChangedDo: [ self notifyQueryChanged ]
 ]
 
 { #category : #'widgets configuration' }

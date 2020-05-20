@@ -63,7 +63,10 @@ FQQueriesBrowserPresenter class >> title [
 
 { #category : #midas }
 FQQueriesBrowserPresenter >> accept: anObject [
-	^ anObject isKindOf: MooseAbstractGroup
+	(anObject isKindOf: MooseEntity)
+		ifTrue: [ toSelect := {anObject} asMooseGroup.
+			^ true ].
+	^ (anObject isKindOf: MooseAbstractGroup) and: [anObject isNotEmpty]
 ]
 
 { #category : #accessing }
@@ -77,8 +80,8 @@ FQQueriesBrowserPresenter >> followAction [
 		ifFalse: [ ^ self ].
 	queries do: #resetResult.
 	self initialQuery result: (toSelect allUsing: FamixTNamedEntity).
-	self initialQuery name: toSelect name.
-	self selectQuery: self initialQuery
+	self initialQuery name: toSelect first mooseModel name.
+	self selectQuery: self initialQuery	"timeProfile" "timeToRun inspect"
 ]
 
 { #category : #midas }

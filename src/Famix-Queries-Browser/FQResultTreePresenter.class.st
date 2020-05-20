@@ -79,7 +79,7 @@ FQResultTreePresenter >> stringForType: item nbOfEntities: nbEntities [
 FQResultTreePresenter >> updateForEntities: entities [
 	items := entities.
 	self
-		roots: (items collectAsSet: #class) asOrderedCollection;
+		roots: (entities collectAsSet: #class) asOrderedCollection;
 		children: [ :type | 
 			(items select: [ :entity | entity class == type ])
 				sorted: [ :e1 :e2 | e1 name < e2 name ] ]
