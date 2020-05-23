@@ -25,7 +25,7 @@ FQAbstractQueryBuilderTest >> queryBuilderClass [
 
 { #category : #running }
 FQAbstractQueryBuilderTest >> setUp [
-	helper := FQBrowserTestsHelper new.
+	helper := FQTestsHelper current.
 	queryBuilder := self queryBuilderClass
 		newWithParentQuery: (FQMockQuery new result: self entities)
 ]

@@ -4,13 +4,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
-{ #category : #'instance creation' }
-FQSubstractionQuery class >> forQueries: aCollectionOfQueries [
-	^ self new
-		parents: aCollectionOfQueries asOrderedCollection;
-		yourself
-]
-
 { #category : #accessing }
 FQSubstractionQuery class >> label [
 	^ 'Substraction'
@@ -18,7 +11,7 @@ FQSubstractionQuery class >> label [
 
 { #category : #printing }
 FQSubstractionQuery >> defaultName [
-	^ 'Substraction'
+	^ firstParent name , ' \ ' , secondParent name
 ]
 
 { #category : #printing }

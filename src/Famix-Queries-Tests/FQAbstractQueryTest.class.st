@@ -2,9 +2,8 @@ Class {
 	#name : #FQAbstractQueryTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'model',
 		'query',
-		'classesAndMethods'
+		'helper'
 	],
 	#category : #'Famix-Queries-Tests-Core'
 }
@@ -19,9 +18,14 @@ FQAbstractQueryTest class >> shouldInheritSelectors [
 	^ true
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQAbstractQueryTest >> actualClass [
 	^ self subclassResponsibility
+]
+
+{ #category : #running }
+FQAbstractQueryTest >> differentTypeOfQuery [
+	^ FQBooleanQuery new property: #isAbstract
 ]
 
 { #category : #'public access' }
@@ -30,19 +34,33 @@ FQAbstractQueryTest >> evaluate: aString [
 ]
 
 { #category : #running }
+FQAbstractQueryTest >> expectedPrintOnString [
+	^ self subclassResponsibility
+]
+
+{ #category : #running }
+FQAbstractQueryTest >> newQuery [
+	^ self subclassResponsibility
+]
+
+{ #category : #running }
 FQAbstractQueryTest >> setUp [
 	super setUp.
-	model
-		ifNil: [ model := FamixStModel new.
-			MoosePharoImporterTask new
-				importerClass: SmalltalkImporter;
-				model: model;
-				addFromPackageNamed: #'Moose-TestResources-LAN';
-				run ].
-	classesAndMethods := MooseGroup
-		withAll:
-			{model allModelClasses.
-			model allModelMethods} flatten
+	helper := FQTestsHelper current.
+	query := self newQuery
+]
+
+{ #category : #tests }
+FQAbstractQueryTest >> testAddChild [
+	| child |
+	child := self differentTypeOfQuery.
+	query addChild: child.
+	self assert: (query children includes: child)
+]
+
+{ #category : #tests }
+FQAbstractQueryTest >> testBeChildOf [
+	self subclassResponsibility
 ]
 
 { #category : #tests }
@@ -52,15 +70,58 @@ FQAbstractQueryTest >> testDisplayOn [
 
 { #category : #tests }
 FQAbstractQueryTest >> testEquals [
-	self subclassResponsibility
+
+	"Same query"
+	self assert: query equals: self newQuery.
+	
+	"Different type of Query"
+	self deny: query equals: self differentTypeOfQuery
 ]
 
 { #category : #tests }
 FQAbstractQueryTest >> testIsValid [
+	self assert: query isValid.
+	self deny: self unConfiguredQuery isValid
+]
+
+{ #category : #tests }
+FQAbstractQueryTest >> testParentSequence [
+	self subclassResponsibility
+]
+
+{ #category : #tests }
+FQAbstractQueryTest >> testPrepareRemoval [
+	self subclassResponsibility
+]
+
+{ #category : #tests }
+FQAbstractQueryTest >> testPrintOn [
+	self assert: query printString equals: self expectedPrintOnString.
+	self
+		assert: self unConfiguredQuery printString
+		equals: 'a ' , self actualClass name , ' (invalid)'
+]
+
+{ #category : #tests }
+FQAbstractQueryTest >> testRemoveChild [
+	| child |
+	child := self differentTypeOfQuery.
+	child beChildOf: query.
+	query removeChild: child.
+	self deny: (query children includes: child)
+]
+
+{ #category : #tests }
+FQAbstractQueryTest >> testResult [
 	self subclassResponsibility
 ]
 
 { #category : #tests }
 FQAbstractQueryTest >> testRunOn [
 	self subclassResponsibility
+]
+
+{ #category : #running }
+FQAbstractQueryTest >> unConfiguredQuery [
+	^ self actualClass new
 ]

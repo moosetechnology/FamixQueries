@@ -52,7 +52,7 @@ FQQueryConfigurationPresenterTest >> resetPresenterWithEntities: aMooseGroup [
 
 { #category : #running }
 FQQueryConfigurationPresenterTest >> setUp [
-	helper := FQBrowserTestsHelper new.
+	helper :=  FQTestsHelper current.
 	self resetPresenterWithEntities: helper classesAndMethods
 ]
 

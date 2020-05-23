@@ -1,104 +1,42 @@
 Class {
 	#name : #FQUnionQueryTest,
-	#superclass : #FQAbstractQueryTest,
+	#superclass : #FQBinaryQueryTest,
 	#category : #'Famix-Queries-Tests-Binary'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQUnionQueryTest >> actualClass [
 	^ FQUnionQuery
 ]
 
+{ #category : #running }
+FQUnionQueryTest >> expectedPrintOnString [
+	^ 'a FQUnionQuery (' , self firstParentOfQuery name , ' | '
+		, self secondParentOfQuery name , ')'
+]
+
+{ #category : #running }
+FQUnionQueryTest >> expectedResult [
+	^ (self firstParentOfQuery runOn: helper classesAndMethods)
+		union: (self secondParentOfQuery runOn: helper classesAndMethods)
+]
+
 { #category : #tests }
 FQUnionQueryTest >> testDisplayOn [
-	| subQuery1 subQuery2 |
-	subQuery1 := FQBooleanQuery forProperty: #isAbstract.
-	subQuery2 := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
-	query := self actualClass
-		forQueries:
-			{subQuery1.
-			subQuery2}.
-	
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
-			(String
-				streamContents: [ :s | 
-					s << '('.
-					subQuery1 displayOn: s.
-					s << ') | ('.
-					subQuery2 displayOn: s.
-					s << ')' ])
+			'((aMooseGroup
+		inject: Set new
+		into: [ :result :entity | 
+			result addAll: ({ FamixTReference . FamixTInheritance } flatCollect: [ :association | (entity queryIncoming: association) opposites ]).
+			result ]) asMooseGroup) | (aMooseGroup allWithType: FamixStClass)'
 ]
 
 { #category : #tests }
-FQUnionQueryTest >> testEquals [
-	| subQuery1 subQuery2 |
-	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
-	subQuery2 := FQBooleanQuery forProperty: #isAbstract.
-	query := self actualClass
-		forQueries:
-			{subQuery1.
-			subQuery2}.
-	
-	"Same children"
+FQUnionQueryTest >> testName [
 	self
-		assert: query
-		equals:
-			(self actualClass
-				forQueries:
-					{subQuery1.
-					subQuery2}).
-					
-	"Different children"
-	self
-		deny: query
-		equals:
-			(self actualClass
-				forQueries:
-					{subQuery1.
-					(FQTypeQuery forType: FamixStClass)})
-]
-
-{ #category : #tests }
-FQUnionQueryTest >> testIsValid [
-	| subQuery1 subQuery2 invalidQuery |
-	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
-	subQuery2 := FQBooleanQuery forProperty: #isAbstract.
-	invalidQuery := FQBooleanQuery new.
-	query := self actualClass
-		forQueries:
-			{subQuery1.
-			subQuery2}.
-			
-	self assert: query isValid.
-	
-	query := self actualClass
-		forQueries:
-			{subQuery1.
-			invalidQuery}.
-	self deny: query isValid.
-]
-
-{ #category : #tests }
-FQUnionQueryTest >> testRunOn [
-	| classes subQuery1 subQuery2 queryResult expectedResult |
-	self flag: #FQImprove , 'runOn: behavior has changed for combinator queries'.
-	classes := model allModelClasses.
-	
-	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
-	subQuery2 := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
-
-	query := self actualClass
-		forQueries:
-			{subQuery1.
-			subQuery2}.
-	
-	queryResult := query runOn: ({subQuery1. subQuery2} collect: [ :q | q runOn: classes ]).
-	expectedResult := (subQuery1 runOn: classes)
-		union: (subQuery2 runOn: classes).
-
-	self assert: expectedResult isNotEmpty.
-	self assert: queryResult size equals: expectedResult size.
-	self assertCollection: queryResult hasSameElements: expectedResult
+		assert: query name
+		equals: 'Incoming references, inheritances | Classes'.
+	self assert: self unConfiguredQuery name equals: 'Invalid Union'
 ]

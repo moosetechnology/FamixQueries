@@ -1,168 +1,75 @@
 Class {
 	#name : #FQStringQueryTest,
-	#superclass : #FQAbstractQueryTest,
+	#superclass : #FQPropertyQueryTest,
 	#category : #'Famix-Queries-Tests-Unary'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQStringQueryTest >> actualClass [
 	^ FQStringQuery
 ]
 
-{ #category : #'tests - available parameters' }
-FQStringQueryTest >> testAvailablePropertiesFor [
-	| availableProperties |
-	query := self actualClass new.
-	availableProperties := query
-		availablePropertiesFor: classesAndMethods.
-		
-	availableProperties
-		do: [ :propertySelector | 
-			self assert: propertySelector isSymbol.
-			classesAndMethods
-				do:
-					[ :entity | self assert: ((entity perform: propertySelector) isKindOf: String) ] ]
+{ #category : #running }
+FQStringQueryTest >> expectedPrintOnString [
+	^ 'a FQStringQuery (name includesSubstring: ''LANP'')'
+]
+
+{ #category : #running }
+FQStringQueryTest >> expectedResult [
+	^ helper classes select: [ :c | c name includesSubstring: 'LANP' ]
+]
+
+{ #category : #running }
+FQStringQueryTest >> newQuery [
+	^ self unConfiguredQuery
+		property: #name;
+		comparator: #includesSubstring:;
+		valueToCompare: 'LANP'
+]
+
+{ #category : #running }
+FQStringQueryTest >> propertyType [
+	^ String
 ]
 
 { #category : #'tests - printing' }
 FQStringQueryTest >> testDisplayOn [
-	query := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
-
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
-		equals: 'aMooseGroup select: [ :entity | entity name includesSubstring: ''LANP'' ]'
+		equals:
+			'aMooseGroup select: [ :entity | entity name includesSubstring: ''LANP'' ]'
 ]
 
 { #category : #tests }
 FQStringQueryTest >> testEquals [
-	query := self actualClass
-		forProperty: #name
-		comparator: #includesSubstring:
-		withValue: 'LAN'.
-
-	"Same query"
-	self
-		assert: query
-		equals:
-			(self actualClass
-				forProperty: #name
-				comparator: #includesSubstring:
-				withValue: 'LAN').
+	super testEquals.
 
 	"Different property"
-	self
-		deny: query
-		equals:
-			(self actualClass
-				forProperty: #selector
-				comparator: #includesSubstring:
-				withValue: 'LAN').
+	self deny: query equals: (self newQuery property: #selector).
 
 	"Different comparator"
-	self
-		deny: query
-		equals:
-			(self actualClass
-				forProperty: #name
-				comparator: #beginsWith:
-				withValue: 'LAN').
+	self deny: query equals: (self newQuery comparator: #beginsWith:).
 
 	"Different value to compare"
-	self
-		deny: query
-		equals:
-			(self actualClass
-				forProperty: #name
-				comparator: #includesSubstring:
-				withValue: 'Toto').
-
-	"Different class of query"
-	self deny: query equals: (FQBooleanQuery forProperty: #isAbstract)
+	self deny: query equals: (self newQuery valueToCompare: 'Toto')
 ]
 
 { #category : #tests }
 FQStringQueryTest >> testIsValid [
-	query := self actualClass
-		forProperty: #name
-		comparator: #includesSubString:
-		withValue: 'LAN'.
-	self assert: query isValid.
-
-	query := self actualClass
-		forProperty: 'Not a selector'
-		comparator: #includesSubString:
-		withValue: 'LAN'.
-	self deny: query isValid.
-
-	query := self actualClass
-		forProperty: #name
-		comparator: 'Not a comparator'
-		withValue: 'LAN'.
-	self deny: query isValid.
-
-	query := self actualClass
-		forProperty: #name
-		comparator: #includesSubString:
-		withValue: 10.
-	self deny: query isValid.
-	
-	query := self actualClass new.
-	self deny: query isValid
-]
-
-{ #category : #tests }
-FQStringQueryTest >> testName [
-	query := self actualClass
-		forProperty: #name
-		comparator: #includesSubstring:
-		withValue: 'LAN'.
-	self
-		assert: query name
-		equals: 'name includesSubstring: ''LAN'''.
-	query := self actualClass new.
-	self assert: query name equals: 'Invalid String Query'
-]
-
-{ #category : #tests }
-FQStringQueryTest >> testPrintOn [
-	query := self actualClass
-		forProperty: #name
-		comparator: #includesSubstring:
-		withValue: 'LAN'.
-	self
-		assert: query printString
-		equals: 'a FQStringQuery (name includesSubstring: ''LAN'')'
-]
-
-{ #category : #'tests - running' }
-FQStringQueryTest >> testRunOn [
-	| classes queryResult expectedResult |	
-	classes := model allModelClasses select: #isInstanceSide.
-	
-	query := self actualClass forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
-	queryResult := query runOn: classes.
-	
-	expectedResult := #('LANPool' 'LANPacket' 'LANPrintServer').
-	
-	self assert: queryResult size equals: expectedResult size.
-	self
-		assertCollection: (queryResult collect: #name)
-		hasSameElements: expectedResult
+	super testIsValid.
+	self deny: (self newQuery comparator: 'Not a comparator') isValid.
+	self deny: (self newQuery valueToCompare: 10) isValid	"Not a string"
 ]
 
 { #category : #'tests - printing' }
-FQStringQueryTest >> testStoreOn [
-	| generatedQuery |
-	query := self actualClass new.
-	query property: (query availablePropertiesFor: model allModelClasses) first.
-	query comparator: query availableComparators first.
-	query valueToCompare: 'pattern'.
-	
-	generatedQuery := self
-		evaluate: (String streamContents: [ :s | query storeOn: s ]).
-	
-	self assert: generatedQuery class equals: self actualClass.
-	self assert: generatedQuery property equals: query property.
-	self assert: generatedQuery comparator equals: query comparator.
-	self assert: generatedQuery valueToCompare equals: query valueToCompare
+FQStringQueryTest >> testName [
+	self assert: query name equals: 'name includesSubstring: ''LANP'''.
+	self
+		assert: self unConfiguredQuery name
+		equals: 'Invalid String Query'
+]
+
+{ #category : #tests }
+FQStringQueryTest >> testValueToCompareAsString [
+	self assert: query valueToCompareAsString equals: '''LANP'''
 ]

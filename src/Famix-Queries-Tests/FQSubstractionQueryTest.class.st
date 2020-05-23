@@ -1,6 +1,6 @@
 Class {
 	#name : #FQSubstractionQueryTest,
-	#superclass : #FQAbstractQueryTest,
+	#superclass : #FQBinaryQueryTest,
 	#category : #'Famix-Queries-Tests-Binary'
 }
 
@@ -9,94 +9,48 @@ FQSubstractionQueryTest >> actualClass [
 	^ FQSubstractionQuery
 ]
 
+{ #category : #running }
+FQSubstractionQueryTest >> expectedPrintOnString [
+	^ 'a FQSubstractionQuery (' , self firstParentOfQuery name , ' \ '
+		, self secondParentOfQuery name , ')'
+]
+
+{ #category : #running }
+FQSubstractionQueryTest >> expectedResult [
+	^ (self firstParentOfQuery runOn: helper classesAndMethods)
+		difference: (self secondParentOfQuery runOn: helper classesAndMethods)
+]
+
 { #category : #tests }
 FQSubstractionQueryTest >> testDisplayOn [
-	| subQuery1 subQuery2 |
-	subQuery1 := FQBooleanQuery forProperty: #isAbstract.
-	subQuery2 := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
-	query := self actualClass
-		forQueries:
-			{subQuery1.
-			subQuery2}.
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
-			(String
-				streamContents: [ :s | 
-					s << '('.
-					subQuery1 displayOn: s.
-					s << ') \ ('.
-					subQuery2 displayOn: s.
-					s << ')' ])
+			'((aMooseGroup
+		inject: Set new
+		into: [ :result :entity | 
+			result addAll: ({ FamixTReference . FamixTInheritance } flatCollect: [ :association | (entity queryIncoming: association) opposites ]).
+			result ]) asMooseGroup) \ (aMooseGroup allWithType: FamixStClass)'
 ]
 
 { #category : #tests }
-FQSubstractionQueryTest >> testEquals [
-	| subQuery1 subQuery2 |
-	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
-	subQuery2 := FQBooleanQuery forProperty: #isAbstract.
-	query := self actualClass
-		forQueries:
-			{subQuery1.
-			subQuery2}.
-	
-	"Same children"
+FQSubstractionQueryTest >> testName [
 	self
-		assert: query
-		equals:
-			(self actualClass
-				forQueries:
-					{subQuery1.
-					subQuery2}).
-					
-	"Different children"
+		assert: query name
+		equals: 'Incoming references, inheritances \ Classes'.
 	self
-		deny: query
-		equals:
-			(self actualClass
-				forQueries:
-					{subQuery1.
-					(FQTypeQuery forType: FamixStClass)})
+		assert: self unConfiguredQuery name
+		equals: 'Invalid Substraction'
 ]
 
 { #category : #tests }
-FQSubstractionQueryTest >> testIsValid [
-	| subQuery1 subQuery2 invalidQuery |
-	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
-	subQuery2 := FQBooleanQuery forProperty: #isAbstract.
-	invalidQuery := FQBooleanQuery new.
-	query := self actualClass
-		forQueries:
-			{subQuery1.
-			subQuery2}.
-			
-	self assert: query isValid.
+FQSubstractionQueryTest >> testReversParents [
+	| parent1 parent2 |
+	parent1 := self firstParentOfQuery.
+	parent2 := self secondParentOfQuery.
 	
-	query := self actualClass
-		forQueries:
-			{subQuery1.
-			invalidQuery}.
-	self deny: query isValid.
-]
-
-{ #category : #tests }
-FQSubstractionQueryTest >> testRunOn [
-	| classes subQuery1 subQuery2 queryResult expectedResult |
-	self flag: #FQImprove , 'runOn: behavior has changed for combinator queries'.
-	classes := model allModelClasses.
-
-	subQuery1 := FQBooleanQuery forProperty: #isInstanceSide.
-	subQuery2 := FQStringQuery forProperty: #name comparator: #includesSubstring:  withValue: 'LANP'.
-	query := self actualClass
-		forQueries:
-			{subQuery1.
-			subQuery2}.
-
-	queryResult := query runOn: ({subQuery1. subQuery2} collect: [ :q | q runOn: classes ]).
-	expectedResult := (subQuery1 runOn: classes)
-		difference: (subQuery2 runOn: classes).
+	query reverseParents.
 	
-	self assert: expectedResult isNotEmpty.
-	self assert: queryResult size equals: expectedResult size.
-	self assertCollection: queryResult hasSameElements: expectedResult
+	self assert: self firstParentOfQuery identicalTo: parent2.
+	self assert: self secondParentOfQuery identicalTo: parent1
 ]

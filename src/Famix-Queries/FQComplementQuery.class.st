@@ -4,17 +4,20 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'as yet unclassified' }
-FQComplementQuery class >> forQuery: aQuery [
-	^ self new
-		parent: aQuery;
-		yourself
+{ #category : #accessing }
+FQComplementQuery class >> label [
+	^ 'Complement Query'
+]
+
+{ #category : #printing }
+FQComplementQuery >> defaultName [
+	^ '(' , parent name , ') not'
 ]
 
 { #category : #running }
 FQComplementQuery >> displayOn: aStream with: aString [
 	aStream << aString << ' copyWithoutAll: ('.
-	self parent displayOn: aStream.
+	self parent ifNotNil: [ self parent displayOn: aStream ].
 	aStream << ')'
 ]
 
@@ -25,7 +28,7 @@ FQComplementQuery >> hasSameParametersAs: aQuery [
 
 { #category : #testing }
 FQComplementQuery >> isValid [
-	^ parent isValid
+	^ parent isNotNil and: [ parent isValid ]
 ]
 
 { #category : #running }

@@ -44,15 +44,6 @@ FQNumericQuery class >> defaultValueToCompare [
 	^ 0
 ]
 
-{ #category : #'instance creation' }
-FQNumericQuery class >> forProperty: aPropertySelector comparator: aComparisonSelector withValue: aNumericValue [
-	^ self new
-		property: aPropertySelector;
-		comparator: aComparisonSelector;
-		valueToCompare: aNumericValue;
-		yourself
-]
-
 { #category : #accessing }
 FQNumericQuery class >> label [
 	^ 'Numeric Query'

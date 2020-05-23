@@ -7,6 +7,11 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
+{ #category : #comparing }
+FQUnaryQuery >> = aQuery [
+	^ super = aQuery and: [ self hasSameParametersAs: aQuery ]
+]
+
 { #category : #adding }
 FQUnaryQuery >> addToParentsSequence: sequence [
 	parent ifNotNil: [ parent addToParentsSequence: sequence ].
@@ -23,16 +28,16 @@ FQUnaryQuery >> beChildOf: aQuery [
 
 { #category : #running }
 FQUnaryQuery >> computeResult [
-	^ self computeResultFromParent
-]
-
-{ #category : #running }
-FQUnaryQuery >> computeResultFromParent [
 	^ self runOn: parent result
 ]
 
+{ #category : #testing }
+FQUnaryQuery >> hasSameParametersAs: aQuery [
+	^ self subclassResponsibility
+]
+
 { #category : #comparing }
-FQUnaryQuery >> hasSameParentsHas: aQuery [
+FQUnaryQuery >> hasSameParentsAs: aQuery [
 	^ parent = aQuery parent
 ]
 

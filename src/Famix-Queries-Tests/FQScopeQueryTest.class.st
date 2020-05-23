@@ -1,42 +1,52 @@
 Class {
 	#name : #FQScopeQueryTest,
-	#superclass : #FQAbstractQueryTest,
+	#superclass : #FQUnaryQueryTest,
 	#category : #'Famix-Queries-Tests-Unary'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQScopeQueryTest >> actualClass [
 	^ FQScopeQuery
 ]
 
+{ #category : #running }
+FQScopeQueryTest >> expectedPrintOnString [
+	^ 'a FQScopeQuery (Up and Down to Methods)'
+]
+
+{ #category : #running }
+FQScopeQueryTest >> expectedResult [
+	^ ((MooseQueryResult new newObjectResultWith: helper classes)
+		withScope: FamixStMethod) asMooseGroup
+]
+
+{ #category : #running }
+FQScopeQueryTest >> newQuery [
+	^ self unConfiguredQuery
+		scope: FamixStMethod;
+		directionStrategy: FQAbstractScopeDirection defaultDirection
+]
+
 { #category : #'tests - available parameters' }
 FQScopeQueryTest >> testAvailableDirections [
-	query := self actualClass new.
 	self
-		assertCollection: query availableDirections
+		assertCollection: self unConfiguredQuery availableDirections
 		includesAll: FQAbstractScopeDirection allSubclasses
 ]
 
 { #category : #'tests - available parameters' }
 FQScopeQueryTest >> testAvailableScopesFor [
 	| availableScopes |
-	query := self actualClass new directionStrategy: FQScopeUpAndDown.
-	availableScopes := query availableScopesFor: model.
+	availableScopes := query availableScopesFor: helper modelExample.
 	self deny: (availableScopes anySatisfy: #isTrait).
-	self
-		assert:
-			(availableScopes
-				allSatisfy: [ :scope | scope inheritsFrom: FamixStEntity ]).
 	availableScopes
-		do:
-			[ :scope | self assert: (availableScopes occurrencesOf: scope) equals: 1 ]
+		do: [ :scope | 
+			self assert: (scope inheritsFrom: FamixStEntity).
+			self assert: (availableScopes occurrencesOf: scope) equals: 1 ]
 ]
 
 { #category : #'tests - printing' }
 FQScopeQueryTest >> testDisplayOn [
-	query := FQScopeQuery
-		forScope: FamixStMethod
-		direction: FQAbstractScopeDirection defaultDirection.
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
@@ -45,113 +55,55 @@ FQScopeQueryTest >> testDisplayOn [
 
 { #category : #tests }
 FQScopeQueryTest >> testEquals [
-	query := FQScopeQuery
-		forScope: FamixStMethod
-		direction: FQAbstractScopeDirection defaultDirection.
-
-	"Same query"
-	self
-		assert: query
-		equals:
-			(FQScopeQuery
-				forScope: FamixStMethod
-				direction: FQAbstractScopeDirection defaultDirection).
+	super testEquals.
 
 	"Different direction"
-	self
-		deny: query
-		equals:
-			(FQScopeQuery
-				forScope: FamixStClass
-				direction: FQAbstractScopeDirection defaultDirection).
+	self deny: query equals: (self newQuery scope: FamixStClass).
 
 	"Different association"
-	self
-		deny: query
-		equals:
-			(FQScopeQuery forScope: FamixStMethod direction: FQScopeDown).
-
-	"Different class of query"
-	self deny: query equals: (FQBooleanQuery forProperty: #isAbstract)
+	self deny: query equals: (self newQuery direction: #Down)
 ]
 
 { #category : #tests }
 FQScopeQueryTest >> testIsValid [
-	query := self actualClass
-		forScope: FamixStClass
-		direction: FQScopeDown.
-	self assert: query isValid.
-	
-	query := self actualClass
-		forScope: 'Not a scope'
-		direction: FQScopeDown.
-	self deny: query isValid.
-	
-	query := self actualClass
-		forScope: FamixStClass
-		direction: 'Not a direction'.
-	self deny: query isValid.
-	
-	query := self actualClass new.
-	self deny: query isValid
+	super testIsValid.
+	self deny: (self newQuery scope: 'Not a scope') isValid.
+	self
+		deny: (self newQuery directionStrategy: 'Not a direction') isValid
 ]
 
 { #category : #'tests - printing' }
 FQScopeQueryTest >> testName [
-	query := self actualClass
-		forScope: FamixStClass
-		direction: FQScopeDown.
-	self assert: query name equals: 'Down to Classes'.
-	query := self actualClass new.
-	self assert: query name equals: 'Invalid Scope Query'
-]
-
-{ #category : #'tests - printing' }
-FQScopeQueryTest >> testPrintOn [
-	query := self actualClass
-		forScope: FamixStClass
-		direction: FQScopeDown.
+	self assert: query name equals: 'Up and Down to Methods'.
 	self
-		assert: query printString
-		equals: 'a FQScopeQuery (Down to Classes)'
+		assert: self unConfiguredQuery name
+		equals: 'Invalid Scope Query'
 ]
 
 { #category : #'tests - running' }
 FQScopeQueryTest >> testRunOn [
-	| classes queryResult expectedResult |
-	classes := model allModelClasses.
-
-	query := FQScopeQuery
-		forScope: FamixStMethod
-		direction: FQScopeDown.
-	queryResult := query runOn: classes.
-
-	expectedResult := ((MooseQueryResult new newObjectResultWith: classes)
-		toScope: FamixStMethod) asMooseGroup.
-
-	self assert: expectedResult isNotEmpty.
-	self assert: queryResult size equals: expectedResult size.
-	self assertCollection: queryResult hasSameElements: expectedResult
+	self assert: self expectedResult isNotEmpty.
+	self
+		assertCollection: (query runOn: helper classes)
+		hasSameElements: self expectedResult
 ]
 
 { #category : #'tests - printing' }
 FQScopeQueryTest >> testStoreOn [
 	| generatedQuery |
-	query := self actualClass new.
-	query directionStrategy: query availableDirections first.
-	query scope: (query availableScopesFor: model) first.
-	
 	generatedQuery := self
 		evaluate: (String streamContents: [ :s | query storeOn: s ]).
-	
+
 	self assert: generatedQuery class identicalTo: self actualClass.
-	self assert: generatedQuery directionStrategy identicalTo: query directionStrategy.
+	self
+		assert: generatedQuery directionStrategy
+		identicalTo: query directionStrategy.
 	self assert: generatedQuery scope identicalTo: query scope
 ]
 
 { #category : #tests }
 FQScopeQueryTest >> testSyntacticSugar [
-	query := self actualClass new
+	query := self unConfiguredQuery
 		direction: #Up;
 		scope: FamixStClass.
 	self assert: query directionStrategy identicalTo: FQScopeUp.

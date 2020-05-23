@@ -44,15 +44,6 @@ FQStringQuery class >> defaultValueToCompare [
 	^ ''
 ]
 
-{ #category : #'instance creation' }
-FQStringQuery class >> forProperty: aPropertySelector comparator: aSelector withValue: aString [
-	^ self new
-		property: aPropertySelector;
-		comparator: aSelector;
-		valueToCompare: aString;
-		yourself
-]
-
 { #category : #accessing }
 FQStringQuery class >> label [
 	^ 'String Query'

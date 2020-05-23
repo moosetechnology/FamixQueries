@@ -46,14 +46,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'instance creation' }
-FQScopeQuery class >> forScope: aFamixClass direction: aScopeDirectionClass [
-	^ self new
-		scope: aFamixClass;
-		directionStrategy: aScopeDirectionClass;
-		yourself
-]
-
 { #category : #accessing }
 FQScopeQuery class >> label [
 	^ 'Scope Query'

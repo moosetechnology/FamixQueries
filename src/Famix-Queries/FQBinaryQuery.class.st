@@ -28,11 +28,6 @@ FQBinaryQuery >> beChildOf: parentQueries [
 
 { #category : #running }
 FQBinaryQuery >> computeResult [
-	^ self computeResultFromParents
-]
-
-{ #category : #running }
-FQBinaryQuery >> computeResultFromParents [
 	^ self runOn: (self parents collect: #result)
 ]
 
@@ -51,18 +46,15 @@ FQBinaryQuery >> displayOn: aStream with: aString [
 ]
 
 { #category : #comparing }
-FQBinaryQuery >> hasSameParametersAs: aQuery [
-	^ true
-]
-
-{ #category : #comparing }
-FQBinaryQuery >> hasSameParentsHas: aQuery [
+FQBinaryQuery >> hasSameParentsAs: aQuery [
 	^ self parents = aQuery parents
 ]
 
 { #category : #testing }
 FQBinaryQuery >> isValid [
-	^ self parents allSatisfy: #isValid
+	^ self parents isNotEmpty
+		and: [ self parents
+				allSatisfy: [ :parent | parent isNotNil and: [ parent isValid ] ] ]
 ]
 
 { #category : #printing }

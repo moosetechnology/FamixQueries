@@ -47,20 +47,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'instance creation' }
-FQTypeQuery class >> forType: aType [
-	^ self new
-		types: {aType} asOrderedCollection;
-		yourself
-]
-
-{ #category : #'instance creation' }
-FQTypeQuery class >> forTypes: aTypesCollection [
-	^ self new
-		types: aTypesCollection asOrderedCollection;
-		yourself
-]
-
 { #category : #accessing }
 FQTypeQuery class >> label [
 	^ 'Type Query'

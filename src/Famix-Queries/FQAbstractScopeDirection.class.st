@@ -57,7 +57,10 @@ FQAbstractScopeDirection class >> label [
 
 { #category : #'available parameters' }
 FQAbstractScopeDirection class >> respondingEntitiesIn: aMooseGroup [
-	self flag: 'Does a selection on the entities. They may not all respond'.
+	self
+		flag:
+			#FQImprove
+				, 'Does a selection on the entities. They may not all respond'.
 	^ aMooseGroup allUsing: TEntityMetaLevelDependency
 ]
 

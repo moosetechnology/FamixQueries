@@ -4,13 +4,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
-{ #category : #'instance creation' }
-FQIntersectionQuery class >> forQueries: aCollectionOfQueries [
-	^ self new
-		parents: aCollectionOfQueries asOrderedCollection;
-		yourself
-]
-
 { #category : #accessing }
 FQIntersectionQuery class >> label [
 	^ 'Intersection'
@@ -18,7 +11,7 @@ FQIntersectionQuery class >> label [
 
 { #category : #printing }
 FQIntersectionQuery >> defaultName [
-	^ 'Intersection'
+	^ parents first name , ' & ' , parents second name
 ]
 
 { #category : #printing }

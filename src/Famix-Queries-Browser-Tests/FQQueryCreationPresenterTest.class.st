@@ -30,7 +30,7 @@ FQQueryCreationPresenterTest >> queryFromCode [
 
 { #category : #running }
 FQQueryCreationPresenterTest >> setUp [
-	helper := FQBrowserTestsHelper new.
+	helper :=  FQTestsHelper current.
 	presenter := FQQueryCreationPresenter
 		on: (FQQueriesBrowserPresenter on: helper classesAndMethods)
 ]

@@ -34,7 +34,7 @@ FQRoassalQueryPresenterTest >> classToTest [
 { #category : #running }
 FQRoassalQueryPresenterTest >> setUp [
 	super setUp.
-	helper := FQBrowserTestsHelper new
+	helper := FQTestsHelper current
 ]
 
 { #category : #tests }

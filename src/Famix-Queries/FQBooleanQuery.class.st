@@ -34,13 +34,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'instance creation' }
-FQBooleanQuery class >> forProperty: aBooleanSelector [
-	^ self new
-		property: aBooleanSelector;
-		yourself
-]
-
 { #category : #accessing }
 FQBooleanQuery class >> label [
 	^ 'Boolean Query'

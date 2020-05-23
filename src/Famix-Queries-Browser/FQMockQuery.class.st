@@ -29,6 +29,12 @@ FQMockQuery >> hasSameParametersAs: aQuery [
 	^ self result == aQuery result
 ]
 
+{ #category : #initialization }
+FQMockQuery >> initialize [
+	super initialize.
+	result := MooseGroup new
+]
+
 { #category : #testing }
 FQMockQuery >> isValid [
 	^ true

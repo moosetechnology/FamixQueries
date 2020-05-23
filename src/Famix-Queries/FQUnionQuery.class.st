@@ -4,13 +4,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
-{ #category : #'instance creation' }
-FQUnionQuery class >> forQueries: aCollectionOfQueries [
-	^ self new
-		parents: aCollectionOfQueries asOrderedCollection;
-		yourself
-]
-
 { #category : #accessing }
 FQUnionQuery class >> label [
 	^ 'Union'
@@ -18,7 +11,7 @@ FQUnionQuery class >> label [
 
 { #category : #printing }
 FQUnionQuery >> defaultName [
-	^ 'Union'
+	^ self parents first name , ' | ' , self parents second name
 ]
 
 { #category : #printing }

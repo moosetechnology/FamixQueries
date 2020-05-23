@@ -1,71 +1,76 @@
 Class {
 	#name : #FQComplementQueryTest,
-	#superclass : #FQAbstractQueryTest,
+	#superclass : #FQUnaryQueryTest,
+	#instVars : [
+		'parentQuery'
+	],
 	#category : #'Famix-Queries-Tests-Unary'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQComplementQueryTest >> actualClass [
 	^ FQComplementQuery
 ]
 
+{ #category : #running }
+FQComplementQueryTest >> expectedPrintOnString [
+	^ 'a FQComplementQuery ((isInstanceSide) not)'
+]
+
+{ #category : #tests }
+FQComplementQueryTest >> expectedResult [
+	^ helper classes copyWithoutAll: (parentQuery runOn: helper classes)
+]
+
+{ #category : #running }
+FQComplementQueryTest >> newQuery [
+	parentQuery := FQBooleanQuery new property: #isInstanceSide.
+	^ self unConfiguredQuery beChildOf: parentQuery
+]
+
 { #category : #tests }
 FQComplementQueryTest >> testDisplayOn [
-	| subQuery |
-
-	subQuery := FQBooleanQuery forProperty: #isInstanceSide.
-	query := self actualClass forQuery: subQuery.
-
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
 			(String
 				streamContents: [ :s | 
 					s << 'aMooseGroup copyWithoutAll: ('.
-					subQuery displayOn: s.
+					parentQuery displayOn: s.
 					s << ')' ])
 ]
 
 { #category : #tests }
 FQComplementQueryTest >> testEquals [
-	| subQuery |
-	subQuery := FQBooleanQuery forProperty: #isInstanceSide.
-	query := self actualClass forQuery: subQuery.
-	
-	self assert: query equals: (self actualClass forQuery: subQuery).
-	
+	super testEquals.
+
+	"Different parent"
 	self
 		deny: query
-		equals:
-			(self actualClass forQuery: (FQBooleanQuery forProperty: #isAbstract)).
+		equals: (self unConfiguredQuery beChildOf: self differentTypeOfQuery)
 ]
 
 { #category : #tests }
 FQComplementQueryTest >> testIsValid [
-	| subQuery invalidQuery |
-	
-	subQuery := FQBooleanQuery forProperty: #isInstanceSide.
-	query := self actualClass forQuery: subQuery.
-	self assert: query isValid.
-	
-	invalidQuery := FQBooleanQuery new.
-	query := self actualClass forQuery: invalidQuery.
+	super testIsValid.
+	query prepareRemoval.
+	self deny: query isValid.
+	query beChildOf: FQBooleanQuery new.
 	self deny: query isValid
 ]
 
 { #category : #tests }
+FQComplementQueryTest >> testName [
+	self assert: query name equals: '(isInstanceSide) not'.
+	self
+		assert: self unConfiguredQuery name
+		equals: 'Invalid Complement Query'
+]
+
+{ #category : #tests }
 FQComplementQueryTest >> testRunOn [
-	| classes subQuery queryResult expectedResult |
-	classes := model allModelClasses.
-	
-	subQuery := FQBooleanQuery forProperty: #isInstanceSide. 
-	query := self actualClass
-		forQuery: subQuery.
-	
-	queryResult := query runOn: classes.
-	expectedResult := classes copyWithoutAll: (subQuery runOn: classes).
-	
-	self assert: expectedResult isNotEmpty.
-	self assert: queryResult size equals: expectedResult size.
-	self assertCollection: queryResult hasSameElements: expectedResult
+	self assert: self expectedResult isNotEmpty.
+	self
+		assertCollection: (query runOn: helper classes)
+		hasSameElements: self expectedResult
 ]

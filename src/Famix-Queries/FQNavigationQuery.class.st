@@ -56,14 +56,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'instance creation' }
-FQNavigationQuery class >> direction: aDirectionStrategyClass association: anAssociationStrategy [
-	^ self new
-		directionStrategy: aDirectionStrategyClass;
-		associationStrategy: anAssociationStrategy;
-		yourself
-]
-
 { #category : #accessing }
 FQNavigationQuery class >> label [
 	^ 'Navigation Query'

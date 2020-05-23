@@ -27,7 +27,7 @@ FQQueriesBrowserPresenterTest >> classToTest [
 
 { #category : #running }
 FQQueriesBrowserPresenterTest >> setUp [
-	helper := FQBrowserTestsHelper new.
+	helper :=  FQTestsHelper current.
 	presenter := self classToTest on: helper classesAndMethods
 ]
 

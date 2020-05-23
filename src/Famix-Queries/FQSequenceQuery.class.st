@@ -4,16 +4,14 @@ Class {
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
-{ #category : #'instance creation' }
-FQSequenceQuery class >> forQueries: aCollectionOfQueries [
-	^ self new
-		parents: aCollectionOfQueries asOrderedCollection;
-		yourself
+{ #category : #accessing }
+FQSequenceQuery class >> label [
+	^ 'Sequence'
 ]
 
 { #category : #printing }
 FQSequenceQuery >> defaultName [
-	^ 'Sequence'
+	^ secondParent name , ' then ' , firstParent name
 ]
 
 { #category : #running }

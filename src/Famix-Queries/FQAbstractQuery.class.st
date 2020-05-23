@@ -37,11 +37,6 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
-{ #category : #testing }
-FQAbstractQuery class >> isAbstract [
-	^ self = FQAbstractQuery
-]
-
 { #category : #accessing }
 FQAbstractQuery class >> label [
 	^ self subclassResponsibility
@@ -54,9 +49,7 @@ FQAbstractQuery class >> readFrom: aString [
 
 { #category : #comparing }
 FQAbstractQuery >> = aQuery [
-	^ self class == aQuery class
-		and: [ (self hasSameParentsHas: aQuery)
-				and: [ self hasSameParametersAs: aQuery ] ]
+	^ self class == aQuery class and: [ self hasSameParentsAs: aQuery ]
 ]
 
 { #category : #adding }
@@ -107,12 +100,7 @@ FQAbstractQuery >> displayOn: aStream with: aString [
 ]
 
 { #category : #comparing }
-FQAbstractQuery >> hasSameParametersAs: aQuery [
-	^ self subclassResponsibility
-]
-
-{ #category : #comparing }
-FQAbstractQuery >> hasSameParentsHas: aQuery [
+FQAbstractQuery >> hasSameParentsAs: aQuery [
 	^ self subclassResponsibility
 ]
 
@@ -158,6 +146,9 @@ FQAbstractQuery >> prepareRemoval [
 { #category : #printing }
 FQAbstractQuery >> printOn: aStream [
 	super printOn: aStream.
+	self isValid
+		ifFalse: [ aStream << ' (invalid)'.
+			^ self ].
 	aStream << Character space << (self name join: '()')
 ]
 
