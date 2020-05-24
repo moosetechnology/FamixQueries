@@ -12,7 +12,7 @@ FQQueryOutputPort class >> portName [
 
 { #category : #attaching }
 FQQueryOutputPort >> attachTransmission: aTransmission [
-	self destinationPresenter
+	self presenter
 		property: #query
 		whenChangedDo: [ self
 				transmitWith: aTransmission

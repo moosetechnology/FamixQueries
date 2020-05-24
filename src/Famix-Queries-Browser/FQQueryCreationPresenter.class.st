@@ -168,7 +168,7 @@ FQQueryCreationPresenter >> entities [
 FQQueryCreationPresenter >> initialize [
 	super initialize.
 	queryTypesDropList
-		selectItem: self class queryConfigurationPresenters first	"timeToRun inspect"	"timeProfile"
+		selectItem: self class queryConfigurationPresenters first
 ]
 
 { #category : #initialization }

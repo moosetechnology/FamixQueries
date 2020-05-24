@@ -61,3 +61,11 @@ FQTestsHelper >> modelExample [
 FQTestsHelper >> noEntities [
 	^ MooseGroup new
 ]
+
+{ #category : #'as yet unclassified' }
+FQTestsHelper >> queryFromCodeInPresenter: aPresenter [
+	^ (Smalltalk compiler evaluate: aPresenter queryCode text)
+		beChildOf: aPresenter browser selectedQuery;
+		"Necessary to be equal to actual query"
+			yourself
+]

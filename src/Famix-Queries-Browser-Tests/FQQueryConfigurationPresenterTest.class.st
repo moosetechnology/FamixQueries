@@ -12,6 +12,16 @@ FQQueryConfigurationPresenterTest class >> isAbstract [
 	^ self == FQQueryConfigurationPresenterTest
 ]
 
+{ #category : #running }
+FQQueryConfigurationPresenterTest >> assertCreationPresenterWasUpdated [
+	self
+		assertCollection: presenter owner resultList items
+		hasSameElements: presenter query result.
+	self
+		assert: (helper queryFromCodeInPresenter: presenter owner)
+		equals: presenter query
+]
+
 { #category : #helpers }
 FQQueryConfigurationPresenterTest >> classToTest [
 	^ self subclassResponsibility
@@ -45,9 +55,9 @@ FQQueryConfigurationPresenterTest >> resetPresenterWithEntities: aMooseGroup [
 	| superPresenter |
 	superPresenter := FQQueryCreationPresenter
 		on: (FQQueriesBrowserPresenter on: aMooseGroup).
-	presenter := self classToTest
-		owner: superPresenter
-		on: superPresenter browser selectedQuery	"(FQMockQuery new result: aMooseGroup)"
+	superPresenter queryTypesDropList selectItem: self classToTest.
+	presenter := superPresenter presenters
+		detect: [ :pres | pres class == self classToTest ]
 ]
 
 { #category : #running }

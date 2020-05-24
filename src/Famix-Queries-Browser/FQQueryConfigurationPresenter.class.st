@@ -48,11 +48,6 @@ FQQueryConfigurationPresenter class >> queryBuilderClass [
 	^ self subclassResponsibility
 ]
 
-{ #category : #initialization }
-FQQueryConfigurationPresenter >> initialize [
-	super initialize.
-]
-
 { #category : #accessing }
 FQQueryConfigurationPresenter >> modelPrefix [
 	^ queryBuilder entities first mooseModel className

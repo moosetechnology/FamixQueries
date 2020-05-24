@@ -12,14 +12,29 @@ FQPropertyQueryParametersPresenterTest class >> isAbstract [
 	^ self == FQPropertyQueryParametersPresenterTest
 ]
 
+{ #category : #asserting }
+FQPropertyQueryParametersPresenterTest >> assertCreationPresenterWasUpdated [
+	self
+		assertCollection: presenter owner owner resultList items
+		hasSameElements: presenter owner query result.
+	self
+		assert: (helper queryFromCodeInPresenter: presenter owner owner)
+		equals: presenter owner query
+]
+
 { #category : #running }
 FQPropertyQueryParametersPresenterTest >> setUp [
 	| superPresenter |
-	helper :=  FQTestsHelper current.
-	superPresenter := FQPropertyQueriesPresenter
-		on: (FQMockQuery new result: helper modelExample allBehaviourals).	"So there is more than 1 property for each type"
-	superPresenter updateQueryParametersPresenter: self classToTest.
-	presenter := superPresenter secondParameter
+	helper := FQTestsHelper current.
+	superPresenter := FQQueryCreationPresenter
+		on: (FQQueriesBrowserPresenter on: helper modelExample allBehaviourals).	"So there is more than 1 property for each type"
+	superPresenter
+		updateConfigurationPresenter: FQPropertyQueriesPresenter.
+	(superPresenter queryConfigurationPresenter firstParameter presenters
+		detect: [ :radioButton | radioButton label = self classToTest label ])
+		click.
+	presenter := superPresenter queryConfigurationPresenter
+		secondParameter
 ]
 
 { #category : #tests }
@@ -59,4 +74,11 @@ FQPropertyQueryParametersPresenterTest >> testQueryValidity [
 	self assert: presenter queryBuilder queryIsValid.
 	presenter properties selectIndex: 2.
 	self assert: presenter queryBuilder queryIsValid
+]
+
+{ #category : #tests }
+FQPropertyQueryParametersPresenterTest >> testUpdateCreationBrowser [
+	self assertCreationPresenterWasUpdated.
+	presenter properties selectIndex: 2.
+	self assertCreationPresenterWasUpdated
 ]

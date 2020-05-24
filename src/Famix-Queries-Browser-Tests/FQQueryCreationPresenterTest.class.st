@@ -22,13 +22,6 @@ FQQueryCreationPresenterTest >> classToTest [
 ]
 
 { #category : #running }
-FQQueryCreationPresenterTest >> queryFromCode [
-	^ (Smalltalk compiler evaluate: presenter queryCode text)
-		beChildOf: presenter browser selectedQuery; "Necessary to be equal to actual query"
-		yourself
-]
-
-{ #category : #running }
 FQQueryCreationPresenterTest >> setUp [
 	helper :=  FQTestsHelper current.
 	presenter := FQQueryCreationPresenter
@@ -63,7 +56,7 @@ FQQueryCreationPresenterTest >> testDisabledToolBarButton [
 FQQueryCreationPresenterTest >> testQueryCode [
 	| query |
 	self assert: presenter queryCode class identicalTo: SpCodePresenter.
-	query := self queryFromCode.
+	query := helper queryFromCodeInPresenter: presenter.
 	self assert: (query isKindOf: FQAbstractQuery).
 	self assert: query isValid.
 	self
@@ -84,7 +77,9 @@ FQQueryCreationPresenterTest >> testQueryConfigurationPresenter [
 
 { #category : #tests }
 FQQueryCreationPresenterTest >> testQueryMatchesInAllSubpresenters [
-	self assert: presenter query equals: self queryFromCode.
+	self
+		assert: presenter query
+		equals: (helper queryFromCodeInPresenter: presenter).
 	self
 		assertCollection: presenter queryConfigurationPresenter queryBuilder queryResult
 		hasSameElements: presenter resultList items

@@ -146,3 +146,17 @@ FQScopeQueriesPresenterTest >> testSecondParameter [
 		assert: presenter secondParameter class
 		identicalTo: FQNoPossibleQueryPresenter
 ]
+
+{ #category : #tests }
+FQScopeQueriesPresenterTest >> testUpdateCreationBrowser [
+	self assertCreationPresenterWasUpdated.
+	
+	(self radioButtons detect: [ :rb | rb state not ]) click.
+	self assertCreationPresenterWasUpdated.
+	
+	self dropList
+		selectItem:
+			(self queryBuilder availableScopes
+				detect: [ :scope | self currentQuery scope ~~ scope ]).
+	self assertCreationPresenterWasUpdated
+]

@@ -123,3 +123,10 @@ FQTypeQueriesPresenterTest >> testSecondParameter [
 		assert: presenter secondParameter class
 		identicalTo: FQNoPossibleQueryPresenter
 ]
+
+{ #category : #tests }
+FQTypeQueriesPresenterTest >> testUpdateCreationBrowser [
+	self assertCreationPresenterWasUpdated.
+	self checkBoxes first click.
+	self assertCreationPresenterWasUpdated
+]

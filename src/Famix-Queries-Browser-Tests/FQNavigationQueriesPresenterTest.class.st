@@ -4,6 +4,53 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
 }
 
+{ #category : #running }
+FQNavigationQueriesPresenterTest >> assertCheckBoxesMatchAllPossibleAssociations [
+	| allAssociations |
+	allAssociations := self queryBuilder allPossibleAssociations.
+	
+	self assert: self checkBoxes size equals: allAssociations size.
+	
+	self
+		assertCollection:
+			(allAssociations
+				collect: [ :assoc | assoc name withoutPrefix: 'FamixT' ])
+		hasSameElements: (self checkBoxes collect: #label)
+]
+
+{ #category : #running }
+FQNavigationQueriesPresenterTest >> assertCheckBoxesMatchAvailableAssociations [
+	| availableAssociations |
+	availableAssociations := self queryBuilder availableAssociations.
+	
+	self
+		assert: (self checkBoxes select: #state) size
+		equals: availableAssociations size.
+	
+	self
+		assertCollection:
+			(availableAssociations
+				collect: [ :assoc | assoc name withoutPrefix: 'FamixT' ])
+		hasSameElements: (self checkBoxes select: #state thenCollect: #label)
+]
+
+{ #category : #running }
+FQNavigationQueriesPresenterTest >> assertCheckBoxesMatchQuery [
+	self
+		assertCollection:
+			(self queryBuilder currentQueryAssociations
+				collect: [ :type | type name withoutPrefix: 'FamixT' ])
+		hasSameElements: (self checkBoxes select: #state thenCollect: #label).
+	
+	(self radioButtons detect: [ :rb | rb state not ]) click.
+	
+	self
+		assertCollection:
+			(self queryBuilder currentQueryAssociations
+				collect: [ :type | type name withoutPrefix: 'FamixT' ])
+		hasSameElements: (self checkBoxes select: #state thenCollect: #label)
+]
+
 { #category : #helpers }
 FQNavigationQueriesPresenterTest >> checkBoxes [
 	^ presenter secondParameter presenters
@@ -66,58 +113,12 @@ FQNavigationQueriesPresenterTest >> testCheckBoxesEnabledOnlyWhenAvailable [
 ]
 
 { #category : #tests }
-FQNavigationQueriesPresenterTest >> testCheckBoxesMatchAllPossibleAssociations [
-	| allAssociations |
-	allAssociations := self queryBuilder allPossibleAssociations.
-	
-	self assert: self checkBoxes size equals: allAssociations size.
-	
-	self
-		assertCollection:
-			(allAssociations
-				collect: [ :assoc | assoc name withoutPrefix: 'FamixT' ])
-		hasSameElements: (self checkBoxes collect: #label)
-]
-
-{ #category : #tests }
-FQNavigationQueriesPresenterTest >> testCheckBoxesMatchAvailableAssociations [
-	| availableAssociations |
-	availableAssociations := self queryBuilder availableAssociations.
-	
-	self
-		assert: (self checkBoxes select: #state) size
-		equals: availableAssociations size.
-	
-	self
-		assertCollection:
-			(availableAssociations
-				collect: [ :assoc | assoc name withoutPrefix: 'FamixT' ])
-		hasSameElements: (self checkBoxes select: #state thenCollect: #label)
-]
-
-{ #category : #tests }
 FQNavigationQueriesPresenterTest >> testCheckBoxesMatchForOtherDirection [
 	(self radioButtons detect: [ :rb | rb state not ]) click.
 	
-	self testCheckBoxesMatchAllPossibleAssociations.
-	self testCheckBoxesMatchAvailableAssociations.
-	self testCheckBoxesMatchQuery
-]
-
-{ #category : #tests }
-FQNavigationQueriesPresenterTest >> testCheckBoxesMatchQuery [
-	| currentQueryAssociations |
-	
-	currentQueryAssociations := self queryBuilder currentQueryAssociations
-		collect: [ :type | type name withoutPrefix: 'FamixT' ].
-	
-	self
-		assertCollection: currentQueryAssociations
-		hasSameElements: (self checkBoxes select: #state thenCollect: #label).
-	
-	self
-		denyCollection: currentQueryAssociations
-		hasSameElements: (self checkBoxes reject: #state thenCollect: #label)
+	self assertCheckBoxesMatchAllPossibleAssociations.
+	self assertCheckBoxesMatchAvailableAssociations.
+	self assertCheckBoxesMatchQuery
 ]
 
 { #category : #tests }
@@ -186,4 +187,15 @@ FQNavigationQueriesPresenterTest >> testSecondParameter [
 	self
 		assert: presenter secondParameter class
 		identicalTo: FQNoPossibleQueryPresenter
+]
+
+{ #category : #tests }
+FQNavigationQueriesPresenterTest >> testUpdateCreationBrowser [
+	self assertCreationPresenterWasUpdated.
+	
+	(self radioButtons detect: [ :rb | rb state not ]) click.
+	self assertCreationPresenterWasUpdated.
+
+	self checkBoxes first click.
+	self assertCreationPresenterWasUpdated
 ]

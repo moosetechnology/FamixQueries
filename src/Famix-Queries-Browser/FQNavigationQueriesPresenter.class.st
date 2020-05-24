@@ -40,12 +40,17 @@ FQNavigationQueriesPresenter >> configureCheckBox: checkBox forNavigationAssocia
 
 { #category : #'widgets configuration' }
 FQNavigationQueriesPresenter >> configureRadioButton: radioButton forNavigationDirection: direction [
+	"	(radioButton observablePropertyNamed: #state) subscriptions
+		haltOnCallTo: #add:."
+
+	"radioButton haltOnCallTo: #whenActivatedDo:."
 	radioButton
 		label: direction label;
 		whenActivatedDo: [ [ queryBuilder changeQueryNavigationDirection: direction ]
 				on: FQImpossibleQuery
 				do: [ self flag: #ImpossibleQuery , 'Manage this error better' ].
-			self updateAccordingToDirection ]
+			self updateAccordingToDirection.
+			self notifyQueryChanged ]
 ]
 
 { #category : #initialization }

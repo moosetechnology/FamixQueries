@@ -45,6 +45,15 @@ FQComparativeQueryParametersPresenterTest >> testQueryValidity [
 ]
 
 { #category : #tests }
+FQComparativeQueryParametersPresenterTest >> testUpdateCreationBrowser [
+	super testUpdateCreationBrowser.
+	presenter comparators selectIndex: 2.
+	self assertCreationPresenterWasUpdated.
+	presenter valueInput text: self valueInput.
+	self assertCreationPresenterWasUpdated
+]
+
+{ #category : #tests }
 FQComparativeQueryParametersPresenterTest >> testValueInput [
 	self
 		assert: presenter valueInput class

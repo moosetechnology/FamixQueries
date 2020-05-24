@@ -123,3 +123,10 @@ FQPropertyQueriesPresenterTest >> testSubPresenterMatchesRadioButton [
 		assert: presenter secondParameter class queryBuilderClass
 		equals: self queryBuilder class.
 ]
+
+{ #category : #tests }
+FQPropertyQueriesPresenterTest >> testUpdateCreationBrowser [
+	self assertCreationPresenterWasUpdated.
+	(self radioButtons detect: [ :rb | rb state not ]) click.
+	self assertCreationPresenterWasUpdated
+]
