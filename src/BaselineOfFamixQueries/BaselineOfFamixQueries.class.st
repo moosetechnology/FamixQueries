@@ -12,19 +12,18 @@ BaselineOfFamixQueries >> baseline: spec [
 	<baseline>
 	spec
 		for: #common
-		do: [ "Dependencies"
-			"self famix: spec."
-			self roassal3: spec.
+		do: [ "self roassal3: spec."
+			self midas: spec.
 
 			"Packages"
 			spec
-				package: 'Famix-Queries' "with: [ spec requires: #('Famix') ]";
+				package: 'Famix-Queries';
 				package: 'Famix-Queries-Tests'
 					with: [ spec requires: #('Famix-Queries') ];
 				package: 'Famix-Queries-Browser'
-					with: [ spec requires: #('Famix-Queries' 'Roassal3') ];
+					with: [ spec requires: #('Famix-Queries' 'Midas')	"'Roassal3'" ];
 				package: 'Famix-Queries-Browser-Tests'
-					with: [ spec requires: #('Famix-Queries-Browser') ].
+					with: [ spec requires: #('Famix-Queries-Browser' 'Famix-Queries-Tests') ].
 
 			"Groups"
 			spec
@@ -42,6 +41,13 @@ BaselineOfFamixQueries >> famix: spec [
 				loads: #('Core');
 				repository: 'github://moosetechnology/Moose:development/src' ];
 		project: 'FamixTests' copyFrom: 'Famix' with: [ spec loads: #('EntitiesSmalltalk' 'TestsResources' 'Importers') ]
+]
+
+{ #category : #dependencies }
+BaselineOfFamixQueries >> midas: spec [
+	spec
+		baseline: 'Midas'
+		with: [ spec repository: 'github://moosetechnology/Midas:master/src' ]
 ]
 
 { #category : #dependencies }
