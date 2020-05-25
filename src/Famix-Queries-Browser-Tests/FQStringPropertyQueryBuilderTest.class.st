@@ -7,9 +7,11 @@ Class {
 { #category : #tests }
 FQStringPropertyQueryBuilderTest >> preUpdateConfiguration [
 	queryBuilder := self queryBuilderClass
-		newWithParentQuery: (FQMockQuery new result: helper modelExample allModelMethods).
+		newWithParentQuery: (FQMockQuery new result: helper methods).
 	queryBuilder changeQueryProperty: #name.
-	queryBuilder changeQueryValueToCompare: 'int'
+	queryBuilder changeQueryValueToCompare: 'int'.
+	
+	self deny: queryBuilder queryResult isEmpty
 ]
 
 { #category : #initialization }

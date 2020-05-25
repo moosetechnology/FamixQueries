@@ -4,6 +4,15 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
 
+{ #category : #tests }
+FQBooleanPropertyQueryBuilderTest >> preUpdateConfiguration [
+	queryBuilder := self queryBuilderClass
+		newWithParentQuery: (FQMockQuery new result: helper classes).
+	queryBuilder changeQueryProperty: #isInstanceSide.
+
+	self deny: queryBuilder queryResult isEmpty
+]
+
 { #category : #initialization }
 FQBooleanPropertyQueryBuilderTest >> queryBuilderClass [
 	^ FQBooleanPropertyQueryBuilder
@@ -27,10 +36,12 @@ FQBooleanPropertyQueryBuilderTest >> testInitializeQuery [
 { #category : #tests }
 FQBooleanPropertyQueryBuilderTest >> testUpdateQueryResult [
 	| previousResult |
-	
+	self preUpdateConfiguration.
 	previousResult := queryBuilder query result copy.
-	queryBuilder changeQueryProperty: #isAbstract.
+	
+	"Change Property"
+	queryBuilder changeQueryProperty: #isAbstract.	
 	self
 		denyCollection: queryBuilder query result
-		hasSameElements: previousResult.
+		hasSameElements: previousResult
 ]

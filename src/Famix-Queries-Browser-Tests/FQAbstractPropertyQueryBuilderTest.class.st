@@ -8,3 +8,10 @@ Class {
 FQAbstractPropertyQueryBuilderTest class >> isAbstract [
 	^ self == FQAbstractPropertyQueryBuilderTest
 ]
+
+{ #category : #tests }
+FQAbstractPropertyQueryBuilderTest >> preUpdateConfiguration [
+	"Setting the initial query so its result is not empty and is different from the result after update"
+
+	self subclassResponsibility
+]

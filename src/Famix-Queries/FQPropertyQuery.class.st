@@ -128,11 +128,17 @@ FQPropertyQuery >> property: anObject [
 
 { #category : #running }
 FQPropertyQuery >> runOn: aMooseGroup [
+	self
+		flag:
+			#FQImprove
+				,
+					'Nil check to exclude entities for which the property is nil. Do we want to do that ?'.
 	^ aMooseGroup
 		select: [ :entity | 
 			(self property value: entity)
-				perform: self comparator
-				with: self valueToCompare ]
+				ifNil: [ false ]
+				ifNotNil:
+					[ :entityProperty | entityProperty perform: self comparator with: self valueToCompare ] ]
 ]
 
 { #category : #printing }

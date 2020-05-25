@@ -70,6 +70,14 @@ FQStringQueryTest >> testName [
 ]
 
 { #category : #tests }
+FQStringQueryTest >> testRunOnNilProperty [
+	query property: #kind.
+	"No methods have a kind in this model. 
+		'anEntity kind' returns nil"
+	self assert: (query runOn: helper methods) isEmpty
+]
+
+{ #category : #tests }
 FQStringQueryTest >> testValueToCompareAsString [
 	self assert: query valueToCompareAsString equals: '''LANP'''
 ]

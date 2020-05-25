@@ -7,9 +7,11 @@ Class {
 { #category : #tests }
 FQNumericPropertyQueryBuilderTest >> preUpdateConfiguration [
 	queryBuilder := self queryBuilderClass
-		newWithParentQuery: (FQMockQuery new result: helper modelExample allModelClasses).
+		newWithParentQuery: (FQMockQuery new result: helper classes).
 	queryBuilder changeQueryProperty: #numberOfMethods.
-	queryBuilder changeQueryValueToCompare: 3
+	queryBuilder changeQueryValueToCompare: 3.
+
+	self deny: queryBuilder queryResult isEmpty
 ]
 
 { #category : #initialization }
