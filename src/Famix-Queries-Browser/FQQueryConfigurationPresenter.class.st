@@ -38,11 +38,6 @@ FQQueryConfigurationPresenter class >> label [
 	^ self queryBuilderClass queryClass label
 ]
 
-{ #category : #'instance creation' }
-FQQueryConfigurationPresenter class >> open [
-	(self on: FQQueryCreationPresenter classesAndMethods) openWithSpec
-]
-
 { #category : #initialization }
 FQQueryConfigurationPresenter class >> queryBuilderClass [
 	^ self subclassResponsibility

@@ -52,21 +52,32 @@ FQQueriesCombinationPresenter class >> nonCommuntativeQueryLayout [
 				add:
 					(SpBoxLayout newVertical
 						add: #combinationsDroplist height: self buttonHeight;
-						add:
-							(SpBoxLayout newHorizontal
-								add:
-									(SpBoxLayout newVertical
-										add: #firstParent;
-										add: #queryOperator;
-										add: #secondParent;
-										yourself);
-								add: #reverseButton width: self buttonHeight;
-								yourself)
-							height: self labelHeight * 3;
+						add: self parentsInversionLayout
+							height: self parentInversionHeight;
 						add: #queriesTree;
 						yourself);
 				add: #resultList;
 				yourself);
+		yourself
+]
+
+{ #category : #specs }
+FQQueriesCombinationPresenter class >> parentInversionHeight [
+	"3 labels in parentsInversionLayout"
+
+	^ self labelHeight * 3
+]
+
+{ #category : #specs }
+FQQueriesCombinationPresenter class >> parentsInversionLayout [
+	^ SpBoxLayout newHorizontal
+		add:
+			(SpBoxLayout newVertical
+				add: #firstParent;
+				add: #queryOperator;
+				add: #secondParent;
+				yourself);
+		add: #reverseButton width: self buttonHeight;
 		yourself
 ]
 

@@ -11,16 +11,6 @@ Class {
 	#category : #'Famix-Queries-Browser-Presenters'
 }
 
-{ #category : #entities }
-FQQueriesBrowserPresenter class >> classesAndMethods [
-	| model |
-	model := self modelExample.
-	^ MooseGroup
-		withAll:
-			{model allModelClasses.
-			model allModelMethods} flatten
-]
-
 { #category : #specs }
 FQQueriesBrowserPresenter class >> defaultSpec [
 	^ super defaultSpec
@@ -32,22 +22,14 @@ FQQueriesBrowserPresenter class >> defaultSpec [
 		yourself
 ]
 
-{ #category : #entities }
-FQQueriesBrowserPresenter class >> modelExample [
-	| model |
-	model := FamixStModel new.
-	MoosePharoImporterTask new
-		importerClass: SmalltalkImporter;
-		model: model;
-		addFromPackageNamed: #'Moose-TestResources-LAN';
-		run.
-	^ model
-]
-
 { #category : #'instance creation' }
 FQQueriesBrowserPresenter class >> open [
 	<script>
-	(self on: self classesAndMethods) openWithSpec
+	self
+		flag:
+			#FQImprove
+				, 'This should be an example AND it depends on tests package'.
+	(self on: FQTestsHelper current classesAndMethods) openWithSpec
 ]
 
 { #category : #'instance creation' }
