@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
 
-{ #category : #tests }
+{ #category : #running }
 FQStringPropertyQueryBuilderTest >> preUpdateConfiguration [
 	queryBuilder := self queryBuilderClass
 		newWithParentQuery: (FQMockQuery new result: helper methods).
@@ -14,7 +14,7 @@ FQStringPropertyQueryBuilderTest >> preUpdateConfiguration [
 	self deny: queryBuilder queryResult isEmpty
 ]
 
-{ #category : #initialization }
+{ #category : #running }
 FQStringPropertyQueryBuilderTest >> queryBuilderClass [
 	^ FQStringPropertyQueryBuilder
 ]
@@ -39,7 +39,7 @@ FQStringPropertyQueryBuilderTest >> testChangeQueryValueToCompare [
 
 { #category : #tests }
 FQStringPropertyQueryBuilderTest >> testInitializeQuery [
-	self assert: queryBuilder query class identicalTo: FQStringQuery.
+	super testInitializeQuery.
 	self
 		assert:
 			(queryBuilder availableProperties

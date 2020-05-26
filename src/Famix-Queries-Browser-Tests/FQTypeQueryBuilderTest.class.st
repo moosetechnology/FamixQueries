@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
 
-{ #category : #initialization }
+{ #category : #running }
 FQTypeQueryBuilderTest >> queryBuilderClass [
 	^ FQTypeQueryBuilder 
 ]
@@ -17,7 +17,7 @@ FQTypeQueryBuilderTest >> testAddTypeToQuery [
 
 { #category : #tests }
 FQTypeQueryBuilderTest >> testInitializeQuery [
-	self assert: queryBuilder query class identicalTo: FQTypeQuery.
+	super testInitializeQuery.
 	self
 		assertCollection: queryBuilder currentQueryTypes
 		hasSameElements: queryBuilder availableTypes

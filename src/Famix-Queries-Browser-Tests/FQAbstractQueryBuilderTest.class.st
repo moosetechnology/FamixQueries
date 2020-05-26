@@ -18,7 +18,7 @@ FQAbstractQueryBuilderTest >> entities [
 	^ helper classesAndMethods
 ]
 
-{ #category : #initialization }
+{ #category : #running }
 FQAbstractQueryBuilderTest >> queryBuilderClass [
 	^ self subclassResponsibility
 ]

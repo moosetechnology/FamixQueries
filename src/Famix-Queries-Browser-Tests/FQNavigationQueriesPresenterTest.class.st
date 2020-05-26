@@ -70,7 +70,7 @@ FQNavigationQueriesPresenterTest >> radioButtons [
 
 { #category : #tests }
 FQNavigationQueriesPresenterTest >> testCheckBoxesDisabledSinceFirstDisplay [
-	self resetPresenterWithEntities: helper modelExample allModelMethods.
+	self resetPresenterWithEntities: helper methods.
 	(self radioButtons
 		detect: [ :radioButton | radioButton label = 'Local Incoming' ])
 		click.

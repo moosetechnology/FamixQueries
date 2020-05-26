@@ -42,8 +42,8 @@ FQTypeQueriesPresenter >> configureTypeCheckBox: checkBox forType: type [
 		whenActivatedDo: [ queryBuilder addTypeToQuery: type ];
 		whenDeactivatedDo: [ [ queryBuilder removeTypeFromQuery: type ]
 				on: FQCannotRemoveLastType
-				do: [ checkBox state: true
-					"Spec does not allow this to work" ] ];
+				do: [ checkBox state: true.
+					self flag: #FQSpecPb	"Spec does not allow this to work" ] ];
 		state: (queryBuilder currentQueryTypes includes: type);
 		enabled: queryBuilder currentQueryTypes size > 1;
 		whenChangedDo: [ self notifyQueryChanged ]

@@ -23,18 +23,14 @@ FQNavigationQueriesPresenter class >> title [
 { #category : #'widgets configuration' }
 FQNavigationQueriesPresenter >> configureCheckBox: checkBox forNavigationAssociation: associationTrait [
 	checkBox
-		label: (associationTrait name withoutPrefix: 'FamixT');
+		label: (associationTrait name withoutPrefix: self class traitPrefix);
 		whenActivatedDo: [ queryBuilder addAssociationToQuery: associationTrait ];
 		whenDeactivatedDo: [ [ queryBuilder removeAssociationFromQuery: associationTrait ]
 				on: FQCannotRemoveLastNavigationAssociation
 				do: [ checkBox state: true
 					"Spec does not allow this to work" ] ];
 		enabled: queryBuilder query associationStrategy associations size > 1.
-	(queryBuilder availableAssociations includes: associationTrait)
-		ifTrue: [ checkBox state: true ]
-		ifFalse: [ checkBox
-				state: false;
-				disable ].
+	self setStateOfCheckBox: checkBox association: associationTrait.
 	checkBox whenChangedDo: [ self notifyQueryChanged ]
 ]
 
@@ -70,7 +66,8 @@ FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
 	firstParameter presenters first
-		associatedRadioButtons: firstParameter presenters allButFirst
+		associatedRadioButtons: firstParameter presenters allButFirst.
+	self selectCurrentQueryDirection
 ]
 
 { #category : #initialization }
@@ -86,7 +83,7 @@ FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 	checkBoxes := secondParameter presenters
 		reject: [ :pres | pres class == SpNullPresenter ].
 
-	"Disable active checkBoxes when the query has only one type, to forbid removing it."
+	"Disable active checkBoxes when the query has only one association, to forbid removing it."
 	checkBoxes
 		do: [ :type | 
 			type

@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
 
-{ #category : #tests }
+{ #category : #running }
 FQBooleanPropertyQueryBuilderTest >> preUpdateConfiguration [
 	queryBuilder := self queryBuilderClass
 		newWithParentQuery: (FQMockQuery new result: helper classes).
@@ -13,7 +13,7 @@ FQBooleanPropertyQueryBuilderTest >> preUpdateConfiguration [
 	self deny: queryBuilder queryResult isEmpty
 ]
 
-{ #category : #initialization }
+{ #category : #running }
 FQBooleanPropertyQueryBuilderTest >> queryBuilderClass [
 	^ FQBooleanPropertyQueryBuilder
 ]
@@ -26,7 +26,7 @@ FQBooleanPropertyQueryBuilderTest >> testChangeQueryProperty [
 
 { #category : #tests }
 FQBooleanPropertyQueryBuilderTest >> testInitializeQuery [
-	self assert: queryBuilder query class identicalTo: FQBooleanQuery.
+	super testInitializeQuery.
 	self
 		assert:
 			(queryBuilder availableProperties

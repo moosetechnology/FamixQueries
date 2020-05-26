@@ -7,7 +7,7 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
 
-{ #category : #initialization }
+{ #category : #running }
 FQNavigationQueryBuilderTest >> queryBuilderClass [
 	^ FQNavigationQueryBuilder
 ]
@@ -54,7 +54,7 @@ FQNavigationQueryBuilderTest >> testUpdateQueryResult [
 
 { #category : #tests }
 FQNavigationQueryBuilderTest >> testinitializeQuery [
-	self assert: queryBuilder query class identicalTo: FQNavigationQuery.
+	super testInitializeQuery.
 	self
 		assert:
 			(queryBuilder query directionStrategy

@@ -4,12 +4,12 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Builder'
 }
 
-{ #category : #initialization }
+{ #category : #running }
 FQScopeQueryBuilderTest >> queryBuilderClass [
 	^ FQScopeQueryBuilder
 ]
 
-{ #category : #initialization }
+{ #category : #tests }
 FQScopeQueryBuilderTest >> testChangeQueryDirection [
 	queryBuilder changeQueryDirection: FQScopeDown.
 	self
@@ -17,15 +17,15 @@ FQScopeQueryBuilderTest >> testChangeQueryDirection [
 		identicalTo: FQScopeDown
 ]
 
-{ #category : #initialization }
+{ #category : #tests }
 FQScopeQueryBuilderTest >> testChangeQueryScope [
 	queryBuilder changeQueryScope: FamixStAttribute.
 	self assert: queryBuilder query scope identicalTo: FamixStAttribute
 ]
 
-{ #category : #initialization }
+{ #category : #tests }
 FQScopeQueryBuilderTest >> testInitializeQuery [
-	self assert: queryBuilder query class identicalTo: FQScopeQuery.
+	super testInitializeQuery.
 	self
 		assert: (queryBuilder query directionStrategy inheritsFrom: FQAbstractScopeDirection).
 	self assert: queryBuilder query scope isNotNil.
@@ -33,7 +33,7 @@ FQScopeQueryBuilderTest >> testInitializeQuery [
 		assert: (queryBuilder availableScopes includes: queryBuilder query scope)
 ]
 
-{ #category : #initialization }
+{ #category : #tests }
 FQScopeQueryBuilderTest >> testUpdateQueryResult [
 	| previousResult |
 	

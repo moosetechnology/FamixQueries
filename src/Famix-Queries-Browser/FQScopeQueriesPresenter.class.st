@@ -64,7 +64,8 @@ FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
 	firstParameter presenters first
-		associatedRadioButtons: firstParameter presenters allButFirst
+		associatedRadioButtons: firstParameter presenters allButFirst.
+	self selectCurrentQueryDirection
 ]
 
 { #category : #'widgets configuration' }
@@ -72,6 +73,7 @@ FQScopeQueriesPresenter >> scopesDropList [
 	^ self newDropList
 		items: self queryBuilder availableScopes;
 		display: [ :item | item name withoutPrefix: self modelPrefix ];
+		selectItem: queryBuilder query scope;
 		whenSelectedItemChangedDo: [ :scope | 
 			self queryBuilder changeQueryScope: scope.
 			self notifyQueryChanged ]
