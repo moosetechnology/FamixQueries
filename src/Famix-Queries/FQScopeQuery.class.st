@@ -64,6 +64,12 @@ FQScopeQuery >> availableDirections [
 ]
 
 { #category : #'available parameters' }
+FQScopeQuery >> availableScopes [
+	self flag: #FQTest.
+	^ self availableScopesFor: parent result
+]
+
+{ #category : #'available parameters' }
 FQScopeQuery >> availableScopesFor: aMooseGroup [
 	^ self directionStrategy availableScopesFor: aMooseGroup
 ]

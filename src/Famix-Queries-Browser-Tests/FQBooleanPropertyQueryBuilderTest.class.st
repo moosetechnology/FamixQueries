@@ -18,6 +18,11 @@ FQBooleanPropertyQueryBuilderTest >> queryBuilderClass [
 	^ FQBooleanPropertyQueryBuilder
 ]
 
+{ #category : #running }
+FQBooleanPropertyQueryBuilderTest >> queryClass [
+	^ FQBooleanQuery
+]
+
 { #category : #tests }
 FQBooleanPropertyQueryBuilderTest >> testChangeQueryProperty [
 	queryBuilder changeQueryProperty: #isAbstract.

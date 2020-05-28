@@ -103,6 +103,14 @@ FQNavigationQuery >> associationStrategy: anObject [
 ]
 
 { #category : #'available parameters' }
+FQNavigationQuery >> availableAssociations [
+	self flag: #FQTest.
+	^ directionStrategy
+		ifNil: [ #() ]
+		ifNotNil: [ self availableAssociationsFor: parent result ]
+]
+
+{ #category : #'available parameters' }
 FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
 	^ ((self directionStrategy
 		availableAssociationsFor: (aMooseGroup allUsing: TEntityMetaLevelDependency))

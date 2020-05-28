@@ -43,6 +43,11 @@ FQQueryConfigurationPresenter class >> queryBuilderClass [
 	^ self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+FQQueryConfigurationPresenter class >> traitPrefix [
+	^ 'FamixT'
+]
+
 { #category : #initialization }
 FQQueryConfigurationPresenter >> initialize [
 	super initialize.

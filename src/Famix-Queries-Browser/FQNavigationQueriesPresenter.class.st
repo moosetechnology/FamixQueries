@@ -77,6 +77,14 @@ FQNavigationQueriesPresenter >> initializePresenters [
 ]
 
 { #category : #'widgets configuration' }
+FQNavigationQueriesPresenter >> selectCurrentQueryDirection [
+	(firstParameter presenters
+		detect:
+			[ :radioButton | radioButton label = self query directionStrategy label ])
+		state: true
+]
+
+{ #category : #'widgets configuration' }
 FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 	| checkBoxes |
 	"Dynamic layout involves NullPresenters, they will not answer to #enable, #disable"
@@ -90,6 +98,18 @@ FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 				whenChangedDo: [ queryBuilder currentQueryAssociations size == 1
 						ifTrue: [ checkBoxes select: #state thenDo: #disable ]
 						ifFalse: [ checkBoxes select: #state thenDo: #enable ] ] ]
+]
+
+{ #category : #'widgets configuration' }
+FQNavigationQueriesPresenter >> setStateOfCheckBox: checkBox association: associationTrait [
+	checkBox
+		state:
+			(self query associationStrategy associations
+				includes: associationTrait).
+	checkBox
+		enabled:
+			(self query associationStrategy associations size > 1
+				and: [ self query availableAssociations includes: associationTrait ])
 ]
 
 { #category : #update }

@@ -24,6 +24,11 @@ FQAbstractQueryBuilderTest >> queryBuilderClass [
 ]
 
 { #category : #running }
+FQAbstractQueryBuilderTest >> queryClass [
+	^ self subclassResponsibility
+]
+
+{ #category : #running }
 FQAbstractQueryBuilderTest >> setUp [
 	helper := FQTestsHelper current.
 	queryBuilder := self queryBuilderClass
@@ -36,4 +41,10 @@ FQAbstractQueryBuilderTest >> testErrorOnInitializeQuery [
 		should: [ self queryBuilderClass
 				newWithParentQuery: (FQMockQuery new result: helper noEntities) ]
 		raise: FQImpossibleQuery
+]
+
+{ #category : #tests }
+FQAbstractQueryBuilderTest >> testInitializeQuery [
+	self assert: queryBuilder query class identicalTo: self queryClass.
+	self assert: queryBuilder query isValid
 ]

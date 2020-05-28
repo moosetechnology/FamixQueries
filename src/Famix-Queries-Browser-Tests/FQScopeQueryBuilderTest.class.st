@@ -9,6 +9,11 @@ FQScopeQueryBuilderTest >> queryBuilderClass [
 	^ FQScopeQueryBuilder
 ]
 
+{ #category : #running }
+FQScopeQueryBuilderTest >> queryClass [
+	^ FQScopeQuery
+]
+
 { #category : #tests }
 FQScopeQueryBuilderTest >> testChangeQueryDirection [
 	queryBuilder changeQueryDirection: FQScopeDown.

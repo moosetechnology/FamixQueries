@@ -9,6 +9,11 @@ FQTypeQueryBuilderTest >> queryBuilderClass [
 	^ FQTypeQueryBuilder 
 ]
 
+{ #category : #running }
+FQTypeQueryBuilderTest >> queryClass [
+	^ FQTypeQuery 
+]
+
 { #category : #tests }
 FQTypeQueryBuilderTest >> testAddTypeToQuery [
 	queryBuilder addTypeToQuery: FamixStMethod.

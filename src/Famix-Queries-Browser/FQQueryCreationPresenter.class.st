@@ -57,7 +57,7 @@ FQQueryCreationPresenter class >> queryConfigurationLayout [
 
 { #category : #'query configuration presenters' }
 FQQueryCreationPresenter class >> queryConfigurationPresenters [
-	^ FQQueryConfigurationPresenter allSubclasses
+	^ FQQueryConfigurationPresenter allSubclasses sort: #name ascending
 ]
 
 { #category : #specs }

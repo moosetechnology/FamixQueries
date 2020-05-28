@@ -12,6 +12,11 @@ FQNavigationQueryBuilderTest >> queryBuilderClass [
 	^ FQNavigationQueryBuilder
 ]
 
+{ #category : #running }
+FQNavigationQueryBuilderTest >> queryClass [
+	^ FQNavigationQuery
+]
+
 { #category : #tests }
 FQNavigationQueryBuilderTest >> testAddAssociationToQuery [
 	queryBuilder addAssociationToQuery: FamixTInheritance.

@@ -63,7 +63,7 @@ FQQueriesBrowserPresenter >> followAction [
 	queries do: #resetResult.
 	self initialQuery result: (toSelect allUsing: FamixTNamedEntity).
 	self initialQuery name: toSelect first mooseModel name.
-	self selectQuery: self initialQuery	"timeProfile" "timeToRun inspect"
+	self selectQuery: self initialQuery
 ]
 
 { #category : #midas }
@@ -114,6 +114,11 @@ FQQueriesBrowserPresenter >> initializeQueryResult [
 FQQueriesBrowserPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 500 @ 400
+]
+
+{ #category : #midas }
+FQQueriesBrowserPresenter >> miSelectedItem [
+	^ selectedQuery result
 ]
 
 { #category : #utils }

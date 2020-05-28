@@ -19,6 +19,11 @@ FQNumericPropertyQueryBuilderTest >> queryBuilderClass [
 	^ FQNumericPropertyQueryBuilder
 ]
 
+{ #category : #running }
+FQNumericPropertyQueryBuilderTest >> queryClass [
+	^ FQNumericQuery
+]
+
 { #category : #tests }
 FQNumericPropertyQueryBuilderTest >> testChangeQueryComparator [
 	queryBuilder changeQueryProperty: #<=.

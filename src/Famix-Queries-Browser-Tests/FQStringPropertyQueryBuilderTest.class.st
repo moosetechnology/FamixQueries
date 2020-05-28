@@ -19,6 +19,11 @@ FQStringPropertyQueryBuilderTest >> queryBuilderClass [
 	^ FQStringPropertyQueryBuilder
 ]
 
+{ #category : #running }
+FQStringPropertyQueryBuilderTest >> queryClass [
+	^ FQStringQuery
+]
+
 { #category : #tests }
 FQStringPropertyQueryBuilderTest >> testChangeQueryComparator [
 	queryBuilder changeQueryComparator: #matchesRegex:.

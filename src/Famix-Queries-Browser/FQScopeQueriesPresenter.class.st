@@ -79,6 +79,14 @@ FQScopeQueriesPresenter >> scopesDropList [
 			self notifyQueryChanged ]
 ]
 
+{ #category : #'widgets configuration' }
+FQScopeQueriesPresenter >> selectCurrentQueryDirection [
+	(firstParameter presenters
+		detect:
+			[ :radioButton | radioButton label = self query directionStrategy label ])
+		state: true
+]
+
 { #category : #update }
 FQScopeQueriesPresenter >> updateAccordingToDirection [
 	secondParameter := self queryBuilder availableScopes
