@@ -18,6 +18,13 @@ FQResultTreePresenter >> canCreateQueries [
 	^ owner == browser
 ]
 
+{ #category : #initialization }
+FQResultTreePresenter >> childrenOf: item [
+	^ (self roots includes: item)
+		ifTrue: [ item entities sort: #name ascending ]
+		ifFalse: {}
+]
+
 { #category : #action }
 FQResultTreePresenter >> createQueryForType: aClass [
 	browser
@@ -37,19 +44,18 @@ FQResultTreePresenter >> initialize [
 				addColumn:
 					(SpStringTableColumn new
 						evaluated: [ :item | self stringForItem: item ]));
-		whenSelectionChangedDo: [ :selection | self updateMenu ]
-]
-
-{ #category : #action }
-FQResultTreePresenter >> inspect: selectedItem [
-	((self roots includes: selectedItem)
-		ifFalse: [ selectedItem ]
-		ifTrue: [ (self childrenFor: selectedItem) asMooseGroup ]) inspect
+		whenSelectionChangedDo: [ :selection | self updateMenu ];
+		children: [ :item | self childrenOf: item ]
 ]
 
 { #category : #accessing }
 FQResultTreePresenter >> items [
 	^ items ifNil: [ items := MooseGroup new ]
+]
+
+{ #category : #naming }
+FQResultTreePresenter >> modelPrefix [
+	^ self roots first mooseModel className withoutSuffix: 'Model'
 ]
 
 { #category : #'accessing model' }
@@ -59,37 +65,36 @@ FQResultTreePresenter >> setModelBeforeInitialization: aBrowser [
 
 { #category : #naming }
 FQResultTreePresenter >> stringForItem: item [
-	self flag: #FQImprove , 'Probably some optimization to do here'.
-	item isMooseEntity
-		ifFalse: [ ^ self
-				stringForType: item
-				nbOfEntities: (self items count: [ :entity | entity class == item ]) ].
+	(self roots includes: item)
+		ifTrue:
+			[ ^ self stringForRoot: item ].
 	^ item name
 ]
 
 { #category : #naming }
-FQResultTreePresenter >> stringForType: item nbOfEntities: nbEntities [
-	self
-		flag:
-			#FQImprove
-				, 'should this call browser or should modelPrefix be defined here ?'.
+FQResultTreePresenter >> stringForRoot: item [
 	^ String
-		streamContents: [ :stream | 
-			stream << nbEntities asString << ' '
+		streamContents: [ :s | 
+			| typeName |
+			typeName := item first className withoutPrefix: self modelPrefix.
+			s
+				print: item size;
+				<< Character space;
 				<<
-					(nbEntities > 1
-						ifTrue: [ (item name withoutPrefix: browser modelPrefix) asEnglishPlural ]
-						ifFalse: [ item name withoutPrefix: browser modelPrefix ]) ]
+					(item size > 1
+						ifTrue: [ typeName asEnglishPlural ]
+						ifFalse: [ typeName ]) ]
 ]
 
 { #category : #update }
 FQResultTreePresenter >> updateForEntities: entities [
 	items := entities.
 	self
-		roots: (entities collectAsSet: #class) asMooseGroup;
-		children: [ :type | 
-			(items select: [ :entity | entity class == type ])
-				sorted: [ :e1 :e2 | e1 name < e2 name ] ]
+		roots:
+			((entities collectAsSet: #class)
+				collect:
+					[ :type | (items select: [ :entity | entity class == type ]) asMooseGroup ])
+				asOrderedCollection
 ]
 
 { #category : #update }
@@ -99,7 +104,7 @@ FQResultTreePresenter >> updateMenu [
 		addItem: [ :menuItem | 
 			menuItem
 				name: 'Inspect';
-				action: [ self inspect: self selectedItem ] ].
+				action: [ self selectedItem inspect ] ].
 	(self canCreateQueries
 		and: [ self roots includes: self selectedItem ])
 		ifFalse: [ ^ self ].
@@ -107,5 +112,5 @@ FQResultTreePresenter >> updateMenu [
 		addItem: [ :menuItem | 
 			menuItem
 				name: 'Select ' , (self stringForItem: self selectedItem) substrings last;
-				action: [ self createQueryForType: self selectedItem ] ]
+				action: [ self createQueryForType: self selectedItem anyOne class ] ]
 ]
