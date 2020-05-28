@@ -40,6 +40,13 @@ FQResultTreePresenter >> initialize [
 		whenSelectionChangedDo: [ :selection | self updateMenu ]
 ]
 
+{ #category : #action }
+FQResultTreePresenter >> inspect: selectedItem [
+	((self roots includes: selectedItem)
+		ifFalse: [ selectedItem ]
+		ifTrue: [ (self childrenFor: selectedItem) asMooseGroup ]) inspect
+]
+
 { #category : #accessing }
 FQResultTreePresenter >> items [
 	^ items ifNil: [ items := MooseGroup new ]
@@ -79,7 +86,7 @@ FQResultTreePresenter >> stringForType: item nbOfEntities: nbEntities [
 FQResultTreePresenter >> updateForEntities: entities [
 	items := entities.
 	self
-		roots: (entities collectAsSet: #class) asOrderedCollection;
+		roots: (entities collectAsSet: #class) asMooseGroup;
 		children: [ :type | 
 			(items select: [ :entity | entity class == type ])
 				sorted: [ :e1 :e2 | e1 name < e2 name ] ]
@@ -88,6 +95,11 @@ FQResultTreePresenter >> updateForEntities: entities [
 { #category : #update }
 FQResultTreePresenter >> updateMenu [
 	self contextMenu: self newMenu.
+	self contextMenu
+		addItem: [ :menuItem | 
+			menuItem
+				name: 'Inspect';
+				action: [ self inspect: self selectedItem ] ].
 	(self canCreateQueries
 		and: [ self roots includes: self selectedItem ])
 		ifFalse: [ ^ self ].

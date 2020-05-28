@@ -79,7 +79,11 @@ FQRoassalQueryPresenter >> boxMenu: aMenuMorph box: aBox [
 	(aMenuMorph
 		add: 'Inspect query'
 		target: aBox model
-		selector: #inspect) icon: (UITheme iconNamed: #inspect).
+		selector: #inspect) icon: (UITheme iconNamed: #glamorousInspect).
+	(aMenuMorph
+		add: 'Inspect result'
+		target: aBox model result
+		selector: #inspect) icon: (UITheme iconNamed: #glamorousInspect).
 	aBox model == browser initialQuery
 		ifTrue: [ ^ self ].
 	(aMenuMorph
