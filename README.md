@@ -6,5 +6,5 @@ Evaluate this code in a Playground to load Famix Queries and the associated brow
 ```Smalltalk
 Metacello new
     baseline: 'FamixQueries';
-    repository: 'github://ClotildeToullec/FamixQueries';
+    repository: 'github://moosetechnology/FamixQueries';
     load.
