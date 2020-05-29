@@ -9,6 +9,11 @@ FQNumericQueryParametersPresenterTest >> classToTest [
 	^ FQNumericQueryParametersPresenter
 ]
 
+{ #category : #running }
+FQNumericQueryParametersPresenterTest >> queryClass [
+	^ FQNumericQuery
+]
+
 { #category : #helpers }
 FQNumericQueryParametersPresenterTest >> valueInput [
 	^ '5'

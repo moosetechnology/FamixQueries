@@ -15,6 +15,11 @@ FQTypeQueriesPresenterTest >> classToTest [
 	^ FQTypeQueriesPresenter
 ]
 
+{ #category : #helpers }
+FQTypeQueriesPresenterTest >> queryClass [
+	^ FQTypeQuery
+]
+
 { #category : #tests }
 FQTypeQueriesPresenterTest >> testCheckBoxesChangeQueryTypes [
 	| initialSize |
@@ -39,7 +44,7 @@ FQTypeQueriesPresenterTest >> testCheckBoxesDisabledSinceFirstDisplay [
 { #category : #tests }
 FQTypeQueriesPresenterTest >> testCheckBoxesMatchAvailableTypes [
 	| types |
-	types := self queryBuilder availableTypes.
+	types := presenter query availableTypes.
 	self assert: self checkBoxes size equals: types size.
 	self
 		assertCollection: (types collect: [ :type | type name withoutPrefix: 'FamixSt' ])
@@ -96,16 +101,16 @@ FQTypeQueriesPresenterTest >> testLastCheckBoxeDisabled [
 
 { #category : #tests }
 FQTypeQueriesPresenterTest >> testQueryValidity [
-	self assert: self queryBuilder queryIsValid.
+	self assert: presenter query isValid.
 
 	self checkBoxes first click.
-	self assert: self queryBuilder queryIsValid.
+	self assert: presenter query isValid.
 
 	self checkBoxes first click.
-	self assert: self queryBuilder queryIsValid.
+	self assert: presenter query isValid.
 
 	self resetPresenterWithEntities: helper noEntities.
-	self deny: self queryBuilder queryIsValid
+	self deny: presenter query isValid
 ]
 
 { #category : #tests }

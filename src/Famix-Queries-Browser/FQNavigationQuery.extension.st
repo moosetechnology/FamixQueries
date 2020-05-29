@@ -6,3 +6,8 @@ FQNavigationQuery class >> color [
 
 	^ Color colorFrom: 'EEDD88'
 ]
+
+{ #category : #'*Famix-Queries-Browser' }
+FQNavigationQuery >> configureIn: aCreationPresenter [
+	aCreationPresenter configureNavigationQuery: self
+]

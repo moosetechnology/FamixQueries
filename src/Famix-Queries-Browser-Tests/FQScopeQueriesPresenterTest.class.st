@@ -15,6 +15,11 @@ FQScopeQueriesPresenterTest >> dropList [
 ]
 
 { #category : #helpers }
+FQScopeQueriesPresenterTest >> queryClass [
+	^ FQScopeQuery
+]
+
+{ #category : #helpers }
 FQScopeQueriesPresenterTest >> radioButtons [
 	^ presenter firstParameter presenters
 		reject: [ :pres | pres class = SpNullPresenter ]
@@ -23,20 +28,20 @@ FQScopeQueriesPresenterTest >> radioButtons [
 { #category : #tests }
 FQScopeQueriesPresenterTest >> testChangingDirectionChangesAvailableScopes [
 	| initialScopes |
-	initialScopes := self queryBuilder availableScopes copy.
+	initialScopes := presenter query availableScopes copy.
 	
 	(self radioButtons
 		detect: [ :radioButton | radioButton state not ]) click.
 	
 	self
 		denyCollection: initialScopes
-		hasSameElements: self queryBuilder availableScopes
+		hasSameElements: presenter query availableScopes
 ]
 
 { #category : #tests }
 FQScopeQueriesPresenterTest >> testDropListMatchesAvailableScopes [
 	| scopes |
-	scopes := self queryBuilder availableScopes.
+	scopes := presenter query availableScopes.
 	
 	self assert: self dropList listItems size equals: scopes size.
 	
@@ -60,7 +65,7 @@ FQScopeQueriesPresenterTest >> testDropListMatchesQuery [
 		equals: self currentQuery scope.
 	
 	self dropList selectItem:
-		(self queryBuilder availableScopes
+		(presenter query availableScopes
 			detect: [ :scope | self currentQuery scope ~~ scope ]).
 
 	self
@@ -94,28 +99,27 @@ FQScopeQueriesPresenterTest >> testNoScopesForADirection [
 
 { #category : #tests }
 FQScopeQueriesPresenterTest >> testQueryValidity [
-	self assert: self queryBuilder queryIsValid.
+	self assert: presenter query isValid.
 	
 	(self radioButtons detect: [ :rb | rb state not ]) click.
-	self assert: self queryBuilder queryIsValid.
+	self assert: presenter query isValid.
 	
 	self dropList selectItem: (self dropList listItems copyWithout: self dropList selectedItem) anyOne.
-	self assert: self queryBuilder queryIsValid.
+	self assert: presenter query isValid.
 	
 	self resetPresenterWithEntities: helper entitiesWithNoDownScope.
 	(presenter firstParameter presenters
 		detect: [ :radioButton | radioButton label = 'Down' ]) click.
-	self deny: self queryBuilder queryIsValid.
+	self deny: presenter query isValid.
 	
 	self resetPresenterWithEntities: helper noEntities.
-	self deny: self queryBuilder queryIsValid. 
+	self deny: presenter query isValid
 ]
 
 { #category : #tests }
 FQScopeQueriesPresenterTest >> testRadioButtonsMatchAvailableDirections [
 	| directions |
-	directions := self queryBuilder availableScopeDirections.
-	
+	directions := presenter query availableDirections.
 	self assert: self radioButtons size equals: directions size.
 	
 	self
@@ -156,7 +160,7 @@ FQScopeQueriesPresenterTest >> testUpdateCreationBrowser [
 	
 	self dropList
 		selectItem:
-			(self queryBuilder availableScopes
+			(presenter query availableScopes
 				detect: [ :scope | self currentQuery scope ~~ scope ]).
 	self assertCreationPresenterWasUpdated
 ]

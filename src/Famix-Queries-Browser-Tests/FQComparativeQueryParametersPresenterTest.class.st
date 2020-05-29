@@ -16,10 +16,10 @@ FQComparativeQueryParametersPresenterTest >> testComparatorsDropList [
 		identicalTo: SpDropListPresenter.
 	self
 		assert: presenter comparators listItems size
-		equals: presenter queryBuilder availableComparators size.
+		equals: presenter query availableComparators size.
 	self
 		assertCollection: presenter comparators listItems
-		hasSameElements: presenter queryBuilder availableComparators
+		hasSameElements: presenter query availableComparators
 ]
 
 { #category : #tests }
@@ -27,11 +27,11 @@ FQComparativeQueryParametersPresenterTest >> testMatchesQuery [
 	super testMatchesQuery.
 	presenter comparators selectIndex: 2.
 	self
-		assert: presenter queryBuilder query comparator
+		assert: presenter query comparator
 		equals: presenter comparators selectedItem.
 	presenter valueInput text: self valueInput.
 	self
-		assert: presenter queryBuilder query valueToCompare asString
+		assert: presenter query valueToCompare asString
 		equals: presenter valueInput text
 ]
 
@@ -39,9 +39,9 @@ FQComparativeQueryParametersPresenterTest >> testMatchesQuery [
 FQComparativeQueryParametersPresenterTest >> testQueryValidity [
 	super testQueryValidity.
 	presenter comparators selectIndex: 2.
-	self assert: presenter queryBuilder queryIsValid.
+	self assert: presenter query isValid.
 	presenter valueInput text: self valueInput.
-	self assert: presenter queryBuilder queryIsValid
+	self assert: presenter query isValid
 ]
 
 { #category : #tests }

@@ -51,7 +51,7 @@ FQStringQuery class >> label [
 
 { #category : #'available parameters' }
 FQStringQuery >> availableComparators [
-	self flag: 'To improve'.
+	self flag: #FQImprove.
 	^ {#includesSubstring: . #beginsWith: . #matchesRegex:}
 ]
 
