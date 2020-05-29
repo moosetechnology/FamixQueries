@@ -8,3 +8,8 @@ Class {
 FQBooleanQueryParametersPresenterTest >> classToTest [
 	^ FQBooleanQueryParametersPresenter
 ]
+
+{ #category : #running }
+FQBooleanQueryParametersPresenterTest >> queryClass [
+	^ FQBooleanQuery
+]

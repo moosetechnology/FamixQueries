@@ -57,7 +57,17 @@ FQQueryCreationPresenter class >> queryConfigurationLayout [
 
 { #category : #'query configuration presenters' }
 FQQueryCreationPresenter class >> queryConfigurationPresenters [
-	^ FQQueryConfigurationPresenter allSubclasses sort: #name ascending
+	^ FQQueryConfigurationPresenter allSubclasses
+]
+
+{ #category : #'query configuration presenters' }
+FQQueryCreationPresenter class >> queryTypes [
+	self
+		flag: #FQImprove , 'We should have a way to select interesting classes'.
+	^ FQUnaryQuery subclasses
+		copyWithoutAll:
+			{FQComplementQuery.
+			FQMockQuery}
 ]
 
 { #category : #specs }
@@ -74,6 +84,34 @@ FQQueryCreationPresenter >> browser [
 	^ browser
 ]
 
+{ #category : #update }
+FQQueryCreationPresenter >> configureNavigationQuery: aQuery [
+	queryConfigurationPresenter := FQNavigationQueriesPresenter
+		owner: self
+		on: browser selectedQuery
+]
+
+{ #category : #update }
+FQQueryCreationPresenter >> configurePropertyQuery: aQuery [
+	queryConfigurationPresenter := FQPropertyQueriesPresenter
+		owner: self
+		on: browser selectedQuery
+]
+
+{ #category : #update }
+FQQueryCreationPresenter >> configureScopeQuery: aQuery [
+	queryConfigurationPresenter := FQScopeQueriesPresenter
+		owner: self
+		on: browser selectedQuery
+]
+
+{ #category : #update }
+FQQueryCreationPresenter >> configureTypeQuery: aQuery [
+	queryConfigurationPresenter := FQTypeQueriesPresenter
+		owner: self
+		on: browser selectedQuery
+]
+
 { #category : #initialization }
 FQQueryCreationPresenter >> connectPresenters [
 	self queryAcceptedPort transmitTo: browser queryInputPort
@@ -87,8 +125,7 @@ FQQueryCreationPresenter >> entities [
 { #category : #initialization }
 FQQueryCreationPresenter >> initialize [
 	super initialize.
-	queryTypesDropList
-		selectItem: self class queryConfigurationPresenters first
+	queryTypesDropList selectIndex: 1
 ]
 
 { #category : #initialization }
@@ -111,10 +148,10 @@ FQQueryCreationPresenter >> initializeQueryCode [
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeQueryTypesDropList [
 	queryTypesDropList := self newDropList
-		items: self class queryConfigurationPresenters;
-		display: [ :presenterClass | presenterClass label ];
+		items: self class queryTypes;
+		display: [ :queryClass | queryClass label ];
 		whenSelectedItemChangedDo:
-				[ :presenterClass | self updateConfigurationPresenter: presenterClass ]
+				[ :queryClass | self updateQueryConfigurationFor: queryClass ]
 ]
 
 { #category : #initialization }
@@ -159,11 +196,6 @@ FQQueryCreationPresenter >> queryAcceptedPort [
 	^ FQQueryOutputPort newPresenter: self
 ]
 
-{ #category : #accessing }
-FQQueryCreationPresenter >> queryBuilder [
-	^ queryConfigurationPresenter queryBuilder
-]
-
 { #category : #transmissions }
 FQQueryCreationPresenter >> queryChangedPort [
 	^ FQQueryInputPort newPresenter: self
@@ -172,6 +204,13 @@ FQQueryCreationPresenter >> queryChangedPort [
 { #category : #'accessing model' }
 FQQueryCreationPresenter >> setModelBeforeInitialization: aQueriesPresenter [
 	browser := aQueriesPresenter
+]
+
+{ #category : #update }
+FQQueryCreationPresenter >> setQueryConfigurationTransmissions [
+	queryConfigurationPresenter queryChangedPort
+		transmitTo: self queryChangedPort.
+	queryConfigurationPresenter transmitInitialConfiguration
 ]
 
 { #category : #update }
@@ -186,26 +225,36 @@ FQQueryCreationPresenter >> updateConfigurationPresenter: aPresenterClass [
 
 { #category : #update }
 FQQueryCreationPresenter >> updateForAcceptedCode: code [
-	queryConfigurationPresenter updateForQueryCode: code.
-	queryCode
-		text: queryConfigurationPresenter queryBuilder codeToDisplay.
-	self
-		flag:
-			#FQSpecPb
-				,
-					'This should go through transmissions but TextChangedPort is buggy in Spec for now.'
+	self flag: #FQImprove
 ]
 
 { #category : #update }
 FQQueryCreationPresenter >> updateForQuery: aQuery [
+	"aQuery should already have browser selectedQuery as parent"
+
+	"queryTypesDropList selectItem: aQuery class."
+
+	queryConfigurationPresenter
+		ifNil: [ aQuery configureIn: self.
+			self setQueryConfigurationTransmissions ].
 	resultList updateForEntities: aQuery result.
 	queryCode
 		syntaxHighlight: aQuery isValid;
-		text: queryConfigurationPresenter queryBuilder codeToDisplay.
+		text:
+			(aQuery isValid
+				ifTrue: [ String streamContents: [ :s | aQuery storeOn: s ] ]
+				ifFalse: [ 'No valid query' ]).
+	self flag: #FQRefactor.
 	sequence setModels: aQuery parentSequence.
-	self flag: #FQImprove , 'Use transmission ?'.
 	self updateToolBar.
 	self update
+]
+
+{ #category : #initialization }
+FQQueryCreationPresenter >> updateQueryConfigurationFor: queryClass [
+	self flag: #FQImprove , 'This new is not ok'.
+	queryClass new configureIn: self.
+	^ self setQueryConfigurationTransmissions
 ]
 
 { #category : #update }

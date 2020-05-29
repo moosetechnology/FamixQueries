@@ -10,6 +10,11 @@ FQPropertyQueriesPresenterTest >> classToTest [
 ]
 
 { #category : #helpers }
+FQPropertyQueriesPresenterTest >> queryClass [
+	^ FQPropertyQuery
+]
+
+{ #category : #helpers }
 FQPropertyQueriesPresenterTest >> radioButtons [
 	^ presenter firstParameter presenters
 		reject: [ :pres | pres class = SpNullPresenter ]
@@ -59,24 +64,24 @@ FQPropertyQueriesPresenterTest >> testQueryBuilderType [
 { #category : #tests }
 FQPropertyQueriesPresenterTest >> testQueryType [
 	(self radioButtons detect: [ :rb | rb label ='Boolean' ]) click.
-	self assert: self queryBuilder query class identicalTo: FQBooleanQuery.
+	self assert: presenter query class identicalTo: FQBooleanQuery.
 	
 	(self radioButtons detect: [ :rb | rb label ='Numeric' ]) click.
-	self assert: self queryBuilder query class identicalTo: FQNumericQuery.
+	self assert: presenter query class identicalTo: FQNumericQuery.
 	
 	(self radioButtons detect: [ :rb | rb label ='String' ]) click.
-	self assert: self queryBuilder query class identicalTo: FQStringQuery.
+	self assert: presenter query class identicalTo: FQStringQuery.
 ]
 
 { #category : #tests }
 FQPropertyQueriesPresenterTest >> testQueryValidity [
-	self assert: self queryBuilder queryIsValid.
+	self assert: presenter query isValid.
 	
 	(self radioButtons detect: [ :rb | rb state not ]) click.
-	self assert: self queryBuilder queryIsValid.
+	self assert: presenter query isValid.
 	
 	self resetPresenterWithEntities: helper noEntities.
-	self deny: self queryBuilder queryIsValid
+	self deny: presenter query isValid
 ]
 
 { #category : #tests }
@@ -98,7 +103,7 @@ FQPropertyQueriesPresenterTest >> testRadioButtonsMatchQuery [
 { #category : #tests }
 FQPropertyQueriesPresenterTest >> testSecondParameter [
 	self
-		assert: presenter secondParameter class label
+		assert: presenter secondParameter query class label substrings first
 		equals: (self radioButtons detect: #state) label.
 	
 	self resetPresenterWithEntities: helper noEntities.
@@ -109,19 +114,19 @@ FQPropertyQueriesPresenterTest >> testSecondParameter [
 
 { #category : #tests }
 FQPropertyQueriesPresenterTest >> testSubPresenterMatchesRadioButton [
-	| initialQueryBuilderClass |
+	| initialQueryClass |
 	
-	initialQueryBuilderClass := self queryBuilder class.
+	initialQueryClass := presenter query class.
 	self
-		assert: presenter secondParameter class queryBuilderClass
-		equals: initialQueryBuilderClass.
+		assert: presenter secondParameter query class
+		equals: initialQueryClass.
 	
 	(self radioButtons detect: [ :rb | rb state not ]) click.
 	
-	self deny: self queryBuilder class equals: initialQueryBuilderClass.
+	self deny: presenter query class equals: initialQueryClass.
 	self
-		assert: presenter secondParameter class queryBuilderClass
-		equals: self queryBuilder class.
+		assert: presenter secondParameter query class
+		equals: presenter query class.
 ]
 
 { #category : #tests }

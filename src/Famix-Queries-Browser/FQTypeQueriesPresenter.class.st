@@ -21,13 +21,14 @@ FQTypeQueriesPresenter class >> maximumCheckBoxesPerColumn [
 
 { #category : #'instance creation' }
 FQTypeQueriesPresenter class >> open [
-	<script>
-	super open
+	"This is a workaround for Iceberg bug"
+
+	
 ]
 
 { #category : #initialization }
-FQTypeQueriesPresenter class >> queryBuilderClass [
-	^ FQTypeQueryBuilder 
+FQTypeQueriesPresenter class >> queryClass [
+	^ FQTypeQuery
 ]
 
 { #category : #specs }
@@ -38,15 +39,20 @@ FQTypeQueriesPresenter class >> title [
 { #category : #'widgets configuration' }
 FQTypeQueriesPresenter >> configureTypeCheckBox: checkBox forType: type [
 	checkBox
+		state: (self query types includes: type);
+		enabled: self query types size > 1;
 		label: (type name withoutPrefix: self modelPrefix);
-		whenActivatedDo: [ queryBuilder addTypeToQuery: type ];
-		whenDeactivatedDo: [ [ queryBuilder removeTypeFromQuery: type ]
+		whenActivatedDo: [ self query addType: type ];
+		whenDeactivatedDo: [ [ self query removeType: type ]
 				on: FQCannotRemoveLastType
 				do: [ checkBox state: true.
 					self flag: #FQSpecPb	"Spec does not allow this to work" ] ];
-		state: (queryBuilder currentQueryTypes includes: type);
-		enabled: queryBuilder currentQueryTypes size > 1;
 		whenChangedDo: [ self notifyQueryChanged ]
+]
+
+{ #category : #initialization }
+FQTypeQueriesPresenter >> defaultQuery [
+	^ FQTypeQuery defaultForParent: parentQuery
 ]
 
 { #category : #initialization }
@@ -57,7 +63,7 @@ FQTypeQueriesPresenter >> initializePresenters [
 
 { #category : #initialization }
 FQTypeQueriesPresenter >> initializeTypeCheckBoxes [
-	queryBuilder availableTypes
+	self query availableTypes
 		ifEmpty: [ secondParameter := self noParameterMessage: 'type' ]
 		ifNotEmpty: [ self showTypesCheckBoxes ]
 ]
@@ -73,7 +79,7 @@ FQTypeQueriesPresenter >> setTypeCheckBoxesConstraints [
 	checkBoxes
 		do: [ :type | 
 			type
-				whenChangedDo: [ queryBuilder currentQueryTypes size == 1
+				whenChangedDo: [ self query types size == 1
 						ifTrue: [ checkBoxes select: #state thenDo: #disable ]
 						ifFalse: [ checkBoxes do: #enable ] ] ]
 ]
@@ -81,7 +87,7 @@ FQTypeQueriesPresenter >> setTypeCheckBoxesConstraints [
 { #category : #'widgets configuration' }
 FQTypeQueriesPresenter >> showTypesCheckBoxes [
 	secondParameter := SpDynamicPresentersListBuilder new
-		modelObjects: queryBuilder availableTypes;
+		modelObjects: self query availableTypes;
 		presenter: SpCheckBoxPresenter
 			configuredAs:
 				[ :presenter :type | self configureTypeCheckBox: presenter forType: type ];
@@ -93,7 +99,23 @@ FQTypeQueriesPresenter >> showTypesCheckBoxes [
 { #category : #'widgets configuration' }
 FQTypeQueriesPresenter >> typeCheckBoxesLayout [
 	^ SpDynamicTopToBottomColumnsLayout
-		columns:
-			(queryBuilder availableTypes size
-				min: self class maximumCheckBoxesPerColumn)
+		columns: (self query types size min: self class maximumCheckBoxesPerColumn)
+]
+
+{ #category : #update }
+FQTypeQueriesPresenter >> updateForQuery: aQuery [
+	super updateForQuery: aQuery.
+	self updateTypeCheckBoxesForTypes: aQuery types
+]
+
+{ #category : #update }
+FQTypeQueriesPresenter >> updateTypeCheckBoxesForTypes: types [
+	| checkBoxesToTick |
+	checkBoxesToTick := firstParameter presenters
+		select: [ :checkBox | 
+			(types collect: [ :type | type name withoutPrefix: self modelPrefix ])
+				includes: checkBox label ].
+	checkBoxesToTick do: [ :cb | cb state: true ].
+	firstParameter presenters \ checkBoxesToTick
+		do: [ :cb | cb state: false ]
 ]
