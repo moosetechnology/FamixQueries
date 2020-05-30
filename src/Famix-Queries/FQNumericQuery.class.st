@@ -51,7 +51,7 @@ FQNumericQuery class >> label [
 
 { #category : #'available parameters' }
 FQNumericQuery >> availableComparators [
-	self flag: #FQImprove.
+	self flag: 'To improve'.
 	^ {#> . #>= . #= . #<= . #<}
 ]
 

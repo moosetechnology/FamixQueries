@@ -16,16 +16,15 @@ FQScopeQueriesPresenter class >> addSecondParameterToLayout: defaultLayout [
 				yourself)
 ]
 
-{ #category : #'instance creation' }
+{ #category : #specs }
 FQScopeQueriesPresenter class >> open [
-	"This is a workaround for Iceberg bug"
-
-	
+	<script>
+	super open
 ]
 
 { #category : #initialization }
-FQScopeQueriesPresenter class >> queryClass [
-	^ FQScopeQuery
+FQScopeQueriesPresenter class >> queryBuilderClass [
+	^ FQScopeQueryBuilder
 ]
 
 { #category : #specs }
@@ -37,14 +36,11 @@ FQScopeQueriesPresenter class >> title [
 FQScopeQueriesPresenter >> configureRadioButton: radioButton forScopeDirection: direction [
 	radioButton
 		label: direction label;
-		whenActivatedDo: [ self query resetAndChangeDirection: direction.
+		whenActivatedDo: [ [ self queryBuilder changeQueryDirection: direction ]
+				on: FQImpossibleQuery
+				do: [ self flag: #ImpossibleQuery , 'Manage this error better !!' ].
 			self updateAccordingToDirection.
 			self notifyQueryChanged ]
-]
-
-{ #category : #initialization }
-FQScopeQueriesPresenter >> defaultQuery [
-	^ FQScopeQuery defaultForParent: parentQuery
 ]
 
 { #category : #initialization }
@@ -61,7 +57,7 @@ FQScopeQueriesPresenter >> initializeScopesDropList [
 { #category : #initialization }
 FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 	firstParameter := SpDynamicPresentersListBuilder new
-		modelObjects: self query availableDirections;
+		modelObjects: queryBuilder availableScopeDirections;
 		presenter: SpRadioButtonPresenter
 			configuredAs:
 				[ :radioButton :direction | self configureRadioButton: radioButton forScopeDirection: direction ];
@@ -75,26 +71,25 @@ FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 { #category : #'widgets configuration' }
 FQScopeQueriesPresenter >> scopesDropList [
 	^ self newDropList
-		items: self query availableScopes;
+		items: self queryBuilder availableScopes;
 		display: [ :item | item name withoutPrefix: self modelPrefix ];
-		selectItem: self query scope;
+		selectItem: queryBuilder query scope;
 		whenSelectedItemChangedDo: [ :scope | 
-			self flag: #FQImprove , 'When does that happen ?'.
-			scope ifNil: [ ^ self ].
-			self query scope: scope.
+			self queryBuilder changeQueryScope: scope.
 			self notifyQueryChanged ]
 ]
 
-{ #category : #initialization }
+{ #category : #'widgets configuration' }
 FQScopeQueriesPresenter >> selectCurrentQueryDirection [
 	(firstParameter presenters
-		detect: [ :radioButton | radioButton label = self query directionStrategy label ])
+		detect:
+			[ :radioButton | radioButton label = self query directionStrategy label ])
 		state: true
 ]
 
 { #category : #update }
 FQScopeQueriesPresenter >> updateAccordingToDirection [
-	secondParameter := self query availableScopes
+	secondParameter := self queryBuilder availableScopes
 		ifNotEmpty: [ self scopesDropList ]
 		ifEmpty: [ self noParameterMessage: 'scope' ].
 	self update

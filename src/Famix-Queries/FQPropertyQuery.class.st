@@ -55,17 +55,6 @@ FQPropertyQuery class >> label [
 ]
 
 { #category : #'available parameters' }
-FQPropertyQuery >> availableComparators [
-	self subclassResponsibility
-]
-
-{ #category : #'available parameters' }
-FQPropertyQuery >> availableProperties [
-	self flag: #FQTest.
-	^ self availablePropertiesFor: parent result
-]
-
-{ #category : #'available parameters' }
 FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 	| collectedProperties |
 	collectedProperties := aMooseGroup entities
@@ -79,15 +68,6 @@ FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 				collect: #name ]
 ]
 
-{ #category : #'as yet unclassified' }
-FQPropertyQuery >> beDefaultForParent [
-	property := self availableProperties
-		ifEmpty: [ nil ]
-		ifNotEmpty: [ :properties | properties first ].
-	self hasComparisonParameters
-		ifTrue: [ comparator := self availableComparators first ]
-]
-
 { #category : #accessing }
 FQPropertyQuery >> comparator [
 	^ comparator
@@ -95,9 +75,7 @@ FQPropertyQuery >> comparator [
 
 { #category : #accessing }
 FQPropertyQuery >> comparator: anObject [
-	comparator := anObject.
-	self resetResult.
-	self flag: #FQTest , 'Test reset result'
+	comparator := anObject
 ]
 
 { #category : #printing }
@@ -145,9 +123,7 @@ FQPropertyQuery >> property [
 
 { #category : #accessing }
 FQPropertyQuery >> property: anObject [
-	property := anObject.
-	self resetResult.
-	self flag: #FQTest , 'Test reset result'
+	property := anObject
 ]
 
 { #category : #running }
@@ -191,9 +167,7 @@ FQPropertyQuery >> valueToCompare [
 
 { #category : #accessing }
 FQPropertyQuery >> valueToCompare: anObject [
-	valueToCompare := anObject.
-	self resetResult.
-	self flag: #FQTest , 'Test reset result'
+	valueToCompare := anObject
 ]
 
 { #category : #printing }

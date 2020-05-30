@@ -25,20 +25,25 @@ FQStringQueryParametersPresenter class >> defaultSpec [
 ]
 
 { #category : #initialization }
+FQStringQueryParametersPresenter class >> queryBuilderClass [
+	^ FQStringPropertyQueryBuilder
+]
+
+{ #category : #initialization }
 FQStringQueryParametersPresenter >> initializePresenters [
 	super initializePresenters.
 	comparators := self newDropList
-		items: query availableComparators;
+		items: queryBuilder availableComparators;
 		display: [ :prop | prop asString ];
 		whenSelectedItemChangedDo: [ :prop | 
-			query comparator: prop.
+			queryBuilder changeQueryComparator: prop.
 			self owner notifyQueryChanged ];
 		yourself.
 	valueInput := self newTextInput
 		placeholder: 'Your pattern';
 		autoAccept: true;
 		whenTextChangedDo: [ :pattern | 
-			query valueToCompare: pattern.
+			queryBuilder changeQueryValueToCompare: pattern.
 			self owner notifyQueryChanged ];
 		yourself
 ]

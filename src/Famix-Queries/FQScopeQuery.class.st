@@ -66,24 +66,12 @@ FQScopeQuery >> availableDirections [
 { #category : #'available parameters' }
 FQScopeQuery >> availableScopes [
 	self flag: #FQTest.
-	^ parent
-		ifNil: [ {} ]
-		ifNotNil: [ self availableScopesFor: parent result ]
+	^ self availableScopesFor: parent result
 ]
 
 { #category : #'available parameters' }
 FQScopeQuery >> availableScopesFor: aMooseGroup [
 	^ self directionStrategy availableScopesFor: aMooseGroup
-]
-
-{ #category : #'as yet unclassified' }
-FQScopeQuery >> beDefaultForParent [
-	self directionStrategy: self availableDirections first.
-	self
-		scope:
-			(self availableScopes
-				ifEmpty: [ nil ]
-				ifNotEmpty: [ :scopes | scopes first ])
 ]
 
 { #category : #printing }
@@ -98,10 +86,8 @@ FQScopeQuery >> defaultName [
 
 { #category : #accessing }
 FQScopeQuery >> direction: aSymbol [
-	self
-		directionStrategy:
-			(self availableDirections
-				detect: [ :dir | dir label asCamelCase = aSymbol asString ])
+	direction := self availableDirections
+		detect: [ :dir | dir label asCamelCase = aSymbol asString ]
 ]
 
 { #category : #accessing }
@@ -136,32 +122,6 @@ FQScopeQuery >> isValid [
 				and: [ self scope isClass and: [ self scope inheritsFrom: MooseEntity ] ] ]
 ]
 
-{ #category : #reset }
-FQScopeQuery >> reset [
-	self resetResult.
-	self resetDirection.
-	self resetScope
-]
-
-{ #category : #reset }
-FQScopeQuery >> resetAndChangeDirection: aDirectionStrategyClass [
-	self reset.
-	direction := aDirectionStrategyClass.
-	self availableScopes
-		ifNotEmpty: [ :scopes | self scope: scopes first ].
-	self flag: #FQTest
-]
-
-{ #category : #reset }
-FQScopeQuery >> resetDirection [
-	direction := nil
-]
-
-{ #category : #reset }
-FQScopeQuery >> resetScope [
-	scope := nil
-]
-
 { #category : #running }
 FQScopeQuery >> runOn: aMooseGroup [
 	^ self directionStrategy scope: self scope on: aMooseGroup
@@ -174,9 +134,7 @@ FQScopeQuery >> scope [
 
 { #category : #accessing }
 FQScopeQuery >> scope: anObject [
-	scope := anObject.
-	self resetResult.
-	self flag: #FQTest , 'test reset result'
+	scope := anObject
 ]
 
 { #category : #printing }

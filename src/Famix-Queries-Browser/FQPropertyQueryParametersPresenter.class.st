@@ -2,10 +2,10 @@ Class {
 	#name : #FQPropertyQueryParametersPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
+		'queryBuilder',
 		'properties',
 		'comparators',
-		'valueInput',
-		'query'
+		'valueInput'
 	],
 	#category : #'Famix-Queries-Browser-PropertyQuery-SubPresenters'
 }
@@ -16,17 +16,27 @@ FQPropertyQueryParametersPresenter class >> defaultSpec [
 ]
 
 { #category : #initialization }
+FQPropertyQueryParametersPresenter class >> label [
+	^ self queryBuilderClass queryClass label substrings first
+]
+
+{ #category : #initialization }
+FQPropertyQueryParametersPresenter class >> queryBuilderClass [
+	^ FQAbstractPropertyQueryBuilder
+]
+
+{ #category : #initialization }
 FQPropertyQueryParametersPresenter >> initializePresenters [
 	properties := self newDropList
-		items: query availableProperties;
+		items: queryBuilder availableProperties;
 		display: [ :prop | prop asString ];
 		whenSelectedItemChangedDo: [ :prop | 
-			query property: prop.
+			queryBuilder changeQueryProperty: prop.
 			self owner notifyQueryChanged ];
 		yourself
 ]
 
 { #category : #'accessing model' }
-FQPropertyQueryParametersPresenter >> setModelBeforeInitialization: aQuery [
-	query := aQuery
+FQPropertyQueryParametersPresenter >> setModelBeforeInitialization: aModel [
+	queryBuilder := aModel
 ]

@@ -13,7 +13,7 @@ FQQueryCreationPresenterTest >> changeQueryType [
 		selectItem:
 			(presenter queryTypesDropList listItems
 				detect: [ :item | presenter queryTypesDropList selectedItem ~= item ]).
-	presenter queryTypesDropList selectItem: FQScopeQuery
+	presenter queryTypesDropList selectItem: FQScopeQueriesPresenter
 ]
 
 { #category : #running }
@@ -61,7 +61,7 @@ FQQueryCreationPresenterTest >> testQueryCode [
 	self assert: query isValid.
 	self
 		assert: query
-		equals: presenter queryConfigurationPresenter query
+		equals: presenter queryConfigurationPresenter queryBuilder query
 ]
 
 { #category : #tests }
@@ -71,7 +71,7 @@ FQQueryCreationPresenterTest >> testQueryConfigurationPresenter [
 			(presenter queryConfigurationPresenter
 				isKindOf: FQQueryConfigurationPresenter).
 	self
-		assert: presenter queryConfigurationPresenter query class
+		assert: presenter queryConfigurationPresenter class
 		identicalTo: presenter queryTypesDropList selectedItem
 ]
 
@@ -81,7 +81,7 @@ FQQueryCreationPresenterTest >> testQueryMatchesInAllSubpresenters [
 		assert: presenter query
 		equals: (helper queryFromCodeInPresenter: presenter).
 	self
-		assertCollection: presenter queryConfigurationPresenter query result
+		assertCollection: presenter queryConfigurationPresenter queryBuilder queryResult
 		hasSameElements: presenter resultList items
 ]
 
@@ -92,16 +92,14 @@ FQQueryCreationPresenterTest >> testQueryTypesDropList [
 		identicalTo: SpDropListPresenter.
 	self
 		assertCollection: presenter queryTypesDropList listItems
-		hasSameElements:
-			{FQNavigationQuery.
-			FQPropertyQuery.
-			FQScopeQuery.
-			FQTypeQuery}.
+		hasSameElements: FQQueryConfigurationPresenter allSubclasses.
+	
 	presenter queryTypesDropList listItems
-		do: [ :queryClass | 
-			presenter queryTypesDropList selectItem: queryClass.
+		do: [ :presenterClass | 
+			presenter queryTypesDropList selectItem: presenterClass.
 			self
-				assert: (presenter queryConfigurationPresenter query isKindOf: queryClass) ]
+				assert: presenter queryConfigurationPresenter class
+				identicalTo: presenterClass ]
 ]
 
 { #category : #tests }
@@ -111,7 +109,7 @@ FQQueryCreationPresenterTest >> testResultList [
 		identicalTo: FQResultTreePresenter.
 	self
 		assertCollection: presenter resultList items
-		hasSameElements: presenter queryConfigurationPresenter query result
+		hasSameElements: presenter queryConfigurationPresenter queryBuilder queryResult
 ]
 
 { #category : #tests }
@@ -131,7 +129,7 @@ FQQueryCreationPresenterTest >> testToolBar [
 		equals: initialQueriesSize + 1.
 	self
 		assert: presenter browser selectedQuery
-		equals: presenter queryConfigurationPresenter query
+		equals: presenter queryConfigurationPresenter queryBuilder query
 ]
 
 { #category : #tests }
@@ -155,9 +153,9 @@ FQQueryCreationPresenterTest >> testWindowClosedAction [
 		equals: initialQueriesSize.
 	self
 		assert: presenter browser selectedQuery
-		equals: presenter queryConfigurationPresenter query parent.
+		equals: presenter queryConfigurationPresenter queryBuilder query parent.
 	self
 		deny:
 			(presenter browser queries
-				includes: presenter queryConfigurationPresenter query)
+				includes: presenter queryConfigurationPresenter queryBuilder query)
 ]

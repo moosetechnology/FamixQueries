@@ -157,7 +157,7 @@ FQAbstractQuery >> removeChild: aQuery [
 	children remove: aQuery
 ]
 
-{ #category : #reset }
+{ #category : #initialization }
 FQAbstractQuery >> resetResult [
 	result := nil
 ]

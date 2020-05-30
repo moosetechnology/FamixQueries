@@ -7,7 +7,7 @@ Class {
 { #category : #running }
 FQNavigationQueriesPresenterTest >> assertCheckBoxesMatchAllPossibleAssociations [
 	| allAssociations |
-	allAssociations := presenter query allPossibleAssociations.
+	allAssociations := self queryBuilder allPossibleAssociations.
 	
 	self assert: self checkBoxes size equals: allAssociations size.
 	
@@ -21,7 +21,7 @@ FQNavigationQueriesPresenterTest >> assertCheckBoxesMatchAllPossibleAssociations
 { #category : #running }
 FQNavigationQueriesPresenterTest >> assertCheckBoxesMatchAvailableAssociations [
 	| availableAssociations |
-	availableAssociations := presenter query availableAssociations.
+	availableAssociations := self queryBuilder availableAssociations.
 	
 	self
 		assert: (self checkBoxes select: #state) size
@@ -38,13 +38,15 @@ FQNavigationQueriesPresenterTest >> assertCheckBoxesMatchAvailableAssociations [
 FQNavigationQueriesPresenterTest >> assertCheckBoxesMatchQuery [
 	self
 		assertCollection:
-			(presenter query associationStrategy associations
+			(self queryBuilder currentQueryAssociations
 				collect: [ :type | type name withoutPrefix: 'FamixT' ])
 		hasSameElements: (self checkBoxes select: #state thenCollect: #label).
+	
 	(self radioButtons detect: [ :rb | rb state not ]) click.
+	
 	self
 		assertCollection:
-			(presenter query associationStrategy associations
+			(self queryBuilder currentQueryAssociations
 				collect: [ :type | type name withoutPrefix: 'FamixT' ])
 		hasSameElements: (self checkBoxes select: #state thenCollect: #label)
 ]
@@ -58,11 +60,6 @@ FQNavigationQueriesPresenterTest >> checkBoxes [
 { #category : #helpers }
 FQNavigationQueriesPresenterTest >> classToTest [
 	^ FQNavigationQueriesPresenter
-]
-
-{ #category : #helpers }
-FQNavigationQueriesPresenterTest >> queryClass [
-	^ FQNavigationQuery
 ]
 
 { #category : #helpers }
@@ -86,7 +83,7 @@ FQNavigationQueriesPresenterTest >> testCheckBoxesDisabledSinceFirstDisplay [
 { #category : #tests }
 FQNavigationQueriesPresenterTest >> testCheckBoxesDisabledWhenUnvailable [
 	| unAvailableAssociations |
-	unAvailableAssociations := presenter query allPossibleAssociations \ presenter query availableAssociations.
+	unAvailableAssociations := self queryBuilder allPossibleAssociations \ self queryBuilder availableAssociations.
 	
 	self
 		assert: (self checkBoxes reject: #isEnabled) size
@@ -102,7 +99,7 @@ FQNavigationQueriesPresenterTest >> testCheckBoxesDisabledWhenUnvailable [
 { #category : #tests }
 FQNavigationQueriesPresenterTest >> testCheckBoxesEnabledOnlyWhenAvailable [
 	| availableAssociations |
-	availableAssociations := presenter query availableAssociations.
+	availableAssociations := self queryBuilder availableAssociations.
 	
 	self
 		assert: (self checkBoxes select: #isEnabled) size
@@ -138,28 +135,25 @@ FQNavigationQueriesPresenterTest >> testFirstParameter [
 
 { #category : #tests }
 FQNavigationQueriesPresenterTest >> testQueryValidity [
-	self assert: presenter query isValid.
+	self assert: self queryBuilder queryIsValid.
 	
 	(self radioButtons detect: [ :rb | rb state not ]) click.
-	self assert: presenter query isValid.
+	self assert: self queryBuilder queryIsValid.
 	
 	self checkBoxes first click.
-	self assert: presenter query isValid.
+	self assert: self queryBuilder queryIsValid.
 
 	self checkBoxes first click.
-	self assert: presenter query isValid.
-	
-	self resetPresenterWithEntities: helper entitiesWithNoIncomingAssociations.
-	self deny: presenter query isValid.
+	self assert: self queryBuilder queryIsValid.
 	
 	self resetPresenterWithEntities: helper noEntities.
-	self deny: presenter query isValid.
+	self deny: self queryBuilder queryIsValid.
 ]
 
 { #category : #tests }
 FQNavigationQueriesPresenterTest >> testRadioButtonsMatchAvailableDirections [
 	| directions |
-	directions := presenter query availableDirections.
+	directions := self queryBuilder availableDirections.
 	
 	self assert: self radioButtons size equals: directions size.
 	

@@ -23,20 +23,16 @@ FQPropertyQueryParametersPresenterTest >> assertCreationPresenterWasUpdated [
 ]
 
 { #category : #running }
-FQPropertyQueryParametersPresenterTest >> queryClass [
-	^ self subclassResponsibility
-]
-
-{ #category : #running }
 FQPropertyQueryParametersPresenterTest >> setUp [
 	| superPresenter |
 	helper := FQTestsHelper current.
 	superPresenter := FQQueryCreationPresenter
 		on: (FQQueriesBrowserPresenter on: helper modelExample allBehaviourals).
-	superPresenter updateQueryConfigurationFor: FQPropertyQuery.
+	"So there is more than 1 property for each type"
+	superPresenter
+		updateConfigurationPresenter: FQPropertyQueriesPresenter.
 	(superPresenter queryConfigurationPresenter firstParameter presenters
-		detect:
-			[ :radioButton | radioButton label = self queryClass label substrings first ])
+		detect: [ :radioButton | radioButton label = self classToTest label ])
 		click.
 	presenter := superPresenter queryConfigurationPresenter
 		secondParameter
@@ -46,14 +42,19 @@ FQPropertyQueryParametersPresenterTest >> setUp [
 FQPropertyQueryParametersPresenterTest >> testMatchesQuery [
 	presenter properties selectIndex: 2.
 	self
-		assert: presenter query property
+		assert: presenter queryBuilder query property
 		equals: presenter properties selectedItem
 ]
 
 { #category : #tests }
-FQPropertyQueryParametersPresenterTest >> testNormalQueryInitialization [
-	self assert: presenter query class identicalTo: self queryClass.
-	self assert: presenter query isValid
+FQPropertyQueryParametersPresenterTest >> testNormalQueryBuilderInitialization [
+	self
+		assert: presenter queryBuilder class
+		identicalTo: self classToTest queryBuilderClass.
+	self
+		assert: presenter queryBuilder query class
+		identicalTo: self classToTest queryBuilderClass queryClass.
+	self assert: presenter queryBuilder queryIsValid
 ]
 
 { #category : #tests }
@@ -63,17 +64,17 @@ FQPropertyQueryParametersPresenterTest >> testPropertiesDropList [
 		identicalTo: SpDropListPresenter.
 	self
 		assert: presenter properties listItems size
-		equals: presenter query availableProperties size.
+		equals: presenter queryBuilder availableProperties size.
 	self
 		assertCollection: presenter properties listItems
-		hasSameElements: presenter query availableProperties
+		hasSameElements: presenter queryBuilder availableProperties
 ]
 
 { #category : #tests }
 FQPropertyQueryParametersPresenterTest >> testQueryValidity [
-	self assert: presenter query isValid.
+	self assert: presenter queryBuilder queryIsValid.
 	presenter properties selectIndex: 2.
-	self assert: presenter query isValid
+	self assert: presenter queryBuilder queryIsValid
 ]
 
 { #category : #tests }

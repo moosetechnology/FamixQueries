@@ -11,11 +11,15 @@ FQPropertyQueriesPresenter class >> addSecondParameterToLayout: defaultLayout [
 	defaultLayout add: #secondParameter width: 200
 ]
 
+{ #category : #initialization }
+FQPropertyQueriesPresenter class >> label [ 
+	^ FQAbstractPropertyQueryBuilder queryClass label
+]
+
 { #category : #'instance creation' }
 FQPropertyQueriesPresenter class >> open [
-	"This is a workaround for Iceberg bug"
-
-	
+	<script>
+	super open
 ]
 
 { #category : #accessing }
@@ -23,14 +27,9 @@ FQPropertyQueriesPresenter class >> propertyQueryConfigurationPresenters [
 	^ FQPropertyQueryParametersPresenter allSubclasses
 ]
 
-{ #category : #accessing }
-FQPropertyQueriesPresenter class >> propertyQueryTypes [
-	^ FQPropertyQuery allSubclasses
-]
-
 { #category : #initialization }
-FQPropertyQueriesPresenter class >> queryClass [
-	^ FQPropertyQuery
+FQPropertyQueriesPresenter class >> queryBuilderClass [
+	^ self propertyQueryConfigurationPresenters first queryBuilderClass
 ]
 
 { #category : #specs }
@@ -45,54 +44,30 @@ FQPropertyQueriesPresenter class >> title [
 	^ 'Property Query'
 ]
 
-{ #category : #update }
-FQPropertyQueriesPresenter >> configureBooleanQuery: aQuery [
-	secondParameter := aQuery isValid
-		ifTrue: [ FQBooleanQueryParametersPresenter owner: self on: aQuery ]
-		ifFalse: [ self noParameterMessage: 'Boolean property' ]
-]
-
-{ #category : #update }
-FQPropertyQueriesPresenter >> configureNumericQuery: aQuery [
-	secondParameter := aQuery isValid
-		ifTrue: [ FQNumericQueryParametersPresenter owner: self on: aQuery ]
-		ifFalse: [ self noParameterMessage: 'Numeric property' ]
-]
-
 { #category : #'widgets configuration' }
-FQPropertyQueriesPresenter >> configureRadioButton: radioButton forQueryClass: queryClass [
+FQPropertyQueriesPresenter >> configureRadioButton: radioButton forSubPresenter: configurationPresenterClass [
 	radioButton
-		label: queryClass label substrings first;
-		whenActivatedDo: [ self updateForQuery: (queryClass defaultForParent: query parent) ]
-]
-
-{ #category : #update }
-FQPropertyQueriesPresenter >> configureStringQuery: aQuery [
-	secondParameter := aQuery isValid
-		ifTrue: [ FQStringQueryParametersPresenter owner: self on: aQuery ]
-		ifFalse: [ self noParameterMessage: 'String property' ]
-]
-
-{ #category : #initialization }
-FQPropertyQueriesPresenter >> defaultQuery [
-	^ FQBooleanQuery defaultForParent: parentQuery
+		label: configurationPresenterClass label;
+		whenActivatedDo: [ self updateQueryParametersPresenter: configurationPresenterClass.
+			self notifyQueryChanged ]
 ]
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializePresenters [
 	self initializeQueryTypeRadioButtons.
-	"self
-		updateQueryParametersPresenter: FQBooleanQueryParametersPresenter"
-	self updateForQuery: self query
+	self
+		updateQueryParametersPresenter: FQBooleanQueryParametersPresenter
 ]
 
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 	firstParameter := SpDynamicPresentersListBuilder new
-		modelObjects: self class propertyQueryTypes;
+		modelObjects: self class propertyQueryConfigurationPresenters;
 		presenter: SpRadioButtonPresenter
-			configuredAs:
-				[ :radioButton :queryClass | self configureRadioButton: radioButton forQueryClass: queryClass ];
+			configuredAs: [ :radioButton :configurationPresenterClass | 
+			self
+				configureRadioButton: radioButton
+				forSubPresenter: configurationPresenterClass ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
 	firstParameter presenters first
@@ -100,10 +75,22 @@ FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 ]
 
 { #category : #update }
-FQPropertyQueriesPresenter >> updateForQuery: aQuery [
-	query := aQuery.
-	aQuery configureIn: self.
-	self notifyQueryChanged.
-	self update.
-	self flag: #FQRefactor , 'Is this necessary ?'
+FQPropertyQueriesPresenter >> updateQueryBuilderFor: aPropertyQueryParametersPresenterClass [
+	queryBuilder := [ aPropertyQueryParametersPresenterClass
+		queryBuilderClass newWithParentQuery: queryBuilder query parent ]
+		on: FQImpossibleQuery
+		do: [ :error | error builder ].
+	self flag: #ImpossibleQuery
+]
+
+{ #category : #update }
+FQPropertyQueriesPresenter >> updateQueryParametersPresenter: aParameterPresenterClass [
+	
+	self updateQueryBuilderFor: aParameterPresenterClass.
+	
+	secondParameter := queryBuilder queryIsValid
+		ifTrue: [ aParameterPresenterClass owner: self on: queryBuilder ]
+		ifFalse: [ self noParameterMessage: aParameterPresenterClass label , ' property ' ].
+
+	self update
 ]
