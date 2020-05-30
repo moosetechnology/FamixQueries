@@ -2,10 +2,10 @@ Class {
 	#name : #FQQueryConfigurationPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
+		'#queryBuilder',
 		'#query => SpObservableSlot',
 		'#firstParameter',
-		'#secondParameter',
-		'#parentQuery'
+		'#secondParameter'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -34,33 +34,28 @@ FQQueryConfigurationPresenter class >> defaultSpec [
 ]
 
 { #category : #initialization }
-FQQueryConfigurationPresenter class >> queryClass [
-	^ self subclassResponsibility
+FQQueryConfigurationPresenter class >> label [
+	^ self queryBuilderClass queryClass label
 ]
 
 { #category : #initialization }
-FQQueryConfigurationPresenter >> defaultQuery [
-	^ self class queryClass defaultForParent: parentQuery
+FQQueryConfigurationPresenter class >> queryBuilderClass [
+	^ self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+FQQueryConfigurationPresenter class >> traitPrefix [
+	^ 'FamixT'
 ]
 
 { #category : #initialization }
 FQQueryConfigurationPresenter >> initialize [
-	"	self class initializeSlots: self.
-	query := self defaultQuery.
-	needRebuild := true.
-	visible := true.
-	self initializePrivateAnnouncer.
-	self initializePrivateValueHolders.
-	self initializePrivateHooks.
-	self initializePrivateAnnouncements"
-
 	super initialize.
-	query := self defaultQuery
 ]
 
 { #category : #accessing }
 FQQueryConfigurationPresenter >> modelPrefix [
-	^ parentQuery result first mooseModel className
+	^ queryBuilder entities first mooseModel className
 		withoutSuffix: 'Model'
 ]
 
@@ -76,8 +71,12 @@ FQQueryConfigurationPresenter >> notifyQueryChanged [
 
 { #category : #accessing }
 FQQueryConfigurationPresenter >> query [
-	self flag: #FQImprove , 'Bug source !'.
-	^ query ifNil: [ self defaultQuery ]
+	^ queryBuilder query
+]
+
+{ #category : #accessing }
+FQQueryConfigurationPresenter >> queryBuilder [
+	^ queryBuilder
 ]
 
 { #category : #transmissions }
@@ -86,8 +85,12 @@ FQQueryConfigurationPresenter >> queryChangedPort [
 ]
 
 { #category : #initialization }
-FQQueryConfigurationPresenter >> setModelBeforeInitialization: aParentQuery [
-	parentQuery := aParentQuery
+FQQueryConfigurationPresenter >> setModelBeforeInitialization: aQuery [
+	queryBuilder := [ self class queryBuilderClass
+		newWithParentQuery: aQuery ]
+		on: FQImpossibleQuery
+		do: [ :error | error builder ].
+	self flag: #ImpossibleQuery
 ]
 
 { #category : #transmissions }
@@ -96,6 +99,7 @@ FQQueryConfigurationPresenter >> transmitInitialConfiguration [
 ]
 
 { #category : #update }
-FQQueryConfigurationPresenter >> updateForQuery: aQuery [
-	query := aQuery
+FQQueryConfigurationPresenter >> updateForQueryCode: newQueryCode [
+	self flag: #FQImprove , 'TODO: Match with modified code'.
+	queryBuilder updateForQueryCode: newQueryCode
 ]

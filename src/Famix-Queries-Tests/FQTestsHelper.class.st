@@ -34,13 +34,8 @@ FQTestsHelper >> classesAndMethods [
 					self methods} flatten ]
 ]
 
-{ #category : #entities }
+{ #category : #scope }
 FQTestsHelper >> entitiesWithNoDownScope [
-	^ self modelExample allWithType: FamixStAnnotationInstanceAttribute
-]
-
-{ #category : #entities }
-FQTestsHelper >> entitiesWithNoIncomingAssociations [
 	^ self modelExample allWithType: FamixStAnnotationInstanceAttribute
 ]
 
@@ -67,7 +62,7 @@ FQTestsHelper >> noEntities [
 	^ MooseGroup new
 ]
 
-{ #category : #utils }
+{ #category : #'as yet unclassified' }
 FQTestsHelper >> queryFromCodeInPresenter: aPresenter [
 	^ (Smalltalk compiler evaluate: aPresenter queryCode text)
 		beChildOf: aPresenter browser selectedQuery;

@@ -13,3 +13,8 @@ FQBooleanQueryParametersPresenter class >> defaultSpec [
 			padding: 50;
 		yourself
 ]
+
+{ #category : #initialization }
+FQBooleanQueryParametersPresenter class >> queryBuilderClass [
+	^ FQBooleanPropertyQueryBuilder
+]

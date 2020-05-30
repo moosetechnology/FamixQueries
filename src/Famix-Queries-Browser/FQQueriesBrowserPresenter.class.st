@@ -22,6 +22,15 @@ FQQueriesBrowserPresenter class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #'world menu' }
+FQQueriesBrowserPresenter class >> menuCommandOn: aBuilder [
+	<worldMenu>
+	(aBuilder item: #Queries)
+		parent: self toolbarName;
+		label: 'Queries';
+		action: [ self runMe ]
+]
+
 { #category : #'instance creation' }
 FQQueriesBrowserPresenter class >> open [
 	<script>
@@ -38,6 +47,13 @@ FQQueriesBrowserPresenter class >> openEmpty [
 	(self on: MooseGroup new) openWithSpec
 ]
 
+{ #category : #'world menu' }
+FQQueriesBrowserPresenter class >> runMe [
+	<script>
+	^ (self on: MiApplication current logger lastEntity asMooseGroup)
+		openWithSpec
+]
+
 { #category : #specs }
 FQQueriesBrowserPresenter class >> title [
 	^ 'Query Browser'
@@ -45,10 +61,9 @@ FQQueriesBrowserPresenter class >> title [
 
 { #category : #midas }
 FQQueriesBrowserPresenter >> accept: anObject [
-	(anObject isKindOf: MooseEntity)
-		ifTrue: [ toSelect := {anObject} asMooseGroup.
-			^ true ].
-	^ (anObject isKindOf: MooseAbstractGroup) and: [anObject isNotEmpty]
+	^ (anObject isKindOf: MooseObject)
+		and: [ anObject asMooseGroup isNotEmpty
+				and: [ anObject asMooseGroup ~= selectedQuery result ] ]
 ]
 
 { #category : #accessing }
@@ -60,16 +75,11 @@ FQQueriesBrowserPresenter >> entities [
 FQQueriesBrowserPresenter >> followAction [
 	(self accept: toSelect)
 		ifFalse: [ ^ self ].
+	toSelect := toSelect asMooseGroup.
 	queries do: #resetResult.
 	self initialQuery result: (toSelect allUsing: FamixTNamedEntity).
 	self initialQuery name: toSelect first mooseModel name.
-	self selectQuery: self initialQuery	"timeProfile" "timeToRun inspect"
-]
-
-{ #category : #midas }
-FQQueriesBrowserPresenter >> highlightAction [
-	(self accept: toSelect)
-		ifFalse: [ ^ self ]
+	self selectQuery: self initialQuery
 ]
 
 { #category : #accessing }
@@ -114,6 +124,11 @@ FQQueriesBrowserPresenter >> initializeQueryResult [
 FQQueriesBrowserPresenter >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter initialExtent: 500 @ 400
+]
+
+{ #category : #midas }
+FQQueriesBrowserPresenter >> miSelectedItem [
+	^ selectedQuery result
 ]
 
 { #category : #utils }

@@ -11,8 +11,8 @@ FQPropertyQueryParametersPresenter >> properties [
 ]
 
 { #category : #'*Famix-Queries-Browser-Tests' }
-FQPropertyQueryParametersPresenter >> query [
-	^ query
+FQPropertyQueryParametersPresenter >> queryBuilder [
+	^ queryBuilder
 ]
 
 { #category : #'*Famix-Queries-Browser-Tests' }

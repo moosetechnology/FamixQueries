@@ -7,14 +7,6 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
-{ #category : #'as yet unclassified' }
-FQUnaryQuery class >> defaultForParent: aQuery [
-	^ self new
-		parent: aQuery;
-		beDefaultForParent;
-		yourself
-]
-
 { #category : #comparing }
 FQUnaryQuery >> = aQuery [
 	^ super = aQuery and: [ self hasSameParametersAs: aQuery ]

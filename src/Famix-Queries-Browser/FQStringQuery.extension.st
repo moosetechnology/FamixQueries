@@ -6,8 +6,3 @@ FQStringQuery class >> color [
 
 	^ Color colorFrom: '77AADD'
 ]
-
-{ #category : #'*Famix-Queries-Browser' }
-FQStringQuery >> configureIn: aCreationPresenter [
-	aCreationPresenter configureStringQuery: self
-]

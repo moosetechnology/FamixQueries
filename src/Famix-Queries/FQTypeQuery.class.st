@@ -62,9 +62,7 @@ FQTypeQuery class >> stringForType: aType [
 FQTypeQuery >> addType: aType [
 	(self types includes: aType)
 		ifTrue: [ ^ self ].
-	self types add: aType.
-	self resetResult.
-	self flag: #FQTest , 'test reset'
+	self types add: aType
 ]
 
 { #category : #running }
@@ -77,23 +75,12 @@ FQTypeQuery >> allWantedIn: aMooseGroup [
 ]
 
 { #category : #'available parameters' }
-FQTypeQuery >> availableTypes [
-	self flag: #FQTest.
-	^ self availableTypesFor: parent result
-]
-
-{ #category : #'available parameters' }
 FQTypeQuery >> availableTypesFor: aMooseGroup [
 	self
 		flag: 'Selection of the named entities: all entities may not respond'.
 	^ ((aMooseGroup allUsing: FamixTNamedEntity) collect: #class)
 		removeDuplicates asOrderedCollection
 		sort: [ :type1 :type2 | type1 name < type2 name ]
-]
-
-{ #category : #'as yet unclassified' }
-FQTypeQuery >> beDefaultForParent [
-	self types: self availableTypes
 ]
 
 { #category : #printing }
@@ -153,9 +140,7 @@ FQTypeQuery >> removeType: aType [
 	self types size = 1
 		ifTrue: [ FQCannotRemoveLastType
 				signal: 'Removing the last type of a ' , self className , ' is forbidden' ].
-	self types remove: aType.
-	self resetResult.
-	self flag: #FQTest , 'test reset'
+	self types remove: aType
 ]
 
 { #category : #running }

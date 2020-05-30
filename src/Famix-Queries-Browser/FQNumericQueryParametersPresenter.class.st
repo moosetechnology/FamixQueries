@@ -25,13 +25,18 @@ FQNumericQueryParametersPresenter class >> defaultSpec [
 ]
 
 { #category : #initialization }
+FQNumericQueryParametersPresenter class >> queryBuilderClass [
+	^ FQNumericPropertyQueryBuilder 
+]
+
+{ #category : #initialization }
 FQNumericQueryParametersPresenter >> initializePresenters [
 	super initializePresenters.
 	comparators := self newDropList
-		items: query availableComparators;
+		items: queryBuilder availableComparators;
 		display: [ :prop | prop asString ];
 		whenSelectedItemChangedDo: [ :prop | 
-			query comparator: prop.
+			queryBuilder changeQueryComparator: prop.
 			self owner notifyQueryChanged ];
 		yourself.
 	valueInput := self newNumberInput
@@ -40,7 +45,7 @@ FQNumericQueryParametersPresenter >> initializePresenters [
 		minimum: 0;
 		autoAccept: true;
 		whenNumberChangedDo: [ :num | 
-			query valueToCompare: num.
+			queryBuilder changeQueryValueToCompare: num.
 			self owner notifyQueryChanged ];
 		yourself
 ]

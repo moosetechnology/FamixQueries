@@ -6,14 +6,13 @@ Class {
 
 { #category : #'instance creation' }
 FQNavigationQueriesPresenter class >> open [
-	"This is a workaround for Iceberg bug"
-
-	
+	<script>
+	super open
 ]
 
 { #category : #initialization }
-FQNavigationQueriesPresenter class >> queryClass [
-	^ FQNavigationQuery
+FQNavigationQueriesPresenter class >> queryBuilderClass [
+	^ FQNavigationQueryBuilder
 ]
 
 { #category : #'instance creation' }
@@ -22,29 +21,30 @@ FQNavigationQueriesPresenter class >> title [
 ]
 
 { #category : #'widgets configuration' }
-FQNavigationQueriesPresenter class >> traitPrefix [
-	^ 'FamixT'
-]
-
-{ #category : #'widgets configuration' }
 FQNavigationQueriesPresenter >> configureCheckBox: checkBox forNavigationAssociation: associationTrait [
-	self setStateOfCheckBox: checkBox association: associationTrait.
 	checkBox
 		label: (associationTrait name withoutPrefix: self class traitPrefix);
-		whenActivatedDo: [ self query addAssociation: associationTrait ];
-		whenDeactivatedDo: [ [ self query removeAssociation: associationTrait ]
+		whenActivatedDo: [ queryBuilder addAssociationToQuery: associationTrait ];
+		whenDeactivatedDo: [ [ queryBuilder removeAssociationFromQuery: associationTrait ]
 				on: FQCannotRemoveLastNavigationAssociation
 				do: [ checkBox state: true
-					"Spec does not allow this to work" ] ].
+					"Spec does not allow this to work" ] ];
+		enabled: queryBuilder query associationStrategy associations size > 1.
+	self setStateOfCheckBox: checkBox association: associationTrait.
 	checkBox whenChangedDo: [ self notifyQueryChanged ]
 ]
 
 { #category : #'widgets configuration' }
 FQNavigationQueriesPresenter >> configureRadioButton: radioButton forNavigationDirection: direction [
+	"	(radioButton observablePropertyNamed: #state) subscriptions
+		haltOnCallTo: #add:."
+
+	"radioButton haltOnCallTo: #whenActivatedDo:."
 	radioButton
-		state: self query directionStrategy == direction;
 		label: direction label;
-		whenActivatedDo: [ self query resetAndChangeDirection: direction.
+		whenActivatedDo: [ [ queryBuilder changeQueryNavigationDirection: direction ]
+				on: FQImpossibleQuery
+				do: [ self flag: #ImpossibleQuery , 'Manage this error better' ].
 			self updateAccordingToDirection.
 			self notifyQueryChanged ]
 ]
@@ -57,7 +57,7 @@ FQNavigationQueriesPresenter >> initializeAssociationsCheckBoxes [
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
 	firstParameter := SpDynamicPresentersListBuilder new
-		modelObjects: self query availableDirections;
+		modelObjects: queryBuilder availableDirections;
 		presenter: SpRadioButtonPresenter
 			configuredAs: [ :radioButton :direction | 
 			self
@@ -65,8 +65,9 @@ FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
 				forNavigationDirection: direction ];
 		layoutBuilder: (SpDynamicTopToBottomRowsLayout rows: 1);
 		build.
-	(firstParameter presenters detect: #state)
-		associatedRadioButtons: firstParameter presenters allButFirst
+	firstParameter presenters first
+		associatedRadioButtons: firstParameter presenters allButFirst.
+	self selectCurrentQueryDirection
 ]
 
 { #category : #initialization }
@@ -75,7 +76,7 @@ FQNavigationQueriesPresenter >> initializePresenters [
 	self initializeAssociationsCheckBoxes
 ]
 
-{ #category : #initialization }
+{ #category : #'widgets configuration' }
 FQNavigationQueriesPresenter >> selectCurrentQueryDirection [
 	(firstParameter presenters
 		detect:
@@ -94,7 +95,7 @@ FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 	checkBoxes
 		do: [ :type | 
 			type
-				whenChangedDo: [ self query associationStrategy associations size == 1
+				whenChangedDo: [ queryBuilder currentQueryAssociations size == 1
 						ifTrue: [ checkBoxes select: #state thenDo: #disable ]
 						ifFalse: [ checkBoxes select: #state thenDo: #enable ] ] ]
 ]
@@ -114,7 +115,7 @@ FQNavigationQueriesPresenter >> setStateOfCheckBox: checkBox association: associ
 { #category : #update }
 FQNavigationQueriesPresenter >> showAssociationsCheckBoxes [
 	secondParameter := SpDynamicPresentersListBuilder new
-		modelObjects: self query allPossibleAssociations;
+		modelObjects: queryBuilder allPossibleAssociations;
 		presenter: SpCheckBoxPresenter
 			configuredAs: [ :checkBox :associationTrait | 
 			self
@@ -127,7 +128,7 @@ FQNavigationQueriesPresenter >> showAssociationsCheckBoxes [
 
 { #category : #update }
 FQNavigationQueriesPresenter >> updateAccordingToDirection [
-	self query availableAssociations
+	queryBuilder availableAssociations
 		ifEmpty: [ secondParameter := self noParameterMessage: 'association' ]
 		ifNotEmpty: [ self showAssociationsCheckBoxes ].
 	self update
