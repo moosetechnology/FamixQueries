@@ -8,19 +8,6 @@ Class {
 }
 
 { #category : #running }
-FQQueriesBrowserPresenterTest >> addTwoQueriesAndUnion [
-	| parents union |
-	parents := {(FQBooleanQuery new property: #isAbstract).
-	(FQTypeQuery new type: FamixStClass)}.
-	union := FQUnionQuery new.
-	parents
-		do: [ :parent | 
-			presenter updateForQuery: parent.
-			parent addChild: union ].
-	union parents: parents
-]
-
-{ #category : #running }
 FQQueriesBrowserPresenterTest >> classToTest [
 	^ FQQueriesBrowserPresenter
 ]

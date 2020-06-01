@@ -4,17 +4,17 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQPropertyQueriesPresenterTest >> classToTest [
 	^ FQPropertyQueriesPresenter
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQPropertyQueriesPresenterTest >> queryClass [
 	^ FQPropertyQuery
 ]
 
-{ #category : #helpers }
+{ #category : #accessing }
 FQPropertyQueriesPresenterTest >> radioButtons [
 	^ presenter firstParameter presenters
 		reject: [ :pres | pres class = SpNullPresenter ]

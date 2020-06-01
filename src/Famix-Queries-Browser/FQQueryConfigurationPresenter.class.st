@@ -38,7 +38,7 @@ FQQueryConfigurationPresenter class >> queryClass [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 FQQueryConfigurationPresenter class >> traitPrefix [
 	^ 'FamixT'
 ]
@@ -81,7 +81,7 @@ FQQueryConfigurationPresenter >> queryChangedPort [
 	^ FQQueryOutputPort newPresenter: self
 ]
 
-{ #category : #initialization }
+{ #category : #'accessing model' }
 FQQueryConfigurationPresenter >> setModelBeforeInitialization: aParentQuery [
 	parentQuery := aParentQuery
 ]

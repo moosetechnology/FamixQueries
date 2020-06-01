@@ -35,7 +35,7 @@ FQQueriesCombinationPresenterTest >> openInstance [
 
 { #category : #running }
 FQQueriesCombinationPresenterTest >> setUp [
-	helper :=  FQTestsHelper current.
+	helper := FQTestsHelper current.
 	presenter := self classToTest on: self browserWithTwoQueries
 ]
 

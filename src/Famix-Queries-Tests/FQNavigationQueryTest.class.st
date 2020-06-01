@@ -33,6 +33,38 @@ FQNavigationQueryTest >> allOutgoingForClassExample [
 		, self outgoingInvocationsForClassExample
 ]
 
+{ #category : #'tests - printing' }
+FQNavigationQueryTest >> assertDisplayOneAssociation [
+	query
+		associationStrategy: (FQNavigationAssociations with: FamixTInvocation).
+	self
+		assert: (String streamContents: [ :aStream | query displayOn: aStream ])
+		equals:
+			'(aMooseGroup
+		inject: Set new
+		into: [ :result :entity | 
+			result addAll: (entity queryIncoming: FamixTInvocation) opposites.
+			result ]) asMooseGroup'
+]
+
+{ #category : #'tests - printing' }
+FQNavigationQueryTest >> assertDisplayTwoAssociations [
+	query
+		associationStrategy:
+			(FQNavigationAssociations
+				withAll:
+					{FamixTInvocation.
+					FamixTInheritance}).
+	self
+		assert: (String streamContents: [ :aStream | query displayOn: aStream ])
+		equals:
+			'(aMooseGroup
+		inject: Set new
+		into: [ :result :entity | 
+			result addAll: ({ FamixTInvocation . FamixTInheritance } flatCollect: [ :association | (entity queryIncoming: association) opposites ]).
+			result ]) asMooseGroup'
+]
+
 { #category : #'class example' }
 FQNavigationQueryTest >> classExample [
 	^ MooseAbstractGroup new
@@ -286,38 +318,6 @@ FQNavigationQueryTest >> testAvailableDirections [
 ]
 
 { #category : #'tests - printing' }
-FQNavigationQueryTest >> testDisplayIncomingInvocation [
-	query
-		associationStrategy: (FQNavigationAssociations with: FamixTInvocation).
-	self
-		assert: (String streamContents: [ :aStream | query displayOn: aStream ])
-		equals:
-			'(aMooseGroup
-		inject: Set new
-		into: [ :result :entity | 
-			result addAll: (entity queryIncoming: FamixTInvocation) opposites.
-			result ]) asMooseGroup'
-]
-
-{ #category : #'tests - printing' }
-FQNavigationQueryTest >> testDisplayIncomingInvocation2 [
-	query
-		associationStrategy:
-			(FQNavigationAssociations
-				withAll:
-					{FamixTInvocation.
-					FamixTInheritance}).
-	self
-		assert: (String streamContents: [ :aStream | query displayOn: aStream ])
-		equals:
-			'(aMooseGroup
-		inject: Set new
-		into: [ :result :entity | 
-			result addAll: ({ FamixTInvocation . FamixTInheritance } flatCollect: [ :association | (entity queryIncoming: association) opposites ]).
-			result ]) asMooseGroup'
-]
-
-{ #category : #'tests - printing' }
 FQNavigationQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -326,7 +326,9 @@ FQNavigationQueryTest >> testDisplayOn [
 		inject: Set new
 		into: [ :result :entity | 
 			result addAll: entity queryAllIncoming opposites.
-			result ]) asMooseGroup'
+			result ]) asMooseGroup'.
+	self assertDisplayOneAssociation.
+	self assertDisplayTwoAssociations
 ]
 
 { #category : #tests }

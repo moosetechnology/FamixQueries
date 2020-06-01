@@ -23,7 +23,7 @@ Class {
 	#category : #'Famix-Queries-Scope-Strategies'
 }
 
-{ #category : #'available parameters' }
+{ #category : #'available scopes' }
 FQAbstractScopeDirection class >> availableDirections [
 	" Not 'self allSubclasses' because we want this specific order"
 
@@ -32,7 +32,7 @@ FQAbstractScopeDirection class >> availableDirections [
 	FQScopeDown}
 ]
 
-{ #category : #'available parameters' }
+{ #category : #'available scopes' }
 FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
 	^ ((self respondingEntitiesIn: aMooseGroup) entities
 		flatCollectAsSet: [ :entity | 
@@ -40,7 +40,7 @@ FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
 				reject: [ :type | type isTrait ] ]) asArray
 ]
 
-{ #category : #'available parameters' }
+{ #category : #'available scopes' }
 FQAbstractScopeDirection class >> availableScopesForEntity: entity [
 	^ self subclassResponsibility
 ]
@@ -55,7 +55,7 @@ FQAbstractScopeDirection class >> label [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'available parameters' }
+{ #category : #'available scopes' }
 FQAbstractScopeDirection class >> respondingEntitiesIn: aMooseGroup [
 	self
 		flag:

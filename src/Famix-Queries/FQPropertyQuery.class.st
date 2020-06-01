@@ -45,11 +45,6 @@ Class {
 }
 
 { #category : #accessing }
-FQPropertyQuery class >> availablePropertyTypes [
-	^ FQPropertyQuery allSubclasses
-]
-
-{ #category : #accessing }
 FQPropertyQuery class >> label [
 	^ 'Property Query'
 ]
@@ -79,7 +74,7 @@ FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 				collect: #name ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #default }
 FQPropertyQuery >> beDefaultForParent [
 	property := self availableProperties
 		ifEmpty: [ nil ]

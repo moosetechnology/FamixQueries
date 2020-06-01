@@ -61,15 +61,24 @@ FQNavigationQuery class >> label [
 	^ 'Navigation Query'
 ]
 
-{ #category : #utils }
-FQNavigationQuery class >> stringForAssociation: anAssociation [
-	^ (anAssociation name withoutPrefix: 'FamixT') asLowercase
-		asEnglishPlural
+{ #category : #printing }
+FQNavigationQuery class >> simpleNameOf: anAssociation [
+	^ anAssociation name withoutPrefix: self traitPrefix
 ]
 
-{ #category : #utils }
+{ #category : #printing }
+FQNavigationQuery class >> stringForAssociation: anAssociation [
+	^ (self simpleNameOf: anAssociation) asLowercase asEnglishPlural
+]
+
+{ #category : #printing }
 FQNavigationQuery class >> symbolForAssociation: anAssociation [
-	^ (anAssociation name withoutPrefix: 'FamixT') asSymbol
+	^ (self simpleNameOf: anAssociation) asSymbol
+]
+
+{ #category : #printing }
+FQNavigationQuery class >> traitPrefix [
+	^ 'FamixT'
 ]
 
 { #category : #'adding - removing' }
@@ -125,7 +134,7 @@ FQNavigationQuery >> availableDirections [
 	^ FQAbstractNavigationDirection availableDirections
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #default }
 FQNavigationQuery >> beDefaultForParent [
 	self
 		flag:

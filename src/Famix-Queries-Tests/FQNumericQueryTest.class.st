@@ -9,7 +9,7 @@ FQNumericQueryTest >> actualClass [
 	^ FQNumericQuery
 ]
 
-{ #category : #'tests - printing' }
+{ #category : #running }
 FQNumericQueryTest >> expectedPrintOnString [
 	^ 'a FQNumericQuery (numberOfMethods > 10)'
 ]

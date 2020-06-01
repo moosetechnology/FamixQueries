@@ -4,18 +4,18 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
 }
 
-{ #category : #helpers }
+{ #category : #accessing }
 FQTypeQueriesPresenterTest >> checkBoxes [
 	^ presenter secondParameter presenters
 		reject: [ :pres | pres class = SpNullPresenter ]
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQTypeQueriesPresenterTest >> classToTest [
 	^ FQTypeQueriesPresenter
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQTypeQueriesPresenterTest >> queryClass [
 	^ FQTypeQuery
 ]

@@ -5,7 +5,7 @@ Class {
 		'firstParent',
 		'secondParent'
 	],
-	#category : #'Famix-Queries-Core'
+	#category : #'Famix-Queries-Queries-Binary'
 }
 
 { #category : #testing }
@@ -31,7 +31,7 @@ FQNonCommutativeQuery >> resetParents [
 	secondParent := nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #reversing }
 FQNonCommutativeQuery >> reverseParents [
 	self parents: self parents reverse.
 	self resetResult

@@ -12,7 +12,7 @@ FQPropertyQueryParametersPresenterTest class >> isAbstract [
 	^ self == FQPropertyQueryParametersPresenterTest
 ]
 
-{ #category : #asserting }
+{ #category : #tests }
 FQPropertyQueryParametersPresenterTest >> assertCreationPresenterWasUpdated [
 	self
 		assertCollection: presenter owner owner resultList items

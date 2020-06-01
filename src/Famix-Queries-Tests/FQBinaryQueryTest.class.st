@@ -166,7 +166,7 @@ FQBinaryQueryTest >> testResult [
 		hasSameElements: (query runOn: self parentQueriesResult)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQBinaryQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 	self

@@ -39,6 +39,11 @@ FQBooleanQuery class >> label [
 	^ 'Boolean Query'
 ]
 
+{ #category : #'available parameters' }
+FQBooleanQuery >> availableComparators [
+	^ {}
+]
+
 { #category : #testing }
 FQBooleanQuery >> hasComparisonParameters [
 	^ false

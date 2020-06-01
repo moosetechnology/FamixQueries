@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQStringQueryParametersPresenterTest >> classToTest [
 	^ FQStringQueryParametersPresenter
 ]
@@ -14,12 +14,12 @@ FQStringQueryParametersPresenterTest >> queryClass [
 	^ FQStringQuery
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQStringQueryParametersPresenterTest >> valueInput [
 	^ 'LAN'
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQStringQueryParametersPresenterTest >> valueInputClass [
 	^ SpTextInputFieldPresenter
 ]

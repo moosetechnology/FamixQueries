@@ -22,8 +22,28 @@ FQAbstractNavigationAssociations class >> allPossibleAssociations [
 		sorted: [ :assoc1 :assoc2 | assoc1 name < assoc2 name ]
 ]
 
+{ #category : #'adding - removing' }
+FQAbstractNavigationAssociations >> addAssociation: anAssociation [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+FQAbstractNavigationAssociations >> associations [
+	^ self subclassResponsibility
+]
+
 { #category : #printing }
 FQAbstractNavigationAssociations >> displayIncomingOn: aStream [
+	self subclassResponsibility
+]
+
+{ #category : #printing }
+FQAbstractNavigationAssociations >> displayLocalIncomingOn: aStream [
+	self subclassResponsibility
+]
+
+{ #category : #printing }
+FQAbstractNavigationAssociations >> displayLocalOutgoingOn: aStream [
 	self subclassResponsibility
 ]
 
@@ -49,5 +69,10 @@ FQAbstractNavigationAssociations >> queryLocalOutgoingWith: anEntity [
 
 { #category : #action }
 FQAbstractNavigationAssociations >> queryOutgoingWith: anEntity [
+	^ self subclassResponsibility
+]
+
+{ #category : #'adding - removing' }
+FQAbstractNavigationAssociations >> removeAssociation: arg1 [ 
 	^ self subclassResponsibility
 ]

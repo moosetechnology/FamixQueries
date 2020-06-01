@@ -15,6 +15,12 @@ FQUnaryQuery class >> defaultForParent: aQuery [
 		yourself
 ]
 
+{ #category : #printing }
+FQUnaryQuery class >> stringForClass: aClass [
+	^ (aClass name piecesCutWhere: [ :char1 :char2 | char2 isUppercase ])
+		last asEnglishPlural
+]
+
 { #category : #comparing }
 FQUnaryQuery >> = aQuery [
 	^ super = aQuery and: [ self hasSameParametersAs: aQuery ]
@@ -34,12 +40,17 @@ FQUnaryQuery >> beChildOf: aQuery [
 	aQuery addChild: self
 ]
 
+{ #category : #default }
+FQUnaryQuery >> beDefaultForParent [
+	self subclassResponsibility
+]
+
 { #category : #running }
 FQUnaryQuery >> computeResult [
 	^ self runOn: parent result
 ]
 
-{ #category : #testing }
+{ #category : #comparing }
 FQUnaryQuery >> hasSameParametersAs: aQuery [
 	^ self subclassResponsibility
 ]

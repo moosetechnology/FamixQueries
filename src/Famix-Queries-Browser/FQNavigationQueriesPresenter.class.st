@@ -9,7 +9,7 @@ FQNavigationQueriesPresenter class >> queryClass [
 	^ FQNavigationQuery
 ]
 
-{ #category : #'instance creation' }
+{ #category : #specs }
 FQNavigationQueriesPresenter class >> title [
 	^ 'Navigation Query'
 ]
@@ -80,8 +80,8 @@ FQNavigationQueriesPresenter >> setAssociationsCheckBoxesConstraints [
 
 	"Disable active checkBoxes when the query has only one association, to forbid removing it."
 	checkBoxes
-		do: [ :type | 
-			type
+		do: [ :association | 
+			association
 				whenChangedDo: [ self query associationStrategy associations size == 1
 						ifTrue: [ checkBoxes select: #state thenDo: #disable ]
 						ifFalse: [ checkBoxes select: #state thenDo: #enable ] ] ]

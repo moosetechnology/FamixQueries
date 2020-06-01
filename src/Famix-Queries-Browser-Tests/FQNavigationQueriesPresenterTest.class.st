@@ -49,23 +49,23 @@ FQNavigationQueriesPresenterTest >> assertCheckBoxesMatchQuery [
 		hasSameElements: (self checkBoxes select: #state thenCollect: #label)
 ]
 
-{ #category : #helpers }
+{ #category : #accessing }
 FQNavigationQueriesPresenterTest >> checkBoxes [
 	^ presenter secondParameter presenters
 		reject: [ :pres | pres class = SpNullPresenter ]
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQNavigationQueriesPresenterTest >> classToTest [
 	^ FQNavigationQueriesPresenter
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQNavigationQueriesPresenterTest >> queryClass [
 	^ FQNavigationQuery
 ]
 
-{ #category : #helpers }
+{ #category : #accessing }
 FQNavigationQueriesPresenterTest >> radioButtons [
 	^ presenter firstParameter presenters
 		reject: [ :pres | pres class = SpNullPresenter ]

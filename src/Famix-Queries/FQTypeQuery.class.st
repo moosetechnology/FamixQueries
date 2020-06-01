@@ -52,12 +52,6 @@ FQTypeQuery class >> label [
 	^ 'Type Query'
 ]
 
-{ #category : #utils }
-FQTypeQuery class >> stringForType: aType [
-	^ (aType name piecesCutWhere: [ :char1 :char2 | char2 isUppercase ])
-		last asEnglishPlural
-]
-
 { #category : #'adding - removing' }
 FQTypeQuery >> addType: aType [
 	(self types includes: aType)
@@ -91,7 +85,7 @@ FQTypeQuery >> availableTypesFor: aMooseGroup [
 		sort: [ :type1 :type2 | type1 name < type2 name ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #default }
 FQTypeQuery >> beDefaultForParent [
 	self types: self availableTypes
 ]
@@ -101,8 +95,8 @@ FQTypeQuery >> defaultName [
 	^ String
 		streamContents: [ :s | 
 			self types
-				allButLastDo: [ :type | s << (self class stringForType: type) << ', ' ].
-			s << (self class stringForType: self types last) ]
+				allButLastDo: [ :type | s << (self class stringForClass: type) << ', ' ].
+			s << (self class stringForClass: self types last) ]
 ]
 
 { #category : #printing }
@@ -171,10 +165,8 @@ FQTypeQuery >> storeOn: aStream [
 	self types
 		allButLastDo: [ :type | 
 			aStream << 'type: '.
-			"(self class typeAsSymbol: type) storeOn: aStream."
 			aStream << type name << '; ' ].
 	aStream << 'type: ' << self types last name
-	"(self class typeAsSymbol: self types last) storeOn: aStream"
 ]
 
 { #category : #'adding - removing' }

@@ -60,12 +60,12 @@ FQComparativeQueryParametersPresenterTest >> testValueInput [
 		identicalTo: self valueInputClass
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQComparativeQueryParametersPresenterTest >> valueInput [
 	^ self subclassResponsibility
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQComparativeQueryParametersPresenterTest >> valueInputClass [
 	^ self subclassResponsibility
 ]

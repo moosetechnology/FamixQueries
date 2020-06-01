@@ -5,7 +5,6 @@ Class {
 		'hasInteractions',
 		'queries',
 		'selectedQuery',
-		'shapePopup',
 		'browser'
 	],
 	#category : #'Famix-Queries-Browser-Widgets'
@@ -13,6 +12,7 @@ Class {
 
 { #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> adaptName: aString [
+	self flag: #FQImprove.
 	^ aString
 		copyReplaceAll: Character space asString
 		with: Character cr asString
@@ -58,10 +58,7 @@ FQRoassalQueryPresenter >> boxInteractions: box [
 { #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> boxLabel [
 	| label |
-	label := RSLabeled new
-		text: [ :model | 
-			self flag: #FQImprove.
-			self adaptName: model name ].
+	label := RSLabeled new text: [ :model | self adaptName: model name ].
 	label location
 		inner;
 		center;
@@ -99,12 +96,6 @@ FQRoassalQueryPresenter >> boxPopup [
 	label := RSPopup new
 		text: [ :model | browser mooseGroupDetails: model result ].
 	^ label
-]
-
-{ #category : #'boxes configuration' }
-FQRoassalQueryPresenter >> boxSelection: event [
-	browser selectQuery: event shape model.
-	self refresh
 ]
 
 { #category : #'boxes configuration' }

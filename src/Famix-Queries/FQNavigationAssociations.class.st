@@ -155,7 +155,7 @@ FQNavigationAssociations >> queryOutgoingWith: anEntity [
 	^ self associations flatCollect: [ :each | (anEntity queryOutgoing: each) opposites ]
 ]
 
-{ #category : #removing }
+{ #category : #'adding - removing' }
 FQNavigationAssociations >> removeAssociation: anAssociation [
 	self associations size == 1
 		ifTrue: [ FQCannotRemoveLastNavigationAssociation

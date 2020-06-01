@@ -4,17 +4,24 @@ Class {
 	#category : #'Famix-Queries-Browser-Tools'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #display }
 FQMockQuery class >> color [
 	^ Color colorFrom: 'DDDDDD'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #display }
 FQMockQuery class >> label [
 	^ 'Initial Entities'
 ]
 
-{ #category : #accessing }
+{ #category : #default }
+FQMockQuery >> beDefaultForParent [
+	"Nothing to do"
+
+	
+]
+
+{ #category : #printing }
 FQMockQuery >> defaultName [
 	^ 'Model'
 ]
@@ -38,11 +45,6 @@ FQMockQuery >> initialize [
 { #category : #testing }
 FQMockQuery >> isValid [
 	^ true
-]
-
-{ #category : #accessing }
-FQMockQuery >> name: aString [
-	name := aString
 ]
 
 { #category : #accessing }

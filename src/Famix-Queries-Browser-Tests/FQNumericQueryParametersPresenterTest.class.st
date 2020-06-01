@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQNumericQueryParametersPresenterTest >> classToTest [
 	^ FQNumericQueryParametersPresenter
 ]
@@ -14,12 +14,12 @@ FQNumericQueryParametersPresenterTest >> queryClass [
 	^ FQNumericQuery
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQNumericQueryParametersPresenterTest >> valueInput [
 	^ '5'
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQNumericQueryParametersPresenterTest >> valueInputClass [
 	^ SpNumberInputFieldPresenter
 ]

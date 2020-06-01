@@ -12,7 +12,7 @@ FQQueryConfigurationPresenterTest class >> isAbstract [
 	^ self == FQQueryConfigurationPresenterTest
 ]
 
-{ #category : #running }
+{ #category : #tests }
 FQQueryConfigurationPresenterTest >> assertCreationPresenterWasUpdated [
 	self
 		assertCollection: presenter owner resultList items
@@ -22,19 +22,14 @@ FQQueryConfigurationPresenterTest >> assertCreationPresenterWasUpdated [
 		equals: presenter query
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQQueryConfigurationPresenterTest >> classToTest [
 	^ self subclassResponsibility
 ]
 
-{ #category : #helpers }
+{ #category : #accessing }
 FQQueryConfigurationPresenterTest >> currentQuery [
 	^ presenter query
-]
-
-{ #category : #helpers }
-FQQueryConfigurationPresenterTest >> initializePresenterForNoEntities [
-	self resetPresenterWithEntities: helper noEntities
 ]
 
 { #category : #running }
@@ -45,12 +40,12 @@ FQQueryConfigurationPresenterTest >> openInstance [
 				openWithSpec ]
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQQueryConfigurationPresenterTest >> queryClass [
 	^ self subclassResponsibility
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQQueryConfigurationPresenterTest >> resetPresenterWithEntities: aMooseGroup [
 	| superPresenter |
 	superPresenter := FQQueryCreationPresenter
@@ -66,14 +61,14 @@ FQQueryConfigurationPresenterTest >> setUp [
 	self resetPresenterWithEntities: helper classesAndMethods
 ]
 
-{ #category : #accessing }
+{ #category : #tests }
 FQQueryConfigurationPresenterTest >> testFirstParameter [
 	^ self subclassResponsibility
 ]
 
 { #category : #tests }
 FQQueryConfigurationPresenterTest >> testImpossibleQueryInitialization [
-	self initializePresenterForNoEntities.
+	self resetPresenterWithEntities: helper noEntities.
 	self assert: (presenter query isKindOf: self queryClass).
 	self deny: presenter query isValid
 ]
@@ -84,17 +79,17 @@ FQQueryConfigurationPresenterTest >> testNormalQueryInitialization [
 	self assert: presenter query isValid
 ]
 
-{ #category : #accessing }
+{ #category : #tests }
 FQQueryConfigurationPresenterTest >> testQueryValidity [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : #tests }
 FQQueryConfigurationPresenterTest >> testSecondParameter [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : #tests }
 FQQueryConfigurationPresenterTest >> testUpdateCreationBrowser [
 	^ self subclassResponsibility
 ]

@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Queries-Tests-Binary'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQIntersectionQueryTest >> actualClass [
 	^ FQIntersectionQuery
 ]
@@ -21,7 +21,7 @@ FQIntersectionQueryTest >> expectedResult [
 		intersection: (self secondParentOfQuery runOn: helper classesAndMethods)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQIntersectionQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -33,7 +33,7 @@ FQIntersectionQueryTest >> testDisplayOn [
 			result ]) asMooseGroup) & (aMooseGroup allWithType: FamixStClass)'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQIntersectionQueryTest >> testName [
 	self assert: query name equals: 'Incoming references, inheritances & Classes'.
 	self assert: self unConfiguredQuery name equals: 'Invalid Intersection'

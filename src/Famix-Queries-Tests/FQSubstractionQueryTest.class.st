@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Queries-Tests-Binary'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQSubstractionQueryTest >> actualClass [
 	^ FQSubstractionQuery
 ]
@@ -21,7 +21,7 @@ FQSubstractionQueryTest >> expectedResult [
 		difference: (self secondParentOfQuery runOn: helper classesAndMethods)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQSubstractionQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -33,7 +33,7 @@ FQSubstractionQueryTest >> testDisplayOn [
 			result ]) asMooseGroup) \ (aMooseGroup allWithType: FamixStClass)'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQSubstractionQueryTest >> testName [
 	self
 		assert: query name

@@ -21,7 +21,7 @@ FQUnionQueryTest >> expectedResult [
 		union: (self secondParentOfQuery runOn: helper classesAndMethods)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQUnionQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -33,7 +33,7 @@ FQUnionQueryTest >> testDisplayOn [
 			result ]) asMooseGroup) | (aMooseGroup allWithType: FamixStClass)'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQUnionQueryTest >> testName [
 	self
 		assert: query name

@@ -5,7 +5,6 @@ Class {
 		'queriesTree',
 		'queryResult',
 		'selectedQuery',
-		'queryResultTitle',
 		'queries'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'

@@ -4,11 +4,17 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'available parameters' }
 FQBinaryQuery class >> availableCombinations [
+	self flag: #FQImprove.
 	^ {FQUnionQuery.
 	FQIntersectionQuery.
 	FQSubstractionQuery}
+]
+
+{ #category : #testing }
+FQBinaryQuery class >> isCommutative [
+	^ self subclassResponsibility
 ]
 
 { #category : #adding }

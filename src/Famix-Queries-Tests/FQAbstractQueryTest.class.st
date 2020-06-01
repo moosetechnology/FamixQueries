@@ -30,7 +30,7 @@ FQAbstractQueryTest >> differentTypeOfQuery [
 
 { #category : #'public access' }
 FQAbstractQueryTest >> evaluate: aString [
-	^ FQAbstractQuery readFrom: aString
+	^ self actualClass readFrom: aString
 ]
 
 { #category : #running }
@@ -63,7 +63,7 @@ FQAbstractQueryTest >> testBeChildOf [
 	self subclassResponsibility
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQAbstractQueryTest >> testDisplayOn [
 	self subclassResponsibility
 ]
@@ -84,6 +84,11 @@ FQAbstractQueryTest >> testIsValid [
 	self deny: self unConfiguredQuery isValid
 ]
 
+{ #category : #'tests - printing' }
+FQAbstractQueryTest >> testName [
+	self subclassResponsibility
+]
+
 { #category : #tests }
 FQAbstractQueryTest >> testParentSequence [
 	self subclassResponsibility
@@ -94,7 +99,7 @@ FQAbstractQueryTest >> testPrepareRemoval [
 	self subclassResponsibility
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQAbstractQueryTest >> testPrintOn [
 	self assert: query printString equals: self expectedPrintOnString.
 	self
@@ -116,7 +121,7 @@ FQAbstractQueryTest >> testResult [
 	self subclassResponsibility
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQAbstractQueryTest >> testRunOn [
 	self subclassResponsibility
 ]

@@ -28,7 +28,7 @@ FQComplementQueryTest >> newQuery [
 	^ self unConfiguredQuery beChildOf: parentQuery
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQComplementQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -59,7 +59,7 @@ FQComplementQueryTest >> testIsValid [
 	self deny: query isValid
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQComplementQueryTest >> testName [
 	self assert: query name equals: '(isInstanceSide) not'.
 	self
@@ -67,7 +67,7 @@ FQComplementQueryTest >> testName [
 		equals: 'Invalid Complement Query'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - running' }
 FQComplementQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 	self

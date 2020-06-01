@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQBooleanQueryParametersPresenterTest >> classToTest [
 	^ FQBooleanQueryParametersPresenter
 ]

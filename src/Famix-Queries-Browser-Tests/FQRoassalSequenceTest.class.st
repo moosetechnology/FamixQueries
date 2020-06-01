@@ -9,7 +9,7 @@ FQRoassalSequenceTest >> classToTest [
 	^ FQRoassalSequence
 ]
 
-{ #category : #helpers }
+{ #category : #accessing }
 FQRoassalSequenceTest >> colors [
 	^ {Color brown.
 	Color red.
@@ -23,13 +23,13 @@ FQRoassalSequenceTest >> colors [
 	Color magenta}
 ]
 
-{ #category : #helpers }
+{ #category : #accessing }
 FQRoassalSequenceTest >> labels [
 	^ {'One' . 'Two' . 'Tree' . 'Four' . 'Five' . 'Six' . 'Seven' . 'Eight'.
 	'Nine' . 'Ten'}
 ]
 
-{ #category : #helpers }
+{ #category : #accessing }
 FQRoassalSequenceTest >> modelsCollection [
 	^ (1 to: 10) asOrderedCollection
 ]

@@ -22,6 +22,11 @@ Class {
 }
 
 { #category : #accessing }
+FQAbstractNavigationDirection class >> availableAssociationsFor: aMooseGroup [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 FQAbstractNavigationDirection class >> availableDirections [
 	^ self allSubclasses
 ]

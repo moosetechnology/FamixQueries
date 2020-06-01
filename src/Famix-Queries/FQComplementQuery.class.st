@@ -9,12 +9,19 @@ FQComplementQuery class >> label [
 	^ 'Complement Query'
 ]
 
+{ #category : #default }
+FQComplementQuery >> beDefaultForParent [
+	"Nothing to do"
+
+	
+]
+
 { #category : #printing }
 FQComplementQuery >> defaultName [
 	^ '(' , parent name , ') not'
 ]
 
-{ #category : #running }
+{ #category : #printing }
 FQComplementQuery >> displayOn: aStream with: aString [
 	aStream << aString << ' copyWithoutAll: ('.
 	self parent ifNotNil: [ self parent displayOn: aStream ].

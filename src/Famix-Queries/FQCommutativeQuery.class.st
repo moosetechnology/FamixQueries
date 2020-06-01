@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'parents'
 	],
-	#category : #'Famix-Queries-Core'
+	#category : #'Famix-Queries-Queries-Binary'
 }
 
 { #category : #testing }

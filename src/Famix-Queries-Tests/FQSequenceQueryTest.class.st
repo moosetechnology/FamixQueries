@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Queries-Tests-Binary'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQSequenceQueryTest >> actualClass [
 	self
 		flag: #FQUnused , 'this class is not useful, should be removed or modified'.
@@ -23,7 +23,7 @@ FQSequenceQueryTest >> expectedResult [
 		runOn: (self firstParentOfQuery runOn: helper classesAndMethods)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQSequenceQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -36,7 +36,7 @@ FQSequenceQueryTest >> testDisplayOn [
 	 allWithType: FamixStClass'
 ]
 
-{ #category : #tests }
+{ #category : #'tests - printing' }
 FQSequenceQueryTest >> testName [
 	self
 		assert: query name

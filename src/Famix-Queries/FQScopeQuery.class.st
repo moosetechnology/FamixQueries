@@ -51,13 +51,6 @@ FQScopeQuery class >> label [
 	^ 'Scope Query'
 ]
 
-{ #category : #utils }
-FQScopeQuery class >> stringForScope: aScopeClass [
-	^ (aScopeClass name
-		piecesCutWhere: [ :char1 :char2 | char2 isUppercase ]) last
-		asEnglishPlural
-]
-
 { #category : #'available parameters' }
 FQScopeQuery >> availableDirections [
 	^ FQAbstractScopeDirection availableDirections
@@ -76,7 +69,7 @@ FQScopeQuery >> availableScopesFor: aMooseGroup [
 	^ self directionStrategy availableScopesFor: aMooseGroup
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #default }
 FQScopeQuery >> beDefaultForParent [
 	self directionStrategy: self availableDirections first.
 	self
@@ -93,7 +86,7 @@ FQScopeQuery >> defaultName [
 			s
 				<< self directionStrategy label;
 				<< ' to ';
-				<< (self class stringForScope: self scope) ]
+				<< (self class stringForClass: self scope) ]
 ]
 
 { #category : #accessing }

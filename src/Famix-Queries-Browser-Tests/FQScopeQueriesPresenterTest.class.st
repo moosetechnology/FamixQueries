@@ -4,22 +4,22 @@ Class {
 	#category : #'Famix-Queries-Browser-Tests-Presenters'
 }
 
-{ #category : #helpers }
+{ #category : #running }
 FQScopeQueriesPresenterTest >> classToTest [
 	^ FQScopeQueriesPresenter
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQScopeQueriesPresenterTest >> dropList [
 	^ presenter secondParameter
 ]
 
-{ #category : #helpers }
+{ #category : #running }
 FQScopeQueriesPresenterTest >> queryClass [
 	^ FQScopeQuery
 ]
 
-{ #category : #helpers }
+{ #category : #accessing }
 FQScopeQueriesPresenterTest >> radioButtons [
 	^ presenter firstParameter presenters
 		reject: [ :pres | pres class = SpNullPresenter ]

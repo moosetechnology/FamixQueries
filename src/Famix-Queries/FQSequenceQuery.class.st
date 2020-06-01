@@ -14,7 +14,7 @@ FQSequenceQuery >> defaultName [
 	^ secondParent name , ' then ' , firstParent name
 ]
 
-{ #category : #running }
+{ #category : #printing }
 FQSequenceQuery >> displayOn: aStream with: aString [
 	1 to: self parents size - 1 do: [ :i | aStream << '(' ].
 	firstParent displayOn: aStream.
