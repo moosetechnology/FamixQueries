@@ -6,3 +6,8 @@ FQScopeQuery class >> color [
 
 	^ Color colorFrom: '009292'
 ]
+
+{ #category : #'*Famix-Queries-Browser' }
+FQScopeQuery >> configureIn: aCreationPresenter [
+	aCreationPresenter configureScopeQuery: self
+]

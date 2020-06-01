@@ -74,7 +74,10 @@ FQNavigationQuery class >> symbolForAssociation: anAssociation [
 
 { #category : #'adding - removing' }
 FQNavigationQuery >> addAssociation: anAssociation [
-	associationStrategy := self associationStrategy addAssociation: anAssociation
+	associationStrategy := self associationStrategy
+		addAssociation: anAssociation.
+	self resetResult.
+	self flag: #FQTest , 'test reset result'
 ]
 
 { #category : #'available parameters' }
@@ -122,6 +125,19 @@ FQNavigationQuery >> availableDirections [
 	^ FQAbstractNavigationDirection availableDirections
 ]
 
+{ #category : #'as yet unclassified' }
+FQNavigationQuery >> beDefaultForParent [
+	self
+		flag:
+			#FQImprove , #FQTest
+				, 'This is a bit of a hack to allow creation of invalid queries'.
+	directionStrategy := self availableDirections first.
+	associationStrategy := [ FQNavigationAssociations
+		withAll: self availableAssociations ]
+		on: FQCannotRemoveLastNavigationAssociation
+		do: [ FQNavigationAssociations new ]
+]
+
 { #category : #printing }
 FQNavigationQuery >> defaultName [
 	^ String
@@ -137,8 +153,10 @@ FQNavigationQuery >> defaultName [
 
 { #category : #accessing }
 FQNavigationQuery >> direction: aSymbol [
-	directionStrategy := self availableDirections
-		detect: [ :dir | dir label asCamelCase = aSymbol asString ]
+	self
+		directionStrategy:
+			(self availableDirections
+				detect: [ :dir | dir label asCamelCase = aSymbol asString ])
 ]
 
 { #category : #accessing }
@@ -191,7 +209,38 @@ FQNavigationQuery >> isValid [
 
 { #category : #'adding - removing' }
 FQNavigationQuery >> removeAssociation: anAssociation [
-	self associationStrategy: (self associationStrategy removeAssociation: anAssociation)
+	self
+		associationStrategy: (self associationStrategy removeAssociation: anAssociation).
+	self resetResult.
+	self flag: #FQTest , 'test reset result'
+]
+
+{ #category : #reset }
+FQNavigationQuery >> reset [
+	self resetResult.
+	self resetDirection.
+	self resetAssociation
+]
+
+{ #category : #reset }
+FQNavigationQuery >> resetAndChangeDirection: aDirectionStrategy [
+	self reset.
+	directionStrategy := aDirectionStrategy.
+	self availableAssociations
+		ifNotEmpty: [ :associations | 
+			self
+				associationStrategy: (FQNavigationAssociations withAll: associations) ].
+	self flag: #FQTest
+]
+
+{ #category : #reset }
+FQNavigationQuery >> resetAssociation [
+	associationStrategy := nil
+]
+
+{ #category : #reset }
+FQNavigationQuery >> resetDirection [
+	directionStrategy := nil
 ]
 
 { #category : #running }

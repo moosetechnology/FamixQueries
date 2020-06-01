@@ -9,6 +9,11 @@ FQStringQueryParametersPresenterTest >> classToTest [
 	^ FQStringQueryParametersPresenter
 ]
 
+{ #category : #running }
+FQStringQueryParametersPresenterTest >> queryClass [
+	^ FQStringQuery
+]
+
 { #category : #helpers }
 FQStringQueryParametersPresenterTest >> valueInput [
 	^ 'LAN'

@@ -39,6 +39,11 @@ FQTestsHelper >> entitiesWithNoDownScope [
 	^ self modelExample allWithType: FamixStAnnotationInstanceAttribute
 ]
 
+{ #category : #scope }
+FQTestsHelper >> entitiesWithNoIncomingAssociations [
+	^ self modelExample allWithType: FamixStAnnotationInstanceAttribute
+]
+
 { #category : #entities }
 FQTestsHelper >> methods [
 	^ methods

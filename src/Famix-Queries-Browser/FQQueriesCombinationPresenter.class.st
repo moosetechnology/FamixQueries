@@ -101,11 +101,6 @@ FQQueriesCombinationPresenter >> connectPresenters [
 ]
 
 { #category : #initialization }
-FQQueriesCombinationPresenter >> initialize [
-	super initialize.
-]
-
-{ #category : #initialization }
 FQQueriesCombinationPresenter >> initializeDropList [
 	combinationsDroplist := self newDropList
 		items: FQBinaryQuery availableCombinations;

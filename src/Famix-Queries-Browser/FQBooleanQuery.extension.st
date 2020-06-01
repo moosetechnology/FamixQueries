@@ -6,3 +6,8 @@ FQBooleanQuery class >> color [
 
 	^ Color colorFrom: '44BB99'
 ]
+
+{ #category : #'*Famix-Queries-Browser' }
+FQBooleanQuery >> configureIn: aCreationPresenter [
+	aCreationPresenter configureBooleanQuery: self
+]
