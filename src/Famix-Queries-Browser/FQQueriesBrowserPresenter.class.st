@@ -50,7 +50,8 @@ FQQueriesBrowserPresenter class >> openEmpty [
 { #category : #'world menu' }
 FQQueriesBrowserPresenter class >> runMe [
 	<script>
-	^ (self on: MiApplication current logger lastEntity asMooseGroup)
+	^ (self
+		on: MiApplication current logger mostRecentEntity asMooseGroup)
 		openWithSpec
 ]
 
