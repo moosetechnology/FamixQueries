@@ -43,6 +43,11 @@ FQRootQuery >> initialize [
 ]
 
 { #category : #testing }
+FQRootQuery >> isRootQuery [
+	^ true
+]
+
+{ #category : #testing }
 FQRootQuery >> isValid [
 	^ true
 ]
@@ -55,4 +60,9 @@ FQRootQuery >> result: aMooseGroup [
 { #category : #running }
 FQRootQuery >> runOn: aMooseGroup [
 	^ aMooseGroup
+]
+
+{ #category : #printing }
+FQRootQuery >> storeOn: aStream [
+	aStream << self className << ' new'
 ]

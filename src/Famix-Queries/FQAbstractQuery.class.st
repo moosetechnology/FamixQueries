@@ -111,6 +111,11 @@ FQAbstractQuery >> invalidDefaultName [
 ]
 
 { #category : #testing }
+FQAbstractQuery >> isRootQuery [
+	^ false
+]
+
+{ #category : #testing }
 FQAbstractQuery >> isValid [
 	^ self subclassResponsibility
 ]

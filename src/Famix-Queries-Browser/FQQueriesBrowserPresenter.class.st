@@ -5,7 +5,8 @@ Class {
 		'queriesTree',
 		'queryResult',
 		'selectedQuery',
-		'queries'
+		'queries',
+		'queryCode'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -16,7 +17,11 @@ FQQueriesBrowserPresenter class >> defaultSpec [
 		add:
 			(SpPanedLayout newHorizontal
 				add: #queriesTree;
-				add: #queryResult;
+				add:
+					(SpPanedLayout newVertical
+						add: #queryResult;
+						add: #queryCode;
+						yourself);
 				yourself);
 		yourself
 ]
@@ -91,7 +96,8 @@ FQQueriesBrowserPresenter >> initialQuery [
 FQQueriesBrowserPresenter >> initializePresenters [
 	super initializePresenters.
 	self initializeQueriesTree.
-	self initializeQueryResult
+	self initializeQueryResult.
+	self initializeQueryCode
 ]
 
 { #category : #initialization }
@@ -111,6 +117,11 @@ FQQueriesBrowserPresenter >> initializeQueriesTree [
 
 	queriesTree := (FQRoassalQueryPresenter owner: self on: self queries)
 		adaptToBrowser: self
+]
+
+{ #category : #initialization }
+FQQueriesBrowserPresenter >> initializeQueryCode [
+	queryCode := self newCode text: '''Query code'''
 ]
 
 { #category : #initialization }
@@ -192,6 +203,12 @@ FQQueriesBrowserPresenter >> selectQuery: aQuery [
 	selectedQuery := aQuery.
 	queriesTree selectItem: selectedQuery.
 	queryResult updateForEntities: aQuery result.
+	queryCode
+		text:
+			(EFFormatter
+				format:
+					(RBParser
+						parseExpression: (String streamContents: [ :s | aQuery storeWithParentsOn: s ]))).
 	self update
 ]
 

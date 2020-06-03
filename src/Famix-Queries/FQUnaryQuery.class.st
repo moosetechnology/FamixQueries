@@ -103,8 +103,9 @@ FQUnaryQuery >> prepareRemoval [
 { #category : #printing }
 FQUnaryQuery >> storeWithParentsOn: aStream [
 	self storeOn: aStream.
-	parent
-		ifNotNil: [ aStream << '; beChildOf: ('.
-			parent storeWithParentsOn: aStream.
-			aStream << $) ]
+	(parent isNil or: [ parent isRootQuery ])
+		ifTrue: [ ^ self ].
+	aStream << '; beChildOf: ('.
+	parent storeWithParentsOn: aStream.
+	aStream << $)
 ]
