@@ -38,16 +38,13 @@ FQBinaryQuery >> computeResult [
 ]
 
 { #category : #printing }
-FQBinaryQuery >> displayOn: aStream with: aString [
-	self parents size = 1
-		ifTrue: [ self parents first displayOn: aStream with: aString.
-			^ self ].
+FQBinaryQuery >> displayOn: aStream [
 	aStream << '('.
 	self parents
 		allButLastDo: [ :query | 
-			query displayOn: aStream with: aString.
+			query displayOn: aStream.
 			aStream << (self operator join: {') ' . ' ('}) ].
-	self parents last displayOn: aStream with: aString.
+	self parents last displayOn: aStream.
 	aStream << ')'
 ]
 

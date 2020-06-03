@@ -1,58 +1,58 @@
 Class {
-	#name : #FQMockQuery,
+	#name : #FQRootQuery,
 	#superclass : #FQUnaryQuery,
 	#category : #'Famix-Queries-Browser-Tools'
 }
 
 { #category : #display }
-FQMockQuery class >> color [
+FQRootQuery class >> color [
 	^ Color colorFrom: 'DDDDDD'
 ]
 
 { #category : #display }
-FQMockQuery class >> label [
+FQRootQuery class >> label [
 	^ 'Initial Entities'
 ]
 
 { #category : #default }
-FQMockQuery >> beDefaultForParent [
+FQRootQuery >> beDefaultForParent [
 	"Nothing to do"
 
 	
 ]
 
 { #category : #printing }
-FQMockQuery >> defaultName [
+FQRootQuery >> defaultName [
 	^ 'Model'
 ]
 
 { #category : #printing }
-FQMockQuery >> displayOn: aStream with: aString [
+FQRootQuery >> displayOn: aStream with: aString [
 	aStream << aString
 ]
 
 { #category : #comparing }
-FQMockQuery >> hasSameParametersAs: aQuery [
+FQRootQuery >> hasSameParametersAs: aQuery [
 	^ self result == aQuery result
 ]
 
 { #category : #initialization }
-FQMockQuery >> initialize [
+FQRootQuery >> initialize [
 	super initialize.
 	result := MooseGroup new
 ]
 
 { #category : #testing }
-FQMockQuery >> isValid [
+FQRootQuery >> isValid [
 	^ true
 ]
 
 { #category : #accessing }
-FQMockQuery >> result: aMooseGroup [
+FQRootQuery >> result: aMooseGroup [
 	result := aMooseGroup
 ]
 
 { #category : #running }
-FQMockQuery >> runOn: aMooseGroup [
+FQRootQuery >> runOn: aMooseGroup [
 	^ aMooseGroup
 ]

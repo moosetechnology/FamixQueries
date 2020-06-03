@@ -59,10 +59,10 @@ FQQueryCreationPresenter class >> queryConfigurationLayout [
 FQQueryCreationPresenter class >> queryTypes [
 	self
 		flag: #FQImprove , 'We should have a way to select interesting classes'.
-	^ FQUnaryQuery subclasses
-		copyWithoutAll:
-			{FQComplementQuery.
-			FQMockQuery}
+	^ {FQNavigationQuery.
+	FQPropertyQuery.
+	FQScopeQuery.
+	FQTypeQuery}
 ]
 
 { #category : #specs }

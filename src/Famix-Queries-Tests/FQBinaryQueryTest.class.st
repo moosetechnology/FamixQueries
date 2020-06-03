@@ -115,7 +115,7 @@ FQBinaryQueryTest >> testParentSequence [
 			query}.
 
 	"Two generations"
-	query parents do: [ :parent | parent beChildOf: FQMockQuery new ].
+	query parents do: [ :parent | parent beChildOf: FQRootQuery new ].
 	self
 		assertCollection: query parentSequence
 		hasSameElements:
@@ -160,7 +160,7 @@ FQBinaryQueryTest >> testResetParents [
 FQBinaryQueryTest >> testResult [
 	query parents
 		do:
-			[ :parent | parent parent: (FQMockQuery new result: helper classesAndMethods) ].
+			[ :parent | parent parent: (FQRootQuery new result: helper classesAndMethods) ].
 	self
 		assertCollection: query result
 		hasSameElements: (query runOn: self parentQueriesResult)

@@ -11,7 +11,7 @@ FQUnaryQueryTest class >> isAbstract [
 
 { #category : #'instance creation' }
 FQUnaryQueryTest >> newParentQuery [
-	^ FQMockQuery new result: helper classes
+	^ FQRootQuery new result: helper classes
 ]
 
 { #category : #tests }

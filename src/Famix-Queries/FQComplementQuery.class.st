@@ -23,9 +23,7 @@ FQComplementQuery >> defaultName [
 
 { #category : #printing }
 FQComplementQuery >> displayOn: aStream with: aString [
-	aStream << aString << ' copyWithoutAll: ('.
-	self parent ifNotNil: [ self parent displayOn: aStream ].
-	aStream << ')'
+	aStream << 'aMooseGroup copyWithoutAll: ' << aString
 ]
 
 { #category : #comparing }

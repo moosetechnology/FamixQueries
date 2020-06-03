@@ -37,7 +37,7 @@ FQTypeQueryTest >> expectedResult [
 
 { #category : #'instance creation' }
 FQTypeQueryTest >> newParentQuery [
-	^ FQMockQuery new result: helper modelExample
+	^ FQRootQuery new result: helper modelExample
 ]
 
 { #category : #running }

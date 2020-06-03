@@ -204,7 +204,7 @@ FQQueriesBrowserPresenter >> selectedQuery [
 FQQueriesBrowserPresenter >> setModelBeforeInitialization: aMooseGroup [
 	queries := OrderedCollection new
 		add:
-			(FQMockQuery new
+			(FQRootQuery new
 				result: aMooseGroup;
 				yourself);
 		yourself.

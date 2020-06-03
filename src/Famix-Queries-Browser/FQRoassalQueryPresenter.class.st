@@ -172,7 +172,7 @@ FQRoassalQueryPresenter >> legendOn: canvas [
 	legend := RSLegend new.
 	legend container: canvas.
 	((queries collectAsSet: [ :query | query class ])
-		copyWithout: FQMockQuery)
+		copyWithout: FQRootQuery)
 		do:
 			[ :queryClass | legend text: queryClass label withCircleColor: queryClass color ].
 	legend

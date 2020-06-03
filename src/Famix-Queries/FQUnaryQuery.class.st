@@ -50,6 +50,16 @@ FQUnaryQuery >> computeResult [
 	^ self runOn: parent result
 ]
 
+{ #category : #printing }
+FQUnaryQuery >> displayOn: aStream [
+	self displayOn: aStream with: self parentDisplayString
+]
+
+{ #category : #printing }
+FQUnaryQuery >> displayOn: aStream with: aString [
+	^ self subclassResponsibility
+]
+
 { #category : #comparing }
 FQUnaryQuery >> hasSameParametersAs: aQuery [
 	^ self subclassResponsibility
@@ -68,6 +78,16 @@ FQUnaryQuery >> parent [
 { #category : #accessing }
 FQUnaryQuery >> parent: anObject [
 	parent := anObject
+]
+
+{ #category : #printing }
+FQUnaryQuery >> parentDisplayString [
+	parent ifNil: [ ^ 'aMooseGroup' ].
+	^ String
+		streamContents: [ :aStream | 
+			aStream << $(.
+			parent displayOn: aStream.
+			aStream << $) ]
 ]
 
 { #category : #removing }

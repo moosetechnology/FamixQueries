@@ -90,12 +90,7 @@ FQAbstractQuery >> defaultName [
 ]
 
 { #category : #printing }
-FQAbstractQuery >> displayOn: aStream [ 
-	self displayOn: aStream with: 'aMooseGroup' 
-]
-
-{ #category : #printing }
-FQAbstractQuery >> displayOn: aStream with: aString [
+FQAbstractQuery >> displayOn: aStream [
 	^ self subclassResponsibility
 ]
 

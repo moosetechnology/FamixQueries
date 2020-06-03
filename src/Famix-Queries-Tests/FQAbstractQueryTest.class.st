@@ -28,7 +28,7 @@ FQAbstractQueryTest >> differentTypeOfQuery [
 	^ FQBooleanQuery new property: #isAbstract
 ]
 
-{ #category : #'public access' }
+{ #category : #running }
 FQAbstractQueryTest >> evaluate: aString [
 	^ self actualClass readFrom: aString
 ]
