@@ -44,6 +44,9 @@ FQPropertyQueryParametersPresenterTest >> setUp [
 
 { #category : #tests }
 FQPropertyQueryParametersPresenterTest >> testMatchesQuery [
+	self
+		assert: presenter query property
+		equals: presenter properties selectedItem.
 	presenter properties selectIndex: 2.
 	self
 		assert: presenter query property
@@ -62,11 +65,18 @@ FQPropertyQueryParametersPresenterTest >> testPropertiesDropList [
 		assert: presenter properties class
 		identicalTo: SpDropListPresenter.
 	self
-		assert: presenter properties listItems size
-		equals: presenter query availableProperties size.
-	self
 		assertCollection: presenter properties listItems
-		hasSameElements: presenter query availableProperties
+		hasSameElements: presenter query availableProperties.
+	self
+		assert: presenter query property
+		equals: presenter properties selectedItem
+]
+
+{ #category : #tests }
+FQPropertyQueryParametersPresenterTest >> testQueryMatchesOwnerQuery [
+	self assert: presenter query equals: presenter owner query.
+	presenter properties selectIndex: 2.
+	self assert: presenter query equals: presenter owner query
 ]
 
 { #category : #tests }

@@ -151,7 +151,10 @@ FQQueriesBrowserPresenter >> modelPrefix [
 { #category : #utils }
 FQQueriesBrowserPresenter >> mooseGroupDetails: result [
 	self
-		flag: #FQImprove , 'Is this really useful and should it be here ?'.
+		flag:
+			#FQImprove
+				,
+					'Is this really useful and should it be here ? See also stringForRoot: in resultTree widget'.
 	^ String
 		streamContents: [ :stream | 
 			(result collectAsSet: #class)

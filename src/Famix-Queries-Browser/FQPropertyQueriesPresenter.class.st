@@ -29,14 +29,14 @@ FQPropertyQueriesPresenter class >> title [
 { #category : #update }
 FQPropertyQueriesPresenter >> configureBooleanQuery: aQuery [
 	secondParameter := aQuery isValid
-		ifTrue: [ FQBooleanQueryParametersPresenter owner: self on: aQuery ]
+		ifTrue: [ self instantiate: FQBooleanQueryParametersPresenter ]
 		ifFalse: [ self noParameterMessage: 'Boolean property' ]
 ]
 
 { #category : #update }
 FQPropertyQueriesPresenter >> configureNumericQuery: aQuery [
 	secondParameter := aQuery isValid
-		ifTrue: [ FQNumericQueryParametersPresenter owner: self on: aQuery ]
+		ifTrue: [ self instantiate: FQNumericQueryParametersPresenter ]
 		ifFalse: [ self noParameterMessage: 'Numeric property' ]
 ]
 
@@ -50,7 +50,7 @@ FQPropertyQueriesPresenter >> configureRadioButton: radioButton forQueryClass: q
 { #category : #update }
 FQPropertyQueriesPresenter >> configureStringQuery: aQuery [
 	secondParameter := aQuery isValid
-		ifTrue: [ FQStringQueryParametersPresenter owner: self on: aQuery ]
+		ifTrue: [ self instantiate: FQStringQueryParametersPresenter ]
 		ifFalse: [ self noParameterMessage: 'String property' ]
 ]
 

@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'properties',
 		'comparators',
-		'valueInput',
-		'query'
+		'valueInput'
 	],
 	#category : #'Famix-Queries-Browser-PropertyQuery-SubPresenters'
 }
@@ -13,15 +12,15 @@ Class {
 { #category : #initialization }
 FQPropertyQueryParametersPresenter >> initializePresenters [
 	properties := self newDropList
-		items: query availableProperties;
+		items: self query availableProperties;
 		display: [ :prop | prop asString ];
 		whenSelectedItemChangedDo: [ :prop | 
-			query property: prop.
+			self query property: prop.
 			self owner notifyQueryChanged ];
 		yourself
 ]
 
-{ #category : #'accessing model' }
-FQPropertyQueryParametersPresenter >> setModelBeforeInitialization: aQuery [
-	query := aQuery
+{ #category : #accessing }
+FQPropertyQueryParametersPresenter >> query [
+	^ owner query
 ]
