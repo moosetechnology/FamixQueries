@@ -55,6 +55,8 @@ FQResultTreePresenter >> items [
 
 { #category : #naming }
 FQResultTreePresenter >> modelPrefix [
+	"Does not work with FAMIXEntities"
+
 	^ self roots first mooseModel className withoutSuffix: 'Model'
 ]
 
@@ -66,8 +68,7 @@ FQResultTreePresenter >> setModelBeforeInitialization: aBrowser [
 { #category : #naming }
 FQResultTreePresenter >> stringForItem: item [
 	(self roots includes: item)
-		ifTrue:
-			[ ^ self stringForRoot: item ].
+		ifTrue: [ ^ self stringForRoot: item ].
 	^ item name
 ]
 
