@@ -88,19 +88,6 @@ FQScopeQueryTest >> testRunOn [
 		hasSameElements: self expectedResult
 ]
 
-{ #category : #'tests - printing' }
-FQScopeQueryTest >> testStoreOn [
-	| generatedQuery |
-	generatedQuery := self
-		evaluate: (String streamContents: [ :s | query storeOn: s ]).
-
-	self assert: generatedQuery class identicalTo: self actualClass.
-	self
-		assert: generatedQuery directionStrategy
-		identicalTo: query directionStrategy.
-	self assert: generatedQuery scope identicalTo: query scope
-]
-
 { #category : #tests }
 FQScopeQueryTest >> testSyntacticSugar [
 	query := self unConfiguredQuery

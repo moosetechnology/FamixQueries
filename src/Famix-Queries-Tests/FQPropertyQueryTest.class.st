@@ -46,23 +46,6 @@ FQPropertyQueryTest >> testRunOn [
 ]
 
 { #category : #tests }
-FQPropertyQueryTest >> testStoreOn [
-	| generatedQuery |
-	generatedQuery := self
-		evaluate: (String streamContents: [ :s | query storeOn: s ]).
-	self assert: generatedQuery class equals: self actualClass.
-	self assert: generatedQuery property equals: query property.
-
-	"End here for boolean query"
-	query hasComparisonParameters
-		ifFalse: [ ^ self ].
-	self assert: generatedQuery comparator equals: query comparator.
-	self
-		assert: generatedQuery valueToCompare
-		equals: query valueToCompare
-]
-
-{ #category : #tests }
 FQPropertyQueryTest >> testValueToCompareAsString [
 	self subclassResponsibility
 ]

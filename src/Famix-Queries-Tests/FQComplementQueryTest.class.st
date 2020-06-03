@@ -74,3 +74,12 @@ FQComplementQueryTest >> testRunOn [
 		assertCollection: (query runOn: helper classes)
 		hasSameElements: self expectedResult
 ]
+
+{ #category : #'tests - printing' }
+FQComplementQueryTest >> testStoreOn [
+	| generatedQuery |
+	generatedQuery := self
+		evaluate: (String streamContents: [ :s | query storeOn: s ]).
+	self assert: generatedQuery class identicalTo: self actualClass.
+	self assert: generatedQuery equals: query
+]

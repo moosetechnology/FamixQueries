@@ -168,3 +168,13 @@ FQAbstractQuery >> runOn: aMooseGroup [
 
 	^ self subclassResponsibility
 ]
+
+{ #category : #printing }
+FQAbstractQuery >> storeOn: aStream [
+	^ self subclassResponsibility
+]
+
+{ #category : #printing }
+FQAbstractQuery >> storeWithParentsOn: aStream [
+	self subclassResponsibility
+]

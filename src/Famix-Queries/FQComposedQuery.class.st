@@ -39,7 +39,6 @@ FQComposedQuery >> defaultName [
 
 { #category : #printing }
 FQComposedQuery >> displayOn: aStream with: aString [
-	self flag: #FQImprove.
 	^ leaf displayOn: aStream
 ]
 
@@ -71,7 +70,7 @@ FQComposedQuery >> queries: aSequenceOfQueries [
 			#FQImprove
 				,
 					'Check if all queries are in the last child parentSequence AND if first query is unary'.
-	queries := aSequenceOfQueries.
+	queries := aSequenceOfQueries asOrderedCollection.
 	root := aSequenceOfQueries first.
 	leaf := aSequenceOfQueries last
 ]
@@ -87,4 +86,11 @@ FQComposedQuery >> runOn: aMooseGroup [
 	self resetResult.
 	self beChildOf: (FQRootQuery new result: aMooseGroup).
 	^ self result
+]
+
+{ #category : #printing }
+FQComposedQuery >> storeOn: aStream [
+	aStream << self className << ' new queries: ('.
+	leaf storeWithParentsOn: aStream.
+	aStream << ') parentSequence'
 ]

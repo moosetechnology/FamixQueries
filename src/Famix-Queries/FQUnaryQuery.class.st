@@ -29,7 +29,11 @@ FQUnaryQuery >> = aQuery [
 { #category : #adding }
 FQUnaryQuery >> addToParentsSequence: sequence [
 	parent ifNotNil: [ parent addToParentsSequence: sequence ].
-	sequence addLast: self.
+	(sequence includes: self)
+		ifTrue: [ children
+				do:
+					[ :child | (sequence detect: [ :query | query = self ]) addChild: child ] ]
+		ifFalse: [ sequence addLast: self ].
 	^ sequence
 ]
 
@@ -94,4 +98,13 @@ FQUnaryQuery >> parentDisplayString [
 FQUnaryQuery >> prepareRemoval [
 	parent removeChild: self.
 	parent := nil
+]
+
+{ #category : #printing }
+FQUnaryQuery >> storeWithParentsOn: aStream [
+	self storeOn: aStream.
+	parent
+		ifNotNil: [ aStream << '; beChildOf: ('.
+			parent storeWithParentsOn: aStream.
+			aStream << $) ]
 ]

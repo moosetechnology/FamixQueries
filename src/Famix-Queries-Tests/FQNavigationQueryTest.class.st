@@ -395,23 +395,6 @@ FQNavigationQueryTest >> testRunOn [
 	self localOutgoingTest
 ]
 
-{ #category : #'tests - printing' }
-FQNavigationQueryTest >> testStoreOn [
-	| generatedQuery |
-	generatedQuery := self
-		evaluate: (String streamContents: [ :s | query storeOn: s ]).
-	self assert: generatedQuery class identicalTo: self actualClass.
-	self
-		assert: generatedQuery directionStrategy
-		identicalTo: query directionStrategy.
-	self
-		assert: generatedQuery associationStrategy class
-		identicalTo: query associationStrategy class.
-	self
-		assertCollection: generatedQuery associationStrategy associations
-		hasSameElements: query associationStrategy associations
-]
-
 { #category : #tests }
 FQNavigationQueryTest >> testSyntacticSugar [
 	query := self unConfiguredQuery

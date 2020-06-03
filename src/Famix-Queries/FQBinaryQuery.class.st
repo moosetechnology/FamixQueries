@@ -21,7 +21,11 @@ FQBinaryQuery class >> isCommutative [
 FQBinaryQuery >> addToParentsSequence: sequence [
 	self flag: #FQImprove , 'Need for a specific order ?'.
 	self parents do: [ :parent | parent addToParentsSequence: sequence ].
-	sequence addLast: self.
+	(sequence includes: self)
+		ifTrue: [ children
+				do:
+					[ :child | (sequence detect: [ :query | query = self ]) addChild: child ] ]
+		ifFalse: [ sequence addLast: self ].
 	^ sequence
 ]
 
@@ -84,4 +88,22 @@ FQBinaryQuery >> prepareRemoval [
 { #category : #removing }
 FQBinaryQuery >> resetParents [
 	self subclassResponsibility
+]
+
+{ #category : #printing }
+FQBinaryQuery >> storeOn: aStream [
+	aStream << self className << ' new parents: { '.
+	self parents first storeOn: aStream.
+	aStream << '. '.
+	self parents second storeOn: aStream.
+	aStream << ' }'
+]
+
+{ #category : #printing }
+FQBinaryQuery >> storeWithParentsOn: aStream [
+	aStream << self className << ' new beChildOf: { '.
+	self parents first storeWithParentsOn: aStream.
+	aStream << '. '.
+	self parents second storeWithParentsOn: aStream.
+	aStream << ' }'
 ]

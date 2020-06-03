@@ -41,3 +41,10 @@ FQComplementQuery >> runOn: aMooseGroup [
 	^ MooseGroup
 		withAll: (aMooseGroup copyWithoutAll: (parent runOn: aMooseGroup))
 ]
+
+{ #category : #printing }
+FQComplementQuery >> storeOn: aStream [
+	aStream << self className << ' new parent: ('.
+	parent storeOn: aStream.
+	aStream << $)
+]

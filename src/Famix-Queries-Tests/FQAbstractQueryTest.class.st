@@ -126,6 +126,16 @@ FQAbstractQueryTest >> testRunOn [
 	self subclassResponsibility
 ]
 
+{ #category : #'tests - printing' }
+FQAbstractQueryTest >> testStoreOn [
+	| generatedQuery |
+	generatedQuery := self
+		evaluate: (String streamContents: [ :s | query storeOn: s ]).
+
+	self assert: generatedQuery class identicalTo: self actualClass.
+	self assert: generatedQuery equals: query.
+]
+
 { #category : #running }
 FQAbstractQueryTest >> unConfiguredQuery [
 	^ self actualClass new

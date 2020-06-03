@@ -142,18 +142,6 @@ FQTypeQueryTest >> testRunOn [
 	self assertRunOnResult
 ]
 
-{ #category : #'tests - printing' }
-FQTypeQueryTest >> testStoreOn [
-	| generatedQuery |
-	generatedQuery := self
-		evaluate: (String streamContents: [ :s | query storeOn: s ]).
-	
-	self assert: generatedQuery class equals: self actualClass.
-	self
-		assertCollection: generatedQuery types
-		hasSameElements: query types
-]
-
 { #category : #tests }
 FQTypeQueryTest >> testSyntacticSugar [
 	query := self unConfiguredQuery type: FamixTMethod.
