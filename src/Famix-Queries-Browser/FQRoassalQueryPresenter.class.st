@@ -73,6 +73,9 @@ FQRoassalQueryPresenter >> boxMenu: aMenuMorph box: aBox [
 		target: browser
 		selector: #openQueryCreationPresenter)
 		icon: (UITheme iconNamed: #add).
+	aMenuMorph
+		add: 'Create a new query from Library'
+		subMenu: self librarySubMenu.
 	(aMenuMorph
 		add: 'Inspect result'
 		target: aBox model result
@@ -87,6 +90,14 @@ FQRoassalQueryPresenter >> boxMenu: aMenuMorph box: aBox [
 		add: 'Inspect query'
 		target: aBox model
 		selector: #inspect) icon: (UITheme iconNamed: #glamorousInspect).
+	(aMenuMorph
+		add: 'Save this query'
+		target: (FQAddQueryToLibraryCommand forContext: browser)
+		selector: #execute) icon: (UITheme iconNamed: #smallSave).
+	(aMenuMorph
+		add: 'Save this query sequence'
+		target: (FQAddQuerySequenceToLibraryCommand forContext: browser)
+		selector: #execute) icon: (UITheme iconNamed: #smallSave).
 	(aMenuMorph
 		add: 'Remove this query'
 		target: self
@@ -153,6 +164,15 @@ FQRoassalQueryPresenter >> createBoxes [
 ]
 
 { #category : #'boxes configuration' }
+FQRoassalQueryPresenter >> createQueryNamed: name [
+	browser
+		updateForQuery:
+			((FQQueriesLibrary current createQueryNamed: name)
+				name: name;
+				beChildOf: browser selectedQuery)
+]
+
+{ #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> decorateSelectedBox: box [
 	box model == selectedQuery
 		ifFalse: [ ^ self ].
@@ -190,6 +210,20 @@ FQRoassalQueryPresenter >> legendOn: canvas [
 		offset: 0 @ 70.
 	legend onDemand: 'Legend'.
 	legend build
+]
+
+{ #category : #'boxes configuration' }
+FQRoassalQueryPresenter >> librarySubMenu [
+	| subMenu |
+	subMenu := MenuMorph new.
+	FQQueriesLibrary current savedQueriesNames
+		do: [ :name | 
+			subMenu
+				add: name
+				target: self
+				selector: #createQueryNamed:
+				argument: name ].
+	^ subMenu
 ]
 
 { #category : #midas }
