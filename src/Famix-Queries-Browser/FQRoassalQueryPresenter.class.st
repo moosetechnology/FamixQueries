@@ -74,15 +74,19 @@ FQRoassalQueryPresenter >> boxMenu: aMenuMorph box: aBox [
 		selector: #openQueryCreationPresenter)
 		icon: (UITheme iconNamed: #add).
 	(aMenuMorph
-		add: 'Inspect query'
-		target: aBox model
-		selector: #inspect) icon: (UITheme iconNamed: #glamorousInspect).
-	(aMenuMorph
 		add: 'Inspect result'
 		target: aBox model result
 		selector: #inspect) icon: (UITheme iconNamed: #glamorousInspect).
-	aBox model == browser initialQuery
+	(aMenuMorph
+		add: 'Propagate result'
+		target: (MiPropagateCommand forContext: self)
+		selector: #execute) icon: (UITheme iconNamed: #moosePropagate).
+	aBox model isRootQuery
 		ifTrue: [ ^ self ].
+	(aMenuMorph
+		add: 'Inspect query'
+		target: aBox model
+		selector: #inspect) icon: (UITheme iconNamed: #glamorousInspect).
 	(aMenuMorph
 		add: 'Remove this query'
 		target: self
@@ -186,6 +190,11 @@ FQRoassalQueryPresenter >> legendOn: canvas [
 		offset: 0 @ 70.
 	legend onDemand: 'Legend'.
 	legend build
+]
+
+{ #category : #midas }
+FQRoassalQueryPresenter >> miSelectedItem [
+	^ selectedQuery result
 ]
 
 { #category : #interactions }

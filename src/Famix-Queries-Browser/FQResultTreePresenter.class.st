@@ -8,6 +8,20 @@ Class {
 	#category : #'Famix-Queries-Browser-Widgets'
 }
 
+{ #category : #commands }
+FQResultTreePresenter class >> buildCommandsGroupWith: presenter forRoot: aCmCommandsGroup [
+	aCmCommandsGroup
+		register:
+			((MiInspectCommand forSpecWithIconNamed: #glamorousInspect)
+				context: presenter);
+		register:
+			((MiPropagateCommand forSpecWithIconNamed: #moosePropagate)
+				context: presenter);
+		register:
+			((FQTypeQueryCreationCommand forSpecWithIconNamed: #add)
+				context: presenter) beHiddenWhenCantBeRun
+]
+
 { #category : #accessing }
 FQResultTreePresenter class >> headerTitle [
 	^ 'Result of current query'
@@ -34,6 +48,20 @@ FQResultTreePresenter >> createQueryForType: aClass [
 				beChildOf: browser selectedQuery)
 ]
 
+{ #category : #action }
+FQResultTreePresenter >> createQueryForTypes: classes [
+	| newTypeQuery |
+	newTypeQuery := FQTypeQuery new beChildOf: browser selectedQuery.
+	classes do: [ :aClass | newTypeQuery type: aClass ].
+	browser updateForQuery: newTypeQuery
+]
+
+{ #category : #action }
+FQResultTreePresenter >> createTypeQuery [
+	^ self
+		createQueryForTypes: (self selectedItems flatten collect: #class) copyWithoutDuplicates
+]
+
 { #category : #initialization }
 FQResultTreePresenter >> initialize [
 	super initialize.
@@ -45,12 +73,22 @@ FQResultTreePresenter >> initialize [
 					(SpStringTableColumn new
 						evaluated: [ :item | self stringForItem: item ]));
 		whenSelectionChangedDo: [ :selection | self updateMenu ];
-		children: [ :item | self childrenOf: item ]
+		children: [ :item | self childrenOf: item ];
+		beMultipleSelection
 ]
 
 { #category : #accessing }
 FQResultTreePresenter >> items [
 	^ items ifNil: [ items := MooseGroup new ]
+]
+
+{ #category : #accessing }
+FQResultTreePresenter >> miSelectedItem [
+	^ (self selectedItems
+		collect: [ :item | 
+			item isCollection
+				ifTrue: [ item entities ]
+				ifFalse: [ item ] ]) flattened copyWithoutDuplicates asMooseGroup
 ]
 
 { #category : #naming }
@@ -101,18 +139,20 @@ FQResultTreePresenter >> updateForEntities: entities [
 
 { #category : #update }
 FQResultTreePresenter >> updateMenu [
-	self contextMenu: self newMenu.
-	self contextMenu
+	self contextMenuFromCommandsGroup: [ self rootCommandsGroup ].
+	"	self contextMenu: self newMenu."
+	"	self contextMenu
 		addItem: [ :menuItem | 
 			menuItem
 				name: 'Inspect';
-				action: [ self selectedItem inspect ] ].
+				action: [ self miSelectedItem inspect ] ].
 	(self canCreateQueries
-		and: [ self roots includes: self selectedItem ])
-		ifFalse: [ ^ self ].
-	self contextMenu
+		and: [ self roots includesAll: self selectedItems ])
+		ifFalse: [ ^ self ]."
+"	self contextMenu
 		addItem: [ :menuItem | 
 			menuItem
-				name: 'Select ' , (self stringForItem: self selectedItem) substrings last;
-				action: [ self createQueryForType: self selectedItem anyOne class ] ]
+				name: 'Create new type query';
+				action:
+						[ self createTypeQuery ] ]"
 ]
