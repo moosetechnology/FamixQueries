@@ -9,10 +9,17 @@ Class {
 
 { #category : #default }
 FQUnaryQuery class >> defaultForParent: aQuery [
-	^ self new
+	^ (self isAbstract
+		ifTrue: [ self subclasses detect: [ :subclass | subclass isAbstract not ] ]
+		ifFalse: [ self ]) new
 		parent: aQuery;
 		beDefaultForParent;
 		yourself
+]
+
+{ #category : #default }
+FQUnaryQuery class >> isAbstract [
+	^ self == FQUnaryQuery
 ]
 
 { #category : #printing }

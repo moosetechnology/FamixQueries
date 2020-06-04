@@ -15,9 +15,6 @@ FQComparativeQueryParametersPresenterTest >> testComparatorsDropList [
 		assert: presenter comparators class
 		identicalTo: SpDropListPresenter.
 	self
-		assert: presenter comparators listItems size
-		equals: presenter query availableComparators size.
-	self
 		assertCollection: presenter comparators listItems
 		hasSameElements: presenter query availableComparators
 ]

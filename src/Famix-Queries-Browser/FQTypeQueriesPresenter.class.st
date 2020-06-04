@@ -35,12 +35,8 @@ FQTypeQueriesPresenter >> configureTypeCheckBox: checkBox forType: type [
 				on: FQCannotRemoveLastType
 				do: [ checkBox state: true.
 					self flag: #FQSpecPb	"Spec does not allow this to work" ] ];
-		whenChangedDo: [ self notifyQueryChanged ]
-]
-
-{ #category : #accessing }
-FQTypeQueriesPresenter >> defaultQuery [
-	^ FQTypeQuery defaultForParent: parentQuery
+		whenChangedDo: [ self update.
+			self notifyQueryChanged ]
 ]
 
 { #category : #initialization }

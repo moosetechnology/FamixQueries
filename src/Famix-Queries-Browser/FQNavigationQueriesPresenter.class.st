@@ -24,7 +24,9 @@ FQNavigationQueriesPresenter >> configureCheckBox: checkBox forNavigationAssocia
 				on: FQCannotRemoveLastNavigationAssociation
 				do: [ checkBox state: true
 					"Spec does not allow this to work" ] ].
-	checkBox whenChangedDo: [ self notifyQueryChanged ]
+	checkBox
+		whenChangedDo: [ self update.
+			self notifyQueryChanged ]
 ]
 
 { #category : #'widgets configuration' }

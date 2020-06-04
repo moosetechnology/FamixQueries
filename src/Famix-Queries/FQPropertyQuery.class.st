@@ -44,6 +44,11 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #default }
+FQPropertyQuery class >> isAbstract [
+	^ self == FQPropertyQuery
+]
+
 { #category : #accessing }
 FQPropertyQuery class >> label [
 	^ 'Property Query'

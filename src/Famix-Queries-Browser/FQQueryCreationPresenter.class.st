@@ -79,32 +79,46 @@ FQQueryCreationPresenter >> browser [
 	^ browser
 ]
 
-{ #category : #update }
+{ #category : #'query configuration' }
+FQQueryCreationPresenter >> configureBooleanQuery: aQuery [
+	queryConfigurationPresenter := FQPropertyQueriesPresenter
+		owner: self
+		on: aQuery
+]
+
+{ #category : #'query configuration' }
 FQQueryCreationPresenter >> configureNavigationQuery: aQuery [
 	queryConfigurationPresenter := FQNavigationQueriesPresenter
 		owner: self
-		on: browser selectedQuery
+		on: aQuery
 ]
 
-{ #category : #update }
-FQQueryCreationPresenter >> configurePropertyQuery: aQuery [
+{ #category : #'query configuration' }
+FQQueryCreationPresenter >> configureNumericQuery: aQuery [
 	queryConfigurationPresenter := FQPropertyQueriesPresenter
 		owner: self
-		on: browser selectedQuery
+		on: aQuery
 ]
 
-{ #category : #update }
+{ #category : #'query configuration' }
 FQQueryCreationPresenter >> configureScopeQuery: aQuery [
 	queryConfigurationPresenter := FQScopeQueriesPresenter
 		owner: self
-		on: browser selectedQuery
+		on: aQuery
 ]
 
-{ #category : #update }
+{ #category : #'query configuration' }
+FQQueryCreationPresenter >> configureStringQuery: aQuery [
+	queryConfigurationPresenter := FQPropertyQueriesPresenter
+		owner: self
+		on: aQuery
+]
+
+{ #category : #'query configuration' }
 FQQueryCreationPresenter >> configureTypeQuery: aQuery [
 	queryConfigurationPresenter := FQTypeQueriesPresenter
 		owner: self
-		on: browser selectedQuery
+		on: aQuery
 ]
 
 { #category : #initialization }
@@ -193,19 +207,13 @@ FQQueryCreationPresenter >> queryAcceptedPort [
 
 { #category : #transmissions }
 FQQueryCreationPresenter >> queryChangedPort [
+	self flag: #FQUnused.
 	^ FQQueryInputPort newPresenter: self
 ]
 
 { #category : #'accessing model' }
 FQQueryCreationPresenter >> setModelBeforeInitialization: aQueriesPresenter [
 	browser := aQueriesPresenter
-]
-
-{ #category : #update }
-FQQueryCreationPresenter >> setQueryConfigurationTransmissions [
-	queryConfigurationPresenter queryChangedPort
-		transmitTo: self queryChangedPort.
-	queryConfigurationPresenter transmitInitialConfiguration
 ]
 
 { #category : #update }
@@ -217,27 +225,38 @@ FQQueryCreationPresenter >> updateForAcceptedCode: code [
 FQQueryCreationPresenter >> updateForQuery: aQuery [
 	"aQuery should already have browser selectedQuery as parent"
 
-	queryConfigurationPresenter
-		ifNil: [ aQuery configureIn: self.
-			self setQueryConfigurationTransmissions ].
+	self flag: #FQImprove , 'Use this to update queryConfiguration ?'.
 	resultList updateForEntities: aQuery result.
-	queryCode
-		syntaxHighlight: aQuery isValid;
-		text:
-			(aQuery isValid
-				ifTrue: [ String streamContents: [ :s | aQuery storeOn: s ] ]
-				ifFalse: [ 'No valid query' ]).
-	self flag: #FQRefactor.
+	self updateQueryCode.
 	sequence setModels: aQuery parentSequence.
 	self updateToolBar.
 	self update
 ]
 
 { #category : #update }
+FQQueryCreationPresenter >> updateFromConfiguration [
+	resultList updateForEntities: self query result.
+	self updateQueryCode.
+	sequence setModels: self query parentSequence.
+	self updateToolBar
+]
+
+{ #category : #update }
+FQQueryCreationPresenter >> updateQueryCode [
+	queryCode
+		syntaxHighlight: self query isValid;
+		text:
+			(self query isValid
+				ifTrue: [ String streamContents: [ :s | self query storeOn: s ] ]
+				ifFalse: [ 'No valid query' ]);
+		update
+]
+
+{ #category : #update }
 FQQueryCreationPresenter >> updateQueryConfigurationFor: queryClass [
-	self flag: #FQImprove , 'This new is not ok'.
-	queryClass new configureIn: self.
-	^ self setQueryConfigurationTransmissions
+	(queryClass defaultForParent: browser selectedQuery)
+		configureIn: self.
+	self updateForQuery: queryConfigurationPresenter query
 ]
 
 { #category : #update }

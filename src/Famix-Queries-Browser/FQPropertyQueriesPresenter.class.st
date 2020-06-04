@@ -54,15 +54,10 @@ FQPropertyQueriesPresenter >> configureStringQuery: aQuery [
 		ifFalse: [ self noParameterMessage: 'String property' ]
 ]
 
-{ #category : #accessing }
-FQPropertyQueriesPresenter >> defaultQuery [
-	^ FQBooleanQuery defaultForParent: parentQuery
-]
-
 { #category : #initialization }
 FQPropertyQueriesPresenter >> initializePresenters [
 	self initializeQueryTypeRadioButtons.
-	self updateForQuery: self query
+	query configureIn: self
 ]
 
 { #category : #initialization }
@@ -80,9 +75,9 @@ FQPropertyQueriesPresenter >> initializeQueryTypeRadioButtons [
 
 { #category : #update }
 FQPropertyQueriesPresenter >> updateForQuery: aQuery [
-	query := aQuery.
-	aQuery configureIn: self.
-	self notifyQueryChanged.
+	aQuery ~= query
+		ifTrue: [ query := aQuery.
+			aQuery configureIn: self ].
 	self update.
-	self flag: #FQRefactor , 'Is this update necessary ?'
+	self notifyQueryChanged
 ]

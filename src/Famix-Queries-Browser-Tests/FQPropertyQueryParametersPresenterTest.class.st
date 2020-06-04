@@ -92,3 +92,9 @@ FQPropertyQueryParametersPresenterTest >> testUpdateCreationBrowser [
 	presenter properties selectIndex: 2.
 	self assertCreationPresenterWasUpdated
 ]
+
+{ #category : #tests }
+FQPropertyQueryParametersPresenterTest >> testUpdateDoesNotChangeOwnerPresenter [
+	presenter properties selectIndex: 2.
+	self assert: presenter owner secondParameter identicalTo: presenter
+]

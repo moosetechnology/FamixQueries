@@ -35,11 +35,6 @@ FQScopeQueriesPresenter >> configureRadioButton: radioButton forScopeDirection: 
 			self notifyQueryChanged ]
 ]
 
-{ #category : #accessing }
-FQScopeQueriesPresenter >> defaultQuery [
-	^ FQScopeQuery defaultForParent: parentQuery
-]
-
 { #category : #initialization }
 FQScopeQueriesPresenter >> initializePresenters [
 	self intializeDirectionRadioButtons.

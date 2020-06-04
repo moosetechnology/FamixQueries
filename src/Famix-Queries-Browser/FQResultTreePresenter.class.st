@@ -95,7 +95,8 @@ FQResultTreePresenter >> updateForEntities: entities [
 			((entities collectAsSet: #class)
 				collect:
 					[ :type | (items select: [ :entity | entity class == type ]) asMooseGroup ])
-				asOrderedCollection
+				asOrderedCollection.
+	self update
 ]
 
 { #category : #update }

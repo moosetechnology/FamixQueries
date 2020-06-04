@@ -2,10 +2,9 @@ Class {
 	#name : #FQQueryConfigurationPresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'#query => SpObservableSlot',
-		'#firstParameter',
-		'#secondParameter',
-		'#parentQuery'
+		'query',
+		'firstParameter',
+		'secondParameter'
 	],
 	#category : #'Famix-Queries-Browser-Presenters'
 }
@@ -44,19 +43,8 @@ FQQueryConfigurationPresenter class >> traitPrefix [
 ]
 
 { #category : #accessing }
-FQQueryConfigurationPresenter >> defaultQuery [
-	^ self class queryClass defaultForParent: parentQuery
-]
-
-{ #category : #initialization }
-FQQueryConfigurationPresenter >> initialize [
-	super initialize.
-	query := self defaultQuery
-]
-
-{ #category : #accessing }
 FQQueryConfigurationPresenter >> modelPrefix [
-	^ parentQuery result first mooseModel className
+	^ query parent result first mooseModel className
 		withoutSuffix: 'Model'
 ]
 
@@ -67,28 +55,23 @@ FQQueryConfigurationPresenter >> noParameterMessage: aParameterName [
 
 { #category : #transmissions }
 FQQueryConfigurationPresenter >> notifyQueryChanged [
-	self notifyPropertyChanged: #query
+	owner updateFromConfiguration
 ]
 
 { #category : #accessing }
 FQQueryConfigurationPresenter >> query [
-	self flag: #FQImprove , 'Bug source !'.
-	^ query ifNil: [ self defaultQuery ]
+	^ query
 ]
 
 { #category : #transmissions }
 FQQueryConfigurationPresenter >> queryChangedPort [
+	self flag: #FQUnused.
 	^ FQQueryOutputPort newPresenter: self
 ]
 
 { #category : #'accessing model' }
-FQQueryConfigurationPresenter >> setModelBeforeInitialization: aParentQuery [
-	parentQuery := aParentQuery
-]
-
-{ #category : #transmissions }
-FQQueryConfigurationPresenter >> transmitInitialConfiguration [
-	self notifyQueryChanged
+FQQueryConfigurationPresenter >> setModelBeforeInitialization: aQuery [
+	query := aQuery
 ]
 
 { #category : #update }
