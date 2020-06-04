@@ -19,6 +19,13 @@ FQQueryCreationCommand class >> defaultName [
 	^ 'Apply'
 ]
 
+{ #category : #converting }
+FQQueryCreationCommand >> asSpecCommand [
+	^ super asSpecCommand
+		iconName: self class defaultIconName;
+		yourself
+]
+
 { #category : #testing }
 FQQueryCreationCommand >> canBeExecuted [
 	^ self context query isValid

@@ -254,13 +254,16 @@ FQNavigationQuery >> resetDirection [
 
 { #category : #running }
 FQNavigationQuery >> runOn: aMooseGroup [
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-
-	^ (aMooseGroup
+	self
+		flag:
+			#FQImprove
+				, 'Selection of allUsing: so not all entities will respond.'.
+	^ ((aMooseGroup allUsing: TDependencyQueries)
 		inject: Set new
-		into: [ :result :entity | 
-			result addAll: (self directionStrategy query: entity with: self associationStrategy).
-			result ]) asMooseGroup
+		into: [ :res :entity | 
+			res
+				addAll: (self directionStrategy query: entity with: self associationStrategy).
+			res ]) asMooseGroup
 ]
 
 { #category : #printing }

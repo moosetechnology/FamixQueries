@@ -17,9 +17,7 @@ Class {
 { #category : #commands }
 FQQueryCreationPresenter class >> buildCommandsGroupWith: presenter forRoot: aCmCommandsGroup [
 	aCmCommandsGroup
-		register:
-			((FQQueryCreationCommand forSpecWithIconNamed: #glamorousGo)
-				context: presenter).
+		register: (FQQueryCreationCommand forSpecContext: presenter)
 ]
 
 { #category : #specs }
@@ -150,8 +148,9 @@ FQQueryCreationPresenter >> initializePresenters [
 FQQueryCreationPresenter >> initializeQueryCode [
 	queryCode := self newCode
 		whenSubmitDo: [ :code | self updateForAcceptedCode: code ];
-		withoutSyntaxHighlight;
-		yourself
+		"withoutSyntaxHighlight;"
+			yourself.
+	self flag: #FQSpecPb , 'modifying syntaxt highlight is slow for now'
 ]
 
 { #category : #initialization }
@@ -244,12 +243,13 @@ FQQueryCreationPresenter >> updateFromConfiguration [
 { #category : #update }
 FQQueryCreationPresenter >> updateQueryCode [
 	queryCode
-		syntaxHighlight: self query isValid;
 		text:
 			(self query isValid
 				ifTrue: [ String streamContents: [ :s | self query storeOn: s ] ]
 				ifFalse: [ 'No valid query' ]);
-		update
+		update.
+	"syntaxHighlight: self query isValid;"
+	self flag: #FQSpecPb , 'modifying syntaxt highlight is slow for now'
 ]
 
 { #category : #update }

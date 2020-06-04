@@ -55,8 +55,9 @@ FQQueriesBrowserPresenter class >> openEmpty [
 FQQueriesBrowserPresenter class >> runMe [
 	<script>
 	^ (self
-		on: MiApplication current logger mostRecentEntity asMooseGroup)
-		openWithSpec
+		on:
+			(MiApplication current logger mostRecentEntity
+				allUsing: FamixTNamedEntity) asMooseGroup) openWithSpec
 ]
 
 { #category : #specs }
@@ -80,9 +81,9 @@ FQQueriesBrowserPresenter >> entities [
 FQQueriesBrowserPresenter >> followAction [
 	(self accept: toSelect)
 		ifFalse: [ ^ self ].
-	toSelect := toSelect asMooseGroup.
+	toSelect := (toSelect allUsing: FamixTNamedEntity) asMooseGroup.
 	queries do: #resetResult.
-	self initialQuery result: (toSelect allUsing: FamixTNamedEntity).
+	self initialQuery result: toSelect.
 	self initialQuery name: toSelect first mooseModel name.
 	self selectQuery: self initialQuery
 ]
@@ -121,7 +122,7 @@ FQQueriesBrowserPresenter >> initializeQueriesTree [
 
 { #category : #initialization }
 FQQueriesBrowserPresenter >> initializeQueryCode [
-	queryCode := self newCode text: '''Query code'''
+	queryCode := self newCode text: '"Query code"'
 ]
 
 { #category : #initialization }
@@ -208,10 +209,12 @@ FQQueriesBrowserPresenter >> selectQuery: aQuery [
 	queryResult updateForEntities: aQuery result.
 	queryCode
 		text:
-			(EFFormatter
-				format:
-					(RBParser
-						parseExpression: (String streamContents: [ :s | aQuery storeWithParentsOn: s ]))).
+			(aQuery isRootQuery
+				ifTrue: [ '"Query code"' ]
+				ifFalse: [ EFFormatter
+						format:
+							(RBParser
+								parseExpression: (String streamContents: [ :s | aQuery storeWithParentsOn: s ])) ]).
 	self update
 ]
 
