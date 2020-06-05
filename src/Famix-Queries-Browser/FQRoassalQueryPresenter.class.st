@@ -176,7 +176,8 @@ FQRoassalQueryPresenter >> createQueryNamed: name [
 FQRoassalQueryPresenter >> decorateSelectedBox: box [
 	box model == selectedQuery
 		ifFalse: [ ^ self ].
-	box border: (RSBorder new width: 2).
+	box border: (RSBorder new width: 4).
+	box borderColor: self theme textColor .
 
 	"Does not work because the label is built (then known from the shape) only when the canvas is built."
 	box properties at: #RSLabeled ifPresent: [ :label | label bold ]
@@ -245,6 +246,7 @@ FQRoassalQueryPresenter >> removeQuery: aQuery [
 { #category : #'roassal script' }
 FQRoassalQueryPresenter >> roassalScriptOn: canvas [
 	| boxes |
+	canvas color: self theme backgroundColor.
 	boxes := self createBoxes.
 	canvas addAll: boxes.
 	self buildTreeOn: canvas for: boxes.
