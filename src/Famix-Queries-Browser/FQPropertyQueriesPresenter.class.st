@@ -13,7 +13,9 @@ FQPropertyQueriesPresenter class >> addSecondParameterToLayout: defaultLayout [
 
 { #category : #accessing }
 FQPropertyQueriesPresenter class >> propertyQueryTypes [
-	^ FQPropertyQuery allSubclasses
+	^ {FQBooleanQuery.
+	FQNumericQuery.
+	FQStringQuery}
 ]
 
 { #category : #running }
