@@ -12,7 +12,8 @@ BaselineOfFamixQueries >> baseline: spec [
 	<baseline>
 	spec
 		for: #common
-		do: [ self midas: spec.
+		do: [ self famix: spec.
+			self midas: spec.
 
 			"Packages"
 			spec
