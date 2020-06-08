@@ -31,6 +31,11 @@ FQScopeDown class >> label [
 	^ 'Down'
 ]
 
+{ #category : #accessing }
+FQScopeDown class >> priority [
+	^ 20
+]
+
 { #category : #scoping }
 FQScopeDown class >> scope: aFamixClass on: aMooseGroup [
 	^ ((MooseObjectQueryResult withAll: aMooseGroup) toScope: aFamixClass)

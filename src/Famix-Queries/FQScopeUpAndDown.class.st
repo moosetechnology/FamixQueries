@@ -32,6 +32,11 @@ FQScopeUpAndDown class >> label [
 	^ 'Up and Down'
 ]
 
+{ #category : #accessing }
+FQScopeUpAndDown class >> priority [
+	^ 15
+]
+
 { #category : #scoping }
 FQScopeUpAndDown class >> scope: aFamixClass on: aMooseGroup [
 	^ ((MooseObjectQueryResult withAll: aMooseGroup)

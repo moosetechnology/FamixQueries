@@ -46,14 +46,19 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #'available parameters' }
+FQScopeQuery class >> availableDirections [
+	^ FQAbstractScopeDirection availableDirections
+]
+
 { #category : #accessing }
 FQScopeQuery class >> label [
 	^ 'Scope Query'
 ]
 
-{ #category : #'available parameters' }
+{ #category : #accessing }
 FQScopeQuery >> availableDirections [
-	^ FQAbstractScopeDirection availableDirections
+	^ self class availableDirections
 ]
 
 { #category : #'available parameters' }

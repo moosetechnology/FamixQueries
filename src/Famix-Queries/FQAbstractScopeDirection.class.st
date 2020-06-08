@@ -25,11 +25,7 @@ Class {
 
 { #category : #'available scopes' }
 FQAbstractScopeDirection class >> availableDirections [
-	" Not 'self allSubclasses' because we want this specific order"
-
-	^ {FQScopeUp.
-	FQScopeUpAndDown.
-	FQScopeDown}
+	^ self allSubclasses sort: #priority ascending
 ]
 
 { #category : #'available scopes' }
@@ -52,6 +48,11 @@ FQAbstractScopeDirection class >> defaultDirection [
 
 { #category : #printing }
 FQAbstractScopeDirection class >> label [
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+FQAbstractScopeDirection class >> priority [
 	^ self subclassResponsibility
 ]
 
