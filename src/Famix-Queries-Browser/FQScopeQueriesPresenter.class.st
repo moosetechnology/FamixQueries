@@ -49,7 +49,7 @@ FQScopeQueriesPresenter >> initializeScopesDropList [
 { #category : #initialization }
 FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 	firstParameter := SpDynamicPresentersListBuilder new
-		modelObjects: self query availableDirections;
+		modelObjects: self query directionStrategies;
 		presenter: SpRadioButtonPresenter
 			configuredAs:
 				[ :radioButton :direction | self configureRadioButton: radioButton forScopeDirection: direction ];

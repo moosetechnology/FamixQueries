@@ -119,7 +119,7 @@ FQScopeQueriesPresenterTest >> testQueryValidity [
 { #category : #tests }
 FQScopeQueriesPresenterTest >> testRadioButtonsMatchAvailableDirections [
 	| directions |
-	directions := presenter query availableDirections.
+	directions := presenter query directionStrategies.
 	self assert: self radioButtons size equals: directions size.
 	
 	self

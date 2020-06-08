@@ -47,18 +47,13 @@ Class {
 }
 
 { #category : #'available parameters' }
-FQScopeQuery class >> availableDirections [
-	^ FQAbstractScopeDirection availableDirections
+FQScopeQuery class >> directionStrategies [
+	^ FQAbstractScopeDirection directionStrategies
 ]
 
 { #category : #accessing }
 FQScopeQuery class >> label [
 	^ 'Scope Query'
-]
-
-{ #category : #accessing }
-FQScopeQuery >> availableDirections [
-	^ self class availableDirections
 ]
 
 { #category : #'available parameters' }
@@ -76,7 +71,7 @@ FQScopeQuery >> availableScopesFor: aMooseGroup [
 
 { #category : #default }
 FQScopeQuery >> beDefaultForParent [
-	self directionStrategy: self availableDirections first.
+	self directionStrategy: self directionStrategies first.
 	self
 		scope:
 			(self availableScopes
@@ -98,8 +93,13 @@ FQScopeQuery >> defaultName [
 FQScopeQuery >> direction: aSymbol [
 	self
 		directionStrategy:
-			(self availableDirections
+			(self directionStrategies
 				detect: [ :dir | dir label asCamelCase = aSymbol asString ])
+]
+
+{ #category : #accessing }
+FQScopeQuery >> directionStrategies [
+	^ self class directionStrategies
 ]
 
 { #category : #accessing }

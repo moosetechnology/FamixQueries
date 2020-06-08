@@ -24,11 +24,6 @@ Class {
 }
 
 { #category : #'available scopes' }
-FQAbstractScopeDirection class >> availableDirections [
-	^ self allSubclasses sort: #priority ascending
-]
-
-{ #category : #'available scopes' }
 FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
 	^ ((self respondingEntitiesIn: aMooseGroup) entities
 		flatCollectAsSet: [ :entity | 
@@ -44,6 +39,11 @@ FQAbstractScopeDirection class >> availableScopesForEntity: entity [
 { #category : #default }
 FQAbstractScopeDirection class >> defaultDirection [
 	^ FQScopeUpAndDown
+]
+
+{ #category : #'available scopes' }
+FQAbstractScopeDirection class >> directionStrategies [
+	^ self allSubclasses sort: #priority ascending
 ]
 
 { #category : #printing }

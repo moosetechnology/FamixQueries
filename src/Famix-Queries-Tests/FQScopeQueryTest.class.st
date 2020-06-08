@@ -28,13 +28,6 @@ FQScopeQueryTest >> newQuery [
 ]
 
 { #category : #'tests - available parameters' }
-FQScopeQueryTest >> testAvailableDirections [
-	self
-		assertCollection: self unConfiguredQuery availableDirections
-		includesAll: FQAbstractScopeDirection allSubclasses
-]
-
-{ #category : #'tests - available parameters' }
 FQScopeQueryTest >> testAvailableScopesFor [
 	| availableScopes |
 	availableScopes := query availableScopesFor: helper modelExample.
@@ -43,6 +36,13 @@ FQScopeQueryTest >> testAvailableScopesFor [
 		do: [ :scope | 
 			self assert: (scope inheritsFrom: FamixStEntity).
 			self assert: (availableScopes occurrencesOf: scope) equals: 1 ]
+]
+
+{ #category : #'tests - available parameters' }
+FQScopeQueryTest >> testDirectionStrategies [
+	self
+		assertCollection: self unConfiguredQuery directionStrategies
+		includesAll: FQAbstractScopeDirection allSubclasses
 ]
 
 { #category : #'tests - printing' }
