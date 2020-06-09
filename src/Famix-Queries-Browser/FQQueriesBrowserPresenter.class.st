@@ -35,6 +35,13 @@ FQQueriesBrowserPresenter class >> menuCommandOn: aBuilder [
 		action: [ self runMe ]
 ]
 
+{ #category : #private }
+FQQueriesBrowserPresenter class >> new [
+	"A MooseGroup is necessary to initialize this presenter"
+
+	^ self on: MooseGroup new
+]
+
 { #category : #'instance creation' }
 FQQueriesBrowserPresenter class >> open [
 	<script>
@@ -42,22 +49,23 @@ FQQueriesBrowserPresenter class >> open [
 		flag:
 			#FQImprove
 				, 'This should be an example AND it depends on tests package'.
-	(self on: FQTestsHelper current classesAndMethods) openWithSpec
+	^ (self on: FQTestsHelper current classesAndMethods)
+		openWithSpec;
+		yourself
 ]
 
 { #category : #'instance creation' }
 FQQueriesBrowserPresenter class >> openEmpty [
 	<script>
-	(self on: MooseGroup new) openWithSpec
+	^ self new
+		openWithSpec;
+		yourself
 ]
 
 { #category : #'world menu' }
 FQQueriesBrowserPresenter class >> runMe [
 	<script>
-	^ (self
-		on:
-			(MiApplication current logger mostRecentEntity
-				allUsing: FamixTNamedEntity) asMooseGroup) openWithSpec
+	^ super runMe
 ]
 
 { #category : #specs }
@@ -68,7 +76,7 @@ FQQueriesBrowserPresenter class >> title [
 { #category : #midas }
 FQQueriesBrowserPresenter >> accept: anObject [
 	^ (anObject isKindOf: MooseObject)
-		and: [ anObject asMooseGroup isNotEmpty
+		and: [ (anObject asMooseGroup allUsing: FamixTNamedEntity) isNotEmpty
 				and: [ anObject asMooseGroup ~= selectedQuery result ] ]
 ]
 
@@ -79,13 +87,7 @@ FQQueriesBrowserPresenter >> entities [
 
 { #category : #midas }
 FQQueriesBrowserPresenter >> followAction [
-	(self accept: toSelect)
-		ifFalse: [ ^ self ].
-	toSelect := (toSelect allUsing: FamixTNamedEntity) asMooseGroup.
-	queries do: #resetResult.
-	self initialQuery result: toSelect.
-	self initialQuery name: toSelect first mooseModel name.
-	self selectQuery: self initialQuery
+	self selectEntity: toSelect
 ]
 
 { #category : #accessing }
@@ -200,6 +202,18 @@ FQQueriesBrowserPresenter >> removeQuery: aQuery [
 	aQuery prepareRemovalFrom: self.
 	queries remove: aQuery.
 	^ aQuery
+]
+
+{ #category : #midas }
+FQQueriesBrowserPresenter >> selectEntity: anEntity [
+	| entityToSelect |
+	(self accept: anEntity)
+		ifFalse: [ ^ self ].
+	entityToSelect := anEntity asMooseGroup allUsing: FamixTNamedEntity.
+	queries do: #resetResult.
+	self initialQuery result: entityToSelect.
+	self initialQuery name: entityToSelect first mooseModel name.
+	self selectQuery: self initialQuery
 ]
 
 { #category : #action }
