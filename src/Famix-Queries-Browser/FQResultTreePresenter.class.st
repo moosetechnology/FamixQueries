@@ -130,10 +130,13 @@ FQResultTreePresenter >> updateForEntities: entities [
 	items := entities.
 	self
 		roots:
-			((entities collectAsSet: #class)
+			(((entities collectAsSet: #class)
 				collect:
 					[ :type | (items select: [ :entity | entity class == type ]) asMooseGroup ])
-				asOrderedCollection.
+				asOrderedCollection
+				sort:
+					[ :root | root entities commonSuperclass name asEnglishPlural ]
+						ascending).
 	self update
 ]
 
