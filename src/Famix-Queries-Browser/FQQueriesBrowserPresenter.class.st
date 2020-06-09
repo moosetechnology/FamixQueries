@@ -134,12 +134,6 @@ FQQueriesBrowserPresenter >> initializeQueryResult [
 		yourself
 ]
 
-{ #category : #initialization }
-FQQueriesBrowserPresenter >> initializeWindow: aWindowPresenter [
-	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 500 @ 400
-]
-
 { #category : #midas }
 FQQueriesBrowserPresenter >> miSelectedItem [
 	^ selectedQuery result
