@@ -279,7 +279,7 @@ FQNavigationQueryTest >> outgoingTest [
 FQNavigationQueryTest >> testAddAllAssociations [
 	query associationStrategy: FQNavigationAssociations new.
 	
-	query allPossibleAssociations
+	FQAbstractNavigationAssociations allPossibleAssociations
 		do: [ :assoc | query addAssociation: assoc ].
 	
 	self
@@ -313,8 +313,8 @@ FQNavigationQueryTest >> testAvailableAssociationsFor [
 { #category : #'tests - available parameters' }
 FQNavigationQueryTest >> testAvailableDirections [
 	self
-		assertCollection: query availableDirections
-		includesAll: FQAbstractNavigationDirection availableDirections
+		assertCollection: query class directionStrategies
+		includesAll: FQAbstractNavigationDirection allSubclasses
 ]
 
 { #category : #'tests - printing' }

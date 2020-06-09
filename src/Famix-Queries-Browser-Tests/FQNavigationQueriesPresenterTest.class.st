@@ -7,7 +7,7 @@ Class {
 { #category : #running }
 FQNavigationQueriesPresenterTest >> assertCheckBoxesMatchAllPossibleAssociations [
 	| allAssociations |
-	allAssociations := presenter query allPossibleAssociations.
+	allAssociations := FQAbstractNavigationAssociations allPossibleAssociations.
 	
 	self assert: self checkBoxes size equals: allAssociations size.
 	
@@ -86,7 +86,7 @@ FQNavigationQueriesPresenterTest >> testCheckBoxesDisabledSinceFirstDisplay [
 { #category : #tests }
 FQNavigationQueriesPresenterTest >> testCheckBoxesDisabledWhenUnvailable [
 	| unAvailableAssociations |
-	unAvailableAssociations := presenter query allPossibleAssociations \ presenter query availableAssociations.
+	unAvailableAssociations := FQAbstractNavigationAssociations allPossibleAssociations \ presenter query availableAssociations.
 	
 	self
 		assert: (self checkBoxes reject: #isEnabled) size
@@ -159,7 +159,7 @@ FQNavigationQueriesPresenterTest >> testQueryValidity [
 { #category : #tests }
 FQNavigationQueriesPresenterTest >> testRadioButtonsMatchAvailableDirections [
 	| directions |
-	directions := presenter query availableDirections.
+	directions := presenter query class directionStrategies.
 	
 	self assert: self radioButtons size equals: directions size.
 	

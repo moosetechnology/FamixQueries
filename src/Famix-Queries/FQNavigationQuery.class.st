@@ -56,6 +56,17 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #'available parameters' }
+FQNavigationQuery class >> allPossibleAssociations [
+	^ FQAbstractNavigationAssociations
+		allPossibleAssociations
+]
+
+{ #category : #'available parameters' }
+FQNavigationQuery class >> directionStrategies [
+	^ FQAbstractNavigationDirection allSubclasses
+]
+
 { #category : #accessing }
 FQNavigationQuery class >> label [
 	^ 'Navigation Query'
@@ -89,17 +100,11 @@ FQNavigationQuery >> addAssociation: anAssociation [
 	self flag: #FQTest , 'test reset result'
 ]
 
-{ #category : #'available parameters' }
-FQNavigationQuery >> allPossibleAssociations [
-	^ FQAbstractNavigationAssociations
-		allPossibleAssociations
-]
-
 { #category : #'adding - removing' }
 FQNavigationQuery >> association: aSymbol [
 	self
 		addAssociation:
-			(self allPossibleAssociations
+			(self class allPossibleAssociations
 				detect:
 					[ :assoc | assoc name includesSubstring: aSymbol asString ])
 ]
@@ -129,18 +134,13 @@ FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
 		collect: #implementingType) asOrderedCollection
 ]
 
-{ #category : #'available parameters' }
-FQNavigationQuery >> availableDirections [
-	^ FQAbstractNavigationDirection availableDirections
-]
-
 { #category : #default }
 FQNavigationQuery >> beDefaultForParent [
 	self
 		flag:
 			#FQImprove , #FQTest
 				, 'This is a bit of a hack to allow creation of invalid queries'.
-	directionStrategy := self availableDirections first.
+	directionStrategy := self class directionStrategies first.
 	associationStrategy := [ FQNavigationAssociations
 		withAll: self availableAssociations ]
 		on: FQCannotRemoveLastNavigationAssociation
@@ -164,7 +164,7 @@ FQNavigationQuery >> defaultName [
 FQNavigationQuery >> direction: aSymbol [
 	self
 		directionStrategy:
-			(self availableDirections
+			(self class directionStrategies
 				detect: [ :dir | dir label asCamelCase = aSymbol asString ])
 ]
 

@@ -18,8 +18,7 @@ Class {
 FQAbstractNavigationAssociations class >> allPossibleAssociations [
 	^ (((FM3Property allInstances select: #hasOpposite)
 		select: [ :p | p opposite isSource ])
-		collectAsSet: #implementingType) asArray
-		sorted: [ :assoc1 :assoc2 | assoc1 name < assoc2 name ]
+		collectAsSet: #implementingType) asArray sorted: #name ascending
 ]
 
 { #category : #'adding - removing' }

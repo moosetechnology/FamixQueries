@@ -26,11 +26,6 @@ FQAbstractNavigationDirection class >> availableAssociationsFor: aMooseGroup [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
-FQAbstractNavigationDirection class >> availableDirections [
-	^ self allSubclasses
-]
-
 { #category : #printing }
 FQAbstractNavigationDirection class >> displayOn: aStream with: anAssociationStrategy [
 	self subclassResponsibility

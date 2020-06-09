@@ -47,7 +47,7 @@ FQNavigationQueriesPresenter >> initializeAssociationsCheckBoxes [
 { #category : #initialization }
 FQNavigationQueriesPresenter >> initializeDirectionRadioButtons [
 	firstParameter := SpDynamicPresentersListBuilder new
-		modelObjects: self query availableDirections;
+		modelObjects: self query class directionStrategies;
 		presenter: SpRadioButtonPresenter
 			configuredAs: [ :radioButton :direction | 
 			self
@@ -104,7 +104,7 @@ FQNavigationQueriesPresenter >> setStateOfCheckBox: checkBox association: associ
 { #category : #update }
 FQNavigationQueriesPresenter >> showAssociationsCheckBoxes [
 	secondParameter := SpDynamicPresentersListBuilder new
-		modelObjects: self query allPossibleAssociations;
+		modelObjects: self query class allPossibleAssociations;
 		presenter: SpCheckBoxPresenter
 			configuredAs: [ :checkBox :associationTrait | 
 			self
