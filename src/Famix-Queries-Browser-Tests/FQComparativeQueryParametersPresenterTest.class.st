@@ -16,7 +16,7 @@ FQComparativeQueryParametersPresenterTest >> testComparatorsDropList [
 		identicalTo: SpDropListPresenter.
 	self
 		assertCollection: presenter comparators listItems
-		hasSameElements: presenter query availableComparators
+		hasSameElements: presenter query class comparators
 ]
 
 { #category : #tests }

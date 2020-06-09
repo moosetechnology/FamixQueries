@@ -44,6 +44,11 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #'available parameters' }
+FQPropertyQuery class >> comparators [
+	self subclassResponsibility
+]
+
 { #category : #default }
 FQPropertyQuery class >> isAbstract [
 	^ self == FQPropertyQuery
@@ -52,11 +57,6 @@ FQPropertyQuery class >> isAbstract [
 { #category : #accessing }
 FQPropertyQuery class >> label [
 	^ 'Property Query'
-]
-
-{ #category : #'available parameters' }
-FQPropertyQuery >> availableComparators [
-	self subclassResponsibility
 ]
 
 { #category : #'available parameters' }
@@ -85,7 +85,7 @@ FQPropertyQuery >> beDefaultForParent [
 		ifEmpty: [ nil ]
 		ifNotEmpty: [ :properties | properties first ].
 	self hasComparisonParameters
-		ifTrue: [ comparator := self availableComparators first ]
+		ifTrue: [ comparator := self class comparators first ]
 ]
 
 { #category : #accessing }

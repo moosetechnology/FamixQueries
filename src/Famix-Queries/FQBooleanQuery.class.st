@@ -34,14 +34,14 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #'available parameters' }
+FQBooleanQuery class >> comparators [
+	^ {}
+]
+
 { #category : #accessing }
 FQBooleanQuery class >> label [
 	^ 'Boolean Query'
-]
-
-{ #category : #'available parameters' }
-FQBooleanQuery >> availableComparators [
-	^ {}
 ]
 
 { #category : #testing }

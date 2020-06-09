@@ -39,6 +39,12 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #'available parameters' }
+FQStringQuery class >> comparators [
+	self flag: #FQImprove.
+	^ {#includesSubstring: . #beginsWith: . #matchesRegex:}
+]
+
 { #category : #accessing }
 FQStringQuery class >> defaultValueToCompare [
 	^ ''
@@ -47,12 +53,6 @@ FQStringQuery class >> defaultValueToCompare [
 { #category : #accessing }
 FQStringQuery class >> label [
 	^ 'String Query'
-]
-
-{ #category : #'available parameters' }
-FQStringQuery >> availableComparators [
-	self flag: #FQImprove.
-	^ {#includesSubstring: . #beginsWith: . #matchesRegex:}
 ]
 
 { #category : #accessing }

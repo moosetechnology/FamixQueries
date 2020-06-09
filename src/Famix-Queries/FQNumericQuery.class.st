@@ -39,6 +39,12 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #'available parameters' }
+FQNumericQuery class >> comparators [
+	self flag: #FQImprove.
+	^ {#> . #>= . #= . #<= . #<}
+]
+
 { #category : #accessing }
 FQNumericQuery class >> defaultValueToCompare [
 	^ 0
@@ -47,12 +53,6 @@ FQNumericQuery class >> defaultValueToCompare [
 { #category : #accessing }
 FQNumericQuery class >> label [
 	^ 'Numeric Query'
-]
-
-{ #category : #'available parameters' }
-FQNumericQuery >> availableComparators [
-	self flag: #FQImprove.
-	^ {#> . #>= . #= . #<= . #<}
 ]
 
 { #category : #comparing }

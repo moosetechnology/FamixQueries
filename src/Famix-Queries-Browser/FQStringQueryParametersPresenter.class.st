@@ -28,7 +28,7 @@ FQStringQueryParametersPresenter class >> defaultSpec [
 FQStringQueryParametersPresenter >> initializePresenters [
 	super initializePresenters.
 	comparators := self newDropList
-		items: self query availableComparators;
+		items: self query class comparators;
 		display: [ :prop | prop asString ];
 		whenSelectedItemChangedDo: [ :prop | 
 			self query comparator: prop.
