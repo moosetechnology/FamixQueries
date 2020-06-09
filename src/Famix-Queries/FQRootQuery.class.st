@@ -1,7 +1,7 @@
 Class {
 	#name : #FQRootQuery,
 	#superclass : #FQUnaryQuery,
-	#category : #'Famix-Queries-Browser-Tools'
+	#category : #'Famix-Queries-Queries-Unary'
 }
 
 { #category : #display }
@@ -12,6 +12,11 @@ FQRootQuery class >> color [
 { #category : #display }
 FQRootQuery class >> label [
 	^ 'Initial Entities'
+]
+
+{ #category : #adding }
+FQRootQuery >> beChildOf: parentQuery [
+	FQNoParentForRootQuery signal: 'Root query cannot have a parent'
 ]
 
 { #category : #default }
@@ -33,7 +38,7 @@ FQRootQuery >> displayOn: aStream with: aString [
 
 { #category : #comparing }
 FQRootQuery >> hasSameParametersAs: aQuery [
-	^ self result == aQuery result
+	^ self result sameElements: aQuery result
 ]
 
 { #category : #initialization }
@@ -49,7 +54,7 @@ FQRootQuery >> isRootQuery [
 
 { #category : #testing }
 FQRootQuery >> isValid [
-	^ true
+	^ result isKindOf: MooseGroup
 ]
 
 { #category : #accessing }

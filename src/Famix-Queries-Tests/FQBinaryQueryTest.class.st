@@ -51,6 +51,14 @@ FQBinaryQueryTest >> newQuery [
 ]
 
 { #category : #parents }
+FQBinaryQueryTest >> newStringParent [
+	^ FQStringQuery new
+		property: #name;
+		comparator: #beginsWith:;
+		valueToCompare: 'LANP'
+]
+
+{ #category : #parents }
 FQBinaryQueryTest >> newTypeParent [
 	^ FQTypeQuery new type: FamixStClass
 ]
@@ -115,7 +123,8 @@ FQBinaryQueryTest >> testParentSequence [
 			query}.
 
 	"Two generations"
-	query parents do: [ :parent | parent beChildOf: FQRootQuery new ].
+	query parents first beChildOf: self newBooleanParent.
+	query parents second beChildOf: self newStringParent.
 	self
 		assertCollection: query parentSequence
 		hasSameElements:
