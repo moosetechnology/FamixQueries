@@ -31,6 +31,11 @@ FQScopeUp class >> label [
 	^ 'Up'
 ]
 
+{ #category : #accessing }
+FQScopeUp class >> priority [
+	^ 10
+]
+
 { #category : #scoping }
 FQScopeUp class >> scope: aFamixClass on: aMooseGroup [
 	^ ((MooseObjectQueryResult withAll: aMooseGroup) atScope: aFamixClass)

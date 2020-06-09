@@ -46,14 +46,14 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #'available parameters' }
+FQScopeQuery class >> directionStrategies [
+	^ FQAbstractScopeDirection directionStrategies
+]
+
 { #category : #accessing }
 FQScopeQuery class >> label [
 	^ 'Scope Query'
-]
-
-{ #category : #'available parameters' }
-FQScopeQuery >> availableDirections [
-	^ FQAbstractScopeDirection availableDirections
 ]
 
 { #category : #'available parameters' }
@@ -71,7 +71,7 @@ FQScopeQuery >> availableScopesFor: aMooseGroup [
 
 { #category : #default }
 FQScopeQuery >> beDefaultForParent [
-	self directionStrategy: self availableDirections first.
+	self directionStrategy: self directionStrategies first.
 	self
 		scope:
 			(self availableScopes
@@ -93,8 +93,13 @@ FQScopeQuery >> defaultName [
 FQScopeQuery >> direction: aSymbol [
 	self
 		directionStrategy:
-			(self availableDirections
+			(self directionStrategies
 				detect: [ :dir | dir label asCamelCase = aSymbol asString ])
+]
+
+{ #category : #accessing }
+FQScopeQuery >> directionStrategies [
+	^ self class directionStrategies
 ]
 
 { #category : #accessing }
