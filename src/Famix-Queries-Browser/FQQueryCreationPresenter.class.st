@@ -68,15 +68,6 @@ FQQueryCreationPresenter class >> title [
 	^ 'Query Creation'
 ]
 
-{ #category : #accessing }
-FQQueryCreationPresenter >> browser [
-	self
-		flag:
-			#FQImprove
-				, 'Used ony by FQCreationCommand. Should be moved to tests package'.
-	^ browser
-]
-
 { #category : #'query configuration' }
 FQQueryCreationPresenter >> configureBooleanQuery: aQuery [
 	queryConfigurationPresenter := FQPropertyQueriesPresenter
@@ -124,11 +115,6 @@ FQQueryCreationPresenter >> connectPresenters [
 	self queryAcceptedPort transmitTo: browser queryInputPort
 ]
 
-{ #category : #accessing }
-FQQueryCreationPresenter >> entities [
-	^ browser entities
-]
-
 { #category : #initialization }
 FQQueryCreationPresenter >> initialize [
 	super initialize.
@@ -147,9 +133,8 @@ FQQueryCreationPresenter >> initializePresenters [
 { #category : #initialization }
 FQQueryCreationPresenter >> initializeQueryCode [
 	queryCode := self newCode
-		whenSubmitDo: [ :code | self updateForAcceptedCode: code ];
-		"withoutSyntaxHighlight;"
-			yourself.
+		whenSubmitDo: [ :code | self updateFromCode: code ];
+		yourself.
 	self flag: #FQSpecPb , 'modifying syntaxt highlight is slow for now'
 ]
 
@@ -195,6 +180,11 @@ FQQueryCreationPresenter >> notifyAcceptedQuery [
 ]
 
 { #category : #accessing }
+FQQueryCreationPresenter >> parentEntities [
+	^ browser entities
+]
+
+{ #category : #accessing }
 FQQueryCreationPresenter >> query [
 	^ queryConfigurationPresenter query
 ]
@@ -204,20 +194,9 @@ FQQueryCreationPresenter >> queryAcceptedPort [
 	^ FQQueryOutputPort newPresenter: self
 ]
 
-{ #category : #transmissions }
-FQQueryCreationPresenter >> queryChangedPort [
-	self flag: #FQUnused.
-	^ FQQueryInputPort newPresenter: self
-]
-
 { #category : #'accessing model' }
 FQQueryCreationPresenter >> setModelBeforeInitialization: aQueriesPresenter [
 	browser := aQueriesPresenter
-]
-
-{ #category : #update }
-FQQueryCreationPresenter >> updateForAcceptedCode: code [
-	self flag: #FQImprove
 ]
 
 { #category : #update }
@@ -230,6 +209,11 @@ FQQueryCreationPresenter >> updateForQuery: aQuery [
 	sequence setModels: aQuery parentSequence.
 	self updateToolBar.
 	self update
+]
+
+{ #category : #update }
+FQQueryCreationPresenter >> updateFromCode: code [
+	self flag: #FQImprove
 ]
 
 { #category : #update }

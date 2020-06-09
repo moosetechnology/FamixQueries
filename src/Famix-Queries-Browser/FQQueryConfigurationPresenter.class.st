@@ -42,12 +42,6 @@ FQQueryConfigurationPresenter class >> traitPrefix [
 	^ 'FamixT'
 ]
 
-{ #category : #accessing }
-FQQueryConfigurationPresenter >> modelPrefix [
-	^ query parent result first mooseModel className
-		withoutSuffix: 'Model'
-]
-
 { #category : #update }
 FQQueryConfigurationPresenter >> noParameterMessage: aParameterName [
 	^ self instantiate: FQNoPossibleQueryPresenter on: aParameterName
@@ -61,12 +55,6 @@ FQQueryConfigurationPresenter >> notifyQueryChanged [
 { #category : #accessing }
 FQQueryConfigurationPresenter >> query [
 	^ query
-]
-
-{ #category : #transmissions }
-FQQueryConfigurationPresenter >> queryChangedPort [
-	self flag: #FQUnused.
-	^ FQQueryOutputPort newPresenter: self
 ]
 
 { #category : #'accessing model' }

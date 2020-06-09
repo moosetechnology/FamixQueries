@@ -50,13 +50,8 @@ FQQueryCreationCommand >> execute [
 	self context query result
 		ifEmpty: [ self confirmEmptyResult
 				ifFalse: [ ^ self ] ].
-	self
-		flag:
-			#FQImprove
-				,
-					'calling browser entities ?? How to be relevant with binary queries (2 parents)'.
 	(self context query result
-		hasEqualElements: self context browser entities)
+		hasEqualElements: self context parentEntities)
 		ifTrue: [ self confirmUnchangedResult
 				ifFalse: [ ^ self ] ].
 	self context notifyAcceptedQuery.

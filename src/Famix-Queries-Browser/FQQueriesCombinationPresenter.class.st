@@ -174,6 +174,11 @@ FQQueriesCombinationPresenter >> onQueries: aQueriesCollection [
 ]
 
 { #category : #accessing }
+FQQueriesCombinationPresenter >> parentEntities [
+	^ browser entities
+]
+
+{ #category : #accessing }
 FQQueriesCombinationPresenter >> query [
 	^ newQuery
 ]

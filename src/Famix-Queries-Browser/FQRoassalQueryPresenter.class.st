@@ -108,8 +108,7 @@ FQRoassalQueryPresenter >> boxMenu: aMenuMorph box: aBox [
 { #category : #'boxes configuration' }
 FQRoassalQueryPresenter >> boxPopup [
 	| label |
-	label := RSPopup new
-		text: [ :model | browser mooseGroupDetails: model result ].
+	label := RSPopup new text: [ :model | model result details ].
 	^ label
 ]
 

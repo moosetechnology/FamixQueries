@@ -1,6 +1,11 @@
 Extension { #name : #FQQueryCreationPresenter }
 
 { #category : #'*Famix-Queries-Browser-Tests' }
+FQQueryCreationPresenter >> browser [
+	^ browser
+]
+
+{ #category : #'*Famix-Queries-Browser-Tests' }
 FQQueryCreationPresenter >> queryCode [
 	^ queryCode
 ]

@@ -139,30 +139,6 @@ FQQueriesBrowserPresenter >> miSelectedItem [
 	^ selectedQuery result
 ]
 
-{ #category : #utils }
-FQQueriesBrowserPresenter >> modelPrefix [
-	^ self initialQuery result first mooseModel className
-		withoutSuffix: 'Model'
-]
-
-{ #category : #utils }
-FQQueriesBrowserPresenter >> mooseGroupDetails: result [
-	self
-		flag:
-			#FQImprove
-				,
-					'Is this really useful and should it be here ? See also stringForRoot: in resultTree widget'.
-	^ String
-		streamContents: [ :stream | 
-			(result collectAsSet: #class)
-				do: [ :class | 
-					stream
-						<< (result select: [ :entity | entity class == class ]) size asString
-						<< ' '
-						<< (class name withoutPrefix: self modelPrefix) asEnglishPlural
-						<< ' ' ] ]
-]
-
 { #category : #action }
 FQQueriesBrowserPresenter >> openCombinationPresenterFor: aQuery and: anotherQuery [
 	(FQQueriesCombinationPresenter on: self)

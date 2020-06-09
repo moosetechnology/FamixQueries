@@ -91,13 +91,6 @@ FQResultTreePresenter >> miSelectedItem [
 				ifFalse: [ item ] ]) flattened copyWithoutDuplicates asMooseGroup
 ]
 
-{ #category : #naming }
-FQResultTreePresenter >> modelPrefix [
-	"Does not work with FAMIXEntities"
-
-	^ self roots first mooseModel className withoutSuffix: 'Model'
-]
-
 { #category : #'accessing model' }
 FQResultTreePresenter >> setModelBeforeInitialization: aBrowser [
 	browser := aBrowser
@@ -106,23 +99,8 @@ FQResultTreePresenter >> setModelBeforeInitialization: aBrowser [
 { #category : #naming }
 FQResultTreePresenter >> stringForItem: item [
 	(self roots includes: item)
-		ifTrue: [ ^ self stringForRoot: item ].
+		ifTrue: [ ^ item details ].
 	^ item name
-]
-
-{ #category : #naming }
-FQResultTreePresenter >> stringForRoot: item [
-	^ String
-		streamContents: [ :s | 
-			| typeName |
-			typeName := item first className withoutPrefix: self modelPrefix.
-			s
-				print: item size;
-				<< Character space;
-				<<
-					(item size > 1
-						ifTrue: [ typeName asEnglishPlural ]
-						ifFalse: [ typeName ]) ]
 ]
 
 { #category : #update }
@@ -134,28 +112,11 @@ FQResultTreePresenter >> updateForEntities: entities [
 				collect:
 					[ :type | (items select: [ :entity | entity class == type ]) asMooseGroup ])
 				asOrderedCollection
-				sort:
-					[ :root | root entities commonSuperclass name asEnglishPlural ]
-						ascending).
+				sort: [ :root | root commonSuperclass name ] ascending).
 	self update
 ]
 
 { #category : #update }
 FQResultTreePresenter >> updateMenu [
-	self contextMenuFromCommandsGroup: [ self rootCommandsGroup ].
-	"	self contextMenu: self newMenu."
-	"	self contextMenu
-		addItem: [ :menuItem | 
-			menuItem
-				name: 'Inspect';
-				action: [ self miSelectedItem inspect ] ].
-	(self canCreateQueries
-		and: [ self roots includesAll: self selectedItems ])
-		ifFalse: [ ^ self ]."
-"	self contextMenu
-		addItem: [ :menuItem | 
-			menuItem
-				name: 'Create new type query';
-				action:
-						[ self createTypeQuery ] ]"
+	self contextMenuFromCommandsGroup: [ self rootCommandsGroup ]
 ]

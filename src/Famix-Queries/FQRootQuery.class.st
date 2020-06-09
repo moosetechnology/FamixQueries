@@ -38,7 +38,7 @@ FQRootQuery >> displayOn: aStream with: aString [
 
 { #category : #comparing }
 FQRootQuery >> hasSameParametersAs: aQuery [
-	^ self result sameElements: aQuery result
+	^ self result = aQuery result
 ]
 
 { #category : #initialization }
