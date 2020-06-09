@@ -38,7 +38,9 @@ FQRootQuery >> displayOn: aStream with: aString [
 
 { #category : #comparing }
 FQRootQuery >> hasSameParametersAs: aQuery [
-	^ self result = aQuery result
+	"It can be too long to check 'self result sameElements: aQuery result' and not really needed for now."
+
+	^ true
 ]
 
 { #category : #initialization }

@@ -34,6 +34,15 @@ FQRootQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
+FQRootQueryTest >> testEquals [
+	"Same query"
+	self assert: query equals: self newQuery.
+
+	"Different type of Query"
+	self deny: query equals: self differentTypeOfQuery
+]
+
+{ #category : #tests }
 FQRootQueryTest >> testIsValid [
 	self assert: query isValid.
 	query result: nil.
@@ -43,20 +52,6 @@ FQRootQueryTest >> testIsValid [
 { #category : #'tests - printing' }
 FQRootQueryTest >> testName [
 	self assert: query name equals: 'Model'
-]
-
-{ #category : #tests }
-FQRootQueryTest >> testParentSequence [
-	"Root queries do not have parents"
-
-	self skip
-]
-
-{ #category : #tests }
-FQRootQueryTest >> testPrepareRemoval [
-	"Root queries do not have parents"
-
-	self skip
 ]
 
 { #category : #'tests - printing' }

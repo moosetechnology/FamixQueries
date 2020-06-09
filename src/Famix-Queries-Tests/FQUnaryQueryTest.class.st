@@ -33,6 +33,9 @@ FQUnaryQueryTest >> testParent [
 
 { #category : #tests }
 FQUnaryQueryTest >> testParentSequence [
+	query isRootQuery
+		ifTrue: [ self skip ].
+		
 	"One generation"
 	query beChildOf: self differentTypeOfQuery.
 	self
@@ -54,6 +57,9 @@ FQUnaryQueryTest >> testParentSequence [
 { #category : #tests }
 FQUnaryQueryTest >> testPrepareRemoval [
 	| parent |
+	query isRootQuery
+		ifTrue: [ self skip ].
+
 	parent := self differentTypeOfQuery.
 	query beChildOf: parent.
 
