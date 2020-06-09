@@ -47,6 +47,11 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #testing }
+FQTypeQuery class >> canBeConfigured [
+	^ true
+]
+
 { #category : #accessing }
 FQTypeQuery class >> label [
 	^ 'Type Query'

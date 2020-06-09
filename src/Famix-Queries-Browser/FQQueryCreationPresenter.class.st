@@ -55,12 +55,8 @@ FQQueryCreationPresenter class >> queryConfigurationLayout [
 
 { #category : #'query configuration presenters' }
 FQQueryCreationPresenter class >> queryTypes [
-	self
-		flag: #FQImprove , 'We should have a way to select interesting classes'.
-	^ {FQNavigationQuery.
-	FQPropertyQuery.
-	FQScopeQuery.
-	FQTypeQuery}
+	^ (FQUnaryQuery subclasses select: #canBeConfigured)
+		sort: #name ascending
 ]
 
 { #category : #specs }

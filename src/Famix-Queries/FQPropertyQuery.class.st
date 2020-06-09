@@ -44,6 +44,11 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #testing }
+FQPropertyQuery class >> canBeConfigured [
+	^ true
+]
+
 { #category : #'available parameters' }
 FQPropertyQuery class >> comparators [
 	self subclassResponsibility

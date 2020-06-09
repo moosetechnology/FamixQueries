@@ -62,6 +62,11 @@ FQNavigationQuery class >> allPossibleAssociations [
 		allPossibleAssociations
 ]
 
+{ #category : #testing }
+FQNavigationQuery class >> canBeConfigured [
+	^ true
+]
+
 { #category : #'available parameters' }
 FQNavigationQuery class >> directionStrategies [
 	^ FQAbstractNavigationDirection allSubclasses

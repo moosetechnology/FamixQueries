@@ -47,7 +47,9 @@ FQTypeQueriesPresenterTest >> testCheckBoxesMatchAvailableTypes [
 	types := presenter query availableTypes.
 	self assert: self checkBoxes size equals: types size.
 	self
-		assertCollection: (types collect: [ :type | type name withoutPrefix: 'FamixSt' ])
+		assertCollection:
+			(types
+				collect: [ :type | type name asEnglishPlural withoutPrefix: 'FamixSt' ])
 		hasSameElements: (self checkBoxes collect: #label)
 ]
 
@@ -58,7 +60,7 @@ FQTypeQueriesPresenterTest >> testCheckBoxesMatchQuery [
 	self checkBoxes first click.
 	
 	currentQueryTypes := self currentQuery types
-		collect: [ :type | type name withoutPrefix: 'FamixSt' ].
+		collect: [ :type | type name asEnglishPlural withoutPrefix: 'FamixSt' ].
 	
 	self
 		assertCollection: currentQueryTypes

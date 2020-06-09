@@ -64,7 +64,7 @@ FQScopeQueriesPresenter >> intializeDirectionRadioButtons [
 FQScopeQueriesPresenter >> scopesDropList [
 	^ self newDropList
 		items: self query availableScopes;
-		display: [ :item | item mooseDescription name ];
+		display: [ :item | item mooseDescription name asEnglishPlural ];
 		selectItem: self query scope;
 		whenSelectedItemChangedDo: [ :scope | 
 			scope ifNil: [ ^ self ].

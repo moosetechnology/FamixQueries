@@ -29,7 +29,7 @@ FQTypeQueriesPresenter >> configureTypeCheckBox: checkBox forType: type [
 	checkBox
 		state: (self query types includes: type);
 		enabled: self query types size > 1;
-		label: type mooseDescription name;
+		label: (self labelFor: type);
 		whenActivatedDo: [ self query addType: type ];
 		whenDeactivatedDo: [ [ self query removeType: type ]
 				on: FQCannotRemoveLastType
@@ -50,6 +50,11 @@ FQTypeQueriesPresenter >> initializeTypeCheckBoxes [
 	self query availableTypes
 		ifEmpty: [ secondParameter := self noParameterMessage: 'type' ]
 		ifNotEmpty: [ self showTypesCheckBoxes ]
+]
+
+{ #category : #'widgets configuration' }
+FQTypeQueriesPresenter >> labelFor: type [
+	^ type mooseDescription name asEnglishPlural
 ]
 
 { #category : #'widgets configuration' }
@@ -97,7 +102,7 @@ FQTypeQueriesPresenter >> updateTypeCheckBoxesForTypes: types [
 	| checkBoxesToTick |
 	checkBoxesToTick := firstParameter presenters
 		select: [ :checkBox | 
-			(types collect: [ :type | type mooseDescription name ])
+			(types collect: [ :type | self labelFor: type ])
 				includes: checkBox label ].
 	checkBoxesToTick do: [ :cb | cb state: true ].
 	firstParameter presenters \ checkBoxesToTick
