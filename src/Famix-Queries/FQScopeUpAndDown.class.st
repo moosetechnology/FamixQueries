@@ -22,9 +22,8 @@ Class {
 }
 
 { #category : #'available scopes' }
-FQScopeUpAndDown class >> availableScopesForEntity: entity [
-	^ {entity allParentTypes.
-	entity allChildrenTypes} flatten
+FQScopeUpAndDown class >> availableScopesForEntity: class in: model [
+	^ (self allChildrenScopesOf: class in: model) , (self allParentsScopesOf: class in: model)
 ]
 
 { #category : #printing }

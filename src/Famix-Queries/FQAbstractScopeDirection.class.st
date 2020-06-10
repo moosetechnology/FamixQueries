@@ -23,16 +23,38 @@ Class {
 	#category : #'Famix-Queries-Scope-Strategies'
 }
 
-{ #category : #'available scopes' }
-FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
-	^ ((self respondingEntitiesIn: aMooseGroup) entities
-		flatCollectAsSet: [ :entity | 
-			(self availableScopesForEntity: entity)
-				reject: [ :type | type isTrait ] ]) asArray
+{ #category : #'as yet unclassified' }
+FQAbstractScopeDirection class >> allChildrenScopesOf: aClass in: aModel [
+	"Return all the possible children scopes of this class that are in a model."
+
+	| modelClasses allChildren |
+	modelClasses := aModel entities collectAsSet: #class.
+	allChildren := (aClass allChildrenTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses.
+	^ allChildren & modelClasses
+]
+
+{ #category : #'as yet unclassified' }
+FQAbstractScopeDirection class >> allParentsScopesOf: aClass in: aModel [
+	"Return all the possible parents scopes of this class that are in a model."
+
+	| modelClasses allParents |
+	modelClasses := aModel entities collectAsSet: #class.
+	allParents := (aClass allParentTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses.
+	^ allParents & modelClasses
 ]
 
 { #category : #'available scopes' }
-FQAbstractScopeDirection class >> availableScopesForEntity: entity [
+FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
+	"Return the list of possible scopes in a moose group for the direction of the strategy."
+
+	^ (((aMooseGroup allUsing: TEntityMetaLevelDependency) collectAsSet: #class)
+		flatCollectAsSet: [ :class | self availableScopesForEntity: class in: aMooseGroup mooseModel ]) asArray
+]
+
+{ #category : #'available scopes' }
+FQAbstractScopeDirection class >> availableScopesForEntity: class in: model [
+	"Return the list of possible scopes for a class in a model for the direction of the strategy."
+
 	^ self subclassResponsibility
 ]
 
@@ -54,15 +76,6 @@ FQAbstractScopeDirection class >> label [
 { #category : #accessing }
 FQAbstractScopeDirection class >> priority [
 	^ self subclassResponsibility
-]
-
-{ #category : #'available scopes' }
-FQAbstractScopeDirection class >> respondingEntitiesIn: aMooseGroup [
-	self
-		flag:
-			#FQImprove
-				, 'Does a selection on the entities. They may not all respond'.
-	^ aMooseGroup allUsing: TEntityMetaLevelDependency
 ]
 
 { #category : #scoping }
