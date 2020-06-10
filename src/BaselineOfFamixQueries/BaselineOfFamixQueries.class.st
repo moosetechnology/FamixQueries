@@ -13,7 +13,6 @@ BaselineOfFamixQueries >> baseline: spec [
 	spec
 		for: #common
 		do: [ self famix: spec.
-			self midas: spec.
 
 			"Packages"
 			spec
@@ -24,8 +23,7 @@ BaselineOfFamixQueries >> baseline: spec [
 			"Groups"
 			spec
 				group: 'Model' with: #('Famix-Queries');
-				group: 'Tests' with: #('Famix-Queries-Tests');
-				group: 'MidasBrowser' with: #('Midas') ]
+				group: 'Tests' with: #('Famix-Queries-Tests') ]
 ]
 
 { #category : #dependencies }
