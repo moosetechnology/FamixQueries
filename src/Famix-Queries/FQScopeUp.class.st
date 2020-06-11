@@ -22,8 +22,8 @@ Class {
 }
 
 { #category : #'available scopes' }
-FQScopeUp class >> availableScopesForEntity: entity [
-	^ entity allParentTypes
+FQScopeUp class >> availableScopesForEntity: class in: model [
+	^ self allParentsScopesOf: class in: model
 ]
 
 { #category : #printing }
