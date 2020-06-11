@@ -23,7 +23,7 @@ Class {
 	#category : #'Famix-Queries-Scope-Strategies'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'available scopes' }
 FQAbstractScopeDirection class >> allChildrenScopesOf: aClass in: aModel [
 	"Return all the possible children scopes of this class that are in a model."
 
@@ -33,7 +33,7 @@ FQAbstractScopeDirection class >> allChildrenScopesOf: aClass in: aModel [
 	^ allChildren & modelClasses
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'available scopes' }
 FQAbstractScopeDirection class >> allParentsScopesOf: aClass in: aModel [
 	"Return all the possible parents scopes of this class that are in a model."
 

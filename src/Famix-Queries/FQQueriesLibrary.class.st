@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : #accessing }
+FQQueriesLibrary class >> clear [
+	<script>
+	currentLibrary := nil
+]
+
+{ #category : #accessing }
 FQQueriesLibrary class >> current [
 	^ currentLibrary ifNil: [ currentLibrary := self new ]
 ]
@@ -51,7 +57,7 @@ FQQueriesLibrary >> savedQueriesNames [
 { #category : #initialization }
 FQQueriesLibrary >> setDefaultQueries [
 	registry
-		at: 'God classes'
+		at: 'Classes with >50 methods'
 		put:
 			'FQComposedQuery new queries: (FQNumericQuery new property: #numberOfMethods; comparator: #>; valueToCompare: 50; beChildOf: (FQTypeQuery new type: FamixTClass)) parentSequence'
 ]
