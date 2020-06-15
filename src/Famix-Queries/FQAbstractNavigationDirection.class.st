@@ -22,8 +22,19 @@ Class {
 }
 
 { #category : #accessing }
+FQAbstractNavigationDirection class >> associationsFor: aMooseGroup [
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
 FQAbstractNavigationDirection class >> availableAssociationsFor: aMooseGroup [
-	self subclassResponsibility
+	| associations |
+	associations := self associationsFor: aMooseGroup.
+
+	^ ((aMooseGroup isMooseModel
+		ifTrue: [ aMooseGroup ]
+		ifFalse: [ aMooseGroup mooseModel ]) allEntityTypes
+		select: [ :class | associations anySatisfy: [ :type | class = type or: [ class allTraits includes: type ] ] ]) flatCollect: #withAllSubclasses
 ]
 
 { #category : #printing }

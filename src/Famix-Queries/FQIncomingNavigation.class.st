@@ -20,7 +20,7 @@ Class {
 }
 
 { #category : #accessing }
-FQIncomingNavigation class >> availableAssociationsFor: aMooseGroup [
+FQIncomingNavigation class >> associationsFor: aMooseGroup [
 	^ aMooseGroup allEntityTypes flatCollectAsSet: [ :class | class allIncomingAssociationTypesIn: aMooseGroup metamodel ]
 ]
 
