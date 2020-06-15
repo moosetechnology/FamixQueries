@@ -3,8 +3,8 @@ Class {
 	#superclass : #FQUnaryQuery,
 	#instVars : [
 		'queries',
-		'root',
-		'leaf'
+		'leaf',
+		'roots'
 	],
 	#category : #'Famix-Queries-Queries-Unary'
 }
@@ -15,16 +15,16 @@ FQComposedQuery class >> label [
 ]
 
 { #category : #accessing }
-FQComposedQuery class >> queries: aCollectionOfQueries [
+FQComposedQuery class >> queries: aQuery [
 	^ self new
-		queries: aCollectionOfQueries;
+		queries: aQuery parentSequence;
 		yourself
 ]
 
 { #category : #running }
 FQComposedQuery >> beChildOf: aQuery [
 	super beChildOf: aQuery.
-	root parent: aQuery
+	roots do: [ :root | root parent: aQuery ]
 ]
 
 { #category : #default }
@@ -78,7 +78,7 @@ FQComposedQuery >> queries: aSequenceOfQueries [
 				,
 					'Check if all queries are in the last child parentSequence AND if first query is unary'.
 	queries := aSequenceOfQueries asOrderedCollection.
-	root := aSequenceOfQueries first.
+	roots := aSequenceOfQueries select: #hasNoParent.
 	leaf := aSequenceOfQueries last
 ]
 
@@ -97,7 +97,6 @@ FQComposedQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQComposedQuery >> storeOn: aStream [
-	aStream << self className << ' queries: ('.
-	leaf storeWithParentsOn: aStream.
-	aStream << ') parentSequence'
+	aStream << self className << ' queries: '.
+	leaf storeWithParentsOn: aStream
 ]

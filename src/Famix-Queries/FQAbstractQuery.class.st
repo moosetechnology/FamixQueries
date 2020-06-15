@@ -47,6 +47,13 @@ FQAbstractQuery class >> readFrom: aString [
 	^ self compiler evaluate: aString
 ]
 
+{ #category : #'as yet unclassified' }
+FQAbstractQuery >> --> aChildQuery [
+	^ aChildQuery
+		beChildOf: self;
+		yourself
+]
+
 { #category : #comparing }
 FQAbstractQuery >> = aQuery [
 	^ self class == aQuery class and: [ self hasSameParentsAs: aQuery ]
@@ -91,6 +98,11 @@ FQAbstractQuery >> defaultName [
 
 { #category : #printing }
 FQAbstractQuery >> displayOn: aStream [
+	^ self subclassResponsibility
+]
+
+{ #category : #testing }
+FQAbstractQuery >> hasNoParent [
 	^ self subclassResponsibility
 ]
 

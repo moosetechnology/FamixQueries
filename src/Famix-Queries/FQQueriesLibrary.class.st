@@ -59,5 +59,5 @@ FQQueriesLibrary >> setDefaultQueries [
 	registry
 		at: 'Classes with >50 methods'
 		put:
-			'FQComposedQuery new queries: (FQNumericQuery new property: #numberOfMethods; comparator: #>; valueToCompare: 50; beChildOf: (FQTypeQuery new type: FamixTClass)) parentSequence'
+			'FQComposedQuery queries: (FQTypeQuery types: {FamixTClass}) --> (FQNumericQuery property: #numberOfMethods comparator: #> valueToCompare: 50)'
 ]

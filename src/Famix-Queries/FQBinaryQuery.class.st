@@ -59,6 +59,11 @@ FQBinaryQuery >> displayOn: aStream [
 	aStream << ')'
 ]
 
+{ #category : #testing }
+FQBinaryQuery >> hasNoParent [
+	^ self parents isEmpty
+]
+
 { #category : #comparing }
 FQBinaryQuery >> hasSameParentsAs: aQuery [
 	^ self parents = aQuery parents
@@ -99,18 +104,16 @@ FQBinaryQuery >> resetParents [
 
 { #category : #printing }
 FQBinaryQuery >> storeOn: aStream [
-	aStream << self className << ' parents: { '.
-	self parents first storeOn: aStream.
+	aStream << '{ '.
+	self parents first storeWithParentsOn: aStream.
 	aStream << '. '.
-	self parents second storeOn: aStream.
-	aStream << ' }'
+	self parents second storeWithParentsOn: aStream.
+	aStream << ' } --> ' << self className << ' new'
 ]
 
 { #category : #printing }
 FQBinaryQuery >> storeWithParentsOn: aStream [
-	aStream << self className << ' new beChildOf: { '.
-	self parents first storeWithParentsOn: aStream.
-	aStream << '. '.
-	self parents second storeWithParentsOn: aStream.
-	aStream << ' }'
+	aStream << $(.
+	self storeOn: aStream.
+	aStream << $)
 ]

@@ -78,6 +78,16 @@ FQComposedQueryTest >> testName [
 ]
 
 { #category : #'tests - running' }
+FQComposedQueryTest >> testRoots [
+	self assert: query roots size equals: 1.
+	query := self actualClass
+		queries:
+			{(FQTypeQuery types: {FamixStClass}).
+			(FQBooleanQuery property: #isAbstract)} --> FQUnionQuery new.
+	self assert: query roots size equals: 2
+]
+
+{ #category : #'tests - running' }
 FQComposedQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 	self

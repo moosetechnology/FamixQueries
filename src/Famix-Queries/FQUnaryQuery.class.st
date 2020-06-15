@@ -76,6 +76,11 @@ FQUnaryQuery >> displayOn: aStream with: aString [
 	^ self subclassResponsibility
 ]
 
+{ #category : #testing }
+FQUnaryQuery >> hasNoParent [
+	^ parent isNil
+]
+
 { #category : #comparing }
 FQUnaryQuery >> hasSameParametersAs: aQuery [
 	^ self subclassResponsibility
@@ -115,11 +120,9 @@ FQUnaryQuery >> prepareRemoval [
 { #category : #printing }
 FQUnaryQuery >> storeWithParentsOn: aStream [
 	(parent isNil or: [ parent isRootQuery ])
-		ifTrue: [ self storeOn: aStream.
-			^ self ]..
-	aStream << $(.
+		ifFalse: [ parent storeWithParentsOn: aStream.
+			aStream << ' --> ' ].
+	aStream << '('.
 	self storeOn: aStream.
-	aStream << ') beChildOf: ('.
-	parent storeWithParentsOn: aStream.
-	aStream << $)
+	aStream << ')'
 ]
