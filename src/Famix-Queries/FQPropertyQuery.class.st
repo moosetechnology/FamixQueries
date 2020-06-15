@@ -172,14 +172,14 @@ FQPropertyQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQPropertyQuery >> storeOn: aStream [
-	aStream << self className << ' new property: '.
+	aStream << self className << ' property: '.
 	self property storeOn: aStream.
 	self hasComparisonParameters
 		ifFalse: [ ^ self ].
-	aStream << '; comparator: '.
+	aStream << ' comparator: '.
 	self comparator storeOn: aStream.
 	aStream
-		<< '; valueToCompare: ';
+		<< ' valueToCompare: ';
 		<< self valueToCompareAsString
 ]
 

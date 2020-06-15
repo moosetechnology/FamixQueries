@@ -55,6 +55,15 @@ FQStringQuery class >> label [
 	^ 'String Query'
 ]
 
+{ #category : #'instance creation' }
+FQStringQuery class >> property: aSymbol comparator: aComparingSymbol valueToCompare: aString [
+	^ self new
+		property: aSymbol;
+		comparator: aComparingSymbol;
+		valueToCompare: aString;
+		yourself
+]
+
 { #category : #accessing }
 FQStringQuery >> comparator [
 	^ comparator ifNil: [ comparator := #includesSubString: ]

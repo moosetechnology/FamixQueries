@@ -51,6 +51,14 @@ FQScopeQuery class >> canBeConfigured [
 	^ true
 ]
 
+{ #category : #'instance creation' }
+FQScopeQuery class >> direction: aDirectionSymbol scope: aClass [
+	^ self new
+		direction: aDirectionSymbol;
+		scope: aClass;
+		yourself
+]
+
 { #category : #'available parameters' }
 FQScopeQuery class >> directionStrategies [
 	^ FQAbstractScopeDirection directionStrategies
@@ -184,7 +192,7 @@ FQScopeQuery >> scope: anObject [
 
 { #category : #printing }
 FQScopeQuery >> storeOn: aStream [
-	aStream << self className << ' new direction: #'
-		<< self directionStrategy label asCamelCase << '; scope: '
+	aStream << self className << ' direction: #'
+		<< self directionStrategy label asCamelCase << ' scope: '
 		<< self scope name
 ]

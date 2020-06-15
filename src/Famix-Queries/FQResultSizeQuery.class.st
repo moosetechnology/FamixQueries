@@ -9,6 +9,15 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #'as yet unclassified' }
+FQResultSizeQuery class >> innerQuery: aQuery comparator: aComparingSymbol valueToCompare: aNumber [
+	^ self new
+		innerQuery: aQuery;
+		comparator: aComparingSymbol;
+		valueToCompare: aNumber;
+		yourself
+]
+
 { #category : #accessing }
 FQResultSizeQuery class >> label [
 	^ 'Result Size Query'
@@ -84,12 +93,12 @@ FQResultSizeQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQResultSizeQuery >> storeOn: aStream [
-	aStream << self className << ' new innerQuery: ('.
+	aStream << self className << ' innerQuery: ('.
 	innerQuery storeOn: aStream.
-	aStream << '); comparator: '.
+	aStream << ') comparator: '.
 	self comparator storeOn: aStream.
 	aStream
-		<< '; valueToCompare: ';
+		<< ' valueToCompare: ';
 		<< self valueToCompare asString
 ]
 

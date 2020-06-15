@@ -17,6 +17,13 @@ FQBinaryQuery class >> isCommutative [
 	^ self subclassResponsibility
 ]
 
+{ #category : #accessing }
+FQBinaryQuery class >> parents: twoQueries [
+	^ self new
+		beChildOf: twoQueries;
+		yourself
+]
+
 { #category : #adding }
 FQBinaryQuery >> addToParentsSequence: sequence [
 	self flag: #FQImprove , 'Need for a specific order ?'.
@@ -92,7 +99,7 @@ FQBinaryQuery >> resetParents [
 
 { #category : #printing }
 FQBinaryQuery >> storeOn: aStream [
-	aStream << self className << ' new parents: { '.
+	aStream << self className << ' parents: { '.
 	self parents first storeOn: aStream.
 	aStream << '. '.
 	self parents second storeOn: aStream.

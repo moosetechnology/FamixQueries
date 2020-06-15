@@ -55,6 +55,15 @@ FQNumericQuery class >> label [
 	^ 'Numeric Query'
 ]
 
+{ #category : #'instance creation' }
+FQNumericQuery class >> property: aSymbol comparator: aComparingSymbol valueToCompare: aNumber [
+	^ self new
+		property: aSymbol;
+		comparator: aComparingSymbol;
+		valueToCompare: aNumber;
+		yourself
+]
+
 { #category : #comparing }
 FQNumericQuery >> hasSameParametersAs: aQuery [
 	^ (super hasSameParametersAs: aQuery)

@@ -44,7 +44,7 @@ FQComplementQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQComplementQuery >> storeOn: aStream [
-	aStream << self className << ' new parent: ('.
+	aStream << self className << ' new beChildOf: ('.
 	parent storeOn: aStream.
 	aStream << $)
 ]

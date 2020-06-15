@@ -14,6 +14,13 @@ FQComposedQuery class >> label [
 	^ 'Composed Query'
 ]
 
+{ #category : #accessing }
+FQComposedQuery class >> queries: aCollectionOfQueries [
+	^ self new
+		queries: aCollectionOfQueries;
+		yourself
+]
+
 { #category : #running }
 FQComposedQuery >> beChildOf: aQuery [
 	super beChildOf: aQuery.
@@ -58,12 +65,12 @@ FQComposedQuery >> isValid [
 	^ queries notEmpty and: [ queries allSatisfy: #isValid ]
 ]
 
-{ #category : #running }
+{ #category : #accessing }
 FQComposedQuery >> queries [
 	^ queries
 ]
 
-{ #category : #running }
+{ #category : #accessing }
 FQComposedQuery >> queries: aSequenceOfQueries [
 	self
 		flag:
@@ -90,7 +97,7 @@ FQComposedQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQComposedQuery >> storeOn: aStream [
-	aStream << self className << ' new queries: ('.
+	aStream << self className << ' queries: ('.
 	leaf storeWithParentsOn: aStream.
 	aStream << ') parentSequence'
 ]

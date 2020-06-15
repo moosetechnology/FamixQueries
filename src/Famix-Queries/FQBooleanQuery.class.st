@@ -44,6 +44,13 @@ FQBooleanQuery class >> label [
 	^ 'Boolean Query'
 ]
 
+{ #category : #'instance creation' }
+FQBooleanQuery class >> property: aSymbol [
+	^ self new
+		property: aSymbol;
+		yourself
+]
+
 { #category : #testing }
 FQBooleanQuery >> hasComparisonParameters [
 	^ false

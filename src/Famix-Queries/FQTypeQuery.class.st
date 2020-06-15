@@ -52,9 +52,16 @@ FQTypeQuery class >> canBeConfigured [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 FQTypeQuery class >> label [
 	^ 'Type Query'
+]
+
+{ #category : #'instance creation' }
+FQTypeQuery class >> types: aCollectionOfTypes [
+	^ self new
+		types: aCollectionOfTypes;
+		yourself
 ]
 
 { #category : #'adding - removing' }
@@ -166,12 +173,9 @@ FQTypeQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQTypeQuery >> storeOn: aStream [
-	aStream << self className << ' new '.
-	self types
-		allButLastDo: [ :type | 
-			aStream << 'type: '.
-			aStream << type name << '; ' ].
-	aStream << 'type: ' << self types last name
+	aStream << self className << ' types: {'.
+	self types allButLastDo: [ :type | aStream << type name << '. ' ].
+	aStream << self types last name << $}
 ]
 
 { #category : #'adding - removing' }

@@ -67,6 +67,16 @@ FQNavigationQuery class >> canBeConfigured [
 	^ true
 ]
 
+{ #category : #'instance creation' }
+FQNavigationQuery class >> direction: aDirectionSymbol associations: aCollection [
+	| newInstance |
+	newInstance := self new.
+	newInstance direction: aDirectionSymbol.
+	aCollection
+		do: [ :associationSymbol | newInstance association: associationSymbol ].
+	^ newInstance
+]
+
 { #category : #'available parameters' }
 FQNavigationQuery class >> directionStrategies [
 	^ FQAbstractNavigationDirection allSubclasses
@@ -273,15 +283,14 @@ FQNavigationQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQNavigationQuery >> storeOn: aStream [
-	aStream << self className << ' new direction: #'
-		<< self directionStrategy label asCamelCase << '; '.
+	aStream << self className << ' direction: #'
+		<< self directionStrategy label asCamelCase << ' associations: {'.
 	self associationStrategy associations
 		allButLastDo: [ :assoc | 
-			aStream << 'association: '.
 			(self class symbolForAssociation: assoc) storeOn: aStream.
-			aStream << $; ].
-	aStream << 'association: '.
+			aStream << '. ' ].
 	(self class
 		symbolForAssociation: self associationStrategy associations last)
-		storeOn: aStream
+		storeOn: aStream.
+	aStream << $}
 ]
