@@ -21,7 +21,7 @@ Class {
 
 { #category : #accessing }
 FQLocalIncomingNavigation class >> availableAssociationsFor: aMooseGroup [
-	^ aMooseGroup entities flatCollectAsSet: #incomingMSEProperties
+	^ aMooseGroup allEntityTypes flatCollectAsSet: [ :class | class incomingAssociationTypesIn: aMooseGroup metamodel ]
 ]
 
 { #category : #printing }

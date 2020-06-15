@@ -144,9 +144,7 @@ FQNavigationQuery >> availableAssociations [
 
 { #category : #'available parameters' }
 FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
-	^ ((self directionStrategy
-		availableAssociationsFor: (aMooseGroup allUsing: TEntityMetaLevelDependency))
-		collect: #implementingType) asOrderedCollection
+	^ (self directionStrategy availableAssociationsFor: (aMooseGroup allUsing: TEntityMetaLevelDependency)) asOrderedCollection
 ]
 
 { #category : #default }
