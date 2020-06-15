@@ -27,27 +27,25 @@ Class {
 FQAbstractScopeDirection class >> allChildrenScopesOf: aClass in: aModel [
 	"Return all the possible children scopes of this class that are in a model."
 
-	| modelClasses allChildren |
-	modelClasses := aModel entities collectAsSet: #class.
+	| allChildren |
 	allChildren := (aClass allChildrenTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses.
-	^ allChildren & modelClasses
+	^ allChildren & aModel allEntityTypes
 ]
 
 { #category : #'available scopes' }
 FQAbstractScopeDirection class >> allParentsScopesOf: aClass in: aModel [
 	"Return all the possible parents scopes of this class that are in a model."
 
-	| modelClasses allParents |
-	modelClasses := aModel entities collectAsSet: #class.
+	| allParents |
 	allParents := (aClass allParentTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses.
-	^ allParents & modelClasses
+	^ allParents & aModel allEntityTypes
 ]
 
 { #category : #'available scopes' }
 FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
 	"Return the list of possible scopes in a moose group for the direction of the strategy."
 
-	^ (((aMooseGroup allUsing: TEntityMetaLevelDependency) collectAsSet: #class)
+	^ ((aMooseGroup allUsing: TEntityMetaLevelDependency) allEntityTypes
 		flatCollectAsSet: [ :class | 
 			self
 				availableScopesForEntity: class

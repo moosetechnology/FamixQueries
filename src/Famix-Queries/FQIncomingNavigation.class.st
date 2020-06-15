@@ -21,16 +21,7 @@ Class {
 
 { #category : #accessing }
 FQIncomingNavigation class >> availableAssociationsFor: aMooseGroup [
-	^ aMooseGroup entities
-		flatCollectAsSet: [ :entity | self availableAssociationsForEntity: entity in: Set new ]
-]
-
-{ #category : #accessing }
-FQIncomingNavigation class >> availableAssociationsForEntity: anEntity in: aSet [
-	aSet addAll: anEntity incomingMSEProperties.
-	anEntity children
-		do: [ :child | self availableAssociationsForEntity: child in: aSet ].
-	^ aSet
+	^ aMooseGroup allEntityTypes flatCollectAsSet: [ :class | class allIncomingAssociationTypesIn: aMooseGroup metamodel ]
 ]
 
 { #category : #printing }
