@@ -4,7 +4,8 @@ Extension { #name : #Array }
 Array >> --> aChildQuery [
 	(self size = 2
 		and: [ self allSatisfy: [ :elt | elt isKindOf: FQAbstractQuery ] ])
-		ifFalse: [ ^ aChildQuery ].
+		ifFalse: [ FQInvalidParentsArray
+				signal: 'Parent array does not contain two queries' ].
 	^ aChildQuery
 		beChildOf: self;
 		yourself
