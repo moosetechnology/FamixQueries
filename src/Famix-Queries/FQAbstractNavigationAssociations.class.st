@@ -14,11 +14,9 @@ Class {
 	#category : #'Famix-Queries-Navigation-Strategies'
 }
 
-{ #category : #accessing }
-FQAbstractNavigationAssociations class >> allPossibleAssociations [
-	^ (((FM3Property allInstances select: #hasOpposite)
-		select: [ :p | p opposite isSource ])
-		collectAsSet: #implementingType) asArray sorted: #name ascending
+{ #category : #comparing }
+FQAbstractNavigationAssociations >> = anAssociationStrategy [
+	^ self subclassResponsibility
 ]
 
 { #category : #'adding - removing' }
@@ -27,7 +25,12 @@ FQAbstractNavigationAssociations >> addAssociation: anAssociation [
 ]
 
 { #category : #accessing }
-FQAbstractNavigationAssociations >> associations [
+FQAbstractNavigationAssociations >> associationsFor: aQuery [
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+FQAbstractNavigationAssociations >> associationsNames [
 	^ self subclassResponsibility
 ]
 
@@ -71,7 +74,7 @@ FQAbstractNavigationAssociations >> queryOutgoingWith: anEntity [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'adding - removing' }
-FQAbstractNavigationAssociations >> removeAssociation: arg1 [ 
-	^ self subclassResponsibility
+{ #category : #printing }
+FQAbstractNavigationAssociations >> storeOn: aStream [
+	self subclassResponsibility
 ]

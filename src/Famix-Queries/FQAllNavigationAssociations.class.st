@@ -16,14 +16,24 @@ Class {
 	#category : #'Famix-Queries-Navigation-Strategies'
 }
 
+{ #category : #comparing }
+FQAllNavigationAssociations >> = anAssociationStrategy [
+	^ anAssociationStrategy class = self class
+]
+
 { #category : #'adding - removing' }
 FQAllNavigationAssociations >> addAssociation: anAssociation [
 	^ self
 ]
 
 { #category : #accessing }
-FQAllNavigationAssociations >> associations [
-	^ self class allPossibleAssociations
+FQAllNavigationAssociations >> associationsFor: aQuery [
+	^ aQuery availableAssociations
+]
+
+{ #category : #accessing }
+FQAllNavigationAssociations >> associationsNames [
+	^ 'associations'
 ]
 
 { #category : #printing }
@@ -66,8 +76,7 @@ FQAllNavigationAssociations >> queryOutgoingWith: anEntity [
 	^ anEntity queryAllOutgoing opposites
 ]
 
-{ #category : #'adding - removing' }
-FQAllNavigationAssociations >> removeAssociation: anAssociation [
-	^ FQNavigationAssociations
-		withAll: (self class allPossibleAssociations copyWithout: anAssociation)
+{ #category : #printing }
+FQAllNavigationAssociations >> storeOn: aStream [
+	aStream << ' allAssociations'
 ]

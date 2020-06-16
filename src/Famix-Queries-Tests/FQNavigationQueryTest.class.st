@@ -74,7 +74,7 @@ FQNavigationQueryTest >> classExample [
 
 { #category : #running }
 FQNavigationQueryTest >> expectedPrintOnString [
-	^ 'a FQNavigationQuery (Incoming accesses, inheritances, invocations, references, traitusages)'
+	^ 'a FQNavigationQuery (Incoming associations)'
 ]
 
 { #category : #'class example' }
@@ -91,7 +91,8 @@ FQNavigationQueryTest >> incomingAccessesForClassExample [
 FQNavigationQueryTest >> incomingAllAssociationsQuery [
 	^ self actualClass new
 		directionStrategy: FQIncomingNavigation;
-		associationStrategy: FQAllNavigationAssociations new
+		associationStrategy: FQAllNavigationAssociations new;
+		beChildOf: (FQRootQuery new result: helper classesAndMethods)
 ]
 
 { #category : #'class example' }
@@ -126,14 +127,14 @@ FQNavigationQueryTest >> incomingTest [
 
 	"One tpe of associations"
 	query
-		associationStrategy: (FQNavigationAssociations with: FamixTAccess).
+		associationStrategy: (FQNavigationAssociations with: FamixStAccess).
 	self
 		assertCollection: (query runOn: self classExample)
 		hasSameElements: self incomingAccessesForClassExample.
 
 	"Empty result"
 	query
-		associationStrategy: (FQNavigationAssociations with: FamixTInheritance).
+		associationStrategy: (FQNavigationAssociations with: FamixStInheritance).
 	self assert: (query runOn: self classExample) isEmpty
 ]
 
@@ -141,7 +142,8 @@ FQNavigationQueryTest >> incomingTest [
 FQNavigationQueryTest >> localIncomingAllAssociationsQuery [
 	^ self actualClass new
 		directionStrategy: FQLocalIncomingNavigation;
-		associationStrategy: FQAllNavigationAssociations new
+		associationStrategy: FQAllNavigationAssociations new;
+		beChildOf: (FQRootQuery new result: helper classesAndMethods)
 ]
 
 { #category : #'class example' }
@@ -157,7 +159,8 @@ FQNavigationQueryTest >> localIncomingReferencesForClassExample [
 FQNavigationQueryTest >> localOutgoingAllAssociationsQuery [
 	^ self actualClass new
 		directionStrategy: FQLocalOutgoingNavigation;
-		associationStrategy: FQAllNavigationAssociations new
+		associationStrategy: FQAllNavigationAssociations new;
+		beChildOf: (FQRootQuery new result: helper classesAndMethods)
 ]
 
 { #category : #'class example' }
@@ -178,14 +181,14 @@ FQNavigationQueryTest >> localOutgoingTest [
 
 	"One tpe of associations"
 	query
-		associationStrategy: (FQNavigationAssociations with: FamixTInheritance).
+		associationStrategy: (FQNavigationAssociations with: FamixStInheritance).
 	self
 		assertCollection: (query runOn: self classExample)
 		hasSameElements: self localOutgoingInheritancesForClassExample.
 
 	"Empty result"
 	query
-		associationStrategy: (FQNavigationAssociations with: FamixTReference).
+		associationStrategy: (FQNavigationAssociations with: FamixStReference).
 	self assert: (query runOn: self classExample) isEmpty
 ]
 
@@ -198,14 +201,14 @@ FQNavigationQueryTest >> localincomingTest [
 
 	"One tpe of associations"
 	query
-		associationStrategy: (FQNavigationAssociations with: FamixTReference).
+		associationStrategy: (FQNavigationAssociations with: FamixStReference).
 	self
 		assertCollection: (query runOn: self classExample)
 		hasSameElements: self localIncomingReferencesForClassExample.
 
 	"Empty result"
 	query
-		associationStrategy: (FQNavigationAssociations with: FamixTInheritance).
+		associationStrategy: (FQNavigationAssociations with: FamixStInheritance).
 	self assert: (query runOn: self classExample) isEmpty
 ]
 
@@ -231,7 +234,8 @@ FQNavigationQueryTest >> outgoingAccessesForClassExample [
 FQNavigationQueryTest >> outgoingAllAssociationsQuery [
 	^ self actualClass new
 		directionStrategy: FQOutgoingNavigation;
-		associationStrategy: FQAllNavigationAssociations new
+		associationStrategy: FQAllNavigationAssociations new;
+		beChildOf: (FQRootQuery new result: helper classesAndMethods)
 ]
 
 { #category : #'class example' }
@@ -264,22 +268,23 @@ FQNavigationQueryTest >> outgoingTest [
 
 	"One tpe of associations"
 	query
-		associationStrategy: (FQNavigationAssociations with: FamixTAccess).
+		associationStrategy: (FQNavigationAssociations with: FamixStAccess).
 	self
 		assertCollection: (query runOn: self classExample)
 		hasSameElements: self outgoingAccessesForClassExample.
 
 	"Empty result"
 	query
-		associationStrategy: (FQNavigationAssociations with: FamixTReference).
+		associationStrategy: (FQNavigationAssociations with: FamixStReference).
 	self assert: (query runOn: self classExample) isEmpty
 ]
 
 { #category : #'tests - adding - removing' }
 FQNavigationQueryTest >> testAddAllAssociations [
 	query associationStrategy: FQNavigationAssociations new.
+	query parent: (FQRootQuery new result: helper classesAndMethods).
 	
-	FQAbstractNavigationAssociations allPossibleAssociations
+	query availableAssociations
 		do: [ :assoc | query addAssociation: assoc ].
 	
 	self
@@ -291,22 +296,23 @@ FQNavigationQueryTest >> testAddAllAssociations [
 FQNavigationQueryTest >> testAddAssociation [
 	query associationStrategy: FQNavigationAssociations new.
 
-	query addAssociation: FamixTAccess.
+	query addAssociation: FamixStAccess.
 	self
-		assert: (query associationStrategy associations includes: FamixTAccess).
+		assert: (query associations includes: FamixStAccess).
 
-	query addAssociation: FamixTAccess.
+	query addAssociation: FamixStAccess.
 	self
-		assert: (query associationStrategy associations occurrencesOf: FamixTAccess)
+		assert: (query associations occurrencesOf: FamixStAccess)
 		equals: 1
 ]
 
 { #category : #'tests - available parameters' }
 FQNavigationQueryTest >> testAvailableAssociationsFor [
 	| availableAssociations |
-	availableAssociations := query availableAssociationsFor: helper modelExample.
+	availableAssociations := query
+		availableAssociationsFor: helper modelExample.
 	self
-		assertCollection: FamixTAssociation users
+		assertCollection: (FamixTAssociation users flatCollect: #users)
 		includesAll: availableAssociations
 ]
 
@@ -344,7 +350,7 @@ FQNavigationQueryTest >> testEquals [
 		equals:
 			(FQNavigationQuery new
 				directionStrategy: FQIncomingNavigation;
-				associationStrategy: (FQNavigationAssociations with: FamixTInvocation))
+				associationStrategy: (FQNavigationAssociations with: FamixStInvocation))
 ]
 
 { #category : #tests }
@@ -365,9 +371,9 @@ FQNavigationQueryTest >> testName [
 		associationStrategy:
 			(FQNavigationAssociations
 				withAll:
-					{FamixTReference.
-					FamixTAccess}).
-	self assert: query name equals: 'Local Incoming references, accesses'.
+					{FamixStReference.
+					FamixStAccess}).
+	self assert: query name equals: 'Local Incoming References, Accesses'.
 	self
 		assert: self unConfiguredQuery name
 		equals: 'Invalid Navigation Query'
@@ -375,15 +381,17 @@ FQNavigationQueryTest >> testName [
 
 { #category : #'tests - adding - removing' }
 FQNavigationQueryTest >> testRemoveAssociation [
-	query removeAssociation: FamixTAccess.
-	self deny: (query associationStrategy associations includes: FamixTAccess).
+	query parent: (FQRootQuery new result: helper classesAndMethods).
+	query removeAssociation: FamixStAccess.
+	self
+		deny: (query associations includes: FamixStAccess).
 	self
 		assert: query associationStrategy class
 		identicalTo: FQNavigationAssociations.
-		
-	query associationStrategy: (FQNavigationAssociations with: FamixTAccess).
+	query
+		associationStrategy: (FQNavigationAssociations with: FamixStAccess).
 	self
-		should: [ query removeAssociation: FamixTAccess ]
+		should: [ query removeAssociation: FamixStAccess ]
 		raise: FQCannotRemoveLastNavigationAssociation
 ]
 
@@ -395,12 +403,22 @@ FQNavigationQueryTest >> testRunOn [
 	self localOutgoingTest
 ]
 
+{ #category : #'tests - printing' }
+FQNavigationQueryTest >> testStoreOn [
+	| generatedQuery |
+	generatedQuery := self
+		evaluate: (String streamContents: [ :s | query storeOn: s ]).
+	generatedQuery beChildOf: query parent.
+	self assert: generatedQuery class identicalTo: self actualClass.
+	self assert: generatedQuery equals: query
+]
+
 { #category : #tests }
 FQNavigationQueryTest >> testSyntacticSugar [
-	query := self unConfiguredQuery
-		direction: #Incoming;
-		association: #Access;
-		association: #Inheritance.
+	query := self actualClass incoming
+		associations:
+			{FamixStAccess.
+			FamixStInheritance}.
 	self
 		assert: query directionStrategy
 		identicalTo: FQIncomingNavigation.
@@ -408,6 +426,8 @@ FQNavigationQueryTest >> testSyntacticSugar [
 		assert: query associationStrategy class
 		identicalTo: FQNavigationAssociations.
 	self
-		assertCollection: query associationStrategy associations
-		hasSameElements: {FamixTAccess. FamixTInheritance}
+		assertCollection: query associations
+		hasSameElements:
+			{FamixStAccess.
+			FamixStInheritance}
 ]

@@ -31,10 +31,10 @@ FQBinaryQueryTest >> newInvalidParent [
 
 { #category : #parents }
 FQBinaryQueryTest >> newNavigationParent [
-	^ FQNavigationQuery new
-		direction: #Incoming;
-		association: #Reference;
-		association: #Inheritance
+	^ FQNavigationQuery incoming
+		associations:
+			{FamixStReference.
+			FamixStInheritance}
 ]
 
 { #category : #running }
