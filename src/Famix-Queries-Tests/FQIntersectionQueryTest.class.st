@@ -29,12 +29,16 @@ FQIntersectionQueryTest >> testDisplayOn [
 			'((aMooseGroup
 		inject: Set new
 		into: [ :result :entity | 
-			result addAll: ({ FamixTReference . FamixTInheritance } flatCollect: [ :association | (entity queryIncoming: association) opposites ]).
+			result addAll: ({ FamixStReference . FamixStInheritance } flatCollect: [ :association | (entity queryIncoming: association) opposites ]).
 			result ]) asMooseGroup) & (aMooseGroup allWithType: FamixStClass)'
 ]
 
 { #category : #'tests - printing' }
 FQIntersectionQueryTest >> testName [
-	self assert: query name equals: 'Incoming references, inheritances & Classes'.
-	self assert: self unConfiguredQuery name equals: 'Invalid Intersection'
+	self
+		assert: query name
+		equals: 'Incoming References, Inheritances & Classes'.
+	self
+		assert: self unConfiguredQuery name
+		equals: 'Invalid Intersection'
 ]

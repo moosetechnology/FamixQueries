@@ -29,7 +29,7 @@ FQSubstractionQueryTest >> testDisplayOn [
 			'((aMooseGroup
 		inject: Set new
 		into: [ :result :entity | 
-			result addAll: ({ FamixTReference . FamixTInheritance } flatCollect: [ :association | (entity queryIncoming: association) opposites ]).
+			result addAll: ({ FamixStReference . FamixStInheritance } flatCollect: [ :association | (entity queryIncoming: association) opposites ]).
 			result ]) asMooseGroup) \ (aMooseGroup allWithType: FamixStClass)'
 ]
 
@@ -37,7 +37,7 @@ FQSubstractionQueryTest >> testDisplayOn [
 FQSubstractionQueryTest >> testName [
 	self
 		assert: query name
-		equals: 'Incoming references, inheritances \ Classes'.
+		equals: 'Incoming References, Inheritances \ Classes'.
 	self
 		assert: self unConfiguredQuery name
 		equals: 'Invalid Substraction'

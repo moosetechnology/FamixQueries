@@ -20,7 +20,7 @@ Class {
 }
 
 { #category : #accessing }
-FQOutgoingNavigation class >> availableAssociationsFor: aMooseGroup [
+FQOutgoingNavigation class >> associationsFor: aMooseGroup [
 	^ aMooseGroup allEntityTypes flatCollectAsSet: [ :class | class allOutgoingAssociationTypesIn: aMooseGroup metamodel ]
 ]
 

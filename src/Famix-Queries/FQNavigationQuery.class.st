@@ -56,25 +56,9 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #'available parameters' }
-FQNavigationQuery class >> allPossibleAssociations [
-	^ FQAbstractNavigationAssociations
-		allPossibleAssociations
-]
-
 { #category : #testing }
 FQNavigationQuery class >> canBeConfigured [
 	^ true
-]
-
-{ #category : #'instance creation' }
-FQNavigationQuery class >> direction: aDirectionSymbol associations: aCollection [
-	| newInstance |
-	newInstance := self new.
-	newInstance direction: aDirectionSymbol.
-	aCollection
-		do: [ :associationSymbol | newInstance association: associationSymbol ].
-	^ newInstance
 ]
 
 { #category : #'available parameters' }
@@ -82,46 +66,51 @@ FQNavigationQuery class >> directionStrategies [
 	^ FQAbstractNavigationDirection allSubclasses
 ]
 
+{ #category : #'instance creation' }
+FQNavigationQuery class >> incoming [
+	^ self new
+		directionStrategy: FQIncomingNavigation;
+		yourself
+]
+
 { #category : #accessing }
 FQNavigationQuery class >> label [
 	^ 'Navigation Query'
 ]
 
-{ #category : #printing }
-FQNavigationQuery class >> simpleNameOf: anAssociation [
-	^ anAssociation name withoutPrefix: self traitPrefix
+{ #category : #'instance creation' }
+FQNavigationQuery class >> localIncoming [
+	^ self new
+		directionStrategy: FQLocalIncomingNavigation;
+		yourself
 ]
 
-{ #category : #printing }
-FQNavigationQuery class >> stringForAssociation: anAssociation [
-	^ (self simpleNameOf: anAssociation) asLowercase asEnglishPlural
+{ #category : #'instance creation' }
+FQNavigationQuery class >> localOutgoing [
+	^ self new
+		directionStrategy: FQLocalOutgoingNavigation;
+		yourself
 ]
 
-{ #category : #printing }
-FQNavigationQuery class >> symbolForAssociation: anAssociation [
-	^ (self simpleNameOf: anAssociation) asSymbol
-]
-
-{ #category : #printing }
-FQNavigationQuery class >> traitPrefix [
-	^ 'FamixT'
+{ #category : #'instance creation' }
+FQNavigationQuery class >> outgoing [
+	^ self new
+		directionStrategy: FQOutgoingNavigation;
+		yourself
 ]
 
 { #category : #'adding - removing' }
 FQNavigationQuery >> addAssociation: anAssociation [
-	associationStrategy := self associationStrategy
-		addAssociation: anAssociation.
+	self associationStrategy addAssociation: anAssociation.
+	(self associations sameElements: self availableAssociations)
+		ifTrue: [ self associationStrategy: FQAllNavigationAssociations new ].
 	self resetResult.
 	self flag: #FQTest , 'test reset result'
 ]
 
 { #category : #'adding - removing' }
-FQNavigationQuery >> association: aSymbol [
-	self
-		addAssociation:
-			(self class allPossibleAssociations
-				detect:
-					[ :assoc | assoc name includesSubstring: aSymbol asString ])
+FQNavigationQuery >> allAssociations [
+	self associationStrategy: FQAllNavigationAssociations new
 ]
 
 { #category : #accessing }
@@ -134,12 +123,25 @@ FQNavigationQuery >> associationStrategy: anObject [
 	associationStrategy := anObject
 ]
 
+{ #category : #'adding - removing' }
+FQNavigationQuery >> associations [
+	^ self associationStrategy associationsFor: self
+]
+
+{ #category : #'adding - removing' }
+FQNavigationQuery >> associations: aCollectionOfAssociations [
+	(aCollectionOfAssociations sameElements: self availableAssociations)
+		ifTrue: [ self associationStrategy: FQAllNavigationAssociations new ]
+		ifFalse: [ self
+				associationStrategy: (FQNavigationAssociations withAll: aCollectionOfAssociations) ]
+]
+
 { #category : #'available parameters' }
 FQNavigationQuery >> availableAssociations [
 	self flag: #FQTest.
-	^ directionStrategy
-		ifNil: [ #() ]
-		ifNotNil: [ self availableAssociationsFor: parent result ]
+	^ (directionStrategy isNotNil and: [ parent isNotNil ])
+		ifFalse: [ #() ]
+		ifTrue: [ self availableAssociationsFor: parent result ]
 ]
 
 { #category : #'available parameters' }
@@ -154,10 +156,7 @@ FQNavigationQuery >> beDefaultForParent [
 			#FQImprove , #FQTest
 				, 'This is a bit of a hack to allow creation of invalid queries'.
 	directionStrategy := self class directionStrategies first.
-	associationStrategy := [ FQNavigationAssociations
-		withAll: self availableAssociations ]
-		on: FQCannotRemoveLastNavigationAssociation
-		do: [ FQNavigationAssociations new ]
+	associationStrategy := FQAllNavigationAssociations new
 ]
 
 { #category : #printing }
@@ -165,12 +164,7 @@ FQNavigationQuery >> defaultName [
 	^ String
 		streamContents: [ :s | 
 			s << self directionStrategy label << Character space.
-			self associationStrategy associations
-				allButLastDo: [ :assoc | s << (self class stringForAssociation: assoc) << ', ' ].
-			s
-				<<
-					(self class
-						stringForAssociation: self associationStrategy associations last) ]
+			s << self associationStrategy associationsNames ]
 ]
 
 { #category : #accessing }
@@ -209,8 +203,7 @@ FQNavigationQuery >> displayOn: aStream with: aString [
 { #category : #comparing }
 FQNavigationQuery >> hasSameParametersAs: aQuery [
 	^ directionStrategy == aQuery directionStrategy
-		and: [ associationStrategy associations
-				= aQuery associationStrategy associations ]
+		and: [ associationStrategy = aQuery associationStrategy ]
 ]
 
 { #category : #initialization }
@@ -222,17 +215,18 @@ FQNavigationQuery >> initialize [
 { #category : #testing }
 FQNavigationQuery >> isValid [
 	^ self directionStrategy isClass
-		and: [ (self directionStrategy
-				inheritsFrom: FQAbstractNavigationDirection)
-				and: [ (self associationStrategy
-						isKindOf: FQAbstractNavigationAssociations)
-						and: [ self associationStrategy associations isNotEmpty ] ] ]
+		and: [ (self directionStrategy inheritsFrom: FQAbstractNavigationDirection)
+				and:
+					[ (self associationStrategy isKindOf: FQAbstractNavigationAssociations)
+						and: [ self associations isNotEmpty ] ] ]
 ]
 
 { #category : #'adding - removing' }
 FQNavigationQuery >> removeAssociation: anAssociation [
 	self
-		associationStrategy: (self associationStrategy removeAssociation: anAssociation).
+		associationStrategy:
+			(FQNavigationAssociations
+				withAll: (self associations copyWithout: anAssociation)).
 	self resetResult.
 	self flag: #FQTest , 'test reset result'
 ]
@@ -248,10 +242,7 @@ FQNavigationQuery >> reset [
 FQNavigationQuery >> resetAndChangeDirection: aDirectionStrategy [
 	self reset.
 	directionStrategy := aDirectionStrategy.
-	self availableAssociations
-		ifNotEmpty: [ :associations | 
-			self
-				associationStrategy: (FQNavigationAssociations withAll: associations) ].
+	self associationStrategy: FQAllNavigationAssociations new.
 	self flag: #FQTest
 ]
 
@@ -281,14 +272,7 @@ FQNavigationQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQNavigationQuery >> storeOn: aStream [
-	aStream << self className << ' direction: #'
-		<< self directionStrategy label asCamelCase << ' associations: {'.
-	self associationStrategy associations
-		allButLastDo: [ :assoc | 
-			(self class symbolForAssociation: assoc) storeOn: aStream.
-			aStream << '. ' ].
-	(self class
-		symbolForAssociation: self associationStrategy associations last)
-		storeOn: aStream.
-	aStream << $}
+	aStream << self className << ' '
+		<< self directionStrategy label asCamelCase uncapitalized.
+	self associationStrategy storeOn: aStream
 ]

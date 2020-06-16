@@ -103,7 +103,8 @@ FQUnaryQuery >> parent: anObject [
 
 { #category : #printing }
 FQUnaryQuery >> parentDisplayString [
-	parent ifNil: [ ^ 'aMooseGroup' ].
+	(parent isNil or: [ parent isRootQuery ])
+		ifTrue: [ ^ 'aMooseGroup' ].
 	^ String
 		streamContents: [ :aStream | 
 			aStream << $(.

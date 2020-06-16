@@ -131,9 +131,8 @@ FQAbstractQueryTest >> testStoreOn [
 	| generatedQuery |
 	generatedQuery := self
 		evaluate: (String streamContents: [ :s | query storeOn: s ]).
-
 	self assert: generatedQuery class identicalTo: self actualClass.
-	self assert: generatedQuery equals: query.
+	self assert: generatedQuery equals: query
 ]
 
 { #category : #running }

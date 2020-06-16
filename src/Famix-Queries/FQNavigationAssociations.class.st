@@ -41,6 +41,12 @@ FQNavigationAssociations class >> withAll: aCollection [
 		yourself
 ]
 
+{ #category : #comparing }
+FQNavigationAssociations >> = anAssociationStrategy [
+	^ self class = anAssociationStrategy class
+		and: [ associations sameElements: anAssociationStrategy associations ]
+]
+
 { #category : #'adding - removing' }
 FQNavigationAssociations >> addAssociation: anAssociation [
 	(self associations includes: anAssociation)
@@ -48,19 +54,31 @@ FQNavigationAssociations >> addAssociation: anAssociation [
 	self
 		flag:
 			'Removing this first conditional (if associations is a Set) changes checkboxes in the corresponding presenter. Should be revised when tests are ok.'.
-	self associations add: anAssociation.
-	(self associations includesAll: self class allPossibleAssociations)
-		ifTrue: [ ^ FQAllNavigationAssociations new ]
+	self associations add: anAssociation
 ]
 
 { #category : #accessing }
 FQNavigationAssociations >> associations [
-	^ associations
+	^ associations asOrderedCollection
 ]
 
 { #category : #accessing }
 FQNavigationAssociations >> associations: anObject [
 	associations := anObject
+]
+
+{ #category : #accessing }
+FQNavigationAssociations >> associationsFor: aQuery [
+	^ self associations
+]
+
+{ #category : #accessing }
+FQNavigationAssociations >> associationsNames [
+	^ String
+		streamContents: [ :s | 
+			self associations
+				allButLastDo: [ :assoc | s << assoc mooseDescription name asEnglishPlural << ', ' ].
+			s << self associations last mooseDescription name asEnglishPlural ]
 ]
 
 { #category : #printing }
@@ -155,12 +173,10 @@ FQNavigationAssociations >> queryOutgoingWith: anEntity [
 	^ self associations flatCollect: [ :each | (anEntity queryOutgoing: each) opposites ]
 ]
 
-{ #category : #'adding - removing' }
-FQNavigationAssociations >> removeAssociation: anAssociation [
-	self associations size == 1
-		ifTrue: [ FQCannotRemoveLastNavigationAssociation
-				signal:
-					'Removing the last association of a ' , self className
-						, ' is forbidden' ].
-	self associations remove: anAssociation
+{ #category : #printing }
+FQNavigationAssociations >> storeOn: aStream [
+	aStream << ' associations: {'.
+	self associations
+		allButLastDo: [ :assoc | aStream << assoc name << '. ' ].
+	aStream << self associations last name << $}
 ]
