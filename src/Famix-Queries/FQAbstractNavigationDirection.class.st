@@ -28,18 +28,22 @@ FQAbstractNavigationDirection class >> associationsFor: aMooseGroup [
 
 { #category : #accessing }
 FQAbstractNavigationDirection class >> availableAssociationsFor: aMooseGroup [
-	| associations |
+	| associations model |
 	aMooseGroup ifEmpty: [ ^ #() ].
-
 	associations := self associationsFor: aMooseGroup.
-
-	^ ((aMooseGroup isMooseModel
+	model := aMooseGroup isMooseModel
 		ifTrue: [ aMooseGroup ]
-		ifFalse: [ aMooseGroup mooseModel ]) allEntityTypes
+		ifFalse: [ aMooseGroup mooseModel ].
+	
+	^ ((model allEntityTypes
 		select: [ :class | 
 			associations
 				anySatisfy: [ :type | class = type or: [ class allTraits includes: type ] ] ])
-		flatCollect: #withAllSubclasses
+		flatCollect: #withAllSubclasses)
+	
+	"This is for compatibilty MM"
+		select:
+			[ :class | (model metamodel classes collect: #implementingClass) includes: class ]
 ]
 
 { #category : #printing }
