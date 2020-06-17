@@ -108,7 +108,7 @@ FQNavigationQuery >> addAssociation: anAssociation [
 	self flag: #FQTest , 'test reset result'
 ]
 
-{ #category : #'adding - removing' }
+{ #category : #accessing }
 FQNavigationQuery >> allAssociations [
 	self associationStrategy: FQAllNavigationAssociations new
 ]
@@ -123,12 +123,12 @@ FQNavigationQuery >> associationStrategy: anObject [
 	associationStrategy := anObject
 ]
 
-{ #category : #'adding - removing' }
+{ #category : #accessing }
 FQNavigationQuery >> associations [
 	^ self associationStrategy associationsFor: self
 ]
 
-{ #category : #'adding - removing' }
+{ #category : #accessing }
 FQNavigationQuery >> associations: aCollectionOfAssociations [
 	(aCollectionOfAssociations sameElements: self availableAssociations)
 		ifTrue: [ self associationStrategy: FQAllNavigationAssociations new ]
@@ -168,14 +168,6 @@ FQNavigationQuery >> defaultName [
 ]
 
 { #category : #accessing }
-FQNavigationQuery >> direction: aSymbol [
-	self
-		directionStrategy:
-			(self class directionStrategies
-				detect: [ :dir | dir label asCamelCase = aSymbol asString ])
-]
-
-{ #category : #accessing }
 FQNavigationQuery >> directionStrategy [
 	^ directionStrategy
 ]
@@ -209,7 +201,7 @@ FQNavigationQuery >> hasSameParametersAs: aQuery [
 { #category : #initialization }
 FQNavigationQuery >> initialize [
 	super initialize.
-	associationStrategy := FQNavigationAssociations new
+	associationStrategy := FQAllNavigationAssociations new
 ]
 
 { #category : #testing }
@@ -232,28 +224,11 @@ FQNavigationQuery >> removeAssociation: anAssociation [
 ]
 
 { #category : #reset }
-FQNavigationQuery >> reset [
-	self resetResult.
-	self resetDirection.
-	self resetAssociation
-]
-
-{ #category : #reset }
 FQNavigationQuery >> resetAndChangeDirection: aDirectionStrategy [
-	self reset.
+	self resetResult.
 	directionStrategy := aDirectionStrategy.
 	self associationStrategy: FQAllNavigationAssociations new.
 	self flag: #FQTest
-]
-
-{ #category : #reset }
-FQNavigationQuery >> resetAssociation [
-	associationStrategy := nil
-]
-
-{ #category : #reset }
-FQNavigationQuery >> resetDirection [
-	directionStrategy := nil
 ]
 
 { #category : #running }
