@@ -20,7 +20,7 @@ FQComposedQueryTest >> expectedResult [
 	numericResult := helper classesAndMethods
 		select: [ :entity | entity numberOfLinesOfCode > 20 ].
 	classes := numericResult allWithType: FamixStClass.
-	abstractClasses := classes select: #isAbstract.
+	abstractClasses := classes select: #isDead.
 	methods := numericResult allWithType: FamixStMethod.
 	scopedClasses := methods
 		flatCollect: [ :m | m atScope: FamixStClass ].
@@ -38,7 +38,7 @@ FQComposedQueryTest >> newQuery [
 		type: FamixStClass;
 		parent: numericQuery.
 	booleanQuery := FQBooleanQuery new
-		property: #isAbstract;
+		property: #isDead;
 		parent: classQuery.
 	methodQuery := FQTypeQuery new
 		type: FamixStMethod;
@@ -65,7 +65,7 @@ FQComposedQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
-			'(((aMooseGroup select: [ :entity | entity numberOfLinesOfCode > 20 ]) allWithType: FamixStClass) select: [ :entity | entity isAbstract ]) | ((MooseObjectQueryResult withAll: ((aMooseGroup select: [ :entity | entity numberOfLinesOfCode > 20 ]) allWithType: FamixStMethod)) atScope: FamixStClass)'
+			'(((aMooseGroup select: [ :entity | entity numberOfLinesOfCode > 20 ]) allWithType: FamixStClass) select: [ :entity | entity isDead ]) | ((MooseObjectQueryResult withAll: ((aMooseGroup select: [ :entity | entity numberOfLinesOfCode > 20 ]) allWithType: FamixStMethod)) atScope: FamixStClass)'
 ]
 
 { #category : #'tests - printing' }

@@ -67,7 +67,9 @@ FQPropertyQuery class >> label [
 { #category : #'available parameters' }
 FQPropertyQuery >> availableProperties [
 	self flag: #FQTest.
-	^ self availablePropertiesFor: parent result
+	^ parent
+		ifNil: [ #() ]
+		ifNotNil: [ self availablePropertiesFor: parent result ]
 ]
 
 { #category : #'available parameters' }
@@ -164,7 +166,9 @@ FQPropertyQuery >> runOn: aMooseGroup [
 					'Nil check to exclude entities for which the property is nil. Do we want to do that ?'.
 	^ aMooseGroup
 		select: [ :entity | 
-			(self property value: entity)
+			([ self property value: entity ]
+				on: MessageNotUnderstood
+				do: [  ])
 				ifNil: [ false ]
 				ifNotNil:
 					[ :entityProperty | entityProperty perform: self comparator with: self valueToCompare ] ]

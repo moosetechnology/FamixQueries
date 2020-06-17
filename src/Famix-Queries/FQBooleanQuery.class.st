@@ -59,7 +59,10 @@ FQBooleanQuery >> hasComparisonParameters [
 { #category : #running }
 FQBooleanQuery >> runOn: aMooseGroup [
 	^ aMooseGroup
-		select: [ :entity | (self property value: entity) ifNil: [ false ] ]
+		select: [ :entity | 
+			([ self property value: entity ]
+				on: MessageNotUnderstood
+				do: [ false ]) ifNil: [ false ] ]
 ]
 
 { #category : #'available parameters' }
