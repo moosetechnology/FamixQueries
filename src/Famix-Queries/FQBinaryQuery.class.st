@@ -97,6 +97,19 @@ FQBinaryQuery >> prepareRemoval [
 	self resetParents
 ]
 
+{ #category : #replacing }
+FQBinaryQuery >> replace: anotherQuery [
+	(anotherQuery isKindOf: FQBinaryQuery)
+		ifFalse: [ self inform: 'Cannot replace a unary query with a binary query'.
+			^ anotherQuery ].
+	self beChildOf: anotherQuery parents.
+	anotherQuery children
+		do: [ :childQuery | 
+			childQuery
+				resetResult;
+				replaceParent: anotherQuery with: self ]
+]
+
 { #category : #removing }
 FQBinaryQuery >> resetParents [
 	self subclassResponsibility

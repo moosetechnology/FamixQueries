@@ -28,6 +28,15 @@ FQCommutativeQuery >> parents: anObject [
 	parents := anObject
 ]
 
+{ #category : #replacing }
+FQCommutativeQuery >> replaceParent: aParentQuery with: anotherQuery [
+	aParentQuery removeChild: self.
+	self parents
+		remove: aParentQuery;
+		add: anotherQuery.
+	anotherQuery addChild: self
+]
+
 { #category : #removing }
 FQCommutativeQuery >> resetParents [
 	parents := Set new

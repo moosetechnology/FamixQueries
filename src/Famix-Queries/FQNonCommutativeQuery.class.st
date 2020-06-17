@@ -25,6 +25,18 @@ FQNonCommutativeQuery >> parents: twoParentQueries [
 	secondParent := twoParentQueries second
 ]
 
+{ #category : #replacing }
+FQNonCommutativeQuery >> replaceParent: aParentQuery with: anotherQuery [
+	(self parents includes: aParentQuery)
+		ifFalse: [ ^ self ].
+	aParentQuery removeChild: self.
+	anotherQuery addChild: self.
+	firstParent == aParentQuery
+		ifTrue: [ firstParent := anotherQuery ].
+	secondParent == aParentQuery
+		ifTrue: [ secondParent := anotherQuery ]
+]
+
 { #category : #removing }
 FQNonCommutativeQuery >> resetParents [
 	firstParent := nil.

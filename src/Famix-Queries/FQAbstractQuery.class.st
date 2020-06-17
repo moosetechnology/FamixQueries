@@ -169,9 +169,22 @@ FQAbstractQuery >> removeChild: aQuery [
 	children remove: aQuery
 ]
 
-{ #category : #initialization }
+{ #category : #replacing }
+FQAbstractQuery >> replace: anotherQuery [
+	self flag: #FQTest.
+	self subclassResponsibility
+]
+
+{ #category : #replacing }
+FQAbstractQuery >> replaceParent: aParentQuery with: anotherQuery [
+	self flag: #FQTest.
+	self subclassResponsibility
+]
+
+{ #category : #reset }
 FQAbstractQuery >> resetResult [
-	result := nil
+	result := nil.
+	self children do: [ :child | child resetResult ]
 ]
 
 { #category : #running }

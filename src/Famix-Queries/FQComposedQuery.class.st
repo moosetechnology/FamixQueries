@@ -82,7 +82,7 @@ FQComposedQuery >> queries: aSequenceOfQueries [
 	leaf := aSequenceOfQueries last
 ]
 
-{ #category : #running }
+{ #category : #reset }
 FQComposedQuery >> resetResult [
 	super resetResult.
 	queries do: #resetResult
