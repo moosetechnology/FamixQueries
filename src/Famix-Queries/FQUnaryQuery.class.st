@@ -63,6 +63,8 @@ FQUnaryQuery >> beDefaultForParent [
 
 { #category : #running }
 FQUnaryQuery >> computeResult [
+	self isValid
+		ifFalse: [ ^ MooseGroup new ].
 	^ self runOn: parent result
 ]
 

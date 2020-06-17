@@ -174,8 +174,10 @@ FQTypeQuery >> runOn: aMooseGroup [
 { #category : #printing }
 FQTypeQuery >> storeOn: aStream [
 	aStream << self className << ' types: {'.
-	self types allButLastDo: [ :type | aStream << type name << '. ' ].
-	aStream << self types last name << $}
+	self isValid
+		ifTrue: [ self types allButLastDo: [ :type | aStream << type name << '. ' ].
+			aStream << self types last name ].
+	aStream << $}
 ]
 
 { #category : #'adding - removing' }
@@ -192,4 +194,7 @@ FQTypeQuery >> types [
 { #category : #accessing }
 FQTypeQuery >> types: aCollection [
 	types := aCollection asOrderedCollection
+		select: [ :elt | 
+			(elt isClass and: [ elt inheritsFrom: MooseEntity ])
+				or: [ elt isTrait ] ]
 ]

@@ -45,6 +45,8 @@ FQBinaryQuery >> beChildOf: parentQueries [
 
 { #category : #running }
 FQBinaryQuery >> computeResult [
+	self isValid
+		ifFalse: [ ^ MooseGroup new ].
 	^ self runOn: (self parents collect: #result)
 ]
 
