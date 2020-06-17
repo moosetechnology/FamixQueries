@@ -101,6 +101,8 @@ FQNavigationQuery class >> outgoing [
 
 { #category : #'adding - removing' }
 FQNavigationQuery >> addAssociation: anAssociation [
+	(self associationsIsValid: anAssociation)
+		ifFalse: [ ^ self ].
 	self associationStrategy addAssociation: anAssociation.
 	(self associations sameElements: self availableAssociations)
 		ifTrue: [ self associationStrategy: FQAllNavigationAssociations new ].
@@ -111,6 +113,14 @@ FQNavigationQuery >> addAssociation: anAssociation [
 { #category : #accessing }
 FQNavigationQuery >> allAssociations [
 	self associationStrategy: FQAllNavigationAssociations new
+]
+
+{ #category : #accessing }
+FQNavigationQuery >> association: anAssociation [
+	(self associationsIsValid: anAssociation)
+		ifFalse: [ ^ self allAssociations ].
+	self
+		associationStrategy: (FQNavigationAssociations with: anAssociation)
 ]
 
 { #category : #accessing }
@@ -130,10 +140,21 @@ FQNavigationQuery >> associations [
 
 { #category : #accessing }
 FQNavigationQuery >> associations: aCollectionOfAssociations [
+	aCollectionOfAssociations isCollection
+		ifFalse: [ ^ self association: aCollectionOfAssociations ].
+	(aCollectionOfAssociations
+		allSatisfy: [ :assoc | self associationsIsValid: assoc ])
+		ifFalse: [ ^ self allAssociations ].
 	(aCollectionOfAssociations sameElements: self availableAssociations)
-		ifTrue: [ self associationStrategy: FQAllNavigationAssociations new ]
+		ifTrue: [ self allAssociations ]
 		ifFalse: [ self
 				associationStrategy: (FQNavigationAssociations withAll: aCollectionOfAssociations) ]
+]
+
+{ #category : #testing }
+FQNavigationQuery >> associationsIsValid: anAssociation [
+	^ anAssociation isClass
+		and: [ (anAssociation lookupSelector: #isAssociation) notNil ]
 ]
 
 { #category : #'available parameters' }
@@ -164,7 +185,8 @@ FQNavigationQuery >> defaultName [
 	^ String
 		streamContents: [ :s | 
 			s << self directionStrategy label << Character space.
-			s << self associationStrategy associationsNames ]
+			self isValid
+				ifTrue: [ s << self associationStrategy associationsNames ] ]
 ]
 
 { #category : #accessing }
@@ -210,7 +232,9 @@ FQNavigationQuery >> isValid [
 		and: [ (self directionStrategy inheritsFrom: FQAbstractNavigationDirection)
 				and:
 					[ (self associationStrategy isKindOf: FQAbstractNavigationAssociations)
-						and: [ self associations isNotEmpty ] ] ]
+						and: [ self associations isNotEmpty
+								and: [ self associations
+										allSatisfy: [ :assoc | self associationsIsValid: assoc ] ] ] ] ]
 ]
 
 { #category : #'adding - removing' }
@@ -249,5 +273,6 @@ FQNavigationQuery >> runOn: aMooseGroup [
 FQNavigationQuery >> storeOn: aStream [
 	aStream << self className << ' '
 		<< self directionStrategy label asCamelCase uncapitalized.
-	self associationStrategy storeOn: aStream
+	self isValid
+		ifTrue: [ self associationStrategy storeOn: aStream ]
 ]
