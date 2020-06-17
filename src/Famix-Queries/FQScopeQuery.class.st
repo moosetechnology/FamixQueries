@@ -149,7 +149,7 @@ FQScopeQuery >> hasSameParametersAs: aQuery [
 FQScopeQuery >> isValid [
 	^ self directionStrategy isClass
 		and: [ (self directionStrategy inheritsFrom: FQAbstractScopeDirection)
-				and: [ self scope isClass and: [ self scope inheritsFrom: MooseEntity ] ] ]
+				and: [ self scopeIsValid: self scope ] ]
 ]
 
 { #category : #reset }
@@ -176,14 +176,23 @@ FQScopeQuery >> scope [
 
 { #category : #accessing }
 FQScopeQuery >> scope: anObject [
+	(self scopeIsValid: anObject)
+		ifFalse: [ ^ self ].
 	scope := anObject.
 	self resetResult.
 	self flag: #FQTest , 'test reset result'
 ]
 
+{ #category : #accessing }
+FQScopeQuery >> scopeIsValid: anObject [
+	^ anObject isClass and: [ anObject inheritsFrom: MooseEntity ]
+]
+
 { #category : #printing }
 FQScopeQuery >> storeOn: aStream [
 	aStream << self className << ' '
-		<< self directionStrategy label asCamelCase uncapitalized
-		<< ' scope: ' << self scope name
+		<< self directionStrategy label asCamelCase uncapitalized.
+	self isValid
+		ifFalse: [ ^ self ].
+	aStream << ' scope: ' << self scope name
 ]

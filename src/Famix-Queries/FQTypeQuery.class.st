@@ -143,15 +143,8 @@ FQTypeQuery >> initialize [
 
 { #category : #testing }
 FQTypeQuery >> isValid [
-	"Large acceptance: 
-MooseEntity. Could be using FamixTNamedEntity, ... 
-isTrait could be more thorough."
-
 	^ self types isNotEmpty
-		and: [ types
-				allSatisfy: [ :type | 
-					(type isClass and: [ type inheritsFrom: MooseEntity ])
-						or: [ type isTrait ] ] ]
+		and: [ types allSatisfy: [ :type | self typeIsValid: type ] ]
 ]
 
 { #category : #'adding - removing' }
@@ -187,6 +180,16 @@ FQTypeQuery >> type: aType [
 ]
 
 { #category : #accessing }
+FQTypeQuery >> typeIsValid: elt [
+	"Large acceptance: 
+MooseEntity. Could be using FamixTNamedEntity, ... 
+isTrait could be more thorough."
+
+	^ (elt isClass and: [ elt inheritsFrom: MooseEntity ])
+		or: [ elt isTrait ]
+]
+
+{ #category : #accessing }
 FQTypeQuery >> types [
 	^ types
 ]
@@ -194,7 +197,6 @@ FQTypeQuery >> types [
 { #category : #accessing }
 FQTypeQuery >> types: aCollection [
 	types := aCollection asOrderedCollection
-		select: [ :elt | 
-			(elt isClass and: [ elt inheritsFrom: MooseEntity ])
-				or: [ elt isTrait ] ]
+		select:
+			[ :elt | self typeIsValid: elt ]
 ]
