@@ -51,22 +51,35 @@ FQScopeQuery class >> canBeConfigured [
 	^ true
 ]
 
-{ #category : #'instance creation' }
-FQScopeQuery class >> direction: aDirectionSymbol scope: aClass [
-	^ self new
-		direction: aDirectionSymbol;
-		scope: aClass;
-		yourself
-]
-
 { #category : #'available parameters' }
 FQScopeQuery class >> directionStrategies [
 	^ FQAbstractScopeDirection directionStrategies
 ]
 
+{ #category : #'instance creation' }
+FQScopeQuery class >> down [
+	^ self new
+		directionStrategy: FQScopeDown;
+		yourself
+]
+
 { #category : #accessing }
 FQScopeQuery class >> label [
 	^ 'Scope Query'
+]
+
+{ #category : #'instance creation' }
+FQScopeQuery class >> up [
+	^ self new
+		directionStrategy: FQScopeUp;
+		yourself
+]
+
+{ #category : #'instance creation' }
+FQScopeQuery class >> upAndDown [
+	^ self new
+		directionStrategy: FQScopeUpAndDown;
+		yourself
 ]
 
 { #category : #'available parameters' }
@@ -100,14 +113,6 @@ FQScopeQuery >> defaultName [
 				<< self directionStrategy label;
 				<< ' to ';
 				<< (self class stringForClass: self scope) ]
-]
-
-{ #category : #accessing }
-FQScopeQuery >> direction: aSymbol [
-	self
-		directionStrategy:
-			(self directionStrategies
-				detect: [ :dir | dir label asCamelCase = aSymbol asString ])
 ]
 
 { #category : #accessing }
@@ -192,7 +197,7 @@ FQScopeQuery >> scope: anObject [
 
 { #category : #printing }
 FQScopeQuery >> storeOn: aStream [
-	aStream << self className << ' direction: #'
-		<< self directionStrategy label asCamelCase << ' scope: '
-		<< self scope name
+	aStream << self className << ' '
+		<< self directionStrategy label asCamelCase uncapitalized
+		<< ' scope: ' << self scope name
 ]

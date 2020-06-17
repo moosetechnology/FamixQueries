@@ -61,7 +61,9 @@ FQScopeQueryTest >> testEquals [
 	self deny: query equals: (self newQuery scope: FamixStClass).
 
 	"Different association"
-	self deny: query equals: (self newQuery direction: #Down)
+	self
+		deny: query
+		equals: (self newQuery directionStrategy: FQScopeDown)
 ]
 
 { #category : #tests }
@@ -90,9 +92,7 @@ FQScopeQueryTest >> testRunOn [
 
 { #category : #tests }
 FQScopeQueryTest >> testSyntacticSugar [
-	query := self unConfiguredQuery
-		direction: #Up;
-		scope: FamixStClass.
+	query := self actualClass up scope: FamixStClass.
 	self assert: query directionStrategy identicalTo: FQScopeUp.
 	self assert: query scope identicalTo: FamixStClass
 ]

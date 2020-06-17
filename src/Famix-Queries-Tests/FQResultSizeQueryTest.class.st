@@ -23,9 +23,7 @@ FQResultSizeQueryTest >> expectedResult [
 
 { #category : #running }
 FQResultSizeQueryTest >> innerQuery [
-	^ FQScopeQuery new
-		direction: #Down;
-		scope: FamixStMethod
+	^ FQScopeQuery down scope: FamixStMethod
 ]
 
 { #category : #running }

@@ -43,8 +43,7 @@ FQComposedQueryTest >> newQuery [
 	methodQuery := FQTypeQuery new
 		type: FamixStMethod;
 		parent: numericQuery.
-	scopeToClassQuery := FQScopeQuery new
-		direction: #Up;
+	scopeToClassQuery := FQScopeQuery up
 		scope: FamixStClass;
 		parent: methodQuery.
 	unionQuery := FQUnionQuery new
