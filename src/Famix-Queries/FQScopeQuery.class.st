@@ -164,6 +164,11 @@ FQScopeQuery >> resetAndChangeDirection: aDirectionStrategyClass [
 	self flag: #FQTest
 ]
 
+{ #category : #reset }
+FQScopeQuery >> resetScope [
+	scope := nil
+]
+
 { #category : #running }
 FQScopeQuery >> runOn: aMooseGroup [
 	^ self directionStrategy scope: self scope on: aMooseGroup
@@ -177,7 +182,7 @@ FQScopeQuery >> scope [
 { #category : #accessing }
 FQScopeQuery >> scope: anObject [
 	(self scopeIsValid: anObject)
-		ifFalse: [ ^ self ].
+		ifFalse: [ ^ self resetScope ].
 	scope := anObject.
 	self resetResult.
 	self flag: #FQTest , 'test reset result'
