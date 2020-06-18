@@ -45,6 +45,11 @@ FQStringQuery class >> comparators [
 	^ {#includesSubstring: . #beginsWith: . #matchesRegex:}
 ]
 
+{ #category : #default }
+FQStringQuery class >> defaultComparator [
+	^ #includesSubstring:
+]
+
 { #category : #accessing }
 FQStringQuery class >> defaultValueToCompare [
 	^ ''
@@ -90,4 +95,9 @@ FQStringQuery >> type [
 { #category : #printing }
 FQStringQuery >> valueToCompareAsString [
 	^ self valueToCompare surroundedBySingleQuotes
+]
+
+{ #category : #testing }
+FQStringQuery >> valueToCompareIsValid: anObject [
+	^ anObject isString
 ]

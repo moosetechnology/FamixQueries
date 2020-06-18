@@ -45,6 +45,11 @@ FQNumericQuery class >> comparators [
 	^ {#> . #>= . #= . #<= . #<}
 ]
 
+{ #category : #default }
+FQNumericQuery class >> defaultComparator [
+	^ #>
+]
+
 { #category : #accessing }
 FQNumericQuery class >> defaultValueToCompare [
 	^ 0
@@ -85,4 +90,9 @@ FQNumericQuery >> type [
 { #category : #printing }
 FQNumericQuery >> valueToCompareAsString [
 	^ self valueToCompare asString
+]
+
+{ #category : #testing }
+FQNumericQuery >> valueToCompareIsValid: anObject [
+	^ anObject isNumber
 ]

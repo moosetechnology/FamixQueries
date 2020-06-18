@@ -97,7 +97,7 @@ FQPropertyQuery >> beDefaultForParent [
 
 { #category : #accessing }
 FQPropertyQuery >> comparator [
-	^ comparator
+	^ comparator ifNil: [ comparator := self class defaultComparator ]
 ]
 
 { #category : #accessing }
@@ -200,7 +200,9 @@ FQPropertyQuery >> valueToCompare [
 
 { #category : #accessing }
 FQPropertyQuery >> valueToCompare: anObject [
-	valueToCompare := anObject.
+	valueToCompare := (self valueToCompareIsValid: anObject)
+		ifTrue: [ anObject ]
+		ifFalse: [ self class defaultValueToCompare ].
 	self resetResult.
 	self flag: #FQTest , 'Test reset result'
 ]
