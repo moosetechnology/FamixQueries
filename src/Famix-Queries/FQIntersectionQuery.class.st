@@ -1,8 +1,13 @@
 Class {
 	#name : #FQIntersectionQuery,
-	#superclass : #FQCommutativeQuery,
+	#superclass : #FQBinaryQuery,
 	#category : #'Famix-Queries-Queries-Binary'
 }
+
+{ #category : #testing }
+FQIntersectionQuery class >> isCommutative [
+	^ true
+]
 
 { #category : #accessing }
 FQIntersectionQuery class >> label [

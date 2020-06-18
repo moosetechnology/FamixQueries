@@ -1,8 +1,13 @@
 Class {
 	#name : #FQSubstractionQuery,
-	#superclass : #FQNonCommutativeQuery,
+	#superclass : #FQBinaryQuery,
 	#category : #'Famix-Queries-Queries-Binary'
 }
+
+{ #category : #testing }
+FQSubstractionQuery class >> isCommutative [
+	^ false
+]
 
 { #category : #accessing }
 FQSubstractionQuery class >> label [
@@ -11,12 +16,18 @@ FQSubstractionQuery class >> label [
 
 { #category : #printing }
 FQSubstractionQuery >> defaultName [
-	^ firstParent name , ' \ ' , secondParent name
+	^ self parents first name , ' \ ' , self parents second name
 ]
 
 { #category : #printing }
 FQSubstractionQuery >> operator [
 	^ $\
+]
+
+{ #category : #reversing }
+FQSubstractionQuery >> reverseParents [
+	self parents: self parents reverse.
+	self resetResult
 ]
 
 { #category : #running }

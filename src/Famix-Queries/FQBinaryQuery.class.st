@@ -1,6 +1,9 @@
 Class {
 	#name : #FQBinaryQuery,
 	#superclass : #FQAbstractQuery,
+	#instVars : [
+		'parents'
+	],
 	#category : #'Famix-Queries-Core'
 }
 
@@ -71,6 +74,12 @@ FQBinaryQuery >> hasSameParentsAs: aQuery [
 	^ self parents = aQuery parents
 ]
 
+{ #category : #initialization }
+FQBinaryQuery >> initialize [
+	super initialize.
+	parents := OrderedCollection new
+]
+
 { #category : #testing }
 FQBinaryQuery >> isValid [
 	^ self parents isNotEmpty
@@ -85,12 +94,12 @@ FQBinaryQuery >> operator [
 
 { #category : #accessing }
 FQBinaryQuery >> parents [
-	self subclassResponsibility
+	^ parents
 ]
 
 { #category : #accessing }
 FQBinaryQuery >> parents: anObject [
-	self subclassResponsibility
+	parents := anObject
 ]
 
 { #category : #removing }
@@ -113,8 +122,19 @@ FQBinaryQuery >> replace: anotherQuery [
 ]
 
 { #category : #removing }
+FQBinaryQuery >> replaceParent: aParentQuery with: anotherQuery [
+	(self parents includes: aParentQuery)
+		ifFalse: [ ^ self ].
+	aParentQuery removeChild: self.
+	anotherQuery addChild: self.
+	self parents
+		at: (self parents indexOf: aParentQuery)
+		put: anotherQuery
+]
+
+{ #category : #removing }
 FQBinaryQuery >> resetParents [
-	self subclassResponsibility
+	parents := OrderedCollection new
 ]
 
 { #category : #printing }

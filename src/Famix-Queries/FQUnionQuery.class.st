@@ -1,8 +1,13 @@
 Class {
 	#name : #FQUnionQuery,
-	#superclass : #FQCommutativeQuery,
+	#superclass : #FQBinaryQuery,
 	#category : #'Famix-Queries-Queries-Binary'
 }
+
+{ #category : #testing }
+FQUnionQuery class >> isCommutative [
+	^ true
+]
 
 { #category : #accessing }
 FQUnionQuery class >> label [
