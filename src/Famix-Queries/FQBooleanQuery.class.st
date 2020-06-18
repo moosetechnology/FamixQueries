@@ -58,6 +58,7 @@ FQBooleanQuery >> hasComparisonParameters [
 
 { #category : #running }
 FQBooleanQuery >> runOn: aMooseGroup [
+	self flag: #FQImprove , 'idem superclass'.
 	^ aMooseGroup
 		select: [ :entity | 
 			([ self property value: entity ]

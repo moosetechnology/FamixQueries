@@ -89,10 +89,5 @@ FQNumericQuery >> type [
 
 { #category : #printing }
 FQNumericQuery >> valueToCompareAsString [
-	^ self valueToCompare asString
-]
-
-{ #category : #testing }
-FQNumericQuery >> valueToCompareIsValid: anObject [
-	^ anObject isNumber
+	^ self valueToCompare printString
 ]

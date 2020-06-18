@@ -94,10 +94,5 @@ FQStringQuery >> type [
 
 { #category : #printing }
 FQStringQuery >> valueToCompareAsString [
-	^ self valueToCompare surroundedBySingleQuotes
-]
-
-{ #category : #testing }
-FQStringQuery >> valueToCompareIsValid: anObject [
-	^ anObject isString
+	^ self valueToCompare printString
 ]

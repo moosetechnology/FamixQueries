@@ -159,19 +159,15 @@ FQPropertyQuery >> property: anObject [
 
 { #category : #running }
 FQPropertyQuery >> runOn: aMooseGroup [
-	self
-		flag:
-			#FQImprove
-				,
-					'Nil check to exclude entities for which the property is nil. Do we want to do that ?'.
+	self flag: #FQImprove , 'This false on error is not optimal'.
 	^ aMooseGroup
 		select: [ :entity | 
-			([ self property value: entity ]
-				on: MessageNotUnderstood
-				do: [  ])
+			[ (self property value: entity)
 				ifNil: [ false ]
 				ifNotNil:
 					[ :entityProperty | entityProperty perform: self comparator with: self valueToCompare ] ]
+				on: MessageNotUnderstood
+				do: [ false ] ]
 ]
 
 { #category : #printing }
@@ -182,9 +178,8 @@ FQPropertyQuery >> storeOn: aStream [
 		ifFalse: [ ^ self ].
 	aStream << ' comparator: '.
 	self comparator storeOn: aStream.
-	aStream
-		<< ' valueToCompare: ';
-		<< self valueToCompareAsString
+	aStream << ' valueToCompare: '.
+	self valueToCompare storeOn: aStream
 ]
 
 { #category : #'available parameters' }
@@ -200,9 +195,7 @@ FQPropertyQuery >> valueToCompare [
 
 { #category : #accessing }
 FQPropertyQuery >> valueToCompare: anObject [
-	valueToCompare := (self valueToCompareIsValid: anObject)
-		ifTrue: [ anObject ]
-		ifFalse: [ self class defaultValueToCompare ].
+	valueToCompare := anObject.
 	self resetResult.
 	self flag: #FQTest , 'Test reset result'
 ]
