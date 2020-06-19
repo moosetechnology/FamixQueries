@@ -39,6 +39,11 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #testing }
+FQNumericQuery class >> canBeConfigured [
+	^ true
+]
+
 { #category : #'available parameters' }
 FQNumericQuery class >> comparators [
 	self flag: #FQImprove.
