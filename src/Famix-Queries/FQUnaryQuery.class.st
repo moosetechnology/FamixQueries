@@ -126,6 +126,7 @@ FQUnaryQuery >> replace: anotherQuery [
 		ifFalse: [ self inform: 'Cannot replace a binary query with a unary query'.
 			^ anotherQuery ].
 	self beChildOf: anotherQuery parent.
+	anotherQuery prepareRemoval.
 	anotherQuery children
 		do: [ :childQuery | 
 			childQuery
