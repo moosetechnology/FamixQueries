@@ -140,16 +140,18 @@ FQBinaryQuery >> resetParents [
 
 { #category : #printing }
 FQBinaryQuery >> storeOn: aStream [
-	aStream << '{ '.
-	self parents first storeWithParentsOn: aStream.
-	aStream << '. '.
-	self parents second storeWithParentsOn: aStream.
-	aStream << ' } --> ' << self className << ' new'
+	aStream << '('.
+	self parents first storeOn: aStream.
+	aStream << ') ' << self operator << ' ('.
+	self parents second storeOn: aStream.
+	aStream << ' )'
 ]
 
 { #category : #printing }
 FQBinaryQuery >> storeWithParentsOn: aStream [
-	aStream << $(.
-	self storeOn: aStream.
-	aStream << $)
+	aStream << '('.
+	self parents first storeWithParentsOn: aStream.
+	aStream << ') ' << self operator << ' ('.
+	self parents second storeWithParentsOn: aStream.
+	aStream << ' )'
 ]

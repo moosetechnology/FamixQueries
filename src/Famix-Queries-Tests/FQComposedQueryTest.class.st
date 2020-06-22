@@ -81,8 +81,8 @@ FQComposedQueryTest >> testRoots [
 	self assert: query roots size equals: 1.
 	query := self actualClass
 		queries:
-			{(FQTypeQuery types: {FamixStClass}).
-			(FQBooleanQuery property: #isAbstract)} --> FQUnionQuery new.
+			(FQTypeQuery types: {FamixStClass})
+				| (FQBooleanQuery property: #isAbstract).
 	self assert: query roots size equals: 2
 ]
 

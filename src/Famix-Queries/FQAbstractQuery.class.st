@@ -48,6 +48,14 @@ FQAbstractQuery class >> readFrom: aString [
 ]
 
 { #category : #'as yet unclassified' }
+FQAbstractQuery >> & anotherQuery [
+	^ FQIntersectionQuery new
+		parents:
+			{self.
+			anotherQuery}
+]
+
+{ #category : #'as yet unclassified' }
 FQAbstractQuery >> --> aChildQuery [
 	^ aChildQuery
 		beChildOf: self;
@@ -57,6 +65,14 @@ FQAbstractQuery >> --> aChildQuery [
 { #category : #comparing }
 FQAbstractQuery >> = aQuery [
 	^ self class == aQuery class and: [ self hasSameParentsAs: aQuery ]
+]
+
+{ #category : #'as yet unclassified' }
+FQAbstractQuery >> \ anotherQuery [
+	^ FQSubstractionQuery new
+		parents:
+			{self.
+			anotherQuery}
 ]
 
 { #category : #adding }
@@ -115,6 +131,14 @@ FQAbstractQuery >> hasSameParentsAs: aQuery [
 FQAbstractQuery >> initialize [
 	super initialize.
 	children := Set new
+]
+
+{ #category : #'as yet unclassified' }
+FQAbstractQuery >> intersection: anotherQuery [
+	^ FQIntersectionQuery new
+		parents:
+			{self.
+			anotherQuery}
 ]
 
 { #category : #printing }
@@ -207,4 +231,28 @@ FQAbstractQuery >> storeOn: aStream [
 { #category : #printing }
 FQAbstractQuery >> storeWithParentsOn: aStream [
 	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+FQAbstractQuery >> substration: anotherQuery [
+	^ FQSubstractionQuery new
+		parents:
+			{self.
+			anotherQuery}
+]
+
+{ #category : #'as yet unclassified' }
+FQAbstractQuery >> union: anotherQuery [
+	^ FQUnionQuery new
+		parents:
+			{self.
+			anotherQuery}
+]
+
+{ #category : #'as yet unclassified' }
+FQAbstractQuery >> | anotherQuery [
+	^ FQUnionQuery new
+		parents:
+			{self.
+			anotherQuery}
 ]
