@@ -148,10 +148,12 @@ FQBinaryQuery >> storeOn: aStream [
 ]
 
 { #category : #printing }
-FQBinaryQuery >> storeWithParentsOn: aStream [
+FQBinaryQuery >> storeOn: aStream withParentsIn: queries [
+	(queries includesAll: parents)
+		ifFalse: [ ^ self storeOn: aStream ].
 	aStream << '('.
-	self parents first storeWithParentsOn: aStream.
+	self parents first storeOn: aStream withParentsIn: queries.
 	aStream << ') ' << self operator << ' ('.
-	self parents second storeWithParentsOn: aStream.
+	self parents second storeOn: aStream withParentsIn: queries.
 	aStream << ' )'
 ]

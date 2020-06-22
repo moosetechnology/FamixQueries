@@ -142,9 +142,10 @@ FQUnaryQuery >> replaceParent: aParent with: anotherQuery [
 ]
 
 { #category : #printing }
-FQUnaryQuery >> storeWithParentsOn: aStream [
-	(parent isNil or: [ parent isRootQuery ])
-		ifFalse: [ parent storeWithParentsOn: aStream.
+FQUnaryQuery >> storeOn: aStream withParentsIn: queries [
+	(parent isNil
+		or: [ parent isRootQuery or: [ (queries includes: parent) not ] ])
+		ifFalse: [ parent storeOn: aStream withParentsIn: queries.
 			aStream << ' --> ' ].
 	aStream << '('.
 	self storeOn: aStream.

@@ -229,7 +229,7 @@ FQAbstractQuery >> storeOn: aStream [
 ]
 
 { #category : #printing }
-FQAbstractQuery >> storeWithParentsOn: aStream [
+FQAbstractQuery >> storeOn: aStream withParentsIn: queries [
 	self subclassResponsibility
 ]
 

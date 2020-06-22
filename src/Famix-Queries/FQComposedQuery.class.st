@@ -98,5 +98,5 @@ FQComposedQuery >> runOn: aMooseGroup [
 { #category : #printing }
 FQComposedQuery >> storeOn: aStream [
 	aStream << self className << ' queries: '.
-	leaf storeWithParentsOn: aStream
+	leaf storeOn: aStream withParentsIn: queries
 ]
