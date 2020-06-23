@@ -23,17 +23,12 @@ FQQueriesLibrary class >> current [
 
 { #category : #adding }
 FQQueriesLibrary >> addNewQuery: aQuery [
-	registry
-		at: aQuery name
-		put: (String streamContents: [ :aStream | aQuery storeOn: aStream ])
+	registry at: aQuery name put: aQuery copy reset
 ]
 
 { #category : #adding }
 FQQueriesLibrary >> createQueryNamed: aQueryName [
-	| queryScript |
-	queryScript := registry at: aQueryName ifAbsent: [ ^ nil ].
-	aQueryName.
-	^ (FQAbstractQuery readFrom: queryScript) name: aQueryName
+	^ (registry at: aQueryName ifAbsent: [ nil ]) copy
 ]
 
 { #category : #initialization }
@@ -59,5 +54,12 @@ FQQueriesLibrary >> setDefaultQueries [
 	registry
 		at: 'Classes with >50 methods'
 		put:
-			'FQComposedQuery queries: (FQTypeQuery types: {FamixTClass}) --> (FQNumericQuery property: #numberOfMethods comparator: #> valueToCompare: 50)'
+			(FQComposedQuery
+				queries:
+					(FQTypeQuery types: {FamixTClass})
+						-->
+							(FQNumericQuery
+								property: #numberOfMethods
+								comparator: #>
+								valueToCompare: 50))
 ]

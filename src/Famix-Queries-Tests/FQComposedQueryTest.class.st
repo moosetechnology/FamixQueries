@@ -36,18 +36,18 @@ FQComposedQueryTest >> newQuery [
 		valueToCompare: 20.
 	classQuery := FQTypeQuery new
 		type: FamixStClass;
-		parent: numericQuery.
+		beChildOf: numericQuery.
 	booleanQuery := FQBooleanQuery new
 		property: #isDead;
-		parent: classQuery.
+		beChildOf: classQuery.
 	methodQuery := FQTypeQuery new
 		type: FamixStMethod;
-		parent: numericQuery.
+		beChildOf: numericQuery.
 	scopeToClassQuery := FQScopeQuery up
 		scope: FamixStClass;
-		parent: methodQuery.
+		beChildOf: methodQuery.
 	unionQuery := FQUnionQuery new
-		parents:
+		beChildOf:
 			{booleanQuery.
 			scopeToClassQuery}.
 	^ FQComposedQuery new
@@ -58,6 +58,113 @@ FQComposedQueryTest >> newQuery [
 			methodQuery.
 			scopeToClassQuery.
 			unionQuery}
+]
+
+{ #category : #tests }
+FQComposedQueryTest >> testBeChildOf [
+	| parent |
+	parent := self differentTypeOfQuery.
+	query beChildOf: parent.
+	self assert: query parent identicalTo: parent.
+	query roots
+		do: [ :root | self assert: root parent identicalTo: parent ].
+	self assert: parent children size equals: 1.
+	self assert: parent children anyOne identicalTo: query
+]
+
+{ #category : #tests }
+FQComposedQueryTest >> testCopy [
+	| copy |
+	query beChildOf: self differentTypeOfQuery.
+	self differentTypeOfQuery beChildOf: query.
+
+	"Copy"
+	copy := query copy.
+	self assert: copy parent isNil.
+	copy roots do: [ :root | self assert: root parent isNil ].
+	self assert: copy leaf children isEmpty.
+
+	"Inner queries are copies"
+	query queries
+		with: copy queries
+		do: [ :original :innerCopy | self deny: original identicalTo: innerCopy ].
+
+	"Equal parent needed to be equal"
+	copy beChildOf: self differentTypeOfQuery.
+	self assert: copy equals: query
+]
+
+{ #category : #tests }
+FQComposedQueryTest >> testCopyDoesNotIncludeParentAndChildren [
+	| copy parent child |
+	parent := self differentTypeOfQuery.
+	query beChildOf: parent.
+	child := self differentTypeOfQuery.
+	child beChildOf: query.
+	copy := query copy.
+
+	"Copy does not include parent"
+	self deny: (copy queries anySatisfy: [ :q | q == parent ]).
+
+	"Copy does not include child"
+	self deny: (copy queries anySatisfy: [ :q | q == child ]).
+	self assert: copy children isEmpty
+]
+
+{ #category : #tests }
+FQComposedQueryTest >> testCopyGetsCorrectChildren [
+	| copy numQ classQ boolQ methQ scopeQ unionQ |
+	copy := self
+		evaluate: (String streamContents: [ :s | query storeOn: s ]).
+
+	"Queries"
+	numQ := copy queries first.
+	classQ := copy queries second.
+	boolQ := copy queries third.
+	methQ := copy queries fourth.
+	scopeQ := copy queries fifth.
+	unionQ := copy queries sixth.
+
+	"Children"
+	self
+		assertCollection: numQ children asArray
+		hasSameElements:
+			{classQ.
+			methQ}.
+	self assert: classQ children anyOne identicalTo: boolQ.
+	self assert: boolQ children anyOne identicalTo: unionQ.
+	self assert: methQ children anyOne identicalTo: scopeQ.
+	self assert: scopeQ children anyOne identicalTo: unionQ.
+	self assert: unionQ children isEmpty
+]
+
+{ #category : #tests }
+FQComposedQueryTest >> testCopyGetsCorrectParents [
+	| copy parent numQ classQ boolQ methQ scopeQ unionQ |
+	copy := self
+		evaluate: (String streamContents: [ :s | query storeOn: s ]).
+
+	"queries"
+	numQ := copy queries first.
+	classQ := copy queries second.
+	boolQ := copy queries third.
+	methQ := copy queries fourth.
+	scopeQ := copy queries fifth.
+	unionQ := copy queries sixth.
+
+	"Parents"
+	self assert: numQ parent isNil.
+	self assert: classQ parent identicalTo: numQ.
+	self assert: boolQ parent identicalTo: classQ.
+	self assert: methQ parent identicalTo: numQ.
+	self assert: scopeQ parent identicalTo: methQ.
+	self assert: unionQ parents first identicalTo: boolQ.
+	self assert: unionQ parents second identicalTo: scopeQ.
+
+	"New parent"
+	parent := self differentTypeOfQuery.
+	copy beChildOf: parent.
+	self assert: numQ parent identicalTo: parent
 ]
 
 { #category : #'tests - printing' }
@@ -76,6 +183,18 @@ FQComposedQueryTest >> testName [
 		equals: 'Invalid Composed Query'
 ]
 
+{ #category : #tests }
+FQComposedQueryTest >> testReset [
+	query beChildOf: self differentTypeOfQuery.
+	self differentTypeOfQuery beChildOf: query.
+
+	"Reset"
+	query reset.
+	self assert: query parent isNil.
+	query roots do: [ :root | self assert: root parent isNil ].
+	self assert: query leaf children isEmpty
+]
+
 { #category : #'tests - running' }
 FQComposedQueryTest >> testRoots [
 	self assert: query roots size equals: 1.
@@ -92,4 +211,8 @@ FQComposedQueryTest >> testRunOn [
 	self
 		assertCollection: (query runOn: helper classesAndMethods)
 		hasSameElements: self expectedResult
+]
+
+{ #category : #tests }
+FQComposedQueryTest >> testStoreOn [
 ]

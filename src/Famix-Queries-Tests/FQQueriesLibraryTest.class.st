@@ -2,7 +2,8 @@ Class {
 	#name : #FQQueriesLibraryTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'library'
+		'library',
+		'helper'
 	],
 	#category : #'Famix-Queries-Tests-Library'
 }
@@ -14,7 +15,7 @@ FQQueriesLibraryTest >> godClassesQuery [
 			(FQNumericQuery new
 				property: #numberOfMethods;
 				comparator: #>;
-				valueToCompare: 50;
+				valueToCompare: 20;
 				beChildOf: (FQTypeQuery new type: FamixTClass);
 				parentSequence);
 		name: 'God classes'
@@ -23,7 +24,8 @@ FQQueriesLibraryTest >> godClassesQuery [
 { #category : #running }
 FQQueriesLibraryTest >> setUp [
 	super setUp.
-	library := FQQueriesLibrary new
+	library := FQQueriesLibrary new.
+	helper := FQTestsHelper current
 ]
 
 { #category : #tests }
@@ -31,9 +33,32 @@ FQQueriesLibraryTest >> testAddNewQuery [
 	library addNewQuery: self godClassesQuery.
 	self
 		assert: (library registry at: 'God classes')
-		equals:
-			(String
-				streamContents: [ :aStream | self godClassesQuery storeOn: aStream ]).
+		equals: self godClassesQuery
+]
+
+{ #category : #tests }
+FQQueriesLibraryTest >> testAddedQueryIsCopiedAndReset [
+	| queryToAdd queryInRegistry |
+	queryToAdd := self godClassesQuery
+		beChildOf: (FQRootQuery new result: helper classesAndMethods).
+	(FQScopeQuery up scope: FamixStPackage) beChildOf: queryToAdd.
+
+	"Add"
+	library addNewQuery: queryToAdd.
+	queryInRegistry := library registry at: queryToAdd name.
+
+	"Saved query is a copy"
+	self deny: queryInRegistry identicalTo: queryToAdd.
+
+	"Queries inside composed query are copies"
+	queryToAdd queries
+		with: queryInRegistry queries
+		do: [ :original :copy | self deny: original identicalTo: copy ].
+
+	"Saved query was reset"
+	self assert: queryInRegistry parent isNil.
+	self assert: queryInRegistry children isEmpty.
+	self should: [ queryInRegistry result ] raise: MessageNotUnderstood
 ]
 
 { #category : #tests }

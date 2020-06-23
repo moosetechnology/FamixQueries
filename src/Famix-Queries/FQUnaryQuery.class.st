@@ -141,6 +141,11 @@ FQUnaryQuery >> replaceParent: aParent with: anotherQuery [
 	self beChildOf: anotherQuery
 ]
 
+{ #category : #removing }
+FQUnaryQuery >> resetParents [
+	parent := nil
+]
+
 { #category : #printing }
 FQUnaryQuery >> storeOn: aStream withParentsIn: queries [
 	(parent isNil

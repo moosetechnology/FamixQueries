@@ -65,6 +65,18 @@ FQComposedQuery >> isValid [
 	^ queries notEmpty and: [ queries allSatisfy: #isValid ]
 ]
 
+{ #category : #copying }
+FQComposedQuery >> postCopy [
+	| newQueries |
+	super postCopy.
+	newQueries := self queries veryDeepCopy.
+	newQueries
+		select: [ :q | self roots includes: q ]
+		thenDo: #resetParents.
+	self queries: newQueries.
+	self reset
+]
+
 { #category : #accessing }
 FQComposedQuery >> queries [
 	^ queries
@@ -72,14 +84,31 @@ FQComposedQuery >> queries [
 
 { #category : #accessing }
 FQComposedQuery >> queries: aSequenceOfQueries [
-	self
-		flag:
-			#FQImprove
-				,
-					'Check if all queries are in the last child parentSequence AND if first query is unary'.
-	queries := aSequenceOfQueries asOrderedCollection.
-	roots := aSequenceOfQueries select: #hasNoParent.
+	queries := (aSequenceOfQueries reject: #isRootQuery)
+		asOrderedCollection.
+	queries do: #resetResult.
+	roots := aSequenceOfQueries
+		select: [ :query | 
+			(query isKindOf: FQUnaryQuery)
+				and: [ query hasNoParent or: [ query parent isRootQuery ] ] ].
+	self roots
+		do:
+			[ :root | parent ifNotNil: [ root parent: parent ] ifNil: [ root resetParents ] ].
 	leaf := aSequenceOfQueries last
+		resetChildren;
+		yourself
+]
+
+{ #category : #reset }
+FQComposedQuery >> resetChildren [
+	super resetChildren.
+	leaf resetChildren
+]
+
+{ #category : #reset }
+FQComposedQuery >> resetParents [
+	super resetParents.
+	self roots do: #resetParents
 ]
 
 { #category : #reset }
@@ -97,6 +126,10 @@ FQComposedQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQComposedQuery >> storeOn: aStream [
-	aStream << self className << ' queries: '.
-	leaf storeOn: aStream withParentsIn: queries
+	"aStream << self className << ' queries: '.
+	leaf storeOn: aStream withParentsIn: queries"
+
+	FQQueriesLibrary current addNewQuery: self.
+	aStream << 'FQQueriesLibrary current createQueryNamed: '
+		<< self name surroundedBySingleQuotes
 ]

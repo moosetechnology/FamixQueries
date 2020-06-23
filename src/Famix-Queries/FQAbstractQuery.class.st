@@ -47,15 +47,12 @@ FQAbstractQuery class >> readFrom: aString [
 	^ self compiler evaluate: aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #composition }
 FQAbstractQuery >> & anotherQuery [
-	^ FQIntersectionQuery new
-		parents:
-			{self.
-			anotherQuery}
+	^ self intersection: anotherQuery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #composition }
 FQAbstractQuery >> --> aChildQuery [
 	^ aChildQuery
 		beChildOf: self;
@@ -67,12 +64,9 @@ FQAbstractQuery >> = aQuery [
 	^ self class == aQuery class and: [ self hasSameParentsAs: aQuery ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #composition }
 FQAbstractQuery >> \ anotherQuery [
-	^ FQSubstractionQuery new
-		parents:
-			{self.
-			anotherQuery}
+	^ self substration: anotherQuery
 ]
 
 { #category : #adding }
@@ -133,10 +127,10 @@ FQAbstractQuery >> initialize [
 	children := Set new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #composition }
 FQAbstractQuery >> intersection: anotherQuery [
 	^ FQIntersectionQuery new
-		parents:
+		beChildOf:
 			{self.
 			anotherQuery}
 ]
@@ -206,6 +200,24 @@ FQAbstractQuery >> replaceParent: aParentQuery with: anotherQuery [
 ]
 
 { #category : #reset }
+FQAbstractQuery >> reset [
+	self
+		resetParents;
+		resetResult.
+	self resetChildren
+]
+
+{ #category : #reset }
+FQAbstractQuery >> resetChildren [
+	children := Set new
+]
+
+{ #category : #reset }
+FQAbstractQuery >> resetParents [
+	self subclassResponsibility
+]
+
+{ #category : #reset }
 FQAbstractQuery >> resetResult [
 	result := nil.
 	self children do: [ :child | child resetResult ]
@@ -233,26 +245,23 @@ FQAbstractQuery >> storeOn: aStream withParentsIn: queries [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #composition }
 FQAbstractQuery >> substration: anotherQuery [
 	^ FQSubstractionQuery new
-		parents:
+		beChildOf:
 			{self.
 			anotherQuery}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #composition }
 FQAbstractQuery >> union: anotherQuery [
 	^ FQUnionQuery new
-		parents:
+		beChildOf:
 			{self.
 			anotherQuery}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #composition }
 FQAbstractQuery >> | anotherQuery [
-	^ FQUnionQuery new
-		parents:
-			{self.
-			anotherQuery}
+	^ self union: anotherQuery
 ]
