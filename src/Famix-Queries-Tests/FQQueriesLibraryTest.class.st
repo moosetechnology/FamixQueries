@@ -32,7 +32,7 @@ FQQueriesLibraryTest >> setUp [
 FQQueriesLibraryTest >> testAddNewQuery [
 	library addNewQuery: self godClassesQuery.
 	self
-		assert: (library registry at: 'God classes')
+		assert: (library registryAt: 'God classes')
 		equals: self godClassesQuery
 ]
 
@@ -45,7 +45,7 @@ FQQueriesLibraryTest >> testAddedQueryIsCopiedAndReset [
 
 	"Add"
 	library addNewQuery: queryToAdd.
-	queryInRegistry := library registry at: queryToAdd name.
+	queryInRegistry := library registryAt: queryToAdd name.
 
 	"Saved query is a copy"
 	self deny: queryInRegistry identicalTo: queryToAdd.

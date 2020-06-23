@@ -129,7 +129,8 @@ FQComposedQuery >> storeOn: aStream [
 	"aStream << self className << ' queries: '.
 	leaf storeOn: aStream withParentsIn: queries"
 
-	FQQueriesLibrary current addNewQuery: self.
-	aStream << 'FQQueriesLibrary current createQueryNamed: '
+	(FQQueriesLibrary current registryAt: self name)
+		ifNil: [ FQQueriesLibrary current addNewQuery: self ].
+	aStream << 'FQQueriesLibrary queryNamed: '
 		<< self name surroundedBySingleQuotes
 ]

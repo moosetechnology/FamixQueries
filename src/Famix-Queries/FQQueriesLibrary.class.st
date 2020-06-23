@@ -21,6 +21,11 @@ FQQueriesLibrary class >> current [
 	^ currentLibrary ifNil: [ currentLibrary := self new ]
 ]
 
+{ #category : #executing }
+FQQueriesLibrary class >> queryNamed: aName [
+	^ self current createQueryNamed: aName
+]
+
 { #category : #adding }
 FQQueriesLibrary >> addNewQuery: aQuery [
 	registry at: aQuery name put: aQuery copy reset
@@ -38,6 +43,11 @@ FQQueriesLibrary >> initialize [
 	self setDefaultQueries
 ]
 
+{ #category : #accessing }
+FQQueriesLibrary >> registryAt: aName [
+	^ registry at: aName ifAbsent: [  ]
+]
+
 { #category : #initialization }
 FQQueriesLibrary >> resetRegistry [
 	registry := Dictionary new.
@@ -51,15 +61,17 @@ FQQueriesLibrary >> savedQueriesNames [
 
 { #category : #initialization }
 FQQueriesLibrary >> setDefaultQueries [
+	| name |
+	name := 'Classes with >50 methods'.
 	registry
-		at: 'Classes with >50 methods'
+		at: name
 		put:
-			(FQComposedQuery
+			((FQComposedQuery
 				queries:
 					(FQTypeQuery types: {FamixTClass})
 						-->
 							(FQNumericQuery
 								property: #numberOfMethods
 								comparator: #>
-								valueToCompare: 50))
+								valueToCompare: 50)) name: name)
 ]
