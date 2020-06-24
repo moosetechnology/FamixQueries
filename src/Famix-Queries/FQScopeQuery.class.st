@@ -63,6 +63,14 @@ FQScopeQuery class >> down [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+FQScopeQuery class >> downTo: aScope [
+	^ self new
+		directionStrategy: FQScopeDown;
+		scope: aScope;
+		yourself
+]
+
 { #category : #accessing }
 FQScopeQuery class >> label [
 	^ 'Scope Query'
@@ -79,6 +87,22 @@ FQScopeQuery class >> up [
 FQScopeQuery class >> upAndDown [
 	^ self new
 		directionStrategy: FQScopeUpAndDown;
+		yourself
+]
+
+{ #category : #'instance creation' }
+FQScopeQuery class >> upAndDownTo: aScope [
+	^ self new
+		directionStrategy: FQScopeUpAndDown;
+		scope: aScope;
+		yourself
+]
+
+{ #category : #'instance creation' }
+FQScopeQuery class >> upTo: aScope [
+	^ self new
+		directionStrategy: FQScopeUp;
+		scope: aScope;
 		yourself
 ]
 
@@ -199,5 +223,5 @@ FQScopeQuery >> storeOn: aStream [
 		<< self directionStrategy label asCamelCase uncapitalized.
 	self isValid
 		ifFalse: [ ^ self ].
-	aStream << ' scope: ' << self scope name
+	aStream << 'To: ' << self scope name
 ]
