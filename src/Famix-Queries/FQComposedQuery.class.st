@@ -6,7 +6,7 @@ Class {
 		'leaf',
 		'roots'
 	],
-	#category : #'Famix-Queries-Queries-Unary'
+	#category : #'Famix-Queries-Library'
 }
 
 { #category : #accessing }
@@ -129,8 +129,8 @@ FQComposedQuery >> storeOn: aStream [
 	"aStream << self className << ' queries: '.
 	leaf storeOn: aStream withParentsIn: queries"
 
-	(FQQueriesLibrary current registryAt: self name)
-		ifNil: [ FQQueriesLibrary current addNewQuery: self ].
-	aStream << 'FQQueriesLibrary queryNamed: '
+	(FQLibrary current registryAt: self name)
+		ifNil: [ FQLibrary current addNewQuery: self ].
+	aStream << 'FQLibrary queryNamed: '
 		<< self name surroundedBySingleQuotes
 ]

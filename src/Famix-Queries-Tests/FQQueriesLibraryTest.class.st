@@ -24,7 +24,7 @@ FQQueriesLibraryTest >> godClassesQuery [
 { #category : #running }
 FQQueriesLibraryTest >> setUp [
 	super setUp.
-	library := FQQueriesLibrary new.
+	library := FQLibrary new.
 	helper := FQTestsHelper current
 ]
 

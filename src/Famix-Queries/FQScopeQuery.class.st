@@ -46,11 +46,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #testing }
-FQScopeQuery class >> canBeConfigured [
-	^ true
-]
-
 { #category : #'available parameters' }
 FQScopeQuery class >> directionStrategies [
 	^ FQAbstractScopeDirection directionStrategies

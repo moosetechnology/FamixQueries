@@ -34,11 +34,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #testing }
-FQBooleanQuery class >> canBeConfigured [
-	^ true
-]
-
 { #category : #'available parameters' }
 FQBooleanQuery class >> comparators [
 	^ {}

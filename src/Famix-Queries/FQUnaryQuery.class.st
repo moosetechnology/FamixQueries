@@ -7,11 +7,6 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
-{ #category : #testing }
-FQUnaryQuery class >> canBeConfigured [
-	^ false
-]
-
 { #category : #default }
 FQUnaryQuery class >> defaultForParent: aQuery [
 	^ (self isAbstract

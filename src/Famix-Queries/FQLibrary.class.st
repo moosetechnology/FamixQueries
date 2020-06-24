@@ -1,5 +1,5 @@
 Class {
-	#name : #FQQueriesLibrary,
+	#name : #FQLibrary,
 	#superclass : #Object,
 	#instVars : [
 		'registry'
@@ -11,56 +11,56 @@ Class {
 }
 
 { #category : #accessing }
-FQQueriesLibrary class >> clear [
+FQLibrary class >> clear [
 	<script>
 	currentLibrary := nil
 ]
 
 { #category : #accessing }
-FQQueriesLibrary class >> current [
+FQLibrary class >> current [
 	^ currentLibrary ifNil: [ currentLibrary := self new ]
 ]
 
 { #category : #executing }
-FQQueriesLibrary class >> queryNamed: aName [
+FQLibrary class >> queryNamed: aName [
 	^ self current createQueryNamed: aName
 ]
 
 { #category : #adding }
-FQQueriesLibrary >> addNewQuery: aQuery [
+FQLibrary >> addNewQuery: aQuery [
 	registry at: aQuery name put: aQuery copy reset
 ]
 
 { #category : #adding }
-FQQueriesLibrary >> createQueryNamed: aQueryName [
+FQLibrary >> createQueryNamed: aQueryName [
 	^ (registry at: aQueryName ifAbsent: [ nil ]) copy
 ]
 
 { #category : #initialization }
-FQQueriesLibrary >> initialize [
+FQLibrary >> initialize [
 	super initialize.
 	registry := Dictionary new.
 	self setDefaultQueries
 ]
 
 { #category : #accessing }
-FQQueriesLibrary >> registryAt: aName [
+FQLibrary >> registryAt: aName [
 	^ registry at: aName ifAbsent: [  ]
 ]
 
 { #category : #initialization }
-FQQueriesLibrary >> resetRegistry [
+FQLibrary >> resetRegistry [
 	registry := Dictionary new.
 	self setDefaultQueries
 ]
 
 { #category : #accessing }
-FQQueriesLibrary >> savedQueriesNames [
+FQLibrary >> savedQueriesNames [
 	^ registry keys
 ]
 
 { #category : #initialization }
-FQQueriesLibrary >> setDefaultQueries [
+FQLibrary >> setDefaultQueries [
 	| name |
 	name := 'Classes with >50 methods'.
 	registry

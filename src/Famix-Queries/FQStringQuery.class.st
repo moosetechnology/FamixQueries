@@ -39,11 +39,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #testing }
-FQStringQuery class >> canBeConfigured [
-	^ true
-]
-
 { #category : #'available parameters' }
 FQStringQuery class >> comparators [
 	self flag: #FQImprove.
