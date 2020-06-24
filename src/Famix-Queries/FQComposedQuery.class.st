@@ -51,7 +51,12 @@ FQComposedQuery >> displayOn: aStream with: aString [
 
 { #category : #comparing }
 FQComposedQuery >> hasSameParametersAs: aQuery [
-	^ queries = aQuery queries
+	queries
+		with: aQuery queries
+		do: [ :query :otherQuery | 
+			(query hasSameParametersAs: otherQuery)
+				ifFalse: [ ^ false ] ].
+	^ true
 ]
 
 { #category : #initialization }

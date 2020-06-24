@@ -60,7 +60,7 @@ FQResultSizeQuery >> displayOn: aStream with: aString [
 
 { #category : #comparing }
 FQResultSizeQuery >> hasSameParametersAs: aQuery [
-	^ innerQuery = aQuery innerQuery
+	^ (innerQuery hasSameParametersAs: aQuery innerQuery)
 		and: [ comparator = aQuery comparator
 				and: valueToCompare = aQuery valueToCompare ]
 ]

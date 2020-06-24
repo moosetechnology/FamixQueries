@@ -44,16 +44,6 @@ FQBooleanQueryTest >> testDisplayOn [
 		equals: 'aMooseGroup select: [ :entity | entity isAbstract ]'
 ]
 
-{ #category : #tests }
-FQBooleanQueryTest >> testEquals [
-	super testEquals.
-
-	"Different property"
-	self
-		deny: query
-		equals: (self unConfiguredQuery property: #isInstanceSide)
-]
-
 { #category : #'tests - printing' }
 FQBooleanQueryTest >> testName [
 	self assert: query name equals: 'isAbstract'.

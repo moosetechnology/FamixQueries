@@ -54,19 +54,6 @@ FQScopeQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
-FQScopeQueryTest >> testEquals [
-	super testEquals.
-
-	"Different direction"
-	self deny: query equals: (self newQuery scope: FamixStClass).
-
-	"Different association"
-	self
-		deny: query
-		equals: (self newQuery directionStrategy: FQScopeDown)
-]
-
-{ #category : #tests }
 FQScopeQueryTest >> testIsValid [
 	super testIsValid.
 	self deny: (self newQuery scope: 'Not a scope') isValid.

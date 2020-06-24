@@ -34,15 +34,6 @@ FQRootQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
-FQRootQueryTest >> testEquals [
-	"Same query"
-	self assert: query equals: self newQuery.
-
-	"Different type of Query"
-	self deny: query equals: self differentTypeOfQuery
-]
-
-{ #category : #tests }
 FQRootQueryTest >> testIsValid [
 	self assert: query isValid.
 	query result: nil.

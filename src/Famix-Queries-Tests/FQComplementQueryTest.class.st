@@ -41,16 +41,6 @@ FQComplementQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
-FQComplementQueryTest >> testEquals [
-	super testEquals.
-
-	"Different parent"
-	self
-		deny: query
-		equals: (self unConfiguredQuery beChildOf: self differentTypeOfQuery)
-]
-
-{ #category : #tests }
 FQComplementQueryTest >> testIsValid [
 	super testIsValid.
 	query prepareRemoval.
@@ -81,5 +71,5 @@ FQComplementQueryTest >> testStoreOn [
 	generatedQuery := self
 		evaluate: (String streamContents: [ :s | query storeOn: s ]).
 	self assert: generatedQuery class identicalTo: self actualClass.
-	self assert: generatedQuery equals: query
+	self assert: (generatedQuery hasSameParametersAs: query)
 ]

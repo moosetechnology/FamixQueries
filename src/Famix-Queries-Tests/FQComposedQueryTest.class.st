@@ -91,7 +91,7 @@ FQComposedQueryTest >> testCopy [
 
 	"Equal parent needed to be equal"
 	copy beChildOf: self differentTypeOfQuery.
-	self assert: copy equals: query
+	self assert: (copy hasSameParametersAs: query)
 ]
 
 { #category : #tests }

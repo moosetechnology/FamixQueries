@@ -59,11 +59,6 @@ FQAbstractQuery >> --> aChildQuery [
 		yourself
 ]
 
-{ #category : #comparing }
-FQAbstractQuery >> = aQuery [
-	^ self class == aQuery class and: [ self hasSameParentsAs: aQuery ]
-]
-
 { #category : #composition }
 FQAbstractQuery >> \ anotherQuery [
 	^ self substration: anotherQuery

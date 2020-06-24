@@ -40,22 +40,6 @@ FQNumericQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
-FQNumericQueryTest >> testEquals [
-	super testEquals.
-
-	"Different property"
-	self
-		deny: query
-		equals: (self newQuery property: #numberOfLinesOfCode).
-
-	"Different comparator"
-	self deny: query equals: (self newQuery comparator: #>=).
-
-	"Different value to compare"
-	self deny: query equals: (self newQuery valueToCompare: 5)
-]
-
-{ #category : #tests }
 FQNumericQueryTest >> testIsValid [
 	super testIsValid.
 	self deny: (self newQuery comparator: 'Not a comparator') isValid.

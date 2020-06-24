@@ -70,6 +70,16 @@ FQBinaryQuery >> hasNoParent [
 ]
 
 { #category : #comparing }
+FQBinaryQuery >> hasSameParametersAs: aQuery [
+	self parents
+		with: aQuery parents
+		do: [ :parent :comparedParent | 
+			(parent hasSameParametersAs: comparedParent)
+				ifFalse: [ ^ false ] ].
+	^ true
+]
+
+{ #category : #comparing }
 FQBinaryQuery >> hasSameParentsAs: aQuery [
 	^ self parents = aQuery parents
 ]

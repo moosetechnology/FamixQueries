@@ -32,8 +32,9 @@ FQQueriesLibraryTest >> setUp [
 FQQueriesLibraryTest >> testAddNewQuery [
 	library addNewQuery: self godClassesQuery.
 	self
-		assert: (library registryAt: 'God classes')
-		equals: self godClassesQuery
+		assert:
+			((library registryAt: 'God classes')
+				hasSameParametersAs: self godClassesQuery)
 ]
 
 { #category : #tests }
@@ -65,6 +66,7 @@ FQQueriesLibraryTest >> testAddedQueryIsCopiedAndReset [
 FQQueriesLibraryTest >> testCreateQueryNamed [
 	library addNewQuery: self godClassesQuery.
 	self
-		assert: (library createQueryNamed: 'God classes')
-		equals: self godClassesQuery
+		assert:
+			((library createQueryNamed: 'God classes')
+				hasSameParametersAs: self godClassesQuery)
 ]

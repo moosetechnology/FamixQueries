@@ -28,11 +28,6 @@ FQUnaryQuery class >> stringForClass: aClass [
 		last asEnglishPlural
 ]
 
-{ #category : #comparing }
-FQUnaryQuery >> = aQuery [
-	^ super = aQuery and: [ self hasSameParametersAs: aQuery ]
-]
-
 { #category : #adding }
 FQUnaryQuery >> addToParentsSequence: sequence [
 	parent ifNotNil: [ parent addToParentsSequence: sequence ].

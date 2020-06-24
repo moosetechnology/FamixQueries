@@ -338,22 +338,6 @@ FQNavigationQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
-FQNavigationQueryTest >> testEquals [
-	super testEquals.
-
-	"Different direction"
-	self deny: query equals: self outgoingAllAssociationsQuery.
-
-	"Different association"
-	self
-		deny: query
-		equals:
-			(FQNavigationQuery new
-				directionStrategy: FQIncomingNavigation;
-				associationStrategy: (FQNavigationAssociations with: FamixStInvocation))
-]
-
-{ #category : #tests }
 FQNavigationQueryTest >> testIsValid [
 	super testIsValid.
 	self
@@ -410,7 +394,7 @@ FQNavigationQueryTest >> testStoreOn [
 		evaluate: (String streamContents: [ :s | query storeOn: s ]).
 	generatedQuery beChildOf: query parent.
 	self assert: generatedQuery class identicalTo: self actualClass.
-	self assert: generatedQuery equals: query
+	self assert: (generatedQuery hasSameParametersAs: query)
 ]
 
 { #category : #tests }

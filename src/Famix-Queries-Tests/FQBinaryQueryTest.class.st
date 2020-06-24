@@ -89,20 +89,6 @@ FQBinaryQueryTest >> testBeChildOf [
 ]
 
 { #category : #tests }
-FQBinaryQueryTest >> testEquals [
-	super testEquals.
-	
-	"Different children"
-	self
-		deny: query
-		equals:
-			(self actualClass new
-				beChildOf:
-					{self newBooleanParent.
-					self newTypeParent})
-]
-
-{ #category : #tests }
 FQBinaryQueryTest >> testIsValid [
 	self
 		deny:

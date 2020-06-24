@@ -91,14 +91,6 @@ FQTypeQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
-FQTypeQueryTest >> testEquals [
-	super testEquals.
-
-	"Different types"
-	self deny: query equals: (self newQuery type: FamixStPackage)
-]
-
-{ #category : #tests }
 FQTypeQueryTest >> testIsValid [
 	super testIsValid.
 

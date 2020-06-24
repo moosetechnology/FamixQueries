@@ -28,7 +28,7 @@ FQComplementQuery >> displayOn: aStream with: aString [
 
 { #category : #comparing }
 FQComplementQuery >> hasSameParametersAs: aQuery [
-	^ aQuery parent = parent
+	^ aQuery parent hasSameParametersAs: parent
 ]
 
 { #category : #testing }

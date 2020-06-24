@@ -69,16 +69,6 @@ FQAbstractQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
-FQAbstractQueryTest >> testEquals [
-
-	"Same query"
-	self assert: query equals: self newQuery.
-	
-	"Different type of Query"
-	self deny: query equals: self differentTypeOfQuery
-]
-
-{ #category : #tests }
 FQAbstractQueryTest >> testIsValid [
 	self assert: query isValid.
 	self deny: self unConfiguredQuery isValid
@@ -132,7 +122,7 @@ FQAbstractQueryTest >> testStoreOn [
 	generatedQuery := self
 		evaluate: (String streamContents: [ :s | query storeOn: s ]).
 	self assert: generatedQuery class identicalTo: self actualClass.
-	self assert: generatedQuery equals: query
+	self assert: (generatedQuery hasSameParametersAs: query)
 ]
 
 { #category : #running }
