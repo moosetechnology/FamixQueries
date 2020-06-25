@@ -256,7 +256,7 @@ FQNavigationQuery >> runOn: aMooseGroup [
 		flag:
 			#FQImprove
 				, 'Selection of allUsing: so not all entities will respond.'.
-	^ ((aMooseGroup allUsing: TDependencyQueries)
+	^ ((aMooseGroup allUsing: TEntityMetaLevelDependency)
 		inject: Set new
 		into: [ :res :entity | 
 			res
