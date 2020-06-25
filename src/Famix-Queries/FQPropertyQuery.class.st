@@ -44,6 +44,12 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #accessing }
+FQPropertyQuery class >> availablePropertiesFor: aMooseGroup [
+	^ ((aMooseGroup allEntityTypes collect: [ :entity | entity famePropertiesOfType: self type ])
+		fold: [ :availableProperties :entityProperties | availableProperties & entityProperties ]) collect: #implementingSelector
+]
+
 { #category : #'available parameters' }
 FQPropertyQuery class >> comparators [
 	self subclassResponsibility
@@ -60,6 +66,11 @@ FQPropertyQuery class >> label [
 ]
 
 { #category : #'available parameters' }
+FQPropertyQuery class >> type [
+	^ self subclassResponsibility
+]
+
+{ #category : #'available parameters' }
 FQPropertyQuery >> availableProperties [
 	self flag: #FQTest.
 	^ parent
@@ -69,16 +80,7 @@ FQPropertyQuery >> availableProperties [
 
 { #category : #'available parameters' }
 FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
-	| collectedProperties |
-	collectedProperties := aMooseGroup entities
-		collect: [ :entity | 
-			entity mooseDescription allPrimitiveProperties
-				select: [ :prop | prop type class == self type and: prop isMultivalued not ] ].
-	^ collectedProperties
-		ifNotEmpty: [ (collectedProperties
-				fold:
-					[ :availableProperties :entityProperties | availableProperties & entityProperties ])
-				collect: #name ]
+	^ self class availablePropertiesFor: aMooseGroup
 ]
 
 { #category : #default }
@@ -177,9 +179,9 @@ FQPropertyQuery >> storeOn: aStream [
 	self valueToCompare storeOn: aStream
 ]
 
-{ #category : #'available parameters' }
+{ #category : #accessing }
 FQPropertyQuery >> type [
-	^ self subclassResponsibility
+	^ self class type
 ]
 
 { #category : #accessing }

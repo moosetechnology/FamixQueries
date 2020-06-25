@@ -51,6 +51,11 @@ FQBooleanQuery class >> property: aSymbol [
 		yourself
 ]
 
+{ #category : #'available parameters' }
+FQBooleanQuery class >> type [
+	^ FM3Boolean
+]
+
 { #category : #testing }
 FQBooleanQuery >> hasComparisonParameters [
 	^ false
@@ -64,11 +69,6 @@ FQBooleanQuery >> runOn: aMooseGroup [
 			([ self property value: entity ]
 				on: MessageNotUnderstood
 				do: [ false ]) ifNil: [ false ] ]
-]
-
-{ #category : #'available parameters' }
-FQBooleanQuery >> type [
-	^ FM3Boolean
 ]
 
 { #category : #printing }

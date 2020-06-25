@@ -69,6 +69,11 @@ FQNumericQuery class >> property: aSymbol comparator: aComparingSymbol valueToCo
 		yourself
 ]
 
+{ #category : #'available parameters' }
+FQNumericQuery class >> type [
+	^ FM3Number
+]
+
 { #category : #comparing }
 FQNumericQuery >> hasSameParametersAs: aQuery [
 	^ (super hasSameParametersAs: aQuery)
@@ -80,11 +85,6 @@ FQNumericQuery >> hasSameParametersAs: aQuery [
 FQNumericQuery >> isValid [
 	^ super isValid
 		and: [ self comparator isSymbol and: [ self valueToCompare isNumber ] ]
-]
-
-{ #category : #'available parameters' }
-FQNumericQuery >> type [
-	^ FM3Number
 ]
 
 { #category : #printing }
