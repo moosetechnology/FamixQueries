@@ -73,9 +73,9 @@ FQPropertyQuery class >> type [
 { #category : #'available parameters' }
 FQPropertyQuery >> availableProperties [
 	self flag: #FQTest.
-	^ parent
-		ifNil: [ #() ]
-		ifNotNil: [ self availablePropertiesFor: parent result ]
+	^ (parent isNil or: [ parent result isEmpty ])
+		ifTrue: [ #() ]
+		ifFalse: [ self availablePropertiesFor: parent result ]
 ]
 
 { #category : #'available parameters' }
