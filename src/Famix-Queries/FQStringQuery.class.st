@@ -69,6 +69,11 @@ FQStringQuery class >> property: aSymbol comparator: aComparingSymbol valueToCom
 		yourself
 ]
 
+{ #category : #'available parameters' }
+FQStringQuery class >> type [
+	^ FM3String
+]
+
 { #category : #accessing }
 FQStringQuery >> comparator [
 	^ comparator ifNil: [ comparator := #includesSubString: ]
@@ -85,11 +90,6 @@ FQStringQuery >> hasSameParametersAs: aQuery [
 FQStringQuery >> isValid [
 	^ super isValid
 		and: [ self comparator isSymbol and: [ self valueToCompare isString ] ]
-]
-
-{ #category : #'available parameters' }
-FQStringQuery >> type [
-	^ FM3String
 ]
 
 { #category : #printing }
