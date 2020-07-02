@@ -178,7 +178,7 @@ FQScopeQuery >> resetAndChangeDirection: aDirectionStrategyClass [
 	self
 		scope:
 			(self availableScopes
-				ifNotEmpty: [ self availableScopes anyOne ]
+				ifNotEmpty: #anyOne
 				ifEmpty: [  ]).
 	self flag: #FQTest
 ]
