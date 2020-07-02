@@ -85,11 +85,7 @@ FQTypeQuery >> availableTypes [
 
 { #category : #'available parameters' }
 FQTypeQuery >> availableTypesFor: aMooseGroup [
-	self
-		flag: 'Selection of the named entities: all entities may not respond'.
-	^ ((aMooseGroup allUsing: FamixTNamedEntity) collect: #class)
-		removeDuplicates asOrderedCollection
-		sort: [ :type1 :type2 | type1 name < type2 name ]
+	^ (aMooseGroup allUsing: TEntityMetaLevelDependency) allEntityTypes asOrderedCollection sort: [ :type1 :type2 | type1 name < type2 name ]
 ]
 
 { #category : #default }
