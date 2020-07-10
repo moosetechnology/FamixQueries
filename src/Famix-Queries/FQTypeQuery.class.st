@@ -68,15 +68,6 @@ FQTypeQuery >> addType: aType [
 	self flag: #FQTest , 'test reset'
 ]
 
-{ #category : #running }
-FQTypeQuery >> allWantedIn: aMooseGroup [
-	^ self types
-		flatCollectAsSet: [ :type | 
-			type isTrait
-				ifTrue: [ aMooseGroup allUsing: type ]
-				ifFalse: [ aMooseGroup allWithType: type ] ]
-]
-
 { #category : #'available parameters' }
 FQTypeQuery >> availableTypes [
 	self flag: #FQTest.
@@ -152,7 +143,7 @@ FQTypeQuery >> removeType: aType [
 FQTypeQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
 
-	^ MooseGroup withAll: (self allWantedIn: aMooseGroup)
+	^ (self types asSet flatCollect: [ :type | aMooseGroup allMatching: type ]) asMooseGroup
 ]
 
 { #category : #printing }

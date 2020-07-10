@@ -27,32 +27,26 @@ Class {
 FQAbstractScopeDirection class >> allChildrenScopesOf: aClass in: aModel [
 	"Return all the possible children scopes of this class that are in a model."
 
-	| allChildren |
-	allChildren := (aClass allChildrenTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses.
-	^ allChildren & aModel allEntityTypes
+	^ (aClass allChildrenTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses
 ]
 
 { #category : #'available scopes' }
 FQAbstractScopeDirection class >> allParentsScopesOf: aClass in: aModel [
 	"Return all the possible parents scopes of this class that are in a model."
 
-	| allParents |
-	allParents := (aClass allParentTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses.
-	^ allParents & aModel allEntityTypes
+	^ (aClass allParentTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses
 ]
 
 { #category : #'available scopes' }
 FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
 	"Return the list of possible scopes in a moose group for the direction of the strategy."
 
-	^ ((aMooseGroup allUsing: TEntityMetaLevelDependency) allEntityTypes
-		flatCollectAsSet: [ :class | 
-			self
-				availableScopesForEntity: class
-				in:
-					(aMooseGroup isMooseModel
-						ifTrue: [ aMooseGroup ]
-						ifFalse: [ aMooseGroup mooseModel ]) ]) asArray
+	| model |
+	model := aMooseGroup isMooseModel
+		ifTrue: [ aMooseGroup ]
+		ifFalse: [ aMooseGroup mooseModel ].
+	^ (((aMooseGroup allUsing: TEntityMetaLevelDependency) allEntityTypes flatCollectAsSet: [ :class | self availableScopesForEntity: class in: model ])
+		& model allEntityTypes) asArray
 ]
 
 { #category : #'available scopes' }
