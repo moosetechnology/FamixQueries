@@ -42,10 +42,12 @@ FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
 	"Return the list of possible scopes in a moose group for the direction of the strategy."
 
 	| model |
+	aMooseGroup ifEmpty: [ ^ {} ].
 	model := aMooseGroup isMooseModel
 		ifTrue: [ aMooseGroup ]
 		ifFalse: [ aMooseGroup mooseModel ].
-	^ (((aMooseGroup allUsing: TEntityMetaLevelDependency) allEntityTypes flatCollectAsSet: [ :class | self availableScopesForEntity: class in: model ])
+	^ (((aMooseGroup allUsing: TEntityMetaLevelDependency) allEntityTypes
+		flatCollectAsSet: [ :class | self availableScopesForEntity: class in: model ])
 		& model allEntityTypes) asArray
 ]
 
