@@ -35,7 +35,7 @@ FQAbstractNavigationDirection class >> availableAssociationsFor: aMooseGroup [
 		ifTrue: [ aMooseGroup ]
 		ifFalse: [ aMooseGroup mooseModel ].
 	
-	^ ((model allEntityTypes
+	^ ((model allAssociationTypes
 		select: [ :class | 
 			associations
 				anySatisfy: [ :type | class = type or: [ class allTraits includes: type ] ] ])
