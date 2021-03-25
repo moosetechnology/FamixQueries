@@ -11,10 +11,7 @@ Class {
 BaselineOfFamixQueries >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ 
-		self famix: spec.
-
-		"Packages"
+	spec for: #common do: [ "Packages"
 		spec
 			package: 'Famix-Queries';
 			package: 'Famix-Queries-Tests'
