@@ -9,33 +9,42 @@ Class {
 
 { #category : #baseline }
 BaselineOfFamixQueries >> baseline: spec [
+
 	<baseline>
-	spec
-		for: #common
-		do: [ self famix: spec.
+	spec for: #common do: [ 
+		self famix: spec.
 
-			"Packages"
-			spec
-				package: 'Famix-Queries' with: [ spec requires: #('Famix') ];
-				package: 'Famix-Queries-Tests'
-					with: [ spec requires: #('Famix-Queries') ].
+		"Packages"
+		spec
+			package: 'Famix-Queries';
+			package: 'Famix-Queries-Tests'
+			with: [ spec requires: #( 'Famix-Queries' ) ].
 
-			"Groups"
-			spec
-				group: 'Model' with: #('Famix-Queries');
-				group: 'Tests' with: #('Famix-Queries-Tests') ]
+		"If Famix is not already present"
+		spec for: #NeedsFamix do: [ 
+			self famix: spec.
+			spec package: 'Famix-Queries' with: [ spec requires: #( 'Famix' ) ] ].
+
+		"Groups"
+		spec
+			group: 'Model' with: #( 'Famix-Queries' );
+			group: 'Tests' with: #( 'Famix-Queries-Tests' ) ]
+]
+
+{ #category : #accessing }
+BaselineOfFamixQueries >> customProjectAttributes [
+
+	^ RPackageOrganizer default packages
+		  detect: [ :package | package name = 'BaselineOfFamix' ]
+		  ifFound: [ #(  ) ]
+		  ifNone: [ #( #NeedsFamix ) ]
 ]
 
 { #category : #dependencies }
 BaselineOfFamixQueries >> famix: spec [
+
 	spec
 		baseline: 'Famix'
-		with: [ spec repository: 'github://moosetechnology/Famix:v1.0.0/src' ]
-]
-
-{ #category : #dependencies }
-BaselineOfFamixQueries >> midas: spec [
-	spec
-		baseline: 'Midas'
-		with: [ spec repository: 'github://moosetechnology/Midas:master/src' ]
+		with: [ 
+		spec repository: 'github://moosetechnology/Famix:v1.x.x/src' ]
 ]
