@@ -72,6 +72,12 @@ FQBooleanQuery >> hasComparisonParameters [
 	^ false
 ]
 
+{ #category : #testing }
+FQBooleanQuery >> isValid [
+	^ super isValid
+		and: [ self comparator isSymbol ]
+]
+
 { #category : #printing }
 FQBooleanQuery >> valueToCompareAsString [
 	self shouldNotImplement
