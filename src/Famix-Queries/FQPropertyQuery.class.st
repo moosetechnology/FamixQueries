@@ -70,6 +70,12 @@ FQPropertyQuery class >> type [
 	^ self subclassResponsibility
 ]
 
+{ #category : #running }
+FQPropertyQuery >> applyComparatorOnEntityProperty: entityProperty [
+	"default is to compare the #property of an entity to the #valueToCompare of the query"
+	^entityProperty perform: self comparator with: self valueToCompare
+]
+
 { #category : #'available parameters' }
 FQPropertyQuery >> availableProperties [
 	self flag: #FQTest.
@@ -162,7 +168,7 @@ FQPropertyQuery >> runOn: aMooseGroup [
 			[ (self property value: entity)
 				ifNil: [ false ]
 				ifNotNil:
-					[ :entityProperty | entityProperty perform: self comparator with: self valueToCompare ] ]
+					[ :entityProperty | self applyComparatorOnEntityProperty: entityProperty ] ]
 				on: MessageNotUnderstood
 				do: [ false ] ]
 ]

@@ -36,7 +36,12 @@ Class {
 
 { #category : #'available parameters' }
 FQBooleanQuery class >> comparators [
-	^ {}
+	^ {#yourself . #not}
+]
+
+{ #category : #default }
+FQBooleanQuery class >> defaultComparator [
+	^ #yourself
 ]
 
 { #category : #accessing }
@@ -56,19 +61,15 @@ FQBooleanQuery class >> type [
 	^ FM3Boolean
 ]
 
+{ #category : #running }
+FQBooleanQuery >> applyComparatorOnEntityProperty: entityProperty [
+	"#comparator for Booleanqueries has no argument, it is #not or #yourself"
+	^entityProperty perform: self comparator
+]
+
 { #category : #testing }
 FQBooleanQuery >> hasComparisonParameters [
 	^ false
-]
-
-{ #category : #running }
-FQBooleanQuery >> runOn: aMooseGroup [
-	self flag: #FQImprove , 'idem superclass'.
-	^ aMooseGroup
-		select: [ :entity | 
-			([ self property value: entity ]
-				on: MessageNotUnderstood
-				do: [ false ]) ifNil: [ false ] ]
 ]
 
 { #category : #printing }
