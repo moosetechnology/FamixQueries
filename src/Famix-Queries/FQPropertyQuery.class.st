@@ -168,6 +168,7 @@ FQPropertyQuery >> property: anObject [
 { #category : #running }
 FQPropertyQuery >> runOn: aMooseGroup [
 	self flag: #FQImprove , 'This false on error is not optimal'.
+
 	^ aMooseGroup
 		select: [ :entity | 
 			[ (self property value: entity)

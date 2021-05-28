@@ -55,13 +55,13 @@ FQUnaryQuery >> beDefaultForParent [
 
 { #category : #running }
 FQUnaryQuery >> computeResult [
-	| primaryResult |
+
 	self isValid
 		ifFalse: [ ^ MooseGroup new ].
-	primaryResult :=self runOn: parent result.
+
 	^self isNegated
-		ifTrue: [ (FQComplementQuery defaultForParent: self) runOn: primaryResult  ]
-		ifFalse: [ primaryResult ]
+		ifTrue: [ (FQComplementQuery defaultForParent: self) runOn: parent result  ]
+		ifFalse: [ self runOn: parent result ]
 ]
 
 { #category : #printing }
