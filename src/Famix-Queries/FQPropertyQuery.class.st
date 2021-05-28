@@ -98,6 +98,11 @@ FQPropertyQuery >> beDefaultForParent [
 		ifTrue: [ comparator := self class comparators first ]
 ]
 
+{ #category : #testing }
+FQPropertyQuery >> canBeNegated [
+	^true
+]
+
 { #category : #accessing }
 FQPropertyQuery >> comparator [
 	^ comparator ifNil: [ comparator := self class defaultComparator ]

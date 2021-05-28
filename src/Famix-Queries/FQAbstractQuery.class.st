@@ -86,6 +86,11 @@ FQAbstractQuery >> buildDefaultName [
 	^ self defaultName
 ]
 
+{ #category : #testing }
+FQAbstractQuery >> canBeNegated [
+	^false
+]
+
 { #category : #accessing }
 FQAbstractQuery >> children [
 	^ children

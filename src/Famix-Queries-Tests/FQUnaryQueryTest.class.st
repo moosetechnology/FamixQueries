@@ -24,6 +24,20 @@ FQUnaryQueryTest >> testBeChildOf [
 ]
 
 { #category : #tests }
+FQUnaryQueryTest >> testNegatedResult [
+	| intersect |
+	query canBeNegated ifFalse: [ self skip ].
+
+	query isNegated: true.
+	query beChildOf: self newParentQuery.
+	intersect := query result intersection: (query runOn: self newParentQuery result).
+	self assert: intersect isEmpty 
+	"self
+		denyCollection: query result
+		includesAny: (query runOn: self newParentQuery result)"
+]
+
+{ #category : #tests }
 FQUnaryQueryTest >> testParent [
 	| parent |
 	parent := self newParentQuery.
