@@ -36,12 +36,7 @@ Class {
 
 { #category : #'available parameters' }
 FQBooleanQuery class >> comparators [
-	^ {#yourself . #not}
-]
-
-{ #category : #default }
-FQBooleanQuery class >> defaultComparator [
-	^ #yourself
+	^#()
 ]
 
 { #category : #accessing }
@@ -63,19 +58,13 @@ FQBooleanQuery class >> type [
 
 { #category : #running }
 FQBooleanQuery >> applyComparatorOnEntityProperty: entityProperty [
-	"#comparator for Booleanqueries has no argument, it is #not or #yourself"
-	^entityProperty perform: self comparator
+	"no #comparator for BooleanQueries return the boolean value obtained from the property"
+	^entityProperty
 ]
 
 { #category : #testing }
 FQBooleanQuery >> hasComparisonParameters [
 	^ false
-]
-
-{ #category : #testing }
-FQBooleanQuery >> isValid [
-	^ super isValid
-		and: [ self comparator isSymbol ]
 ]
 
 { #category : #printing }
