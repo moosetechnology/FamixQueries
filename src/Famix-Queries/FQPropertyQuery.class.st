@@ -98,6 +98,11 @@ FQPropertyQuery >> beDefaultForParent [
 		ifTrue: [ comparator := self class comparators first ]
 ]
 
+{ #category : #testing }
+FQPropertyQuery >> canBeNegated [
+	^true
+]
+
 { #category : #accessing }
 FQPropertyQuery >> comparator [
 	^ comparator ifNil: [ comparator := self class defaultComparator ]
@@ -163,6 +168,7 @@ FQPropertyQuery >> property: anObject [
 { #category : #running }
 FQPropertyQuery >> runOn: aMooseGroup [
 	self flag: #FQImprove , 'This false on error is not optimal'.
+
 	^ aMooseGroup
 		select: [ :entity | 
 			[ (self property value: entity)
