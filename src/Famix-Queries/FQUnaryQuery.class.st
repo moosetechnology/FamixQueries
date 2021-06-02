@@ -102,7 +102,8 @@ FQUnaryQuery >> isNegated [
 
 { #category : #accessing }
 FQUnaryQuery >> isNegated: aBoolean [
-	isNegated := aBoolean 
+	isNegated := aBoolean.
+	self resetResult
 ]
 
 { #category : #accessing }
