@@ -1,37 +1,37 @@
 Class {
-	#name : #FQSubstractionQuery,
+	#name : #FQSubtractionQuery,
 	#superclass : #FQBinaryQuery,
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
 { #category : #testing }
-FQSubstractionQuery class >> isCommutative [
+FQSubtractionQuery class >> isCommutative [
 	^ false
 ]
 
 { #category : #accessing }
-FQSubstractionQuery class >> label [
+FQSubtractionQuery class >> label [
 	^ 'Substraction'
 ]
 
 { #category : #printing }
-FQSubstractionQuery >> defaultName [
+FQSubtractionQuery >> defaultName [
 	^ self parents first name , ' \ ' , self parents second name
 ]
 
 { #category : #printing }
-FQSubstractionQuery >> operator [
+FQSubtractionQuery >> operator [
 	^ $\
 ]
 
 { #category : #reversing }
-FQSubstractionQuery >> reverseParents [
+FQSubtractionQuery >> reverseParents [
 	self parents: self parents reverse.
 	self resetResult
 ]
 
 { #category : #running }
-FQSubstractionQuery >> runOn: twoMooseGroups [
+FQSubtractionQuery >> runOn: twoMooseGroups [
 	^ twoMooseGroups first difference: twoMooseGroups second
 
 	"^ MooseGroup

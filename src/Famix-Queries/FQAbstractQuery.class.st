@@ -62,7 +62,7 @@ FQAbstractQuery >> --> aChildQuery [
 { #category : #composition }
 FQAbstractQuery >> \ anotherQuery [
 
-	^ self substraction: anotherQuery
+	^ self subtraction: anotherQuery
 ]
 
 { #category : #adding }
@@ -261,9 +261,9 @@ FQAbstractQuery >> storeOn: aStream withParentsIn: queries [
 ]
 
 { #category : #composition }
-FQAbstractQuery >> substraction: anotherQuery [
+FQAbstractQuery >> subtraction: anotherQuery [
 
-	^ FQSubstractionQuery new beChildOf: { 
+	^ FQSubtractionQuery new beChildOf: { 
 			  self.
 			  anotherQuery }
 ]

@@ -12,7 +12,7 @@ FQBinaryQuery class >> availableCombinations [
 	self flag: #FQImprove.
 	^ {FQUnionQuery.
 	FQIntersectionQuery.
-	FQSubstractionQuery}
+	FQSubtractionQuery}
 ]
 
 { #category : #testing }
