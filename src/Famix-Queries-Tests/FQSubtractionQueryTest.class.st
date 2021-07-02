@@ -1,28 +1,28 @@
 Class {
-	#name : #FQSubstractionQueryTest,
+	#name : #FQSubtractionQueryTest,
 	#superclass : #FQBinaryQueryTest,
 	#category : #'Famix-Queries-Tests-Binary'
 }
 
 { #category : #running }
-FQSubstractionQueryTest >> actualClass [
-	^ FQSubstractionQuery
+FQSubtractionQueryTest >> actualClass [
+	^ FQSubtractionQuery
 ]
 
 { #category : #running }
-FQSubstractionQueryTest >> expectedPrintOnString [
+FQSubtractionQueryTest >> expectedPrintOnString [
 	^ 'a FQSubstractionQuery (' , self firstParentOfQuery name , ' \ '
 		, self secondParentOfQuery name , ')'
 ]
 
 { #category : #running }
-FQSubstractionQueryTest >> expectedResult [
+FQSubtractionQueryTest >> expectedResult [
 	^ (self firstParentOfQuery runOn: helper classesAndMethods)
 		difference: (self secondParentOfQuery runOn: helper classesAndMethods)
 ]
 
 { #category : #'tests - printing' }
-FQSubstractionQueryTest >> testDisplayOn [
+FQSubtractionQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
@@ -34,7 +34,7 @@ FQSubstractionQueryTest >> testDisplayOn [
 ]
 
 { #category : #'tests - printing' }
-FQSubstractionQueryTest >> testName [
+FQSubtractionQueryTest >> testName [
 	self
 		assert: query name
 		equals: 'Incoming References, Inheritances \ Classes'.
@@ -44,7 +44,7 @@ FQSubstractionQueryTest >> testName [
 ]
 
 { #category : #tests }
-FQSubstractionQueryTest >> testReversParents [
+FQSubtractionQueryTest >> testReversParents [
 	| parent1 parent2 |
 	parent1 := self firstParentOfQuery.
 	parent2 := self secondParentOfQuery.
