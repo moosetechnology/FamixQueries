@@ -11,8 +11,9 @@ FQSubtractionQueryTest >> actualClass [
 
 { #category : #running }
 FQSubtractionQueryTest >> expectedPrintOnString [
-	^ 'a FQSubstractionQuery (' , self firstParentOfQuery name , ' \ '
-		, self secondParentOfQuery name , ')'
+
+	^ 'a FQSubtractionQuery (' , self firstParentOfQuery name , ' \ '
+	  , self secondParentOfQuery name , ')'
 ]
 
 { #category : #running }
