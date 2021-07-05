@@ -38,5 +38,5 @@ FQUnionQueryTest >> testName [
 	self
 		assert: query name
 		equals: 'Incoming References, Inheritances | Classes'.
-	self assert: self unConfiguredQuery name equals: 'Invalid Union'
+	self assert: self unConfiguredQuery name equals: 'Invalid Or'
 ]

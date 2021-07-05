@@ -84,11 +84,6 @@ FQAbstractQueryTest >> testParentSequence [
 	self subclassResponsibility
 ]
 
-{ #category : #tests }
-FQAbstractQueryTest >> testPrepareRemoval [
-	self subclassResponsibility
-]
-
 { #category : #'tests - printing' }
 FQAbstractQueryTest >> testPrintOn [
 	self assert: query printString equals: self expectedPrintOnString.

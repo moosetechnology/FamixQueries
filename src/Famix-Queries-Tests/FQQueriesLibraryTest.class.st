@@ -23,6 +23,8 @@ FQQueriesLibraryTest >> godClassesQuery [
 
 { #category : #running }
 FQQueriesLibraryTest >> setUp [
+
+	self skip.
 	super setUp.
 	library := FQLibrary new.
 	helper := FQTestsHelper current
