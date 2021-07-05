@@ -1,6 +1,6 @@
 Class {
 	#name : #FQUnionQuery,
-	#superclass : #FQBinaryQuery,
+	#superclass : #FQNaryQuery,
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
@@ -16,7 +16,7 @@ FQUnionQuery class >> label [
 
 { #category : #printing }
 FQUnionQuery >> defaultName [
-	^ self parents first name , ' | ' , self parents second name
+	^ self subqueries first name , ' | ' , self subqueries second name
 ]
 
 { #category : #printing }

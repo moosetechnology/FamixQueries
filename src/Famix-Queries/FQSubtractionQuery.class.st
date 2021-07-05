@@ -11,7 +11,8 @@ FQSubtractionQuery class >> isCommutative [
 
 { #category : #accessing }
 FQSubtractionQuery class >> label [
-	^ 'Substraction'
+
+	^ 'Difference'
 ]
 
 { #category : #printing }

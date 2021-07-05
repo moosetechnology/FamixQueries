@@ -133,29 +133,10 @@ FQUnaryQuery >> prepareRemoval [
 	parent := nil
 ]
 
-{ #category : #replacing }
-FQUnaryQuery >> replace: anotherQuery [
-	(anotherQuery isKindOf: FQUnaryQuery)
-		ifFalse: [ self inform: 'Cannot replace a binary query with a unary query'.
-			^ anotherQuery ].
-	self beChildOf: anotherQuery parent.
-	anotherQuery prepareRemoval.
-	anotherQuery children
-		do: [ :childQuery | 
-			childQuery
-				resetResult;
-				replaceParent: anotherQuery with: self ]
-]
+{ #category : #accessing }
+FQUnaryQuery >> resetParent [
 
-{ #category : #replacing }
-FQUnaryQuery >> replaceParent: aParent with: anotherQuery [
-	parent == aParent
-		ifFalse: [ ^ self ].
-	self beChildOf: anotherQuery
-]
-
-{ #category : #removing }
-FQUnaryQuery >> resetParents [
+	parent removeChild: self.
 	parent := nil
 ]
 
