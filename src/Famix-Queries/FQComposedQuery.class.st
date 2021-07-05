@@ -105,18 +105,6 @@ FQComposedQuery >> queries: aSequenceOfQueries [
 ]
 
 { #category : #reset }
-FQComposedQuery >> resetChildren [
-	super resetChildren.
-	leaf resetChildren
-]
-
-{ #category : #reset }
-FQComposedQuery >> resetParents [
-	super resetParents.
-	self roots do: #resetParents
-]
-
-{ #category : #reset }
 FQComposedQuery >> resetResult [
 	super resetResult.
 	queries do: #resetResult
