@@ -11,7 +11,8 @@ FQUnionQuery class >> isCommutative [
 
 { #category : #accessing }
 FQUnionQuery class >> label [
-	^ 'Union'
+
+	^ 'Or'
 ]
 
 { #category : #printing }
