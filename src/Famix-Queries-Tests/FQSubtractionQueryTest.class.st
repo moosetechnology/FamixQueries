@@ -41,7 +41,7 @@ FQSubtractionQueryTest >> testName [
 		equals: 'Incoming References, Inheritances \ Classes'.
 	self
 		assert: self unConfiguredQuery name
-		equals: 'Invalid Difference'
+		equals: 'Invalid Difference Query'
 ]
 
 { #category : #tests }

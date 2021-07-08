@@ -41,5 +41,5 @@ FQIntersectionQueryTest >> testName [
 		equals: 'Incoming References, Inheritances & Classes'.
 	self
 		assert: self unConfiguredQuery name
-		equals: 'Invalid And'
+		equals: 'Invalid And Query'
 ]
