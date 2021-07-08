@@ -54,7 +54,7 @@ FQComplementQueryTest >> testName [
 	self assert: query name equals: '(isInstanceSide) not'.
 	self
 		assert: self unConfiguredQuery name
-		equals: 'Invalid Complement Query'
+		equals: 'Invalid Negation Query'
 ]
 
 { #category : #'tests - running' }
