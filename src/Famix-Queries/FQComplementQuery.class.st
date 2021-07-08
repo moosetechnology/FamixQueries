@@ -6,7 +6,8 @@ Class {
 
 { #category : #accessing }
 FQComplementQuery class >> label [
-	^ 'Complement Query'
+
+	^ 'Negation Query'
 ]
 
 { #category : #default }

@@ -12,7 +12,7 @@ FQIntersectionQuery class >> isCommutative [
 { #category : #accessing }
 FQIntersectionQuery class >> label [
 
-	^ 'And'
+	^ 'And Query'
 ]
 
 { #category : #printing }
