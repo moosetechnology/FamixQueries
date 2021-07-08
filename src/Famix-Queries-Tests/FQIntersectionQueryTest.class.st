@@ -35,10 +35,11 @@ FQIntersectionQueryTest >> testDisplayOn [
 
 { #category : #'tests - printing' }
 FQIntersectionQueryTest >> testName [
+
 	self
 		assert: query name
 		equals: 'Incoming References, Inheritances & Classes'.
 	self
 		assert: self unConfiguredQuery name
-		equals: 'Invalid Intersection'
+		equals: 'Invalid And'
 ]

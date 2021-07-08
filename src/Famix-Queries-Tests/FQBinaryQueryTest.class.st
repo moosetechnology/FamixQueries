@@ -16,7 +16,7 @@ FQBinaryQueryTest >> expectedResult [
 
 { #category : #parents }
 FQBinaryQueryTest >> firstParentOfQuery [
-	^ query parents first
+	^ query subqueries first
 ]
 
 { #category : #parents }
@@ -72,7 +72,7 @@ FQBinaryQueryTest >> parentQueriesResult [
 
 { #category : #parents }
 FQBinaryQueryTest >> secondParentOfQuery [
-	^ query parents second
+	^ query subqueries second
 ]
 
 { #category : #tests }
@@ -82,7 +82,7 @@ FQBinaryQueryTest >> testBeChildOf [
 	self newTypeParent}.
 	query := self unConfiguredQuery beChildOf: parents.
 
-	self assertCollection: query parents hasSameElements: parents.
+	self assertCollection: query subqueries hasSameElements: parents.
 
 	self assert: (parents first children includes: query).
 	self assert: (parents second children includes: query)
@@ -109,8 +109,8 @@ FQBinaryQueryTest >> testParentSequence [
 			query}.
 
 	"Two generations"
-	query parents first beChildOf: self newBooleanParent.
-	query parents second beChildOf: self newStringParent.
+	query subqueries first beChildOf: self newBooleanParent.
+	query subqueries second beChildOf: self newStringParent.
 	self
 		assertCollection: query parentSequence
 		hasSameElements:
@@ -126,34 +126,16 @@ FQBinaryQueryTest >> testParents [
 	| newParents previousParents |
 	newParents := {self newBooleanParent.
 	self newBooleanParent}.
-	previousParents := query parents.
+	previousParents := query subqueries.
 
-	query parents: newParents.
-	self assert: query parents equals: newParents.
-	self deny: (query parents includesAny: previousParents)
-]
-
-{ #category : #tests }
-FQBinaryQueryTest >> testPrepareRemoval [
-	| parents |
-	parents := query parents.
-
-	query prepareRemoval.
-	
-	self assert: query parents isEmpty.
-	parents
-		do: [ :parent | self deny: (parent children includes: query) ]
-]
-
-{ #category : #tests }
-FQBinaryQueryTest >> testResetParents [
-	query resetParents.
-	self assert: query parents isEmpty
+	query subqueries: newParents.
+	self assert: query subqueries equals: newParents.
+	self deny: (query subqueries includesAny: previousParents)
 ]
 
 { #category : #tests }
 FQBinaryQueryTest >> testResult [
-	query parents
+	query subqueries
 		do:
 			[ :parent | parent parent: (FQRootQuery new result: helper classesAndMethods) ].
 	self

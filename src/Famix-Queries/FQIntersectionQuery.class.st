@@ -1,6 +1,6 @@
 Class {
 	#name : #FQIntersectionQuery,
-	#superclass : #FQBinaryQuery,
+	#superclass : #FQNaryQuery,
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
@@ -11,12 +11,13 @@ FQIntersectionQuery class >> isCommutative [
 
 { #category : #accessing }
 FQIntersectionQuery class >> label [
-	^ 'Intersection'
+
+	^ 'And'
 ]
 
 { #category : #printing }
 FQIntersectionQuery >> defaultName [
-	^ parents first name , ' & ' , parents second name
+	^ subqueries first name , ' & ' , subqueries second name
 ]
 
 { #category : #printing }

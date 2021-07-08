@@ -1,6 +1,6 @@
 Class {
 	#name : #FQSubtractionQuery,
-	#superclass : #FQBinaryQuery,
+	#superclass : #FQNaryQuery,
 	#category : #'Famix-Queries-Queries-Binary'
 }
 
@@ -11,12 +11,13 @@ FQSubtractionQuery class >> isCommutative [
 
 { #category : #accessing }
 FQSubtractionQuery class >> label [
-	^ 'Substraction'
+
+	^ 'Difference'
 ]
 
 { #category : #printing }
 FQSubtractionQuery >> defaultName [
-	^ self parents first name , ' \ ' , self parents second name
+	^ self subqueries first name , ' \ ' , self subqueries second name
 ]
 
 { #category : #printing }
@@ -26,7 +27,7 @@ FQSubtractionQuery >> operator [
 
 { #category : #reversing }
 FQSubtractionQuery >> reverseParents [
-	self parents: self parents reverse.
+	self subqueries: self subqueries reverse.
 	self resetResult
 ]
 
