@@ -17,6 +17,16 @@ FQComplementQuery >> beDefaultForParent [
 	
 ]
 
+{ #category : #running }
+FQComplementQuery >> computeResult [
+
+	self isValid ifFalse: [ ^ MooseGroup new ].
+
+	^ parent isRootQuery
+		  ifTrue: [ self runOn: parent result ]
+		  ifFalse: [ self runOn: parent parent result ]
+]
+
 { #category : #printing }
 FQComplementQuery >> defaultName [
 	^ '(' , parent name , ') not'
@@ -39,6 +49,7 @@ FQComplementQuery >> isValid [
 
 { #category : #running }
 FQComplementQuery >> runOn: aMooseGroup [
+
 	^ MooseGroup
 		withAll: (aMooseGroup copyWithoutAll: (parent runOn: aMooseGroup))
 ]

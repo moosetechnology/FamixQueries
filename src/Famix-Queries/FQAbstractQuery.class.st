@@ -141,20 +141,6 @@ FQAbstractQuery >> invalidDefaultName [
 	^ 'Invalid ' , self class label
 ]
 
-{ #category : #accessing }
-FQAbstractQuery >> isNegated [
- 	^false
-]
-
-{ #category : #accessing }
-FQAbstractQuery >> isNegated: aBoolean [
-	"by default queries cannot be negated"
- 	self canBeNegated
-	ifTrue: [ self subclassResponsibility  ]
-	ifFalse: [
-		aBoolean ifTrue: [ Error signal: 'Query cannot be negated' ] ]
-]
-
 { #category : #testing }
 FQAbstractQuery >> isRootQuery [
 	^ false
