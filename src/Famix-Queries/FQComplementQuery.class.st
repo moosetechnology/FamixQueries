@@ -1,7 +1,7 @@
 "
 A complement query can be seen as a ""negation"" query. In simple words it returns the complement of the current result.
 
-In order to do that, this query is instantiated with a parent. It takes the parent of the parent result: `parent parent result`. This returns all the entities (`allEntities`). And then it does the substraction of the current result (`parent result`) and allEntities.
+In order to do that, this query is instantiated with a parent. It takes `parent parent result`. This returns all the entities (`allEntities`). And then it does the substraction of the current result (`parent result`) and allEntities.
 This (`allEntities - parent result`) gives the complement of the current result.
 "
 Class {
