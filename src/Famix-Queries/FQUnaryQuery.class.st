@@ -2,8 +2,7 @@ Class {
 	#name : #FQUnaryQuery,
 	#superclass : #FQAbstractQuery,
 	#instVars : [
-		'parent',
-		'isNegated'
+		'parent'
 	],
 	#category : #'Famix-Queries-Core'
 }
@@ -56,12 +55,9 @@ FQUnaryQuery >> beDefaultForParent [
 { #category : #running }
 FQUnaryQuery >> computeResult [
 
-	self isValid
-		ifFalse: [ ^ MooseGroup new ].
+	self isValid ifFalse: [ ^ MooseGroup new ].
 
-	^self isNegated
-		ifTrue: [ (FQComplementQuery defaultForParent: self) runOn: parent result  ]
-		ifFalse: [ self runOn: parent result ]
+	^ self runOn: parent result
 ]
 
 { #category : #printing }
@@ -87,23 +83,6 @@ FQUnaryQuery >> hasSameParametersAs: aQuery [
 { #category : #comparing }
 FQUnaryQuery >> hasSameParentsAs: aQuery [
 	^ parent = aQuery parent
-]
-
-{ #category : #initialization }
-FQUnaryQuery >> initialize [
-	super initialize.
-	isNegated := false
-]
-
-{ #category : #accessing }
-FQUnaryQuery >> isNegated [
-	^isNegated 
-]
-
-{ #category : #accessing }
-FQUnaryQuery >> isNegated: aBoolean [
-	isNegated := aBoolean.
-	self resetResult
 ]
 
 { #category : #accessing }
