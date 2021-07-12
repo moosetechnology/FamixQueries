@@ -1,5 +1,5 @@
 "
-Abstract class for `and`, `or` and `difference` queries. 
+Abstract class for `and`, `or` and `difference` queries. I can receive several subqueries, not only two.
 "
 Class {
 	#name : #FQNAryQuery,

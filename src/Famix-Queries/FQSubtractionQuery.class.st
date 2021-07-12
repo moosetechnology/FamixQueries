@@ -1,3 +1,8 @@
+"
+I make the subtraction operation for all my subqueries (can be more than two) between them.
+
+See `FQSubtractionQuery>>#runOn:`
+"
 Class {
 	#name : #FQSubtractionQuery,
 	#superclass : #FQNAryQuery,
@@ -32,8 +37,9 @@ FQSubtractionQuery >> reverseParents [
 ]
 
 { #category : #running }
-FQSubtractionQuery >> runOn: twoMooseGroups [
-	^ twoMooseGroups first difference: twoMooseGroups second
+FQSubtractionQuery >> runOn: mooseGroups [
+
+	^ mooseGroups fold: [ :a :b | a difference: b ]
 
 	"^ MooseGroup
 		withAll:
