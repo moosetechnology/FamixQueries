@@ -1,17 +1,17 @@
 "
-Abstract class for `and`, `or` and `difference` queries. 
+Abstract class for `and`, `or` and `difference` queries. I can receive several subqueries, not only two.
 "
 Class {
-	#name : #FQNaryQuery,
+	#name : #FQNAryQuery,
 	#superclass : #FQAbstractQuery,
 	#instVars : [
 		'subqueries'
 	],
-	#category : #'Famix-Queries-Core'
+	#category : #'Famix-Queries-Queries-N-ary'
 }
 
 { #category : #'available parameters' }
-FQNaryQuery class >> availableCombinations [
+FQNAryQuery class >> availableCombinations [
 	self flag: #FQImprove.
 	^ {FQUnionQuery.
 	FQIntersectionQuery.
@@ -19,19 +19,19 @@ FQNaryQuery class >> availableCombinations [
 ]
 
 { #category : #testing }
-FQNaryQuery class >> isCommutative [
+FQNAryQuery class >> isCommutative [
 	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
-FQNaryQuery class >> subqueries: twoQueries [
+FQNAryQuery class >> subqueries: twoQueries [
 	^ self new
 		beChildOf: twoQueries;
 		yourself
 ]
 
 { #category : #adding }
-FQNaryQuery >> addToParentsSequence: sequence [
+FQNAryQuery >> addToParentsSequence: sequence [
 	self flag: #FQImprove , 'Need for a specific order ?'.
 	self subqueries do: [ :parent | parent addToParentsSequence: sequence ].
 	(sequence includes: self)
@@ -43,21 +43,21 @@ FQNaryQuery >> addToParentsSequence: sequence [
 ]
 
 { #category : #adding }
-FQNaryQuery >> beChildOf: parentQueries [
+FQNAryQuery >> beChildOf: parentQueries [
 	self subqueries ifNotEmpty: [ self prepareRemoval ].
 	self subqueries: parentQueries.
 	parentQueries do: [ :newParent | newParent addChild: self ]
 ]
 
 { #category : #running }
-FQNaryQuery >> computeResult [
+FQNAryQuery >> computeResult [
 	self isValid
 		ifFalse: [ ^ MooseGroup new ].
 	^ self runOn: (self subqueries collect: #result)
 ]
 
 { #category : #printing }
-FQNaryQuery >> displayOn: aStream [
+FQNAryQuery >> displayOn: aStream [
 	aStream << '('.
 	self subqueries
 		allButLastDo: [ :query | 
@@ -68,12 +68,12 @@ FQNaryQuery >> displayOn: aStream [
 ]
 
 { #category : #testing }
-FQNaryQuery >> hasNoParent [
+FQNAryQuery >> hasNoParent [
 	^ self subqueries isEmpty
 ]
 
 { #category : #comparing }
-FQNaryQuery >> hasSameParametersAs: aQuery [
+FQNAryQuery >> hasSameParametersAs: aQuery [
 	self subqueries
 		with: aQuery subqueries
 		do: [ :parent :comparedParent | 
@@ -83,30 +83,30 @@ FQNaryQuery >> hasSameParametersAs: aQuery [
 ]
 
 { #category : #comparing }
-FQNaryQuery >> hasSameParentsAs: aQuery [
+FQNAryQuery >> hasSameParentsAs: aQuery [
 	^ self subqueries = aQuery subqueries
 ]
 
 { #category : #initialization }
-FQNaryQuery >> initialize [
+FQNAryQuery >> initialize [
 	super initialize.
 	subqueries := OrderedCollection new
 ]
 
 { #category : #testing }
-FQNaryQuery >> isValid [
+FQNAryQuery >> isValid [
 	^ self subqueries isNotEmpty
 		and: [ self subqueries
 				allSatisfy: [ :parent | parent isNotNil and: [ parent isValid ] ] ]
 ]
 
 { #category : #printing }
-FQNaryQuery >> operator [
+FQNAryQuery >> operator [
 	^ self subclassResponsibility
 ]
 
 { #category : #printing }
-FQNaryQuery >> storeOn: aStream [
+FQNAryQuery >> storeOn: aStream [
 	aStream << '('.
 	self subqueries first storeOn: aStream.
 	aStream << ') ' << self operator << ' ('.
@@ -115,7 +115,7 @@ FQNaryQuery >> storeOn: aStream [
 ]
 
 { #category : #printing }
-FQNaryQuery >> storeOn: aStream withParentsIn: queries [
+FQNAryQuery >> storeOn: aStream withParentsIn: queries [
 	(queries includesAll: subqueries)
 		ifFalse: [ ^ self storeOn: aStream ].
 	aStream << '('.
@@ -126,11 +126,11 @@ FQNaryQuery >> storeOn: aStream withParentsIn: queries [
 ]
 
 { #category : #accessing }
-FQNaryQuery >> subqueries [
+FQNAryQuery >> subqueries [
 	^ subqueries
 ]
 
 { #category : #accessing }
-FQNaryQuery >> subqueries: anObject [
+FQNAryQuery >> subqueries: anObject [
 	subqueries := anObject
 ]

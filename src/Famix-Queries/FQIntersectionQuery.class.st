@@ -1,7 +1,12 @@
+"
+I make the intersection operation for all my subqueries (can be more than two) between them.
+
+See `FQIntersectionQuery>>#runOn:`
+"
 Class {
 	#name : #FQIntersectionQuery,
-	#superclass : #FQNaryQuery,
-	#category : #'Famix-Queries-Queries-Binary'
+	#superclass : #FQNAryQuery,
+	#category : #'Famix-Queries-Queries-N-ary'
 }
 
 { #category : #testing }
@@ -26,8 +31,9 @@ FQIntersectionQuery >> operator [
 ]
 
 { #category : #running }
-FQIntersectionQuery >> runOn: twoMooseGroups [
-	^ twoMooseGroups first intersection: twoMooseGroups second
+FQIntersectionQuery >> runOn: mooseGroups [
+
+	^ mooseGroups fold: [ :a :b | a intersection: b ]
 	
 	"| childrenResults |
 	childrenResults := self childrenQueries

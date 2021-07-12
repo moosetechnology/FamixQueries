@@ -1,7 +1,7 @@
 Class {
 	#name : #FQSubtractionQueryTest,
-	#superclass : #FQBinaryQueryTest,
-	#category : #'Famix-Queries-Tests-Binary'
+	#superclass : #FQNAryQueryTest,
+	#category : #'Famix-Queries-Tests-N-ary'
 }
 
 { #category : #running }

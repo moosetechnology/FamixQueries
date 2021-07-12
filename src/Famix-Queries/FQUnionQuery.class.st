@@ -1,7 +1,12 @@
+"
+I make the union operation for all my subqueries (can be more than two) between them.
+
+See `FQUnionQuery>>#runOn:`
+"
 Class {
 	#name : #FQUnionQuery,
-	#superclass : #FQNaryQuery,
-	#category : #'Famix-Queries-Queries-Binary'
+	#superclass : #FQNAryQuery,
+	#category : #'Famix-Queries-Queries-N-ary'
 }
 
 { #category : #testing }
@@ -26,8 +31,9 @@ FQUnionQuery >> operator [
 ]
 
 { #category : #running }
-FQUnionQuery >> runOn: twoMooseGroups [
-	^ twoMooseGroups first union: twoMooseGroups second
+FQUnionQuery >> runOn: mooseGroups [
+
+	^ mooseGroups fold: [ :a :b | a union: b ]
 
 	"| childrenResults |
 	childrenResults := parents
