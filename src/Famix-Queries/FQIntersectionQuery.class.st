@@ -1,7 +1,7 @@
 Class {
 	#name : #FQIntersectionQuery,
-	#superclass : #FQNaryQuery,
-	#category : #'Famix-Queries-Queries-Binary'
+	#superclass : #FQNAryQuery,
+	#category : #'Famix-Queries-Queries-N-ary'
 }
 
 { #category : #testing }

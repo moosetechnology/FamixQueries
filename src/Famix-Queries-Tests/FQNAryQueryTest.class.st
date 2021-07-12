@@ -1,36 +1,36 @@
 Class {
-	#name : #FQBinaryQueryTest,
+	#name : #FQNAryQueryTest,
 	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-Binary'
+	#category : #'Famix-Queries-Tests-N-ary'
 }
 
 { #category : #testing }
-FQBinaryQueryTest class >> isAbstract [
-	^ self == FQBinaryQueryTest
+FQNAryQueryTest class >> isAbstract [
+	^ self == FQNAryQueryTest
 ]
 
 { #category : #running }
-FQBinaryQueryTest >> expectedResult [
+FQNAryQueryTest >> expectedResult [
 	^ self subclassResponsibility
 ]
 
 { #category : #parents }
-FQBinaryQueryTest >> firstParentOfQuery [
+FQNAryQueryTest >> firstParentOfQuery [
 	^ query subqueries first
 ]
 
 { #category : #parents }
-FQBinaryQueryTest >> newBooleanParent [
+FQNAryQueryTest >> newBooleanParent [
 	^ FQBooleanQuery new property: #isAbstract
 ]
 
 { #category : #parents }
-FQBinaryQueryTest >> newInvalidParent [
+FQNAryQueryTest >> newInvalidParent [
 	^ FQBooleanQuery new
 ]
 
 { #category : #parents }
-FQBinaryQueryTest >> newNavigationParent [
+FQNAryQueryTest >> newNavigationParent [
 	^ FQNavigationQuery incoming
 		associations:
 			{FamixStReference.
@@ -38,7 +38,7 @@ FQBinaryQueryTest >> newNavigationParent [
 ]
 
 { #category : #running }
-FQBinaryQueryTest >> newQuery [
+FQNAryQueryTest >> newQuery [
 	"This gives different, non-empty results for each binary query"
 
 	| firstParentQuery secondParentQuery |
@@ -51,7 +51,7 @@ FQBinaryQueryTest >> newQuery [
 ]
 
 { #category : #parents }
-FQBinaryQueryTest >> newStringParent [
+FQNAryQueryTest >> newStringParent [
 	^ FQStringQuery new
 		property: #name;
 		comparator: #beginsWith:;
@@ -59,24 +59,24 @@ FQBinaryQueryTest >> newStringParent [
 ]
 
 { #category : #parents }
-FQBinaryQueryTest >> newTypeParent [
+FQNAryQueryTest >> newTypeParent [
 	^ FQTypeQuery new type: FamixStClass
 ]
 
 { #category : #tests }
-FQBinaryQueryTest >> parentQueriesResult [
+FQNAryQueryTest >> parentQueriesResult [
 	^ {self firstParentOfQuery.
 	self secondParentOfQuery}
 		collect: [ :q | q runOn: helper classesAndMethods ]
 ]
 
 { #category : #parents }
-FQBinaryQueryTest >> secondParentOfQuery [
+FQNAryQueryTest >> secondParentOfQuery [
 	^ query subqueries second
 ]
 
 { #category : #tests }
-FQBinaryQueryTest >> testBeChildOf [
+FQNAryQueryTest >> testBeChildOf [
 	| parents |
 	parents := {self newBooleanParent.
 	self newTypeParent}.
@@ -89,7 +89,7 @@ FQBinaryQueryTest >> testBeChildOf [
 ]
 
 { #category : #tests }
-FQBinaryQueryTest >> testIsValid [
+FQNAryQueryTest >> testIsValid [
 	self
 		deny:
 			(self unConfiguredQuery
@@ -99,7 +99,7 @@ FQBinaryQueryTest >> testIsValid [
 ]
 
 { #category : #tests }
-FQBinaryQueryTest >> testParentSequence [
+FQNAryQueryTest >> testParentSequence [
 	"One generation"
 	self
 		assertCollection: query parentSequence
@@ -122,7 +122,7 @@ FQBinaryQueryTest >> testParentSequence [
 ]
 
 { #category : #tests }
-FQBinaryQueryTest >> testParents [
+FQNAryQueryTest >> testParents [
 	| newParents previousParents |
 	newParents := {self newBooleanParent.
 	self newBooleanParent}.
@@ -134,7 +134,7 @@ FQBinaryQueryTest >> testParents [
 ]
 
 { #category : #tests }
-FQBinaryQueryTest >> testResult [
+FQNAryQueryTest >> testResult [
 	query subqueries
 		do:
 			[ :parent | parent parent: (FQRootQuery new result: helper classesAndMethods) ].
@@ -144,7 +144,7 @@ FQBinaryQueryTest >> testResult [
 ]
 
 { #category : #'tests - running' }
-FQBinaryQueryTest >> testRunOn [
+FQNAryQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 	self
 		assertCollection:
