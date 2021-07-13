@@ -76,7 +76,7 @@ FQComplementQuery >> isValid [
 { #category : #accessing }
 FQComplementQuery >> parent: aQuery [
 
-	"This method is overridden only for the purpose of using the queryToNegate instance variable instead of parent. Only for better readability. Does not affects any functionality."
+	"This method is overridden only for the purpose of using the queryToNegate instance variable instead of parent. Only for better readability. Does not affect any functionality."
 
 	parent := aQuery.
 	queryToNegate := aQuery
