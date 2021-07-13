@@ -25,9 +25,10 @@ FQNAryQuery class >> isCommutative [
 
 { #category : #accessing }
 FQNAryQuery class >> subqueries: twoQueries [
+
 	^ self new
-		beChildOf: twoQueries;
-		yourself
+		  subqueries: twoQueries;
+		  yourself
 ]
 
 { #category : #adding }
@@ -107,22 +108,26 @@ FQNAryQuery >> operator [
 
 { #category : #printing }
 FQNAryQuery >> storeOn: aStream [
-	aStream << '('.
-	self subqueries first storeOn: aStream.
-	aStream << ') ' << self operator << ' ('.
-	self subqueries second storeOn: aStream.
-	aStream << ' )'
+
+	self subqueries
+		do: [ :subquery | 
+			aStream << '('.
+			subquery storeOn: aStream.
+			aStream << ')' ]
+		separatedBy: [ aStream << ' ' << self operator << ' ' ]
 ]
 
 { #category : #printing }
 FQNAryQuery >> storeOn: aStream withParentsIn: queries [
-	(queries includesAll: subqueries)
-		ifFalse: [ ^ self storeOn: aStream ].
-	aStream << '('.
-	self subqueries first storeOn: aStream withParentsIn: queries.
-	aStream << ') ' << self operator << ' ('.
-	self subqueries second storeOn: aStream withParentsIn: queries.
-	aStream << ' )'
+
+	(queries includesAll: subqueries) ifFalse: [ ^ self storeOn: aStream ].
+
+	self subqueries
+		do: [ :subquery | 
+			aStream << '('.
+			subquery storeOn: aStream withParentsIn: queries.
+			aStream << ')' ]
+		separatedBy: [ aStream << ' ' << self operator << ' ' ]
 ]
 
 { #category : #accessing }

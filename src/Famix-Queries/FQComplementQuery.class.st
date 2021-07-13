@@ -15,6 +15,12 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #default }
+FQComplementQuery class >> defaultForParent: aQuery [
+
+	^ self queryToNegate: aQuery
+]
+
 { #category : #accessing }
 FQComplementQuery class >> label [
 
@@ -76,7 +82,7 @@ FQComplementQuery >> isValid [
 { #category : #accessing }
 FQComplementQuery >> parent: aQuery [
 
-	"This method is overridden only for the purpose of using the queryToNegate instance variable instead of parent. Only for better readability. Does not affect any functionality."
+	"This method is overridden only for the purpose of using the queryToNegate instance variable instead of parent. The queryToNegate instance variable was created only for better readability. Does not add any functionality."
 
 	parent := aQuery.
 	queryToNegate := aQuery

@@ -34,12 +34,4 @@ FQUnionQuery >> operator [
 FQUnionQuery >> runOn: mooseGroups [
 
 	^ mooseGroups fold: [ :a :b | a union: b ]
-
-	"| childrenResults |
-	childrenResults := parents
-		collect: [ :query | query runOn: aMooseGroup ].
-	^ MooseGroup
-		withAll:
-			(childrenResults
-				fold: [ :currentResult :otherResult | currentResult union: otherResult ])"
 ]

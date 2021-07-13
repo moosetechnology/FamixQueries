@@ -40,11 +40,4 @@ FQSubtractionQuery >> reverseParents [
 FQSubtractionQuery >> runOn: mooseGroups [
 
 	^ mooseGroups fold: [ :a :b | a difference: b ]
-
-	"^ MooseGroup
-		withAll:
-			(self childrenQueries allButFirst
-				inject: (self childrenQueries first runOn: aMooseGroup)
-				into:
-					[ :queryResult :otherQuery | queryResult difference: (otherQuery runOn: aMooseGroup) ])"
 ]

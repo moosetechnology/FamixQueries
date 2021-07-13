@@ -34,13 +34,4 @@ FQIntersectionQuery >> operator [
 FQIntersectionQuery >> runOn: mooseGroups [
 
 	^ mooseGroups fold: [ :a :b | a intersection: b ]
-	
-	"| childrenResults |
-	childrenResults := self childrenQueries
-		collect: [ :query | query runOn: aMooseGroup ].
-	^ MooseGroup
-		withAll:
-			(childrenResults
-				fold:
-					[ :currentResult :otherResult | currentResult intersection: otherResult ])"
 ]
