@@ -1,12 +1,17 @@
 "
-A complement query can be seen as a ""negation"" query. In simple words it returns the complement of the current result.
+A complement query can be seen as a ""negation"" query. In simple words, it returns the complement of the `queryToNegate` result.
+In order to do that, this query is instantiated with a query to negate. It takes `queryToNegate parent result`. This returns all the entities (`allEntities`). And then it does the substraction of the current result (`queryToNegate result`) with allEntities.
+This (`allEntities - queryToNegate result`) gives the complement of the current result.
 
-In order to do that, this query is instantiated with a parent. It takes `parent parent result`. This returns all the entities (`allEntities`). And then it does the substraction of the current result (`parent result`) and allEntities.
-This (`allEntities - parent result`) gives the complement of the current result.
+_Note: The `parent` instance variable, that is defined in `FQUnaryQuery`, is not used in this query. But, we set the value of parent variable as the same as `queryToNegate` value. This is for all the functionalities that are defined in the parent class (`FQUnaryQuery`) works without problem. Because the parent class uses the parent instance variable.
+But keep in mind that this query does not have a parent, only a queryToNegate._
 "
 Class {
 	#name : #FQComplementQuery,
 	#superclass : #FQUnaryQuery,
+	#instVars : [
+		'queryToNegate'
+	],
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
@@ -14,6 +19,14 @@ Class {
 FQComplementQuery class >> label [
 
 	^ 'Negation Query'
+]
+
+{ #category : #accessing }
+FQComplementQuery class >> queryToNegate: aQuery [
+
+	^ self new
+		  queryToNegate: aQuery;
+		  yourself
 ]
 
 { #category : #default }
@@ -28,14 +41,15 @@ FQComplementQuery >> computeResult [
 
 	self isValid ifFalse: [ ^ MooseGroup new ].
 
-	^ parent isRootQuery
-		  ifTrue: [ self runOn: parent result ]
-		  ifFalse: [ self runOn: parent parent result ]
+	^ queryToNegate isRootQuery
+		  ifTrue: [ self runOn: queryToNegate result ]
+		  ifFalse: [ self runOn: queryToNegate parent result ]
 ]
 
 { #category : #printing }
 FQComplementQuery >> defaultName [
-	^ '(' , parent name , ') not'
+
+	^ '(' , queryToNegate name , ') not'
 ]
 
 { #category : #printing }
@@ -45,24 +59,47 @@ FQComplementQuery >> displayOn: aStream with: aString [
 
 { #category : #comparing }
 FQComplementQuery >> hasSameParametersAs: aQuery [
-	^ aQuery parent hasSameParametersAs: parent
+
+	^ aQuery parent hasSameParametersAs: queryToNegate
 ]
 
 { #category : #testing }
 FQComplementQuery >> isValid [
-	^ parent isNotNil and: [ parent isValid ]
+
+	| isParentValid isQuerytoNegateValid |
+	isParentValid := parent isNotNil and: [ parent isValid ].
+	isQuerytoNegateValid := queryToNegate isNotNil and: [ 
+		                        queryToNegate isValid ].
+	^ isParentValid and: [ isQuerytoNegateValid ]
+]
+
+{ #category : #accessing }
+FQComplementQuery >> parent: aQuery [
+
+	"This method is overridden only for the purpose of using the queryToNegate instance variable instead of parent. Only for better readability. Does not affect any functionality."
+
+	parent := aQuery.
+	queryToNegate := aQuery
+]
+
+{ #category : #accessing }
+FQComplementQuery >> queryToNegate: aQuery [
+
+	queryToNegate := aQuery.
+	parent := aQuery
 ]
 
 { #category : #running }
-FQComplementQuery >> runOn: aMooseGroup [
+FQComplementQuery >> runOn: allEntitiesMooseGroup [
 
-	^ MooseGroup
-		withAll: (aMooseGroup copyWithoutAll: (parent runOn: aMooseGroup))
+	^ MooseGroup withAll:
+		  (allEntitiesMooseGroup copyWithoutAll: (queryToNegate runOn: allEntitiesMooseGroup))
 ]
 
 { #category : #printing }
 FQComplementQuery >> storeOn: aStream [
+
 	aStream << self className << ' new beChildOf: ('.
-	parent storeOn: aStream.
+	queryToNegate storeOn: aStream.
 	aStream << $)
 ]
