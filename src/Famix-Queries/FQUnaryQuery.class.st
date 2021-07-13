@@ -1,3 +1,6 @@
+"
+I am the class that do unary operations for queries. That means all operations that are done with only one query. see my children classes.
+"
 Class {
 	#name : #FQUnaryQuery,
 	#superclass : #FQAbstractQuery,

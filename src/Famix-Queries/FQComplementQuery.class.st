@@ -66,13 +66,17 @@ FQComplementQuery >> hasSameParametersAs: aQuery [
 { #category : #testing }
 FQComplementQuery >> isValid [
 
-	^ parent isNotNil and: [ 
-		   parent isValid  and: [ 
-			  queryToNegate isNotNil and: [ queryToNegate isValid ] ] ]
+	| isParentValid isQuerytoNegateValid |
+	isParentValid := parent isNotNil and: [ parent isValid ].
+	isQuerytoNegateValid := queryToNegate isNotNil and: [ 
+		                        queryToNegate isValid ].
+	^ isParentValid and: [ isQuerytoNegateValid ]
 ]
 
 { #category : #accessing }
 FQComplementQuery >> parent: aQuery [
+
+	"This method is overridden only for the purpose of using the queryToNegate instance variable instead of parent. Only for better readability. Does not affects any functionality."
 
 	parent := aQuery.
 	queryToNegate := aQuery
@@ -86,10 +90,10 @@ FQComplementQuery >> queryToNegate: aQuery [
 ]
 
 { #category : #running }
-FQComplementQuery >> runOn: aMooseGroup [
+FQComplementQuery >> runOn: allEntitiesMooseGroup [
 
 	^ MooseGroup withAll:
-		  (aMooseGroup copyWithoutAll: (queryToNegate runOn: aMooseGroup))
+		  (allEntitiesMooseGroup copyWithoutAll: (queryToNegate runOn: allEntitiesMooseGroup))
 ]
 
 { #category : #printing }
