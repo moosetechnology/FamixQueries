@@ -17,8 +17,12 @@ FQResultSizeQueryTest >> expectedPrintOnString [
 
 { #category : #running }
 FQResultSizeQueryTest >> expectedResult [
-	^ helper classes
-		select: [ :class | (self innerQuery runOn: class asMooseGroup) size > 20 ]
+
+	| groups |
+	groups := (helper classes allEntityTypes collect: [ :type | 
+		           helper classes allWithType: type ]) asOrderedCollection.
+	^ ((groups select: [ :class | class size > self valueToCompare ]) 
+		   flatCollect: [ :each | each ]) asMooseGroup
 ]
 
 { #category : #running }
@@ -28,10 +32,11 @@ FQResultSizeQueryTest >> innerQuery [
 
 { #category : #running }
 FQResultSizeQueryTest >> newQuery [
+
 	^ FQResultSizeQuery new
-		innerQuery: self innerQuery;
-		comparator: #>;
-		valueToCompare: 20
+		  innerQuery: self innerQuery;
+		  comparator: #>;
+		  valueToCompare: self valueToCompare
 ]
 
 { #category : #'tests - printing' }
@@ -50,10 +55,27 @@ FQResultSizeQueryTest >> testName [
 		equals: 'Invalid Result Size Query'
 ]
 
+{ #category : #tests }
+FQResultSizeQueryTest >> testResult [
+
+	| newRootQuery |
+	newRootQuery := self newParentQuery.
+	query innerQuery: newRootQuery.
+	self
+		assertCollection: query result
+		hasSameElements: (query runOn: newRootQuery result)
+]
+
 { #category : #'tests - running' }
 FQResultSizeQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 	self
 		assertCollection: (query runOn: helper classes)
 		hasSameElements: self expectedResult
+]
+
+{ #category : #running }
+FQResultSizeQueryTest >> valueToCompare [
+
+	^ 20
 ]
