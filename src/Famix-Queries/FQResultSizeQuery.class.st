@@ -1,3 +1,8 @@
+"
+The query is instantiated on a parentQuery. Then, it receives an innerQuery. The inner query can only be a `FQNavigationQuery` or `FQScopeQuery`. Also a comparator, that can be: <, >, <=, >=, =. And finally a number to compare.
+
+Then, for each of the results of the parent query, it runs the inner query. That produces a collection, then compares the size of the collection with the comparator and the value. See `FQResultSizeQuery>>#runOn:`
+"
 Class {
 	#name : #FQResultSizeQuery,
 	#superclass : #FQUnaryQuery,
@@ -25,9 +30,10 @@ FQResultSizeQuery class >> label [
 
 { #category : #default }
 FQResultSizeQuery >> beDefaultForParent [
-	self innerQuery: (FQRootQuery new result: parent result).
-	self comparator: #>.
-	self valueToCompare: 0
+
+	innerQuery := FQRootQuery new result: parent result.
+	comparator := #>.
+	valueToCompare := 0
 ]
 
 { #category : #accessing }
@@ -42,64 +48,71 @@ FQResultSizeQuery >> comparator: anObject [
 
 { #category : #printing }
 FQResultSizeQuery >> defaultName [
+
 	^ '(' , innerQuery name , ') size ' , comparator asString , ' '
-		, valueToCompare asString
+	  , valueToCompare asString
 ]
 
 { #category : #printing }
 FQResultSizeQuery >> displayOn: aStream with: aString [
+
 	aStream << aString << ' select: [ :entity | ('.
 	innerQuery displayOn: aStream with: 'entity asMooseGroup'.
 	aStream
 		<< ') size ';
-		<< self comparator asString;
+		<< comparator asString;
 		space;
-		<< self valueToCompare asString;
+		<< valueToCompare asString;
 		<< ' ]'
 ]
 
 { #category : #comparing }
 FQResultSizeQuery >> hasSameParametersAs: aQuery [
-	^ (innerQuery hasSameParametersAs: aQuery innerQuery)
-		and: [ comparator = aQuery comparator
-				and: valueToCompare = aQuery valueToCompare ]
+
+	^ (innerQuery hasSameParametersAs: aQuery innerQuery) and: [ 
+		  comparator = aQuery comparator and:
+			  valueToCompare = aQuery valueToCompare ]
 ]
 
 { #category : #accessing }
 FQResultSizeQuery >> innerQuery [
+
 	^ innerQuery
 ]
 
 { #category : #accessing }
 FQResultSizeQuery >> innerQuery: anObject [
+
 	innerQuery := anObject
 ]
 
 { #category : #testing }
 FQResultSizeQuery >> isValid [
-	^ (innerQuery isKindOf: FQAbstractQuery)
-		and: [ innerQuery isValid
-				and: [ self comparator isSymbol and: [ self valueToCompare isNumber ] ] ]
+
+	^ (innerQuery isKindOf: FQAbstractQuery) and: [ 
+		  innerQuery isValid and: [ 
+			  comparator isSymbol and: [ valueToCompare isNumber ] ] ]
 ]
 
 { #category : #running }
 FQResultSizeQuery >> runOn: aMooseGroup [
-	^ aMooseGroup
-		select: [ :entity | 
-			(innerQuery runOn: entity asMooseGroup) size
-				perform: self comparator
-				with: self valueToCompare ]
+
+	^ aMooseGroup select: [ :entity | 
+		  (innerQuery runOn: entity asMooseGroup) size
+			  perform: comparator
+			  with: valueToCompare ]
 ]
 
 { #category : #printing }
 FQResultSizeQuery >> storeOn: aStream [
+
 	aStream << self className << ' innerQuery: ('.
 	innerQuery storeOn: aStream.
 	aStream << ') comparator: '.
-	self comparator storeOn: aStream.
+	comparator storeOn: aStream.
 	aStream
 		<< ' valueToCompare: ';
-		<< self valueToCompare asString
+		<< valueToCompare asString
 ]
 
 { #category : #accessing }
