@@ -30,15 +30,13 @@ FQNavigationAssociations class >> with: aFamixClass [
 
 { #category : #'instance creation' }
 FQNavigationAssociations class >> withAll: aCollection [
+
 	| associations |
-	associations := aCollection asOrderedCollection
-		removeAllSuchThat: #isNil.
-	associations
-		ifEmpty: [ FQCannotRemoveLastNavigationAssociation
-				signal: 'You cannot create a navigation query without associations' ].
+	associations := aCollection asOrderedCollection removeAllSuchThat:
+		                #isNil.
 	^ self new
-		associations: associations;
-		yourself
+		  associations: associations;
+		  yourself
 ]
 
 { #category : #comparing }
