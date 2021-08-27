@@ -107,11 +107,10 @@ FQTypeQueryTest >> testName [
 
 { #category : #'tests - adding - removing' }
 FQTypeQueryTest >> testRemoveType [
+
 	query removeType: FamixStMethod.
 	self deny: (query types includes: FamixStMethod).
-	self
-		should: [ query removeType: FamixStClass ]
-		raise: FQCannotRemoveLastType
+	query removeType: FamixStClass
 ]
 
 { #category : #'tests - running' }

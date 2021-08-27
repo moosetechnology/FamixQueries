@@ -365,18 +365,16 @@ FQNavigationQueryTest >> testName [
 
 { #category : #'tests - adding - removing' }
 FQNavigationQueryTest >> testRemoveAssociation [
+
 	query parent: (FQRootQuery new result: helper classesAndMethods).
 	query removeAssociation: FamixStAccess.
-	self
-		deny: (query associations includes: FamixStAccess).
+	self deny: (query associations includes: FamixStAccess).
 	self
 		assert: query associationStrategy class
 		identicalTo: FQNavigationAssociations.
-	query
-		associationStrategy: (FQNavigationAssociations with: FamixStAccess).
-	self
-		should: [ query removeAssociation: FamixStAccess ]
-		raise: FQCannotRemoveLastNavigationAssociation
+	query associationStrategy:
+		(FQNavigationAssociations with: FamixStAccess).
+	query removeAssociation: FamixStAccess
 ]
 
 { #category : #'tests - running' }
