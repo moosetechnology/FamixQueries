@@ -76,7 +76,7 @@ FQTypeQuery >> availableTypes [
 
 { #category : #'available parameters' }
 FQTypeQuery >> availableTypesFor: aMooseGroup [
-	^ (aMooseGroup allUsing: TEntityMetaLevelDependency) allEntityTypes asOrderedCollection sort: [ :type1 :type2 | type1 name < type2 name ]
+	^ aMooseGroup allEntityTypes asOrderedCollection sort: [ :type1 :type2 | type1 name < type2 name ]
 ]
 
 { #category : #default }

@@ -48,20 +48,20 @@ Class {
 
 { #category : #'available parameters' }
 FQScopeQuery class >> directionStrategies [
-	^ FQAbstractScopeDirection directionStrategies
+	^ MQScopeDirectionStrategy directionStrategies
 ]
 
 { #category : #'instance creation' }
 FQScopeQuery class >> down [
 	^ self new
-		directionStrategy: FQScopeDown;
+		directionStrategy: MQScopeDownStrategy;
 		yourself
 ]
 
 { #category : #'instance creation' }
 FQScopeQuery class >> downTo: aScope [
 	^ self new
-		directionStrategy: FQScopeDown;
+		directionStrategy: MQScopeDownStrategy;
 		scope: aScope;
 		yourself
 ]
@@ -74,21 +74,21 @@ FQScopeQuery class >> label [
 { #category : #'instance creation' }
 FQScopeQuery class >> up [
 	^ self new
-		directionStrategy: FQScopeUp;
+		directionStrategy: MQScopeUpStrategy;
 		yourself
 ]
 
 { #category : #'instance creation' }
 FQScopeQuery class >> upAndDown [
 	^ self new
-		directionStrategy: FQScopeUpAndDown;
+		directionStrategy: MQScopeAllStrategy;
 		yourself
 ]
 
 { #category : #'instance creation' }
 FQScopeQuery class >> upAndDownTo: aScope [
 	^ self new
-		directionStrategy: FQScopeUpAndDown;
+		directionStrategy: MQScopeAllStrategy;
 		scope: aScope;
 		yourself
 ]
@@ -96,7 +96,7 @@ FQScopeQuery class >> upAndDownTo: aScope [
 { #category : #'instance creation' }
 FQScopeQuery class >> upTo: aScope [
 	^ self new
-		directionStrategy: FQScopeUp;
+		directionStrategy: MQScopeUpStrategy;
 		scope: aScope;
 		yourself
 ]
@@ -167,7 +167,7 @@ FQScopeQuery >> hasSameParametersAs: aQuery [
 { #category : #testing }
 FQScopeQuery >> isValid [
 	^ self directionStrategy isClass
-		and: [ (self directionStrategy inheritsFrom: FQAbstractScopeDirection)
+		and: [ (self directionStrategy inheritsFrom: MQScopeDirectionStrategy)
 				and: [ self scopeIsValid: self scope ] ]
 ]
 

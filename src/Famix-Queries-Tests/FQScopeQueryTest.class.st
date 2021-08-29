@@ -24,7 +24,7 @@ FQScopeQueryTest >> expectedResult [
 FQScopeQueryTest >> newQuery [
 	^ self unConfiguredQuery
 		scope: FamixStMethod;
-		directionStrategy: FQAbstractScopeDirection defaultDirection
+		directionStrategy: MQScopeDirectionStrategy defaultDirection
 ]
 
 { #category : #'tests - available parameters' }
@@ -42,7 +42,7 @@ FQScopeQueryTest >> testAvailableScopesFor [
 FQScopeQueryTest >> testDirectionStrategies [
 	self
 		assertCollection: self unConfiguredQuery directionStrategies
-		includesAll: FQAbstractScopeDirection allSubclasses
+		includesAll: MQScopeDirectionStrategy allSubclasses
 ]
 
 { #category : #'tests - printing' }
@@ -80,6 +80,6 @@ FQScopeQueryTest >> testRunOn [
 { #category : #tests }
 FQScopeQueryTest >> testSyntacticSugar [
 	query := self actualClass up scope: FamixStClass.
-	self assert: query directionStrategy identicalTo: FQScopeUp.
+	self assert: query directionStrategy identicalTo: MQScopeUpStrategy.
 	self assert: query scope identicalTo: FamixStClass
 ]
