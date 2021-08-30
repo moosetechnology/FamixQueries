@@ -86,6 +86,7 @@ FQAbstractQueryTest >> testParentSequence [
 
 { #category : #'tests - printing' }
 FQAbstractQueryTest >> testPrintOn [
+
 	self assert: query printString equals: self expectedPrintOnString.
 	self
 		assert: self unConfiguredQuery printString

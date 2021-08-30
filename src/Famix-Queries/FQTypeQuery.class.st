@@ -81,28 +81,33 @@ FQTypeQuery >> availableTypesFor: aMooseGroup [
 
 { #category : #default }
 FQTypeQuery >> beDefaultForParent [
-	self types: self availableTypes
+
+	"Don't do nothing. The previous behavior was to select all the types by default"
+
+	
 ]
 
 { #category : #printing }
 FQTypeQuery >> defaultName [
-	^ String
-		streamContents: [ :s | 
-			self types
-				allButLastDo: [ :type | s << (self class stringForClass: type) << ', ' ].
-			s << (self class stringForClass: self types last) ]
+
+	^ String streamContents: [ :s | 
+		  self types
+			  do: [ :type | s << (self class stringForClass: type) ]
+			  separatedBy: [ s << ', ' ] ]
 ]
 
 { #category : #printing }
 FQTypeQuery >> displayOn: aStream with: aString [
+
 	self types size == 1
-		ifTrue:
-			[ aStream << aString << (self displayStringForType: self types first) ]
-		ifFalse: [ self types
-				allButLastDo:
-					[ :type | aStream << $( << aString << (self displayStringForType: type) << ') | ' ].
-			aStream << $( << aString
-				<< (self displayStringForType: self types last) << $) ]
+		ifTrue: [ 
+		aStream << aString << (self displayStringForType: self types first) ]
+		ifFalse: [ 
+			self types
+				do: [ :type | 
+					aStream << $( << aString << (self displayStringForType: type)
+					<< ')' ]
+				separatedBy: [ aStream << ' | ' ] ]
 ]
 
 { #category : #printing }
@@ -125,8 +130,8 @@ FQTypeQuery >> initialize [
 
 { #category : #testing }
 FQTypeQuery >> isValid [
-	^ self types isNotEmpty
-		and: [ types allSatisfy: [ :type | self typeIsValid: type ] ]
+
+	^ types allSatisfy: [ :type | self typeIsValid: type ]
 ]
 
 { #category : #'adding - removing' }
