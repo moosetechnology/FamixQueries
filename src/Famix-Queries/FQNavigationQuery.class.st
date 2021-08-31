@@ -167,10 +167,9 @@ FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
 
 { #category : #default }
 FQNavigationQuery >> beDefaultForParent [
-	self
-		flag:
-			#FQImprove , #FQTest
-				, 'This is a bit of a hack to allow creation of invalid queries'.
+
+	self flag: #FQImprove , #FQTest
+		, 'This is a bit of a hack to allow creation of invalid queries'.
 	directionStrategy := self class directionStrategies first.
 	associationStrategy := FQAllNavigationAssociations new
 ]
