@@ -157,10 +157,12 @@ FQTypeQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQTypeQuery >> storeOn: aStream [
+
 	aStream << self className << ' types: {'.
-	self isValid
-		ifTrue: [ self types allButLastDo: [ :type | aStream << type name << '. ' ].
-			aStream << self types last name ].
+	self isValid ifTrue: [ 
+		self types
+			do: [ :type | aStream << type name ]
+			separatedBy: [ aStream << '. ' ] ].
 	aStream << $}
 ]
 
