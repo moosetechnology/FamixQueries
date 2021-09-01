@@ -51,11 +51,9 @@ FQComplementQuery >> beDefaultForParent [
 { #category : #running }
 FQComplementQuery >> computeResult [
 
-	self isValid ifFalse: [ ^ MooseGroup new ].
-
-	^ queryToNegate isRootQuery
-		  ifTrue: [ self runOn: queryToNegate result ]
-		  ifFalse: [ self runOn: queryToNegate parent result ]
+	^ result := self isValid
+		            ifTrue: [ self runOn: queryToNegate parent result ]
+		            ifFalse: [ MooseGroup new ]
 ]
 
 { #category : #printing }

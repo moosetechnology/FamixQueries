@@ -30,18 +30,20 @@ FQNAryQuery class >> isCommutative [
 ]
 
 { #category : #accessing }
-FQNAryQuery class >> subqueries: twoQueries [
+FQNAryQuery class >> subqueries: aCollection [
 
 	^ self new
-		  subqueries: twoQueries;
+		  subqueries: aCollection;
 		  yourself
 ]
 
 { #category : #running }
 FQNAryQuery >> computeResult [
-	self isValid
-		ifFalse: [ ^ MooseGroup new ].
-	^ self runOn: (self subqueries collect: #result)
+
+	^ result := self isValid
+		            ifTrue: [ 
+		            self runOn: (self subqueries collect: #result) ]
+		            ifFalse: [ MooseGroup new ]
 ]
 
 { #category : #printing }
