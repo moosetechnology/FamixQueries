@@ -24,6 +24,7 @@ FQComplementQueryTest >> expectedResult [
 
 { #category : #running }
 FQComplementQueryTest >> newQuery [
+
 	parentQuery := FQBooleanQuery new property: #isInstanceSide.
 	^ self unConfiguredQuery beChildOf: parentQuery
 ]
@@ -55,6 +56,21 @@ FQComplementQueryTest >> testName [
 	self
 		assert: self unConfiguredQuery name
 		equals: 'Invalid Negation Query'
+]
+
+{ #category : #tests }
+FQComplementQueryTest >> testResult [
+
+	| tempQuery |
+	tempQuery := FQBooleanQuery property: #isStub.
+	tempQuery beChildOf: self newParentQuery.
+	query queryToNegate: tempQuery.
+
+	self assertEmpty: tempQuery result.
+	"Since the result of the query to negate is empty, the complement query should contain the complement of empty which is all. So, it is the same as the result of the root query"
+	self
+		assertCollection: query result
+		hasSameElements: (query runOn: self newParentQuery result)
 ]
 
 { #category : #'tests - running' }

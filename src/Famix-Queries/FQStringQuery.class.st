@@ -55,6 +55,12 @@ FQStringQuery class >> defaultValueToCompare [
 	^ ''
 ]
 
+{ #category : #testing }
+FQStringQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
+
+	^ true
+]
+
 { #category : #accessing }
 FQStringQuery class >> label [
 	^ 'String Query'

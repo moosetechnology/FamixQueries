@@ -35,11 +35,6 @@ FQTypeQueryTest >> expectedResult [
 		asMooseGroup
 ]
 
-{ #category : #'instance creation' }
-FQTypeQueryTest >> newParentQuery [
-	^ FQRootQuery new result: helper modelExample
-]
-
 { #category : #running }
 FQTypeQueryTest >> newQuery [
 	^ self unConfiguredQuery

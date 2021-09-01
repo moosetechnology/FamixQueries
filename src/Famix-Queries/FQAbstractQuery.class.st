@@ -37,6 +37,12 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
+{ #category : #testing }
+FQAbstractQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
+
+	^ false
+]
+
 { #category : #accessing }
 FQAbstractQuery class >> label [
 	^ self subclassResponsibility
@@ -53,13 +59,6 @@ FQAbstractQuery >> & anotherQuery [
 ]
 
 { #category : #composition }
-FQAbstractQuery >> --> aChildQuery [
-	^ aChildQuery
-		beChildOf: self;
-		yourself
-]
-
-{ #category : #composition }
 FQAbstractQuery >> \ anotherQuery [
 
 	^ self subtraction: anotherQuery
@@ -68,16 +67,6 @@ FQAbstractQuery >> \ anotherQuery [
 { #category : #adding }
 FQAbstractQuery >> addChild: aQuery [
 	children add: aQuery
-]
-
-{ #category : #adding }
-FQAbstractQuery >> addToParentsSequence: sequence [
-	self subclassResponsibility
-]
-
-{ #category : #adding }
-FQAbstractQuery >> beChildOf: aQueryOrCollection [
-	self subclassResponsibility
 ]
 
 { #category : #printing }
@@ -112,13 +101,8 @@ FQAbstractQuery >> displayOn: aStream [
 	^ self subclassResponsibility
 ]
 
-{ #category : #testing }
-FQAbstractQuery >> hasNoParent [
-	^ self subclassResponsibility
-]
-
-{ #category : #comparing }
-FQAbstractQuery >> hasSameParentsAs: aQuery [
+{ #category : #accessing }
+FQAbstractQuery >> hasSameParametersAs: arg1 [ 
 	^ self subclassResponsibility
 ]
 
@@ -130,10 +114,10 @@ FQAbstractQuery >> initialize [
 
 { #category : #composition }
 FQAbstractQuery >> intersection: anotherQuery [
-	^ FQIntersectionQuery new
-		beChildOf:
-			{self.
-			anotherQuery}
+
+	^ FQIntersectionQuery new subqueries: { 
+			  self.
+			  anotherQuery }
 ]
 
 { #category : #printing }
@@ -196,7 +180,9 @@ FQAbstractQuery >> resetResult [
 
 { #category : #running }
 FQAbstractQuery >> result [
-	^ result ifNil: [ result := self computeResult ]
+
+	result ifNil: [ self computeResult ].
+	^ result
 ]
 
 { #category : #running }
@@ -212,24 +198,25 @@ FQAbstractQuery >> storeOn: aStream [
 ]
 
 { #category : #printing }
-FQAbstractQuery >> storeOn: aStream withParentsIn: queries [
+FQAbstractQuery >> storeWithParentsOn: aStream [
+
 	self subclassResponsibility
 ]
 
 { #category : #composition }
 FQAbstractQuery >> subtraction: anotherQuery [
 
-	^ FQSubtractionQuery new beChildOf: { 
+	^ FQSubtractionQuery new subqueries: { 
 			  self.
 			  anotherQuery }
 ]
 
 { #category : #composition }
 FQAbstractQuery >> union: anotherQuery [
-	^ FQUnionQuery new
-		beChildOf:
-			{self.
-			anotherQuery}
+
+	^ FQUnionQuery new subqueries: { 
+			  self.
+			  anotherQuery }
 ]
 
 { #category : #composition }
