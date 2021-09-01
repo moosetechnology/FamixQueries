@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : #testing }
+FQIntersectionQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
+
+	^ numberOfQueriesInPresenter > 1
+]
+
+{ #category : #testing }
 FQIntersectionQuery class >> isCommutative [
 	^ true
 ]

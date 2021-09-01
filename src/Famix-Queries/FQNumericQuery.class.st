@@ -55,6 +55,12 @@ FQNumericQuery class >> defaultValueToCompare [
 	^ 0
 ]
 
+{ #category : #testing }
+FQNumericQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
+
+	^ true
+]
+
 { #category : #accessing }
 FQNumericQuery class >> label [
 	^ 'Numeric Query'

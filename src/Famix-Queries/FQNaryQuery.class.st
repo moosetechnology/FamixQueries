@@ -19,6 +19,12 @@ FQNAryQuery class >> availableCombinations [
 ]
 
 { #category : #testing }
+FQNAryQuery class >> isAbstract [
+
+	^ self == FQNAryQuery
+]
+
+{ #category : #testing }
 FQNAryQuery class >> isCommutative [
 	^ self subclassResponsibility
 ]
@@ -29,25 +35,6 @@ FQNAryQuery class >> subqueries: twoQueries [
 	^ self new
 		  subqueries: twoQueries;
 		  yourself
-]
-
-{ #category : #adding }
-FQNAryQuery >> addToParentsSequence: sequence [
-	self flag: #FQImprove , 'Need for a specific order ?'.
-	self subqueries do: [ :parent | parent addToParentsSequence: sequence ].
-	(sequence includes: self)
-		ifTrue: [ children
-				do:
-					[ :child | (sequence detect: [ :query | query = self ]) addChild: child ] ]
-		ifFalse: [ sequence addLast: self ].
-	^ sequence
-]
-
-{ #category : #adding }
-FQNAryQuery >> beChildOf: parentQueries [
-	self subqueries ifNotEmpty: [ self prepareRemoval ].
-	self subqueries: parentQueries.
-	parentQueries do: [ :newParent | newParent addChild: self ]
 ]
 
 { #category : #running }
@@ -68,11 +55,6 @@ FQNAryQuery >> displayOn: aStream [
 	aStream << ')'
 ]
 
-{ #category : #testing }
-FQNAryQuery >> hasNoParent [
-	^ self subqueries isEmpty
-]
-
 { #category : #comparing }
 FQNAryQuery >> hasSameParametersAs: aQuery [
 	self subqueries
@@ -84,7 +66,8 @@ FQNAryQuery >> hasSameParametersAs: aQuery [
 ]
 
 { #category : #comparing }
-FQNAryQuery >> hasSameParentsAs: aQuery [
+FQNAryQuery >> hasSameSubqueriesAs: aQuery [
+
 	^ self subqueries = aQuery subqueries
 ]
 
@@ -96,14 +79,21 @@ FQNAryQuery >> initialize [
 
 { #category : #testing }
 FQNAryQuery >> isValid [
-	^ self subqueries isNotEmpty
-		and: [ self subqueries
-				allSatisfy: [ :parent | parent isNotNil and: [ parent isValid ] ] ]
+
+	^ self subqueries isNotEmpty and: [ 
+		  self subqueries allSatisfy: [ :subquery | 
+			  subquery isNotNil and: [ subquery isValid ] ] ]
 ]
 
 { #category : #printing }
 FQNAryQuery >> operator [
 	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+FQNAryQuery >> parentSequence [
+
+	^ #(  )
 ]
 
 { #category : #printing }
@@ -118,14 +108,12 @@ FQNAryQuery >> storeOn: aStream [
 ]
 
 { #category : #printing }
-FQNAryQuery >> storeOn: aStream withParentsIn: queries [
-
-	(queries includesAll: subqueries) ifFalse: [ ^ self storeOn: aStream ].
+FQNAryQuery >> storeWithParentsOn: aStream [
 
 	self subqueries
 		do: [ :subquery | 
 			aStream << '('.
-			subquery storeOn: aStream withParentsIn: queries.
+			subquery storeWithParentsOn: aStream.
 			aStream << ')' ]
 		separatedBy: [ aStream << ' ' << self operator << ' ' ]
 ]

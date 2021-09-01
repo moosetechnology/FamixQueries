@@ -23,6 +23,12 @@ FQResultSizeQuery class >> innerQuery: aQuery comparator: aComparingSymbol value
 		yourself
 ]
 
+{ #category : #testing }
+FQResultSizeQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
+
+	^ numberOfQueriesInPresenter > 0
+]
+
 { #category : #accessing }
 FQResultSizeQuery class >> label [
 	^ 'Result Size Query'

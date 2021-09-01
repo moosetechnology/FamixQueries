@@ -32,6 +32,13 @@ FQUnaryQuery class >> stringForClass: aClass [
 		last asEnglishPlural
 ]
 
+{ #category : #composition }
+FQUnaryQuery >> --> aChildQuery [
+	^ aChildQuery
+		beChildOf: self;
+		yourself
+]
+
 { #category : #adding }
 FQUnaryQuery >> addToParentsSequence: sequence [
 	parent ifNotNil: [ parent addToParentsSequence: sequence ].
@@ -123,11 +130,11 @@ FQUnaryQuery >> resetParent [
 ]
 
 { #category : #printing }
-FQUnaryQuery >> storeOn: aStream withParentsIn: queries [
-	(parent isNil
-		or: [ parent isRootQuery or: [ (queries includes: parent) not ] ])
-		ifFalse: [ parent storeOn: aStream withParentsIn: queries.
-			aStream << ' --> ' ].
+FQUnaryQuery >> storeWithParentsOn: aStream [
+
+	(parent isNil or: [ parent isRootQuery ]) ifFalse: [ 
+		parent storeWithParentsOn: aStream.
+		aStream << ' --> ' ].
 	aStream << '('.
 	self storeOn: aStream.
 	aStream << ')'

@@ -39,15 +39,15 @@ FQNAryQueryTest >> newNavigationParent [
 
 { #category : #running }
 FQNAryQueryTest >> newQuery [
+
 	"This gives different, non-empty results for each binary query"
 
 	| firstParentQuery secondParentQuery |
 	firstParentQuery := self newNavigationParent.
 	secondParentQuery := self newTypeParent.
-	^ self unConfiguredQuery
-		beChildOf:
-			{firstParentQuery.
-			secondParentQuery}
+	^ self unConfiguredQuery subqueries: { 
+			  firstParentQuery.
+			  secondParentQuery }
 ]
 
 { #category : #parents }
@@ -76,49 +76,11 @@ FQNAryQueryTest >> secondParentOfQuery [
 ]
 
 { #category : #tests }
-FQNAryQueryTest >> testBeChildOf [
-	| parents |
-	parents := {self newBooleanParent.
-	self newTypeParent}.
-	query := self unConfiguredQuery beChildOf: parents.
-
-	self assertCollection: query subqueries hasSameElements: parents.
-
-	self assert: (parents first children includes: query).
-	self assert: (parents second children includes: query)
-]
-
-{ #category : #tests }
 FQNAryQueryTest >> testIsValid [
-	self
-		deny:
-			(self unConfiguredQuery
-				beChildOf:
-					{self newTypeParent.
-					self newInvalidParent}) isValid
-]
 
-{ #category : #tests }
-FQNAryQueryTest >> testParentSequence [
-	"One generation"
-	self
-		assertCollection: query parentSequence
-		hasSameElements:
-			{self firstParentOfQuery.
-			self secondParentOfQuery.
-			query}.
-
-	"Two generations"
-	query subqueries first beChildOf: self newBooleanParent.
-	query subqueries second beChildOf: self newStringParent.
-	self
-		assertCollection: query parentSequence
-		hasSameElements:
-			{self firstParentOfQuery parent.
-			self firstParentOfQuery.
-			self secondParentOfQuery parent.
-			self secondParentOfQuery.
-			query}
+	self deny: (self unConfiguredQuery subqueries: { 
+				 self newTypeParent.
+				 self newInvalidParent }) isValid
 ]
 
 { #category : #tests }
@@ -150,4 +112,18 @@ FQNAryQueryTest >> testRunOn [
 		assertCollection:
 			(query runOn: self parentQueriesResult)
 		hasSameElements: self expectedResult
+]
+
+{ #category : #tests }
+FQNAryQueryTest >> testSubqueries [
+
+	| subqueries |
+	query := self unConfiguredQuery.
+	self assertEmpty: query subqueries.
+	subqueries := { 
+		              self newBooleanParent.
+		              self newTypeParent }.
+	query subqueries: subqueries.
+
+	self assertCollection: query subqueries hasSameElements: subqueries
 ]

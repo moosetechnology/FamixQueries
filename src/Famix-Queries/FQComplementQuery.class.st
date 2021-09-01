@@ -21,6 +21,12 @@ FQComplementQuery class >> defaultForParent: aQuery [
 	^ self queryToNegate: aQuery
 ]
 
+{ #category : #testing }
+FQComplementQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
+
+	^ numberOfQueriesInPresenter > 0
+]
+
 { #category : #accessing }
 FQComplementQuery class >> label [
 

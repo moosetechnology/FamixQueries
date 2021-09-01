@@ -58,11 +58,6 @@ FQAbstractQueryTest >> testAddChild [
 	self assert: (query children includes: child)
 ]
 
-{ #category : #tests }
-FQAbstractQueryTest >> testBeChildOf [
-	self subclassResponsibility
-]
-
 { #category : #'tests - printing' }
 FQAbstractQueryTest >> testDisplayOn [
 	self subclassResponsibility
@@ -76,11 +71,6 @@ FQAbstractQueryTest >> testIsValid [
 
 { #category : #'tests - printing' }
 FQAbstractQueryTest >> testName [
-	self subclassResponsibility
-]
-
-{ #category : #tests }
-FQAbstractQueryTest >> testParentSequence [
 	self subclassResponsibility
 ]
 
