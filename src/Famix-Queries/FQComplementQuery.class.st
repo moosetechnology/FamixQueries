@@ -102,8 +102,14 @@ FQComplementQuery >> queryToNegate: aQuery [
 { #category : #running }
 FQComplementQuery >> runOn: allEntitiesMooseGroup [
 
-	^ MooseGroup withAll:
-		  (allEntitiesMooseGroup copyWithoutAll: (queryToNegate runOn: allEntitiesMooseGroup))
+	"^ MooseGroup withAll:
+		  (allEntitiesMooseGroup copyWithoutAll: (queryToNegate runOn: allEntitiesMooseGroup))"
+
+	| newItems |
+	newItems := allEntitiesMooseGroup asSet.
+	newItems removeAllFoundIn:
+		(queryToNegate runOn: allEntitiesMooseGroup).
+	^ MooseGroup withAll: newItems
 ]
 
 { #category : #printing }
