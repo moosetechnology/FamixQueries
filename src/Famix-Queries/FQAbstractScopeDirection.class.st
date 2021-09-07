@@ -79,7 +79,8 @@ FQAbstractScopeDirection class >> priority [
 ]
 
 { #category : #scoping }
-FQAbstractScopeDirection class >> scope: aFamixClass on: aMooseGroup [
+FQAbstractScopeDirection class >> scope: aFamixClass on: entity [
+
 	^ self subclassResponsibility
 ]
 

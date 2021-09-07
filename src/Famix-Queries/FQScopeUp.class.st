@@ -37,10 +37,9 @@ FQScopeUp class >> priority [
 ]
 
 { #category : #scoping }
-FQScopeUp class >> scope: aFamixClass on: aMooseGroup [
+FQScopeUp class >> scope: aFamixClass on: entity [
 
-	^ aMooseGroup flatCollectAsSet: [ :entity | 
-		  entity query ancestors ofType: aFamixClass ]
+	^ entity query ancestors ofType: aFamixClass
 ]
 
 { #category : #printing }

@@ -257,16 +257,15 @@ FQNavigationQuery >> resetAndChangeDirection: aDirectionStrategy [
 
 { #category : #running }
 FQNavigationQuery >> runOn: aMooseGroup [
-	self
-		flag:
-			#FQImprove
-				, 'Selection of allUsing: so not all entities will respond.'.
+
 	^ ((aMooseGroup allUsing: TEntityMetaLevelDependency)
-		inject: Set new
-		into: [ :res :entity | 
-			res
-				addAll: (self directionStrategy query: entity with: self associationStrategy).
-			res ]) asMooseGroup
+		   inject: Set new
+		   into: [ :res :entity | 
+			   res addAll:
+				   (self directionStrategy
+					    query: entity
+					    with: self associationStrategy).
+			   res ]) asMooseGroup
 ]
 
 { #category : #printing }

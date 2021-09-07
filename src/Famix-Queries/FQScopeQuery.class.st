@@ -196,7 +196,13 @@ FQScopeQuery >> resetScope [
 
 { #category : #running }
 FQScopeQuery >> runOn: aMooseGroup [
-	^ self directionStrategy scope: self scope on: aMooseGroup
+
+	^ ((aMooseGroup allUsing: TEntityMetaLevelDependency)
+		   inject: Set new
+		   into: [ :res :entity | 
+			   res addAll:
+				   (self directionStrategy scope: self scope on: entity).
+			   res ]) asMooseGroup
 ]
 
 { #category : #accessing }
