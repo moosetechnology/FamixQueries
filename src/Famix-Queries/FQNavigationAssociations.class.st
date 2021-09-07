@@ -152,23 +152,30 @@ FQNavigationAssociations >> initialize [
 
 { #category : #action }
 FQNavigationAssociations >> queryIncomingWith: anEntity [
-	^ self associations flatCollect: [ :each | (anEntity queryIncoming: each) opposites ]
+
+	^ anEntity query incoming objects dependenciesOfAnyType:
+		  self associations
 ]
 
 { #category : #action }
 FQNavigationAssociations >> queryLocalIncomingWith: anEntity [
-	^ self associations flatCollect: [ :each | (anEntity queryLocalIncoming: each) opposites ]
+
+	^ anEntity query incoming local objects dependenciesOfAnyType:
+		  self associations
 ]
 
 { #category : #action }
 FQNavigationAssociations >> queryLocalOutgoingWith: anEntity [
-	^ self associations
-		flatCollect: [ :each | (anEntity queryLocalOutgoing: each) opposites ]
+
+	^ anEntity query outgoing local objects dependenciesOfAnyType:
+		  self associations
 ]
 
 { #category : #action }
 FQNavigationAssociations >> queryOutgoingWith: anEntity [
-	^ self associations flatCollect: [ :each | (anEntity queryOutgoing: each) opposites ]
+
+	^ anEntity query outgoing objects dependenciesOfAnyType:
+		  self associations
 ]
 
 { #category : #printing }

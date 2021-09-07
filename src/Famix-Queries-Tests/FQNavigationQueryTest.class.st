@@ -261,21 +261,22 @@ FQNavigationQueryTest >> outgoingInvocationsForClassExample [
 
 { #category : #'tests - running' }
 FQNavigationQueryTest >> outgoingTest [
+
 	query := self outgoingAllAssociationsQuery.
 	self
 		assertCollection: (query runOn: self classExample)
 		hasSameElements: self allOutgoingForClassExample.
 
 	"One tpe of associations"
-	query
-		associationStrategy: (FQNavigationAssociations with: FamixStAccess).
+	query associationStrategy:
+		(FQNavigationAssociations with: FamixStAccess).
 	self
 		assertCollection: (query runOn: self classExample)
 		hasSameElements: self outgoingAccessesForClassExample.
 
 	"Empty result"
-	query
-		associationStrategy: (FQNavigationAssociations with: FamixStReference).
+	query associationStrategy:
+		(FQNavigationAssociations with: FamixStReference).
 	self assert: (query runOn: self classExample) isEmpty
 ]
 

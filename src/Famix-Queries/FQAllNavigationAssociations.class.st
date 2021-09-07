@@ -58,22 +58,26 @@ FQAllNavigationAssociations >> displayOutgoingOn: aStream [
 
 { #category : #action }
 FQAllNavigationAssociations >> queryIncomingWith: anEntity [
-	^ anEntity queryAllIncoming opposites
+
+	^ anEntity query incoming objects dependencies
 ]
 
 { #category : #action }
 FQAllNavigationAssociations >> queryLocalIncomingWith: anEntity [
-	^ anEntity queryAllLocalIncoming  opposites
+
+	^ anEntity query incoming local objects dependencies
 ]
 
 { #category : #action }
 FQAllNavigationAssociations >> queryLocalOutgoingWith: anEntity [
-	^ anEntity queryAllLocalOutgoing opposites
+
+	^ anEntity query outgoing local objects dependencies
 ]
 
 { #category : #action }
 FQAllNavigationAssociations >> queryOutgoingWith: anEntity [
-	^ anEntity queryAllOutgoing opposites
+
+	^ anEntity query outgoing objects dependencies
 ]
 
 { #category : #printing }
