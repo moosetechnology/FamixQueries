@@ -38,8 +38,9 @@ FQScopeDown class >> priority [
 
 { #category : #scoping }
 FQScopeDown class >> scope: aFamixClass on: aMooseGroup [
-	^ ((MooseObjectQueryResult withAll: aMooseGroup) toScope: aFamixClass)
-		asMooseGroup
+
+	^ aMooseGroup flatCollectAsSet: [ :entity | 
+		  entity query descendants ofType: aFamixClass ]
 ]
 
 { #category : #printing }

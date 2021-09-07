@@ -74,16 +74,17 @@ FQScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
 
 { #category : #tests }
 FQScopeDirectionTest >> testScopeOn [
+
 	| direction |
 	direction := FQScopeUp.
-	(direction scope: FamixStPackage on: helper methods)
-		do: [ :result | self assert: result class identicalTo: FamixStPackage ].
-	
+	(direction scope: FamixStPackage on: helper methods) do: [ :result | 
+		self assert: result class identicalTo: FamixStPackage ].
+
 	direction := FQScopeUpAndDown.
-	(direction scope: FamixStClass on: helper methods)
-		do: [ :result | self assert: result class identicalTo: FamixStClass ].
-	
+	(direction scope: FamixStClass on: helper methods) do: [ :result | 
+		self assert: result class identicalTo: FamixStClass ].
+
 	direction := FQScopeDown.
-	(direction scope: FamixStMethod on: helper classes)
-		do: [ :result | self assert: result class identicalTo: FamixStMethod ]
+	(direction scope: FamixStMethod on: helper classes) do: [ :result | 
+		self assert: result class identicalTo: FamixStMethod ]
 ]
