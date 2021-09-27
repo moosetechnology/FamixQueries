@@ -37,12 +37,6 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
-{ #category : #testing }
-FQAbstractQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
-
-	^ false
-]
-
 { #category : #accessing }
 FQAbstractQuery class >> label [
 	^ self subclassResponsibility

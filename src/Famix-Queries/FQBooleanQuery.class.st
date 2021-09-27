@@ -39,12 +39,6 @@ FQBooleanQuery class >> comparators [
 	^#()
 ]
 
-{ #category : #testing }
-FQBooleanQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
-
-	^ true
-]
-
 { #category : #accessing }
 FQBooleanQuery class >> label [
 	^ 'Boolean Query'

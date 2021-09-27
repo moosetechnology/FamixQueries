@@ -47,12 +47,6 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
-{ #category : #testing }
-FQTypeQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
-
-	^ true
-]
-
 { #category : #'instance creation' }
 FQTypeQuery class >> label [
 	^ 'Type Query'

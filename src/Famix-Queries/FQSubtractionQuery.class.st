@@ -10,12 +10,6 @@ Class {
 }
 
 { #category : #testing }
-FQSubtractionQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
-
-	^ numberOfQueriesInPresenter > 1
-]
-
-{ #category : #testing }
 FQSubtractionQuery class >> isCommutative [
 	^ false
 ]

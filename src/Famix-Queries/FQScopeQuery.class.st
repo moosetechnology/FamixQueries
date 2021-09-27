@@ -66,12 +66,6 @@ FQScopeQuery class >> downTo: aScope [
 		yourself
 ]
 
-{ #category : #testing }
-FQScopeQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
-
-	^ true
-]
-
 { #category : #accessing }
 FQScopeQuery class >> label [
 	^ 'Scope Query'
