@@ -68,12 +68,6 @@ FQNavigationQuery class >> incoming [
 		yourself
 ]
 
-{ #category : #testing }
-FQNavigationQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
-
-	^ true
-]
-
 { #category : #accessing }
 FQNavigationQuery class >> label [
 	^ 'Navigation Query'

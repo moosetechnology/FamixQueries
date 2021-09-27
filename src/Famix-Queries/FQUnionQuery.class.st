@@ -10,12 +10,6 @@ Class {
 }
 
 { #category : #testing }
-FQUnionQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
-
-	^ numberOfQueriesInPresenter > 1
-]
-
-{ #category : #testing }
 FQUnionQuery class >> isCommutative [
 	^ true
 ]
