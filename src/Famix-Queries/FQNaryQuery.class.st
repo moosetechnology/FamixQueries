@@ -89,6 +89,7 @@ FQNAryQuery >> isValid [
 
 { #category : #printing }
 FQNAryQuery >> operator [
+
 	^ self subclassResponsibility
 ]
 
@@ -98,6 +99,12 @@ FQNAryQuery >> parentSequence [
 	"This query has no parent"
 
 	^ #(  )
+]
+
+{ #category : #removing }
+FQNAryQuery >> prepareRemoval [
+
+	subqueries := nil
 ]
 
 { #category : #printing }

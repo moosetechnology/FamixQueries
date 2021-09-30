@@ -12,12 +12,6 @@ Class {
 	#category : #'Famix-Queries-Complement-Query'
 }
 
-{ #category : #default }
-FQComplementQuery class >> defaultForParent: aQuery [
-
-	^ self queryToNegate: aQuery
-]
-
 { #category : #accessing }
 FQComplementQuery class >> label [
 
