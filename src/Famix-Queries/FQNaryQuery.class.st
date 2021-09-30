@@ -95,6 +95,8 @@ FQNAryQuery >> operator [
 { #category : #accessing }
 FQNAryQuery >> parentSequence [
 
+	"This query has no parent"
+
 	^ #(  )
 ]
 

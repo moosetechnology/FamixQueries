@@ -141,10 +141,8 @@ FQAbstractQuery >> name: aString [
 
 { #category : #accessing }
 FQAbstractQuery >> parentSequence [
-	| sequence |
-	sequence := OrderedCollection new.
-	self addToParentsSequence: sequence.
-	^ sequence
+
+	self subclassResponsibility
 ]
 
 { #category : #removing }

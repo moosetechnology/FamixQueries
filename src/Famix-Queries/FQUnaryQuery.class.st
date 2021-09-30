@@ -41,11 +41,12 @@ FQUnaryQuery >> --> aChildQuery [
 
 { #category : #adding }
 FQUnaryQuery >> addToParentsSequence: sequence [
+
 	parent ifNotNil: [ parent addToParentsSequence: sequence ].
 	(sequence includes: self)
-		ifTrue: [ children
-				do:
-					[ :child | (sequence detect: [ :query | query = self ]) addChild: child ] ]
+		ifTrue: [ 
+			children do: [ :child | 
+				(sequence detect: [ :query | query = self ]) addChild: child ] ]
 		ifFalse: [ sequence addLast: self ].
 	^ sequence
 ]
@@ -114,6 +115,14 @@ FQUnaryQuery >> parentDisplayString [
 			aStream << $(.
 			parent displayOn: aStream.
 			aStream << $) ]
+]
+
+{ #category : #accessing }
+FQUnaryQuery >> parentSequence [
+	| sequence |
+	sequence := OrderedCollection new.
+	self addToParentsSequence: sequence.
+	^ sequence
 ]
 
 { #category : #removing }
