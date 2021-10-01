@@ -53,25 +53,22 @@ FQUnaryQueryTest >> testParent [
 
 { #category : #tests }
 FQUnaryQueryTest >> testParentSequence [
-	query isRootQuery
-		ifTrue: [ self skip ].
-		
+
+	query isRootQuery ifTrue: [ self skip ].
+
 	"One generation"
 	query beChildOf: self differentTypeOfQuery.
 	self
 		assertCollection: query parentSequence
-		hasSameElements:
-			{query parent.
-			query}.
+		hasSameElements: { query parent }.
 
 	"Two generations"
 	query parent beChildOf: self newParentQuery.
 	self
-		assertCollection: query parentSequence
-		hasSameElements:
-			{query parent parent.
-			query parent.
-			query}
+	assertCollection: query parentSequence
+	hasSameElements: { 
+			query parent parent.
+			query parent }
 ]
 
 { #category : #tests }

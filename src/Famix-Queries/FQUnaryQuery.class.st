@@ -26,6 +26,12 @@ FQUnaryQuery class >> isAbstract [
 	^ self == FQUnaryQuery
 ]
 
+{ #category : #testing }
+FQUnaryQuery class >> isUnaryQuery [
+
+	^ true
+]
+
 { #category : #printing }
 FQUnaryQuery class >> stringForClass: aClass [
 	^ (aClass name piecesCutWhere: [ :char1 :char2 | char2 isUppercase ])
@@ -96,6 +102,11 @@ FQUnaryQuery >> hasSameParentsAs: aQuery [
 	^ parent = aQuery parent
 ]
 
+{ #category : #testing }
+FQUnaryQuery >> isUnaryQuery [
+	^ true
+]
+
 { #category : #accessing }
 FQUnaryQuery >> parent [
 	^ parent
@@ -119,9 +130,19 @@ FQUnaryQuery >> parentDisplayString [
 
 { #category : #accessing }
 FQUnaryQuery >> parentSequence [
-	| sequence |
+
+	| sequence parentToSequence |
 	sequence := OrderedCollection new.
-	self addToParentsSequence: sequence.
+	"self addToParentsSequence: sequence.
+	^ sequence"
+	parentToSequence := parent.
+	[ parentToSequence isNotNil ] whileTrue: [ 
+		sequence add: parentToSequence.
+		"Both the complement and the nary query don't have a parent"
+		parentToSequence isComplementQuery ifTrue: [ ^ sequence ].
+		parentToSequence isNAryQuery ifTrue: [ ^ sequence ].
+
+		parentToSequence := parentToSequence parent ].
 	^ sequence
 ]
 

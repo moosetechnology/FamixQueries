@@ -29,6 +29,12 @@ FQNAryQuery class >> isCommutative [
 	^ self subclassResponsibility
 ]
 
+{ #category : #testing }
+FQNAryQuery class >> isNAryQuery [
+
+	^ true
+]
+
 { #category : #accessing }
 FQNAryQuery class >> subqueries: aCollection [
 
@@ -77,6 +83,12 @@ FQNAryQuery >> hasSameSubqueriesAs: aQuery [
 FQNAryQuery >> initialize [
 	super initialize.
 	subqueries := OrderedCollection new
+]
+
+{ #category : #testing }
+FQNAryQuery >> isNAryQuery [
+
+	^ true
 ]
 
 { #category : #testing }

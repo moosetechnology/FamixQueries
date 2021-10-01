@@ -62,6 +62,12 @@ FQComplementQuery >> hasSameParametersAs: aQuery [
 ]
 
 { #category : #testing }
+FQComplementQuery >> isComplementQuery [
+
+	^ true
+]
+
+{ #category : #testing }
 FQComplementQuery >> isValid [
 
 	^ queryToNegate isNotNil and: [ queryToNegate isValid ]
