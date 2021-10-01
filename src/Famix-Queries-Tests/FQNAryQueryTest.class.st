@@ -84,6 +84,12 @@ FQNAryQueryTest >> testIsValid [
 ]
 
 { #category : #tests }
+FQNAryQueryTest >> testParentSequence [
+
+	self assert: query parentSequence equals: #(  )
+]
+
+{ #category : #tests }
 FQNAryQueryTest >> testParents [
 	| newParents previousParents |
 	newParents := {self newBooleanParent.

@@ -26,6 +26,12 @@ FQUnaryQuery class >> isAbstract [
 	^ self == FQUnaryQuery
 ]
 
+{ #category : #testing }
+FQUnaryQuery class >> isUnaryQuery [
+
+	^ true
+]
+
 { #category : #printing }
 FQUnaryQuery class >> stringForClass: aClass [
 	^ (aClass name piecesCutWhere: [ :char1 :char2 | char2 isUppercase ])
@@ -41,11 +47,12 @@ FQUnaryQuery >> --> aChildQuery [
 
 { #category : #adding }
 FQUnaryQuery >> addToParentsSequence: sequence [
+
 	parent ifNotNil: [ parent addToParentsSequence: sequence ].
 	(sequence includes: self)
-		ifTrue: [ children
-				do:
-					[ :child | (sequence detect: [ :query | query = self ]) addChild: child ] ]
+		ifTrue: [ 
+			children do: [ :child | 
+				(sequence detect: [ :query | query = self ]) addChild: child ] ]
 		ifFalse: [ sequence addLast: self ].
 	^ sequence
 ]
@@ -95,6 +102,11 @@ FQUnaryQuery >> hasSameParentsAs: aQuery [
 	^ parent = aQuery parent
 ]
 
+{ #category : #testing }
+FQUnaryQuery >> isUnaryQuery [
+	^ true
+]
+
 { #category : #accessing }
 FQUnaryQuery >> parent [
 	^ parent
@@ -114,6 +126,24 @@ FQUnaryQuery >> parentDisplayString [
 			aStream << $(.
 			parent displayOn: aStream.
 			aStream << $) ]
+]
+
+{ #category : #accessing }
+FQUnaryQuery >> parentSequence [
+
+	| sequence parentToSequence |
+	sequence := OrderedCollection new.
+	"self addToParentsSequence: sequence.
+	^ sequence"
+	parentToSequence := parent.
+	[ parentToSequence isNotNil ] whileTrue: [ 
+		sequence add: parentToSequence.
+		"Both the complement and the nary query don't have a parent"
+		parentToSequence isComplementQuery ifTrue: [ ^ sequence ].
+		parentToSequence isNAryQuery ifTrue: [ ^ sequence ].
+
+		parentToSequence := parentToSequence parent ].
+	^ sequence
 ]
 
 { #category : #removing }

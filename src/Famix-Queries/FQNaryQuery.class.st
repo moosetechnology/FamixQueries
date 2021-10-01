@@ -29,6 +29,12 @@ FQNAryQuery class >> isCommutative [
 	^ self subclassResponsibility
 ]
 
+{ #category : #testing }
+FQNAryQuery class >> isNAryQuery [
+
+	^ true
+]
+
 { #category : #accessing }
 FQNAryQuery class >> subqueries: aCollection [
 
@@ -80,6 +86,12 @@ FQNAryQuery >> initialize [
 ]
 
 { #category : #testing }
+FQNAryQuery >> isNAryQuery [
+
+	^ true
+]
+
+{ #category : #testing }
 FQNAryQuery >> isValid [
 
 	^ self subqueries isNotEmpty and: [ 
@@ -89,13 +101,22 @@ FQNAryQuery >> isValid [
 
 { #category : #printing }
 FQNAryQuery >> operator [
+
 	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
 FQNAryQuery >> parentSequence [
 
+	"This query has no parent"
+
 	^ #(  )
+]
+
+{ #category : #removing }
+FQNAryQuery >> prepareRemoval [
+
+	subqueries := nil
 ]
 
 { #category : #printing }

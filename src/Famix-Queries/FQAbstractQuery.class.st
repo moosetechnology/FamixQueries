@@ -37,6 +37,21 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
+{ #category : #testing }
+FQAbstractQuery class >> isComplementQuery [
+	^ false
+]
+
+{ #category : #testing }
+FQAbstractQuery class >> isNAryQuery [
+	^ false
+]
+
+{ #category : #testing }
+FQAbstractQuery class >> isUnaryQuery [
+	^ false
+]
+
 { #category : #accessing }
 FQAbstractQuery class >> label [
 	^ self subclassResponsibility
@@ -120,7 +135,22 @@ FQAbstractQuery >> invalidDefaultName [
 ]
 
 { #category : #testing }
+FQAbstractQuery >> isComplementQuery [
+	^ false
+]
+
+{ #category : #testing }
+FQAbstractQuery >> isNAryQuery [
+	^ false
+]
+
+{ #category : #testing }
 FQAbstractQuery >> isRootQuery [
+	^ false
+]
+
+{ #category : #testing }
+FQAbstractQuery >> isUnaryQuery [
 	^ false
 ]
 
@@ -141,10 +171,8 @@ FQAbstractQuery >> name: aString [
 
 { #category : #accessing }
 FQAbstractQuery >> parentSequence [
-	| sequence |
-	sequence := OrderedCollection new.
-	self addToParentsSequence: sequence.
-	^ sequence
+
+	self subclassResponsibility
 ]
 
 { #category : #removing }
