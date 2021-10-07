@@ -10,7 +10,7 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
-{ #category : #default }
+{ #category : #'instance creation' }
 FQUnaryQuery class >> defaultForParent: aQuery [
 	^(self isAbstract
 		ifTrue: [ self subclasses detect: [ :subclass | subclass isAbstract not ] ]

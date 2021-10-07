@@ -37,6 +37,12 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
+{ #category : #'instance creation' }
+FQAbstractQuery class >> defaultForParent: aQuery [
+
+	^ self new
+]
+
 { #category : #testing }
 FQAbstractQuery class >> isComplementQuery [
 	^ false
@@ -167,6 +173,20 @@ FQAbstractQuery >> name [
 { #category : #accessing }
 FQAbstractQuery >> name: aString [
 	name := aString
+]
+
+{ #category : #accessing }
+FQAbstractQuery >> parent [
+
+	^ nil
+]
+
+{ #category : #accessing }
+FQAbstractQuery >> parent: aQuery [
+
+	"Do nothing"
+
+	
 ]
 
 { #category : #accessing }
