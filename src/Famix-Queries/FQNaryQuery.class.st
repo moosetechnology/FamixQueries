@@ -29,12 +29,6 @@ FQNAryQuery class >> isCommutative [
 	^ self subclassResponsibility
 ]
 
-{ #category : #testing }
-FQNAryQuery class >> isNAryQuery [
-
-	^ true
-]
-
 { #category : #accessing }
 FQNAryQuery class >> subqueries: aCollection [
 
@@ -50,6 +44,14 @@ FQNAryQuery >> computeResult [
 		            ifTrue: [ 
 		            self runOn: (self subqueries collect: #result) ]
 		            ifFalse: [ MooseGroup new ]
+]
+
+{ #category : #accessing }
+FQNAryQuery >> dependencies [
+
+	"Queries by default don't have any dependency"
+
+	^ subqueries
 ]
 
 { #category : #printing }
@@ -83,12 +85,6 @@ FQNAryQuery >> hasSameSubqueriesAs: aQuery [
 FQNAryQuery >> initialize [
 	super initialize.
 	subqueries := OrderedCollection new
-]
-
-{ #category : #testing }
-FQNAryQuery >> isNAryQuery [
-
-	^ true
 ]
 
 { #category : #testing }

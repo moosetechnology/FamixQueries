@@ -47,6 +47,12 @@ FQComplementQuery >> defaultName [
 	^ '(' , queryToNegate name , ') not'
 ]
 
+{ #category : #accessing }
+FQComplementQuery >> dependencies [
+
+	^ queryToNegate asOrderedCollection
+]
+
 { #category : #printing }
 FQComplementQuery >> displayOn: aStream [
 
@@ -59,12 +65,6 @@ FQComplementQuery >> displayOn: aStream [
 FQComplementQuery >> hasSameParametersAs: aQuery [
 
 	^ aQuery queryToNegate hasSameParametersAs: queryToNegate
-]
-
-{ #category : #testing }
-FQComplementQuery >> isComplementQuery [
-
-	^ true
 ]
 
 { #category : #testing }
@@ -115,7 +115,9 @@ FQComplementQuery >> runOn: allEntitiesMooseGroup [
 { #category : #printing }
 FQComplementQuery >> storeOn: aStream [
 
-	aStream << self className << ' queryToNegate: ('.
+	aStream << self className.
+	queryToNegate ifNil: [ ^ self ].
+	aStream << ' queryToNegate: ('.
 	queryToNegate storeWithParentsOn: aStream.
 	aStream << $)
 ]

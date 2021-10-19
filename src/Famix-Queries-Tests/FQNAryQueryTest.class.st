@@ -76,6 +76,12 @@ FQNAryQueryTest >> secondParentOfQuery [
 ]
 
 { #category : #tests }
+FQNAryQueryTest >> testDependencies [
+
+	self assert: query dependencies asArray equals: query subqueries asArray
+]
+
+{ #category : #tests }
 FQNAryQueryTest >> testIsValid [
 
 	self deny: (self unConfiguredQuery subqueries: { 

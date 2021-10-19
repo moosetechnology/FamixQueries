@@ -39,6 +39,18 @@ FQResultSizeQueryTest >> newQuery [
 		  valueToCompare: 20
 ]
 
+{ #category : #tests }
+FQResultSizeQueryTest >> testDependencies [
+
+	| q1 q2 |
+	q1 := FQBooleanQuery property: #isStub.
+	q1 parent: self newParentQuery.
+	q2 := FQBooleanQuery property: #isDead.
+	q2 parent: q1.
+	query parent: q2.
+	self assert: query dependencies asArray equals: { query innerQuery. q2. q1 }
+]
+
 { #category : #'tests - printing' }
 FQResultSizeQueryTest >> testDisplayOn [
 

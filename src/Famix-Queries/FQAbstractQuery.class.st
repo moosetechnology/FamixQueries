@@ -44,16 +44,6 @@ FQAbstractQuery class >> defaultForParent: aQuery [
 ]
 
 { #category : #testing }
-FQAbstractQuery class >> isComplementQuery [
-	^ false
-]
-
-{ #category : #testing }
-FQAbstractQuery class >> isNAryQuery [
-	^ false
-]
-
-{ #category : #testing }
 FQAbstractQuery class >> isUnaryQuery [
 	^ false
 ]
@@ -111,6 +101,14 @@ FQAbstractQuery >> defaultName [
 	^ self subclassResponsibility
 ]
 
+{ #category : #accessing }
+FQAbstractQuery >> dependencies [
+
+	"Queries by default don't have any dependency"
+
+	^ #(  )
+]
+
 { #category : #printing }
 FQAbstractQuery >> displayOn: aStream [
 	^ self subclassResponsibility
@@ -138,16 +136,6 @@ FQAbstractQuery >> intersection: anotherQuery [
 { #category : #printing }
 FQAbstractQuery >> invalidDefaultName [
 	^ 'Invalid ' , self class label
-]
-
-{ #category : #testing }
-FQAbstractQuery >> isComplementQuery [
-	^ false
-]
-
-{ #category : #testing }
-FQAbstractQuery >> isNAryQuery [
-	^ false
 ]
 
 { #category : #testing }
@@ -193,6 +181,12 @@ FQAbstractQuery >> parent: aQuery [
 FQAbstractQuery >> parentSequence [
 
 	self subclassResponsibility
+]
+
+{ #category : #accessing }
+FQAbstractQuery >> parentSequenceWithoutRoot [
+
+	^ OrderedCollection new
 ]
 
 { #category : #removing }

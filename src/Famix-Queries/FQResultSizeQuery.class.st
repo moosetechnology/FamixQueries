@@ -53,6 +53,12 @@ FQResultSizeQuery >> defaultName [
 	  , valueToCompare asString
 ]
 
+{ #category : #accessing }
+FQResultSizeQuery >> dependencies [
+
+	^ innerQuery asOrderedCollection , super dependencies
+]
+
 { #category : #printing }
 FQResultSizeQuery >> displayOn: aStream with: aString [
 

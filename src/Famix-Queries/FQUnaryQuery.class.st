@@ -77,6 +77,12 @@ FQUnaryQuery >> computeResult [
 		            ifFalse: [ MooseGroup new ]
 ]
 
+{ #category : #accessing }
+FQUnaryQuery >> dependencies [
+
+	^ self parentSequenceWithoutRoot
+]
+
 { #category : #printing }
 FQUnaryQuery >> displayOn: aStream [
 	self displayOn: aStream with: self parentDisplayString
@@ -138,12 +144,15 @@ FQUnaryQuery >> parentSequence [
 	parentToSequence := parent.
 	[ parentToSequence isNotNil ] whileTrue: [ 
 		sequence add: parentToSequence.
-		"Both the complement and the nary query don't have a parent"
-		parentToSequence isComplementQuery ifTrue: [ ^ sequence ].
-		parentToSequence isNAryQuery ifTrue: [ ^ sequence ].
-
 		parentToSequence := parentToSequence parent ].
 	^ sequence
+]
+
+{ #category : #accessing }
+FQUnaryQuery >> parentSequenceWithoutRoot [
+
+	(parent  isNil or: [parent isRootQuery]) ifTrue: [ ^ OrderedCollection new ].
+	^ parent asOrderedCollection , parent parentSequenceWithoutRoot
 ]
 
 { #category : #removing }

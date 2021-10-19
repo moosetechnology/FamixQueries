@@ -58,6 +58,12 @@ FQAbstractQueryTest >> testAddChild [
 	self assert: (query children includes: child)
 ]
 
+{ #category : #test }
+FQAbstractQueryTest >> testDependencies [
+
+	self assert: query dependencies isEmpty
+]
+
 { #category : #'tests - printing' }
 FQAbstractQueryTest >> testDisplayOn [
 	self subclassResponsibility

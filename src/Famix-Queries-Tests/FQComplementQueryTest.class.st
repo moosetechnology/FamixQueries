@@ -36,6 +36,13 @@ FQComplementQueryTest >> newQueryToNegate [
 	^ FQRootQuery new result: helper classes
 ]
 
+{ #category : #tests }
+FQComplementQueryTest >> testDependencies [
+
+	self assert: query dependencies size equals: 1.
+	self assert: query dependencies anyOne equals: query queryToNegate
+]
+
 { #category : #'tests - printing' }
 FQComplementQueryTest >> testDisplayOn [
 	self

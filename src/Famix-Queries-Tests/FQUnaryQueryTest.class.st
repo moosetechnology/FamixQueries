@@ -25,6 +25,18 @@ FQUnaryQueryTest >> testBeChildOf [
 ]
 
 { #category : #tests }
+FQUnaryQueryTest >> testDependencies [
+
+	| q1 q2 |
+	q1 := FQBooleanQuery property: #isStub.
+	q1 parent: self newParentQuery.
+	q2 := FQBooleanQuery property: #isDead.
+	q2 parent: q1.
+	query parent: q2.
+	self assert: query dependencies asArray equals: { q2. q1 }
+]
+
+{ #category : #tests }
 FQUnaryQueryTest >> testNegatedResult [
 
 	"| intersect |
