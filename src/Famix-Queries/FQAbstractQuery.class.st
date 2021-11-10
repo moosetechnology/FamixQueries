@@ -217,7 +217,7 @@ FQAbstractQuery >> resetResult [
 { #category : #running }
 FQAbstractQuery >> result [
 
-	result ifNil: [ self computeResult ].
+	result ifNil: [ result := self computeResult ].
 	^ result
 ]
 
