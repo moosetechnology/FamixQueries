@@ -46,8 +46,12 @@ Class {
 
 { #category : #accessing }
 FQPropertyQuery class >> availablePropertiesFor: aMooseGroup [
-	^ ((aMooseGroup allEntityTypes collect: [ :entity | entity famePropertiesOfType: self type ])
-		fold: [ :availableProperties :entityProperties | availableProperties & entityProperties ]) collect: #implementingSelector
+
+	^ ((aMooseGroup allEntityTypes collect: [ :entity | 
+		    entity famePropertiesOfType: self type ]) fold: [ 
+		   :availableProperties 
+		   :entityProperties | availableProperties & entityProperties ]) 
+		  collect: #implementingSelector
 ]
 
 { #category : #'available parameters' }
