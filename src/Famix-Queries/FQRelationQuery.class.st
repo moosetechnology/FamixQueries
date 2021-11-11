@@ -69,7 +69,9 @@ FQRelationQuery >> availableRelationNamesFor: aMooseGroup [
 { #category : #default }
 FQRelationQuery >> beDefaultForParent [
 
-	self relationName: self availableRelationNames first
+	self relationName: (self availableRelationNames
+			 ifEmpty: [ nil ]
+			 ifNotEmpty: [ :relationNames | relationNames anyOne ])
 ]
 
 { #category : #printing }
