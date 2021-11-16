@@ -153,29 +153,29 @@ FQNavigationAssociations >> initialize [
 { #category : #action }
 FQNavigationAssociations >> queryIncomingWith: anEntity [
 
-	^ anEntity query incoming objects dependenciesOfAnyType:
-		  self associations
+	^ (anEntity query incoming objects dependenciesOfAnyType:
+		   self associations) withoutSelfLoops
 ]
 
 { #category : #action }
 FQNavigationAssociations >> queryLocalIncomingWith: anEntity [
 
-	^ anEntity query incoming local objects dependenciesOfAnyType:
-		  self associations
+	^ (anEntity query incoming local objects dependenciesOfAnyType:
+		   self associations) withoutSelfLoops
 ]
 
 { #category : #action }
 FQNavigationAssociations >> queryLocalOutgoingWith: anEntity [
 
-	^ anEntity query outgoing local objects dependenciesOfAnyType:
-		  self associations
+	^ (anEntity query outgoing local objects dependenciesOfAnyType:
+		   self associations) withoutSelfLoops
 ]
 
 { #category : #action }
 FQNavigationAssociations >> queryOutgoingWith: anEntity [
 
-	^ anEntity query outgoing objects dependenciesOfAnyType:
-		  self associations
+	^ (anEntity query outgoing objects dependenciesOfAnyType:
+		   self associations) withoutSelfLoops
 ]
 
 { #category : #printing }

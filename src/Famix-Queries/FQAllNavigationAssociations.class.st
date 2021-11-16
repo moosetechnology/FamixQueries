@@ -59,25 +59,25 @@ FQAllNavigationAssociations >> displayOutgoingOn: aStream [
 { #category : #action }
 FQAllNavigationAssociations >> queryIncomingWith: anEntity [
 
-	^ anEntity query incoming objects dependencies
+	^ anEntity query incoming objects dependencies withoutSelfLoops
 ]
 
 { #category : #action }
 FQAllNavigationAssociations >> queryLocalIncomingWith: anEntity [
 
-	^ anEntity query incoming local objects dependencies
+	^ anEntity query incoming local objects dependencies withoutSelfLoops
 ]
 
 { #category : #action }
 FQAllNavigationAssociations >> queryLocalOutgoingWith: anEntity [
 
-	^ anEntity query outgoing local objects dependencies
+	^ anEntity query outgoing local objects dependencies withoutSelfLoops
 ]
 
 { #category : #action }
 FQAllNavigationAssociations >> queryOutgoingWith: anEntity [
 
-	^ anEntity query outgoing objects dependencies
+	^ anEntity query outgoing objects dependencies withoutSelfLoops
 ]
 
 { #category : #printing }
