@@ -41,8 +41,9 @@ Class {
 
 { #category : #'available parameters' }
 FQStringQuery class >> comparators [
+
 	self flag: #FQImprove.
-	^ {#includesSubstring: . #beginsWith: . #matchesRegex:}
+	^ { #=. #includesSubstring:. #beginsWith:. #matchesRegex: }
 ]
 
 { #category : #default }
@@ -76,7 +77,7 @@ FQStringQuery class >> type [
 
 { #category : #accessing }
 FQStringQuery >> comparator [
-	^ comparator ifNil: [ comparator := #includesSubString: ]
+	^ comparator ifNil: [ comparator := #beginsWith: ]
 ]
 
 { #category : #comparing }
