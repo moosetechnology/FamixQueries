@@ -53,9 +53,9 @@ FQRelationQuery class >> name: aFamixType [
 { #category : #'available parameters' }
 FQRelationQuery >> availableRelationNames [
 
-	^ parent
-		  ifNil: [ {  } ]
-		  ifNotNil: [ self availableRelationNamesFor: parent result ]
+	^ parent ifNil: [ {  } ] ifNotNil: [ 
+		  (self availableRelationNamesFor: parent result) sorted:
+			  [ :propertyName | propertyName ] ascending ]
 ]
 
 { #category : #'available parameters' }
