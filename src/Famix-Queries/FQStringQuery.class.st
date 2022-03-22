@@ -75,11 +75,6 @@ FQStringQuery class >> type [
 	^ FM3String
 ]
 
-{ #category : #accessing }
-FQStringQuery >> comparator [
-	^ comparator ifNil: [ comparator := #beginsWith: ]
-]
-
 { #category : #comparing }
 FQStringQuery >> hasSameParametersAs: aQuery [
 	^ (super hasSameParametersAs: aQuery)

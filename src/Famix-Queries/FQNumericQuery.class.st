@@ -83,8 +83,9 @@ FQNumericQuery >> hasSameParametersAs: aQuery [
 
 { #category : #testing }
 FQNumericQuery >> isValid [
-	^ super isValid
-		and: [ self comparator isSymbol and: [ self valueToCompare isNumber ] ]
+
+	^ super isValid and: [ 
+		  self comparator isSymbol and: [ self valueToCompare isNumber ] ]
 ]
 
 { #category : #printing }

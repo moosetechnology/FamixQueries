@@ -131,7 +131,8 @@ FQTypeQuery >> initialize [
 { #category : #testing }
 FQTypeQuery >> isValid [
 
-	^ types allSatisfy: [ :type | self typeIsValid: type ]
+	^ types isNotEmpty and: [ 
+		  types allSatisfy: [ :type | self typeIsValid: type ] ]
 ]
 
 { #category : #'adding - removing' }
