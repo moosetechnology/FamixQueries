@@ -43,7 +43,9 @@ FQResultSizeQuery >> comparator [
 
 { #category : #accessing }
 FQResultSizeQuery >> comparator: anObject [
-	comparator := anObject
+
+	comparator := anObject.
+	self resetResult
 ]
 
 { #category : #printing }
@@ -89,7 +91,8 @@ FQResultSizeQuery >> innerQuery [
 { #category : #accessing }
 FQResultSizeQuery >> innerQuery: anObject [
 
-	innerQuery := anObject
+	innerQuery := anObject.
+	self resetResult
 ]
 
 { #category : #testing }
@@ -128,5 +131,7 @@ FQResultSizeQuery >> valueToCompare [
 
 { #category : #accessing }
 FQResultSizeQuery >> valueToCompare: anObject [
-	valueToCompare := anObject
+
+	valueToCompare := anObject.
+	self resetResult
 ]
