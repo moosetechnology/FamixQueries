@@ -56,7 +56,7 @@ FQScopeQueryTest >> testDisplayOn [
 { #category : #tests }
 FQScopeQueryTest >> testIsValid [
 	super testIsValid.
-	self deny: (self newQuery scope: 'Not a scope') isValid.
+	self assert: (self newQuery scope: 'Not a scope') isValid.
 	self
 		deny: (self newQuery directionStrategy: 'Not a direction') isValid
 ]

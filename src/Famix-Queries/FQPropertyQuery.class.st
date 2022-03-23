@@ -95,6 +95,7 @@ FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 
 { #category : #default }
 FQPropertyQuery >> beDefaultForParent [
+
 	property := self availableProperties
 		ifEmpty: [ nil ]
 		ifNotEmpty: [ :properties | properties first ].
@@ -109,7 +110,8 @@ FQPropertyQuery >> canBeNegated [
 
 { #category : #accessing }
 FQPropertyQuery >> comparator [
-	^ comparator ifNil: [ comparator := self class defaultComparator ]
+
+	^ comparator
 ]
 
 { #category : #accessing }
@@ -164,6 +166,7 @@ FQPropertyQuery >> property [
 
 { #category : #accessing }
 FQPropertyQuery >> property: anObject [
+
 	property := anObject.
 	self resetResult.
 	self flag: #FQTest , 'Test reset result'
@@ -202,8 +205,8 @@ FQPropertyQuery >> type [
 
 { #category : #accessing }
 FQPropertyQuery >> valueToCompare [
+
 	^ valueToCompare
-		ifNil: [ valueToCompare := self class defaultValueToCompare ]
 ]
 
 { #category : #accessing }

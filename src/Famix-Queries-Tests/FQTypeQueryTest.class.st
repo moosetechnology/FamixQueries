@@ -89,8 +89,7 @@ FQTypeQueryTest >> testDisplayOn [
 FQTypeQueryTest >> testIsValid [
 
 	self assert: query isValid.
-	"Now the Type Query can be empty and can have zero types"
-	self assert: self unConfiguredQuery isValid.
+	self deny: self unConfiguredQuery isValid.
 
 	"Trait"
 	self assert: (self unConfiguredQuery type: FamixTClass) isValid.
@@ -101,7 +100,7 @@ FQTypeQueryTest >> testIsValid [
 FQTypeQueryTest >> testName [
 
 	self assert: query name equals: 'Classes, Methods'.
-	self assert: self unConfiguredQuery name equals: ''
+	self assert: self unConfiguredQuery name equals: 'Invalid Type Query'
 ]
 
 { #category : #tests }
@@ -110,7 +109,7 @@ FQTypeQueryTest >> testPrintOn [
 	self assert: query printString equals: self expectedPrintOnString.
 	self
 		assert: self unConfiguredQuery printString
-		equals: 'a ' , self actualClass name , ' ()'
+		equals: 'a ' , self actualClass name , ' (invalid)'
 ]
 
 { #category : #'tests - adding - removing' }

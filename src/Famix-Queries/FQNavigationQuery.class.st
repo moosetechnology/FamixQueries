@@ -154,10 +154,11 @@ FQNavigationQuery >> associationsIsValid: anAssociation [
 
 { #category : #'available parameters' }
 FQNavigationQuery >> availableAssociations [
+
 	self flag: #FQTest.
 	^ (directionStrategy isNotNil and: [ parent isNotNil ])
-		ifFalse: [ #() ]
-		ifTrue: [ self availableAssociationsFor: parent result ]
+		  ifFalse: [ MooseGroup new ]
+		  ifTrue: [ self availableAssociationsFor: parent result ]
 ]
 
 { #category : #'available parameters' }
