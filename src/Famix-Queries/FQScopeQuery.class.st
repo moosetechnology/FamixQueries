@@ -111,7 +111,10 @@ FQScopeQuery >> availableScopes [
 
 { #category : #'available parameters' }
 FQScopeQuery >> availableScopesFor: aMooseGroup [
-	^ self directionStrategy availableScopesFor: aMooseGroup
+
+	^ self directionStrategy
+		  ifNil: [ {  } ]
+		  ifNotNil: [ :direc | direc availableScopesFor: aMooseGroup ]
 ]
 
 { #category : #default }
@@ -206,11 +209,11 @@ FQScopeQuery >> scope [
 
 { #category : #accessing }
 FQScopeQuery >> scope: anObject [
-	(self scopeIsValid: anObject)
-		ifFalse: [ ^ self resetScope ].
+
+	anObject == scope ifTrue: [ ^ self ].
+	(self scopeIsValid: anObject) ifFalse: [ ^ self ].
 	scope := anObject.
-	self resetResult.
-	self flag: #FQTest , 'test reset result'
+	self resetResult
 ]
 
 { #category : #accessing }
