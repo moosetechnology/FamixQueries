@@ -244,9 +244,10 @@ FQNavigationQuery >> removeAssociation: anAssociation [
 
 { #category : #reset }
 FQNavigationQuery >> resetAndChangeDirection: aDirectionStrategy [
+
 	self resetResult.
 	directionStrategy := aDirectionStrategy.
-	self associationStrategy: FQAllNavigationAssociations new.
+	self associationStrategy: FQNavigationAssociations new.
 	self flag: #FQTest
 ]
 
@@ -265,8 +266,12 @@ FQNavigationQuery >> runOn: aMooseGroup [
 
 { #category : #printing }
 FQNavigationQuery >> storeOn: aStream [
-	aStream << self className << ' '
-		<< self directionStrategy label asCamelCase uncapitalized.
+
+	aStream << self className.
 	self isValid
-		ifTrue: [ self associationStrategy storeOn: aStream ]
+		ifTrue: [ 
+			aStream << ' '
+			<< self directionStrategy label asCamelCase uncapitalized.
+			self associationStrategy storeOn: aStream ]
+		ifFalse: [ aStream << ' new' ]
 ]
