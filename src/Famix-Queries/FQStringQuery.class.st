@@ -84,8 +84,14 @@ FQStringQuery >> hasSameParametersAs: aQuery [
 
 { #category : #testing }
 FQStringQuery >> isValid [
-	^ super isValid
-		and: [ self comparator isSymbol and: [ self valueToCompare isString ] ]
+	super isValid ifFalse: [ ^ false ].
+	(self comparator isSymbol and: [ self valueToCompare isString ]) ifFalse: [ ^ false ].
+	self comparator = #matchesRegex: ifTrue: [ 
+		[RxParser new parse: self valueToCompare] 
+			on: RegexSyntaxError 
+			do: [ ^ false ].
+	].
+	^ true 
 ]
 
 { #category : #printing }
