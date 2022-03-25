@@ -47,6 +47,24 @@ FQStringQueryTest >> testIsValid [
 	self deny: (self newQuery valueToCompare: 10) isValid	"Not a string"
 ]
 
+{ #category : #tests }
+FQStringQueryTest >> testIsValidRegex [
+
+	| aQuery |
+	super testIsValid.
+	aQuery := self unConfiguredQuery.
+	aQuery property: #name.
+	aQuery comparator: #matchesRegex:.
+	
+	self deny: aQuery isValid.
+	
+	aQuery valueToCompare: 'Azerty'.
+	self assert: aQuery isValid.
+	
+	aQuery valueToCompare: '['.
+	self deny: aQuery isValid.
+]
+
 { #category : #'tests - printing' }
 FQStringQueryTest >> testName [
 	self assert: query name equals: 'name includesSubstring: ''LANP'''.
