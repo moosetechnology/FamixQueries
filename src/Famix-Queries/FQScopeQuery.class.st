@@ -176,13 +176,10 @@ FQScopeQuery >> isValid [
 
 { #category : #reset }
 FQScopeQuery >> resetAndChangeDirection: aDirectionStrategyClass [
+
 	self resetResult.
 	direction := aDirectionStrategyClass.
-	self
-		scope:
-			(self availableScopes
-				ifNotEmpty: #anyOne
-				ifEmpty: [  ]).
+	self scope: nil.
 	self flag: #FQTest
 ]
 
