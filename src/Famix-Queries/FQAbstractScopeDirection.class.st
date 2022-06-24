@@ -84,6 +84,12 @@ FQAbstractScopeDirection class >> scope: aFamixClass on: entity [
 	^ self subclassResponsibility
 ]
 
+{ #category : #scoping }
+FQAbstractScopeDirection class >> scope: aFamixClass recursively: aBoolean on: entity [
+
+	^ self subclassResponsibility
+]
+
 { #category : #printing }
 FQAbstractScopeDirection class >> scopingSelector [
 	^ self subclassResponsibility
