@@ -42,6 +42,12 @@ FQScopeUp class >> scope: aFamixClass on: entity [
 	^ entity query ancestors ofType: aFamixClass
 ]
 
+{ #category : #scoping }
+FQScopeUp class >> scope: aFamixClass recursively: aBoolean on: entity [
+
+	^ (entity query ancestors isRecursive: aBoolean) ofType: aFamixClass
+]
+
 { #category : #printing }
 FQScopeUp class >> scopingSelector [
 	^ #atScope:

@@ -42,6 +42,12 @@ FQScopeUpAndDown class >> scope: aFamixClass on: entity [
 	^ entity query lineage ofType: aFamixClass
 ]
 
+{ #category : #scoping }
+FQScopeUpAndDown class >> scope: aFamixClass recursively: aBoolean on: entity [
+
+	^ (entity query lineage isRecursive: aBoolean) ofType: aFamixClass
+]
+
 { #category : #printing }
 FQScopeUpAndDown class >> scopingSelector [
 	^ #withScope:

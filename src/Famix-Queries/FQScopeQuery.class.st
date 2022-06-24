@@ -41,7 +41,8 @@ Class {
 	#superclass : #FQUnaryQuery,
 	#instVars : [
 		'scope',
-		'direction'
+		'direction',
+		'recursive'
 	],
 	#category : #'Famix-Queries-Queries-Unary'
 }
@@ -167,11 +168,37 @@ FQScopeQuery >> hasSameParametersAs: aQuery [
 		and: [ scope == aQuery scope ]
 ]
 
+{ #category : #initialization }
+FQScopeQuery >> initialize [
+
+	super initialize.
+	recursive := false
+]
+
 { #category : #testing }
 FQScopeQuery >> isValid [
 	^ self directionStrategy isClass
 		and: [ (self directionStrategy inheritsFrom: FQAbstractScopeDirection)
 				and: [ self scopeIsValid: self scope ] ]
+]
+
+{ #category : #accessing }
+FQScopeQuery >> recursive [
+
+	^ recursive
+]
+
+{ #category : #accessing }
+FQScopeQuery >> recursive: anObject [
+
+	recursive := anObject
+]
+
+{ #category : #'as yet unclassified' }
+FQScopeQuery >> recursively [
+
+	recursive := true
+	
 ]
 
 { #category : #reset }
@@ -195,7 +222,7 @@ FQScopeQuery >> runOn: aMooseGroup [
 		   inject: Set new
 		   into: [ :res :entity | 
 			   res addAll:
-				   (self directionStrategy scope: self scope on: entity).
+				   (self directionStrategy scope: self scope recursively: recursive on: entity).
 			   res ]) asMooseGroup
 ]
 
