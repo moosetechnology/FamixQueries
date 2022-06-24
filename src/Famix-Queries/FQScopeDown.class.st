@@ -45,7 +45,8 @@ FQScopeDown class >> scope: aFamixClass on: entity [
 { #category : #scoping }
 FQScopeDown class >> scope: aFamixClass recursively: aBoolean on: entity [
 
-	^ entity query descendants recursively ofType: aFamixClass
+	^ (entity query descendants isRecursive: aBoolean) ofType:
+		  aFamixClass
 ]
 
 { #category : #printing }
