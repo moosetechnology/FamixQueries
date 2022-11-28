@@ -55,5 +55,5 @@ FQRelationQueryTest >> testRunOn [
 	self
 		assertCollection:
 		(query runOn: helper modelExample allAnnotationTypes)
-		hasSameElements: self expectedResult
+		hasSameElements: self expectedResult.
 ]
