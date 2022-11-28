@@ -46,7 +46,7 @@ FQAbstractQueryTest >> newQuery [
 { #category : #running }
 FQAbstractQueryTest >> setUp [
 	super setUp.
-	helper := FQTestsHelper current.
+	helper := FQTestsHelper new.
 	query := self newQuery
 ]
 

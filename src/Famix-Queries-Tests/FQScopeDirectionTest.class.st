@@ -40,7 +40,7 @@ FQScopeDirectionTest >> availableScopesUpTest [
 { #category : #running }
 FQScopeDirectionTest >> setUp [
 	super setUp.
-	helper := FQTestsHelper current
+	helper := FQTestsHelper new
 ]
 
 { #category : #'tests - available scopes' }
