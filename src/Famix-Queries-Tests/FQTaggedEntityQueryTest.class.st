@@ -28,6 +28,13 @@ FQTaggedEntityQueryTest >> newQuery [
 		  yourself
 ]
 
+{ #category : #running }
+FQTaggedEntityQueryTest >> setUp [
+
+	super setUp.
+	helper classesAndMethods do: [ :entity | entity tagWithName: #aTag ]
+]
+
 { #category : #'tests - printing' }
 FQTaggedEntityQueryTest >> testDisplayOn [
 
