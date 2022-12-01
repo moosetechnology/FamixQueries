@@ -1,6 +1,11 @@
 SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
+      #baseline : 'Famix',
+      #repository : 'github://moosetechnology/Famix:development/src',
+      #directory : 'src'
+    },
+    SCIMetacelloLoadSpec {
       #baseline : 'FamixQueries',
       #directory : 'src'
     }
