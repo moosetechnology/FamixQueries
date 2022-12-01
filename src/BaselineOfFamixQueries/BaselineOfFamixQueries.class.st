@@ -19,7 +19,7 @@ BaselineOfFamixQueries >> baseline: spec [
 		"Packages"
 		spec
 			package: 'Famix-Queries'
-			with: [ spec requires: #( 'Famix' 'FamixTagging' ) ];
+			with: [ spec requires: #( 'FamixTagging' ) ];
 			package: 'Famix-Queries-Tests'
 			with: [ spec requires: #( 'Famix-Queries' ) ].
 
@@ -27,22 +27,6 @@ BaselineOfFamixQueries >> baseline: spec [
 		spec
 			group: 'Model' with: #( 'Famix-Queries' );
 			group: 'Tests' with: #( 'Famix-Queries-Tests' ) ]
-]
-
-{ #category : #dependencies }
-BaselineOfFamixQueries >> famix: spec [
-
-	spec for: #'pharo9.x' do: [ 
-		spec
-			baseline: 'Famix'
-			with: [ 
-			spec repository: 'github://moosetechnology/Famix:v1.x.x/src' ] ].
-
-	spec for: #( #'pharo10.x' #'pharo11.x' ) do: [ 
-		spec
-			baseline: 'Famix'
-			with: [ 
-			spec repository: 'github://moosetechnology/Famix:development/src' ] ]
 ]
 
 { #category : #dependencies }
