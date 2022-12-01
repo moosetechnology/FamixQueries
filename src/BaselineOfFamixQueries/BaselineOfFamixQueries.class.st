@@ -11,15 +11,14 @@ Class {
 BaselineOfFamixQueries >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ 
+	spec for: #common do: [ "Dependencies"
+		self famix: spec.
+		self famixTagging: spec.
 
-		"Dependencies"
-			self famix: spec.
-			self famixTagging: spec.
-		
 		"Packages"
 		spec
-			package: 'Famix-Queries'  with: [ spec requires: #( 'Famix' ) ];
+			package: 'Famix-Queries'
+			with: [ spec requires: #( 'Famix' 'FamixTagging' ) ];
 			package: 'Famix-Queries-Tests'
 			with: [ spec requires: #( 'Famix-Queries' ) ].
 
