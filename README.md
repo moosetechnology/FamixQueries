@@ -1,7 +1,7 @@
 # Famix Queries
 I am a model of queries for Famix.
 
-Evaluate this code in a Playground to load Famix Queries:
+To load in a Pharo image, please load [Famix](https://github.com/moosetechnology/Famix), then execute the following: 
 
 ```Smalltalk
 Metacello new
