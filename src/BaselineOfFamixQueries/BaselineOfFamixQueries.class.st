@@ -12,17 +12,15 @@ BaselineOfFamixQueries >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ 
+
+		"Dependencies"
+			self famix: spec.
 		
 		"Packages"
 		spec
-			package: 'Famix-Queries';
+			package: 'Famix-Queries'  with: [ spec requires: #( 'Famix' ) ];
 			package: 'Famix-Queries-Tests'
 			with: [ spec requires: #( 'Famix-Queries' ) ].
-
-		"Dependencies"
-		spec for: #NeedsFamix do: [ 
-			self famix: spec.
-			spec package: 'Famix-Queries' with: [ spec requires: #( 'Famix' ) ] ].
 
 		"Groups"
 		spec
@@ -30,20 +28,18 @@ BaselineOfFamixQueries >> baseline: spec [
 			group: 'Tests' with: #( 'Famix-Queries-Tests' ) ]
 ]
 
-{ #category : #accessing }
-BaselineOfFamixQueries >> customProjectAttributes [
-
-	^ RPackageOrganizer default packages
-		  detect: [ :package | package name = 'BaselineOfFamix' ]
-		  ifFound: [ #(  ) ]
-		  ifNone: [ #( #NeedsFamix ) ]
-]
-
 { #category : #dependencies }
 BaselineOfFamixQueries >> famix: spec [
 
-	spec
-		baseline: 'Famix'
-		with: [ 
-		spec repository: 'github://moosetechnology/Famix:development/src' ]
+	spec for: #'pharo9.x' do: [ 
+		spec
+			baseline: 'Famix'
+			with: [ 
+			spec repository: 'github://moosetechnology/Famix:v1.x.x/src' ] ].
+
+	spec for: #( #'pharo10.x' #'pharo11.x' ) do: [ 
+		spec
+			baseline: 'Famix'
+			with: [ 
+			spec repository: 'github://moosetechnology/Famix:development/src' ] ]
 ]
