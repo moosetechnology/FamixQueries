@@ -15,6 +15,7 @@ BaselineOfFamixQueries >> baseline: spec [
 
 		"Dependencies"
 			self famix: spec.
+			self famixTagging: spec.
 		
 		"Packages"
 		spec
@@ -42,4 +43,13 @@ BaselineOfFamixQueries >> famix: spec [
 			baseline: 'Famix'
 			with: [ 
 			spec repository: 'github://moosetechnology/Famix:development/src' ] ]
+]
+
+{ #category : #dependencies }
+BaselineOfFamixQueries >> famixTagging: spec [
+
+	spec
+		baseline: 'FamixTagging'
+		with: [ 
+		spec repository: 'github://moosetechnology/FamixTagging:v1.x.x/src' ]
 ]
