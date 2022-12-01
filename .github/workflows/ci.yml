@@ -21,9 +21,6 @@ jobs:
         id: smalltalkci
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
-      - name: Load Famix
-        run: |
-          $SMALLTALK_CI_VM  $SMALLTALK_CI_IMAGE eval "Metacello new baseline: 'Moose'; repository: 'github://moosetechnology/Famix:development/src'; load."
       - run: smalltalkci -s ${{ steps.smalltalkci.outputs.smalltalk-image }}
         shell: bash
         timeout-minutes: 15
