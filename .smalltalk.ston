@@ -9,5 +9,10 @@ SmalltalkCISpec {
       #baseline : 'FamixQueries',
       #directory : 'src'
     }
+  ],
+  #testing : [
+    #exclude : {
+      #projects : [ 'BaselineOfFamix' ]
+    }
   ]
 }
