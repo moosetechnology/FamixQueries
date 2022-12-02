@@ -206,7 +206,7 @@ FQScopeQuery >> resetAndChangeDirection: aDirectionStrategyClass [
 
 	self resetResult.
 	direction := aDirectionStrategyClass.
-	self scope: nil.
+	self resetScope.
 	self flag: #FQTest
 ]
 
