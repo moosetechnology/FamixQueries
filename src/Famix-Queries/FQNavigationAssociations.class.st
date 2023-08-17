@@ -23,17 +23,18 @@ Class {
 
 { #category : #'instance creation' }
 FQNavigationAssociations class >> with: aFamixClass [
+
 	^ self new
-		associations: {aFamixClass} asOrderedCollection;
-		yourself
+		  associations: (OrderedCollection with: { aFamixClass });
+		  yourself
 ]
 
 { #category : #'instance creation' }
 FQNavigationAssociations class >> withAll: aCollection [
 
 	| associations |
-	associations := aCollection asOrderedCollection removeAllSuchThat:
-		                #isNil.
+	associations := (aCollection as: OrderedCollection)
+		                removeAllSuchThat: #isNil.
 	^ self new
 		  associations: associations;
 		  yourself
@@ -57,7 +58,8 @@ FQNavigationAssociations >> addAssociation: anAssociation [
 
 { #category : #accessing }
 FQNavigationAssociations >> associations [
-	^ associations asOrderedCollection
+
+	^ associations as: OrderedCollection
 ]
 
 { #category : #accessing }

@@ -151,8 +151,9 @@ FQUnaryQuery >> parentSequence [
 { #category : #accessing }
 FQUnaryQuery >> parentSequenceWithoutRoot [
 
-	(parent  isNil or: [parent isRootQuery]) ifTrue: [ ^ OrderedCollection new ].
-	^ parent asOrderedCollection , parent parentSequenceWithoutRoot
+	(parent isNil or: [ parent isRootQuery ]) ifTrue: [
+		^ OrderedCollection new ].
+	^ (OrderedCollection with: parent) , parent parentSequenceWithoutRoot
 ]
 
 { #category : #removing }

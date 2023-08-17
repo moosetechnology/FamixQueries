@@ -50,7 +50,7 @@ FQComplementQuery >> defaultName [
 { #category : #accessing }
 FQComplementQuery >> dependencies [
 
-	^ queryToNegate asOrderedCollection
+	^ queryToNegate as: OrderedCollection
 ]
 
 { #category : #printing }

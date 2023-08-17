@@ -76,7 +76,10 @@ FQTypeQuery >> availableTypes [
 
 { #category : #'available parameters' }
 FQTypeQuery >> availableTypesFor: aMooseGroup [
-	^ (aMooseGroup allUsing: TEntityMetaLevelDependency) allEntityTypes asOrderedCollection sort: [ :type1 :type2 | type1 name < type2 name ]
+
+	^ ((aMooseGroup allUsing: TEntityMetaLevelDependency) allEntityTypes
+		   as: OrderedCollection) sort: [ :type1 :type2 |
+		  type1 name < type2 name ]
 ]
 
 { #category : #default }
@@ -184,7 +187,7 @@ FQTypeQuery >> types [
 
 { #category : #accessing }
 FQTypeQuery >> types: aCollection [
-	types := aCollection asOrderedCollection
-		select:
-			[ :elt | self typeIsValid: elt ]
+
+	types := (aCollection as: OrderedCollection) select: [ :elt |
+		         self typeIsValid: elt ]
 ]
