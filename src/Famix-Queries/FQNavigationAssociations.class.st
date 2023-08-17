@@ -25,7 +25,7 @@ Class {
 FQNavigationAssociations class >> with: aFamixClass [
 
 	^ self new
-		  associations: (OrderedCollection with: { aFamixClass });
+		  associations: (OrderedCollection with: aFamixClass);
 		  yourself
 ]
 

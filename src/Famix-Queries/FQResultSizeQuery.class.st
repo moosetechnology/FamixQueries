@@ -58,7 +58,7 @@ FQResultSizeQuery >> defaultName [
 { #category : #accessing }
 FQResultSizeQuery >> dependencies [
 
-	^ (innerQuery as: OrderedCollection) , super dependencies
+	^ (OrderedCollection with: innerQuery) , super dependencies
 ]
 
 { #category : #printing }
