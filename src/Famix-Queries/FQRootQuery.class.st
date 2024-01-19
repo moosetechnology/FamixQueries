@@ -59,14 +59,14 @@ FQRootQuery >> isValid [
 	^ result isKindOf: MooseGroup
 ]
 
+{ #category : #running }
+FQRootQuery >> rawRunOn: aMooseGroup [
+	^ aMooseGroup
+]
+
 { #category : #accessing }
 FQRootQuery >> result: aMooseGroup [
 	result := aMooseGroup
-]
-
-{ #category : #running }
-FQRootQuery >> runOn: aMooseGroup [
-	^ aMooseGroup
 ]
 
 { #category : #printing }

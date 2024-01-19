@@ -22,13 +22,13 @@ FQCollectScriptQuery >> defaultName [
 ]
 
 { #category : #running }
-FQCollectScriptQuery >> runOn: aMooseGroup [
-	^((aMooseGroup allUsing: TEntityMetaLevelDependency)
-		   inject: Set new
-		   into: [ :res :entity || collected |
-				collected := script value: entity.
-				collected isCollection
-				ifTrue: [ res addAll: collected ]
-				ifFalse: [ res add: collected ].
-			   res ]) asMooseGroup
+FQCollectScriptQuery >> rawRunOn: aMooseGroup [
+
+	^ (aMooseGroup rawAllUsing: TEntityMetaLevelDependency) inject: Set new into: [ :res :entity |
+		  | collected |
+		  collected := script value: entity.
+		  collected isCollection
+			  ifTrue: [ res addAll: collected ]
+			  ifFalse: [ res add: collected ].
+		  res ]
 ]

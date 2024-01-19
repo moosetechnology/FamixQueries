@@ -48,9 +48,9 @@ FQNullQuery >> prepareRemoval [
 ]
 
 { #category : #running }
-FQNullQuery >> runOn: aMooseGroup [
+FQNullQuery >> rawRunOn: aMooseGroup [
 
-	^ #(  ) asMooseGroup
+	^ #(  )
 ]
 
 { #category : #printing }

@@ -31,7 +31,7 @@ FQUnionQuery >> operator [
 ]
 
 { #category : #running }
-FQUnionQuery >> runOn: mooseGroups [
+FQUnionQuery >> rawRunOn: mooseGroups [
 
 	^ mooseGroups fold: [ :a :b | a union: b ]
 ]

@@ -104,12 +104,9 @@ FQResultSizeQuery >> isValid [
 ]
 
 { #category : #running }
-FQResultSizeQuery >> runOn: aMooseGroup [
+FQResultSizeQuery >> rawRunOn: aMooseGroup [
 
-	^ aMooseGroup select: [ :entity | 
-		  (innerQuery runOn: entity asMooseGroup) size
-			  perform: comparator
-			  with: valueToCompare ]
+	^ aMooseGroup select: [ :entity | (innerQuery runOn: entity asMooseGroup) size perform: comparator with: valueToCompare ]
 ]
 
 { #category : #printing }
