@@ -203,6 +203,13 @@ FQAbstractQuery >> printOn: aStream [
 	aStream << Character space << (self name join: '()')
 ]
 
+{ #category : #running }
+FQAbstractQuery >> rawRunOn: aMooseGroup [
+	"I should run myself on the MooseGroup as parameter and return a new collection with my result. This collection will then be casted as a MooseGroup by #runOn:"
+
+	^ self subclassResponsibility
+]
+
 { #category : #removing }
 FQAbstractQuery >> removeChild: aQuery [
 	children remove: aQuery
@@ -225,7 +232,7 @@ FQAbstractQuery >> result [
 FQAbstractQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
 
-	^ self subclassResponsibility
+	^ (self rawRunOn: aMooseGroup) asMooseGroup
 ]
 
 { #category : #printing }

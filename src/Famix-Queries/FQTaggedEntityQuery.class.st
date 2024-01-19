@@ -108,13 +108,9 @@ FQTaggedEntityQuery >> isValid [
 ]
 
 { #category : #running }
-FQTaggedEntityQuery >> runOn: aMooseGroup [
+FQTaggedEntityQuery >> rawRunOn: aMooseGroup [
 
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-
-	^ aMooseGroup select: [ :entity | 
-		  entity allTagAssociations anySatisfy: [ :tass | 
-			  tass tag name = tagName ] ]
+	^ aMooseGroup select: [ :entity | entity allTagAssociations anySatisfy: [ :tass | tass tag name = tagName ] ]
 ]
 
 { #category : #printing }

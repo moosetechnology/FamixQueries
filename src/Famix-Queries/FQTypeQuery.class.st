@@ -138,19 +138,18 @@ FQTypeQuery >> isValid [
 		  types allSatisfy: [ :type | self typeIsValid: type ] ]
 ]
 
+{ #category : #running }
+FQTypeQuery >> rawRunOn: aMooseGroup [
+
+	^ self types asSet flatCollect: [ :type | aMooseGroup allMatching: type ]
+]
+
 { #category : #'adding - removing' }
 FQTypeQuery >> removeType: aType [
 
 	self types remove: aType.
 	self resetResult.
 	self flag: #FQTest , 'test reset'
-]
-
-{ #category : #running }
-FQTypeQuery >> runOn: aMooseGroup [
-	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
-
-	^ (self types asSet flatCollect: [ :type | aMooseGroup allMatching: type ]) asMooseGroup
 ]
 
 { #category : #printing }

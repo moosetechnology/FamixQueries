@@ -173,7 +173,7 @@ FQPropertyQuery >> property: anObject [
 ]
 
 { #category : #running }
-FQPropertyQuery >> runOn: aMooseGroup [
+FQPropertyQuery >> rawRunOn: aMooseGroup [
 	self flag: #FQImprove , 'This false on error is not optimal'.
 
 	^ aMooseGroup

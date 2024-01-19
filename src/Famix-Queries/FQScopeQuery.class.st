@@ -182,6 +182,14 @@ FQScopeQuery >> isValid [
 				and: [ self scopeIsValid: self scope ] ]
 ]
 
+{ #category : #running }
+FQScopeQuery >> rawRunOn: aMooseGroup [
+
+	^ (aMooseGroup rawAllUsing: TEntityMetaLevelDependency) inject: Set new into: [ :res :entity |
+		  res addAll: (self directionStrategy scope: self scope recursively: recursive on: entity).
+		  res ]
+]
+
 { #category : #accessing }
 FQScopeQuery >> recursive [
 
@@ -213,17 +221,6 @@ FQScopeQuery >> resetAndChangeDirection: aDirectionStrategyClass [
 { #category : #reset }
 FQScopeQuery >> resetScope [
 	scope := nil
-]
-
-{ #category : #running }
-FQScopeQuery >> runOn: aMooseGroup [
-
-	^ ((aMooseGroup allUsing: TEntityMetaLevelDependency)
-		   inject: Set new
-		   into: [ :res :entity | 
-			   res addAll:
-				   (self directionStrategy scope: self scope recursively: recursive on: entity).
-			   res ]) asMooseGroup
 ]
 
 { #category : #accessing }

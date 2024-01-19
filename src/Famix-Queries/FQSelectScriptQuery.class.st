@@ -22,7 +22,7 @@ FQSelectScriptQuery >> defaultName [
 ]
 
 { #category : #running }
-FQSelectScriptQuery >> runOn: aMooseGroup [
+FQSelectScriptQuery >> rawRunOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
 
 	^ aMooseGroup select: script

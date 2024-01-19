@@ -31,7 +31,7 @@ FQIntersectionQuery >> operator [
 ]
 
 { #category : #running }
-FQIntersectionQuery >> runOn: mooseGroups [
+FQIntersectionQuery >> rawRunOn: mooseGroups [
 
 	^ mooseGroups fold: [ :a :b | a intersection: b ]
 ]

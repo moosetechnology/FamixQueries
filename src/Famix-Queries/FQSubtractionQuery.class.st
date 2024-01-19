@@ -30,14 +30,14 @@ FQSubtractionQuery >> operator [
 	^ $\
 ]
 
+{ #category : #running }
+FQSubtractionQuery >> rawRunOn: mooseGroups [
+
+	^ mooseGroups fold: [ :a :b | a difference: b ]
+]
+
 { #category : #reversing }
 FQSubtractionQuery >> reverseParents [
 	self subqueries: self subqueries reverse.
 	self resetResult
-]
-
-{ #category : #running }
-FQSubtractionQuery >> runOn: mooseGroups [
-
-	^ mooseGroups fold: [ :a :b | a difference: b ]
 ]

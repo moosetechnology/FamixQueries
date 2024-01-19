@@ -100,6 +100,14 @@ FQRelationQuery >> isValid [
 	^ relationName isSymbol
 ]
 
+{ #category : #running }
+FQRelationQuery >> rawRunOn: aMooseGroup [
+
+	^ (aMooseGroup rawAllUsing: TEntityMetaLevelDependency) inject: Set new into: [ :res :entity |
+		  res addAll: (entity query relations named: self relationName).
+		  res ]
+]
+
 { #category : #accessing }
 FQRelationQuery >> relationName [
 
@@ -111,16 +119,6 @@ FQRelationQuery >> relationName: aSymbol [
 
 	relationName := aSymbol.
 	self resetResult
-]
-
-{ #category : #running }
-FQRelationQuery >> runOn: aMooseGroup [
-
-	^ ((aMooseGroup allUsing: TEntityMetaLevelDependency)
-		   inject: Set new
-		   into: [ :res :entity | 
-			   res addAll: (entity query relations named: self relationName).
-			   res ]) asMooseGroup
 ]
 
 { #category : #printing }

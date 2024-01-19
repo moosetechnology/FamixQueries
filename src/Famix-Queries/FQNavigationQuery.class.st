@@ -235,6 +235,14 @@ FQNavigationQuery >> isValid [
 										allSatisfy: [ :assoc | self associationsIsValid: assoc ] ] ] ] ]
 ]
 
+{ #category : #running }
+FQNavigationQuery >> rawRunOn: aMooseGroup [
+
+	^ (aMooseGroup rawAllUsing: TEntityMetaLevelDependency) inject: Set new into: [ :res :entity |
+		  res addAll: (self directionStrategy query: entity with: self associationStrategy).
+		  res ]
+]
+
 { #category : #'adding - removing' }
 FQNavigationQuery >> removeAssociation: anAssociation [
 	self
@@ -252,19 +260,6 @@ FQNavigationQuery >> resetAndChangeDirection: aDirectionStrategy [
 	directionStrategy := aDirectionStrategy.
 	self associationStrategy: FQNavigationAssociations new.
 	self flag: #FQTest
-]
-
-{ #category : #running }
-FQNavigationQuery >> runOn: aMooseGroup [
-
-	^ ((aMooseGroup allUsing: TEntityMetaLevelDependency)
-		   inject: Set new
-		   into: [ :res :entity | 
-			   res addAll:
-				   (self directionStrategy
-					    query: entity
-					    with: self associationStrategy).
-			   res ]) asMooseGroup
 ]
 
 { #category : #printing }
