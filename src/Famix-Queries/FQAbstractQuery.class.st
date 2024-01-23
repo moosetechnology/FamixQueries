@@ -210,6 +210,13 @@ FQAbstractQuery >> rawRunOn: aMooseGroup [
 	^ self subclassResponsibility
 ]
 
+{ #category : #running }
+FQAbstractQuery >> rawRunOnEntity: anEntity [
+	"I am a hook to allow to run a query on only one entity. I'll by default cast it as a MooseGroup but some subclasses can override me in order to speed things up."
+
+	^ self rawRunOn: anEntity asMooseGroup
+]
+
 { #category : #removing }
 FQAbstractQuery >> removeChild: aQuery [
 	children remove: aQuery
