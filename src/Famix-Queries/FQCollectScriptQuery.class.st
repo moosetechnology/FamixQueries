@@ -8,6 +8,17 @@ Class {
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
+{ #category : #running }
+FQCollectScriptQuery >> addResultsFor: entity in: res [
+
+	| collected |
+	collected := script value: entity.
+	collected isCollection
+		ifTrue: [ res addAll: collected ]
+		ifFalse: [ res add: collected ].
+	^ res
+]
+
 { #category : #default }
 FQCollectScriptQuery >> beDefaultForParent [
 	script := [ :each | false ]
@@ -24,11 +35,13 @@ FQCollectScriptQuery >> defaultName [
 { #category : #running }
 FQCollectScriptQuery >> rawRunOn: aMooseGroup [
 
-	^ (aMooseGroup rawAllUsing: TEntityMetaLevelDependency) inject: Set new into: [ :res :entity |
-		  | collected |
-		  collected := script value: entity.
-		  collected isCollection
-			  ifTrue: [ res addAll: collected ]
-			  ifFalse: [ res add: collected ].
-		  res ]
+	^ (aMooseGroup rawAllUsing: TEntityMetaLevelDependency) inject: Set new into: [ :res :entity | self addResultsFor: entity in: res ]
+]
+
+{ #category : #running }
+FQCollectScriptQuery >> rawRunOnEntity: anEntity [
+
+	^ anEntity isQueryable
+		  ifTrue: [ self addResultsFor: anEntity in: Set new ]
+		  ifFalse: [ #(  ) ]
 ]
