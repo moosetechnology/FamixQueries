@@ -88,10 +88,11 @@ FQNavigationQueryTest >> incomingAccessesForClassExample [
 
 { #category : #'running - queries' }
 FQNavigationQueryTest >> incomingAllAssociationsQuery [
+
 	^ self actualClass new
-		directionStrategy: FQIncomingNavigation;
-		associationStrategy: FQAllNavigationAssociations new;
-		beChildOf: (FQRootQuery new result: helper classesAndMethods)
+		  directionStrategy: FQIncomingNavigation;
+		  associationStrategy: FQAllNavigationAssociations new;
+		  beChildOf: (FQRootQuery new input: helper classesAndMethods)
 ]
 
 { #category : #'class example' }
@@ -151,10 +152,11 @@ FQNavigationQueryTest >> incomingTest [
 
 { #category : #'running - queries' }
 FQNavigationQueryTest >> localIncomingAllAssociationsQuery [
+
 	^ self actualClass new
-		directionStrategy: FQLocalIncomingNavigation;
-		associationStrategy: FQAllNavigationAssociations new;
-		beChildOf: (FQRootQuery new result: helper classesAndMethods)
+		  directionStrategy: FQLocalIncomingNavigation;
+		  associationStrategy: FQAllNavigationAssociations new;
+		  beChildOf: (FQRootQuery new input: helper classesAndMethods)
 ]
 
 { #category : #'class example' }
@@ -172,10 +174,11 @@ FQNavigationQueryTest >> localIncomingReferencesForClassExample [
 
 { #category : #'running - queries' }
 FQNavigationQueryTest >> localOutgoingAllAssociationsQuery [
+
 	^ self actualClass new
-		directionStrategy: FQLocalOutgoingNavigation;
-		associationStrategy: FQAllNavigationAssociations new;
-		beChildOf: (FQRootQuery new result: helper classesAndMethods)
+		  directionStrategy: FQLocalOutgoingNavigation;
+		  associationStrategy: FQAllNavigationAssociations new;
+		  beChildOf: (FQRootQuery new input: helper classesAndMethods)
 ]
 
 { #category : #'class example' }
@@ -243,10 +246,11 @@ FQNavigationQueryTest >> outgoingAccessesForClassExample [
 
 { #category : #'running - queries' }
 FQNavigationQueryTest >> outgoingAllAssociationsQuery [
+
 	^ self actualClass new
-		directionStrategy: FQOutgoingNavigation;
-		associationStrategy: FQAllNavigationAssociations new;
-		beChildOf: (FQRootQuery new result: helper classesAndMethods)
+		  directionStrategy: FQOutgoingNavigation;
+		  associationStrategy: FQAllNavigationAssociations new;
+		  beChildOf: (FQRootQuery new input: helper classesAndMethods)
 ]
 
 { #category : #'class example' }
@@ -299,12 +303,13 @@ FQNavigationQueryTest >> outgoingTest [
 
 { #category : #'tests - adding - removing' }
 FQNavigationQueryTest >> testAddAllAssociations [
+
 	query associationStrategy: FQNavigationAssociations new.
-	query parent: (FQRootQuery new result: helper classesAndMethods).
-	
-	query availableAssociations
-		do: [ :assoc | query addAssociation: assoc ].
-	
+	query parent: (FQRootQuery new input: helper classesAndMethods).
+
+	query availableAssociations do: [ :assoc |
+		query addAssociation: assoc ].
+
 	self
 		assert: query associationStrategy class
 		identicalTo: FQAllNavigationAssociations
@@ -384,7 +389,7 @@ FQNavigationQueryTest >> testName [
 { #category : #'tests - adding - removing' }
 FQNavigationQueryTest >> testRemoveAssociation [
 
-	query parent: (FQRootQuery new result: helper classesAndMethods).
+	query parent: (FQRootQuery new input: helper classesAndMethods).
 	query removeAssociation: FamixStAccess.
 	self deny: (query associations includes: FamixStAccess).
 	self

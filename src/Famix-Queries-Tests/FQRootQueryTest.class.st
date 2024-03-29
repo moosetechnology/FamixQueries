@@ -35,8 +35,9 @@ FQRootQueryTest >> testDisplayOn [
 
 { #category : #tests }
 FQRootQueryTest >> testIsValid [
+
 	self assert: query isValid.
-	query result: nil.
+	query input: nil.
 	self deny: query isValid
 ]
 

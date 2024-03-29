@@ -108,6 +108,12 @@ FQComplementQuery >> rawRunOn: allEntitiesMooseGroup [
 	^ newItems
 ]
 
+{ #category : #execution }
+FQComplementQuery >> rootQuery: aFQRootQuery [
+
+	queryToNegate rootQuery: aFQRootQuery
+]
+
 { #category : #printing }
 FQComplementQuery >> storeOn: aStream [
 
