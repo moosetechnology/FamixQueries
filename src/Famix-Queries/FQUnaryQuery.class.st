@@ -169,6 +169,14 @@ FQUnaryQuery >> resetParent [
 	parent := nil
 ]
 
+{ #category : #execution }
+FQUnaryQuery >> rootQuery: aFQRootQuery [
+
+	self parent
+		ifNil: [ self parent: aFQRootQuery ]
+		ifNotNil: [ self parent rootQuery: aFQRootQuery ]
+]
+
 { #category : #printing }
 FQUnaryQuery >> storeWithParentsOn: aStream [
 

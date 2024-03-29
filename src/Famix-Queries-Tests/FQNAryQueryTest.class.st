@@ -109,9 +109,9 @@ FQNAryQueryTest >> testParents [
 
 { #category : #tests }
 FQNAryQueryTest >> testResult [
-	query subqueries
-		do:
-			[ :parent | parent parent: (FQRootQuery new result: helper classesAndMethods) ].
+
+	query subqueries do: [ :parent |
+		parent parent: (FQRootQuery new input: helper classesAndMethods) ].
 	self
 		assertCollection: query result
 		hasSameElements: (query runOn: self parentQueriesResult)

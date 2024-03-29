@@ -33,7 +33,7 @@ FQComplementQueryTest >> newQuery [
 { #category : #tests }
 FQComplementQueryTest >> newQueryToNegate [
 
-	^ FQRootQuery new result: helper classes
+	^ FQRootQuery new input: helper classes
 ]
 
 { #category : #tests }

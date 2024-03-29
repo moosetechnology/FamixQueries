@@ -114,6 +114,16 @@ FQAbstractQuery >> displayOn: aStream [
 	^ self subclassResponsibility
 ]
 
+{ #category : #execution }
+FQAbstractQuery >> executeOn: aMooseGroup [
+
+	| root |
+
+	root := FQRootQuery new input: aMooseGroup.
+	self rootQuery: root.
+	^ self result
+]
+
 { #category : #accessing }
 FQAbstractQuery >> hasSameParametersAs: arg1 [ 
 	^ self subclassResponsibility
@@ -233,6 +243,12 @@ FQAbstractQuery >> result [
 
 	result ifNil: [ result := self computeResult ].
 	^ result
+]
+
+{ #category : #execution }
+FQAbstractQuery >> rootQuery: aFQRootQuery [
+
+	self subclassResponsibility
 ]
 
 { #category : #running }

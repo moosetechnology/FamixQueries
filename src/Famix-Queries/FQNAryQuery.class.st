@@ -115,6 +115,12 @@ FQNAryQuery >> prepareRemoval [
 	subqueries := nil
 ]
 
+{ #category : #execution }
+FQNAryQuery >> rootQuery: aFQRootQuery [
+
+	self subqueries do: [ :subquery | subquery rootQuery: aFQRootQuery ]
+]
+
 { #category : #printing }
 FQNAryQuery >> storeOn: aStream [
 

@@ -1,6 +1,9 @@
 Class {
 	#name : #FQRootQuery,
 	#superclass : #FQUnaryQuery,
+	#instVars : [
+		'input'
+	],
 	#category : #'Famix-Queries-Queries-Unary'
 }
 
@@ -45,8 +48,15 @@ FQRootQuery >> hasSameParametersAs: aQuery [
 
 { #category : #initialization }
 FQRootQuery >> initialize [
+
 	super initialize.
-	result := MooseGroup new
+	input := MooseGroup new
+]
+
+{ #category : #accessing }
+FQRootQuery >> input: aMooseGroup [
+
+	input := aMooseGroup
 ]
 
 { #category : #testing }
@@ -56,7 +66,8 @@ FQRootQuery >> isRootQuery [
 
 { #category : #testing }
 FQRootQuery >> isValid [
-	^ result isKindOf: MooseGroup
+
+	^ input isKindOf: MooseGroup
 ]
 
 { #category : #running }
@@ -64,9 +75,20 @@ FQRootQuery >> rawRunOn: aMooseGroup [
 	^ aMooseGroup
 ]
 
+{ #category : #running }
+FQRootQuery >> result [
+
+	^ input
+]
+
 { #category : #accessing }
 FQRootQuery >> result: aMooseGroup [
-	result := aMooseGroup
+
+	self
+		deprecated: 'Unclear method name'
+		transformWith:
+		'`@receiver result: `@arg' -> '`@receiver input: `@arg'.
+	self input: aMooseGroup
 ]
 
 { #category : #printing }
