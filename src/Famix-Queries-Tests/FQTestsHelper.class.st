@@ -38,12 +38,12 @@ FQTestsHelper >> entitiesWithNoIncomingAssociations [
 
 { #category : #initialization }
 FQTestsHelper >> initialize [
+
 	model := FamixStModel new.
-			MoosePharoImporterTask new
-				importerClass: SmalltalkImporter;
-				model: model;
-				addFromPackageNamed: #'Moose-TestResources-LAN';
-				run
+	MoosePharoImporterTask new
+		model: model;
+		addFromPackageNamed: #'Moose-TestResources-LAN';
+		run
 ]
 
 { #category : #entities }
