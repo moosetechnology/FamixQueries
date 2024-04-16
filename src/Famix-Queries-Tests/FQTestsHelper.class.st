@@ -40,7 +40,7 @@ FQTestsHelper >> entitiesWithNoIncomingAssociations [
 FQTestsHelper >> initialize [
 
 	model := FamixStModel new.
-	MoosePharoImporterTask new
+	FamixStPharoImporterTask new
 		model: model;
 		addFromPackageNamed: #'Moose-TestResources-LAN';
 		run
