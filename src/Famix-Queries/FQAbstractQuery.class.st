@@ -154,6 +154,12 @@ FQAbstractQuery >> isRootQuery [
 ]
 
 { #category : #testing }
+FQAbstractQuery >> isScriptQuery [
+
+	^ false
+]
+
+{ #category : #testing }
 FQAbstractQuery >> isUnaryQuery [
 	^ false
 ]

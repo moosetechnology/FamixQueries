@@ -30,6 +30,12 @@ FQScriptQuery >> hasSameParametersAs: aQuery [
 ]
 
 { #category : #testing }
+FQScriptQuery >> isScriptQuery [
+
+	^ true
+]
+
+{ #category : #testing }
 FQScriptQuery >> isValid [
 	^script notNil
 ]
