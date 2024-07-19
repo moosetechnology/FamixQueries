@@ -94,6 +94,12 @@ FQRelationQuery >> hasSameParametersAs: aQuery [
 	^ aQuery relationName = self relationName
 ]
 
+{ #category : #comparing }
+FQRelationQuery >> hash [
+
+	^ super hash bitXor: relationName hash
+]
+
 { #category : #testing }
 FQRelationQuery >> isValid [
 

@@ -70,6 +70,20 @@ FQAbstractQueryTest >> testDisplayOn [
 ]
 
 { #category : #tests }
+FQAbstractQueryTest >> testEqual [
+
+	self assert: query equals: query copy.
+	self deny: query equals: FQNullQuery new
+]
+
+{ #category : #tests }
+FQAbstractQueryTest >> testHash [
+
+	self assert: query hash equals: query copy hash.
+	self deny: query hash equals: FQNullQuery new hash
+]
+
+{ #category : #tests }
 FQAbstractQueryTest >> testIsValid [
 	self assert: query isValid.
 	self deny: self unConfiguredQuery isValid

@@ -154,6 +154,12 @@ FQPropertyQuery >> hasSameParametersAs: aQuery [
 	^ property == aQuery property
 ]
 
+{ #category : #comparing }
+FQPropertyQuery >> hash [
+
+	^ super hash bitXor: property hash
+]
+
 { #category : #testing }
 FQPropertyQuery >> isValid [
 	^ self property isSymbol

@@ -46,6 +46,12 @@ FQRootQuery >> hasSameParametersAs: aQuery [
 	^ true
 ]
 
+{ #category : #comparing }
+FQRootQuery >> hash [
+
+	^ super hash bitXor: input hash
+]
+
 { #category : #initialization }
 FQRootQuery >> initialize [
 

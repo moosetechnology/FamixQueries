@@ -164,8 +164,16 @@ FQScopeQuery >> displayOn: aStream with: aString [
 
 { #category : #comparing }
 FQScopeQuery >> hasSameParametersAs: aQuery [
-	^ direction == aQuery directionStrategy
-		and: [ scope == aQuery scope ]
+
+	^ direction == aQuery directionStrategy and: [
+		  scope == aQuery scope and: [ recursive == aQuery recursive ] ]
+]
+
+{ #category : #comparing }
+FQScopeQuery >> hash [
+
+	^ ((super hash bitXor: scope hash) bitXor: direction hash) bitXor:
+		  recursive hash
 ]
 
 { #category : #initialization }

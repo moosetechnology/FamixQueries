@@ -63,6 +63,13 @@ FQAbstractQuery >> & anotherQuery [
 	^ self intersection: anotherQuery
 ]
 
+{ #category : #comparing }
+FQAbstractQuery >> = anObject [
+
+	^ self class == anObject class and: [
+		  self hasSameParametersAs: anObject ]
+]
+
 { #category : #composition }
 FQAbstractQuery >> \ anotherQuery [
 
@@ -125,8 +132,14 @@ FQAbstractQuery >> executeOn: aMooseGroup [
 ]
 
 { #category : #accessing }
-FQAbstractQuery >> hasSameParametersAs: arg1 [ 
+FQAbstractQuery >> hasSameParametersAs: aQuery [ 
 	^ self subclassResponsibility
+]
+
+{ #category : #comparing }
+FQAbstractQuery >> hash [
+
+	^ (name hash bitXor: result hash) bitXor: children hash
 ]
 
 { #category : #initialization }

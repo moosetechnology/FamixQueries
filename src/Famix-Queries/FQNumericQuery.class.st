@@ -81,6 +81,12 @@ FQNumericQuery >> hasSameParametersAs: aQuery [
 				and: [ valueToCompare = aQuery valueToCompare ] ]
 ]
 
+{ #category : #comparing }
+FQNumericQuery >> hash [
+
+	^ (super hash bitXor: valueToCompare hash) bitXor: comparator hash
+]
+
 { #category : #testing }
 FQNumericQuery >> isValid [
 

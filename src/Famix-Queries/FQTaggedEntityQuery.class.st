@@ -102,6 +102,12 @@ FQTaggedEntityQuery >> hasSameParametersAs: aQuery [
 	^ aQuery tagName = self tagName
 ]
 
+{ #category : #comparing }
+FQTaggedEntityQuery >> hash [
+
+	^ super hash bitXor: tagName hash
+]
+
 { #category : #testing }
 FQTaggedEntityQuery >> isValid [
 	^ tagName isNotNil

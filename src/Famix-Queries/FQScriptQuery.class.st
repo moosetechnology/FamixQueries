@@ -29,6 +29,12 @@ FQScriptQuery >> hasSameParametersAs: aQuery [
 	^ script asString = aQuery script asString
 ]
 
+{ #category : #comparing }
+FQScriptQuery >> hash [
+
+	^ super hash bitXor: script hash
+]
+
 { #category : #testing }
 FQScriptQuery >> isScriptQuery [
 
