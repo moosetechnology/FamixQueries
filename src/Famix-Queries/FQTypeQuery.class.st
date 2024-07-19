@@ -125,6 +125,12 @@ FQTypeQuery >> hasSameParametersAs: aQuery [
 	^ types = aQuery types
 ]
 
+{ #category : #comparing }
+FQTypeQuery >> hash [
+
+	^ super hash bitXor: types hash
+]
+
 { #category : #initialization }
 FQTypeQuery >> initialize [
 	super initialize.

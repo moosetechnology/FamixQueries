@@ -26,9 +26,9 @@ FQNullQuery >> displayOn: aStream [
 ]
 
 { #category : #accessing }
-FQNullQuery >> hasSameParametersAs: arg1 [
+FQNullQuery >> hasSameParametersAs: aQuery [
 
-	^ false
+	^ self class == aQuery class
 ]
 
 { #category : #testing }

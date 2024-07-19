@@ -81,6 +81,12 @@ FQNAryQuery >> hasSameSubqueriesAs: aQuery [
 	^ self subqueries = aQuery subqueries
 ]
 
+{ #category : #comparing }
+FQNAryQuery >> hash [
+
+	^ super hash bitXor: subqueries hash
+]
+
 { #category : #initialization }
 FQNAryQuery >> initialize [
 	super initialize.

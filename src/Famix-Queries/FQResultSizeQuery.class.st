@@ -82,6 +82,13 @@ FQResultSizeQuery >> hasSameParametersAs: aQuery [
 			  valueToCompare = aQuery valueToCompare ]
 ]
 
+{ #category : #comparing }
+FQResultSizeQuery >> hash [
+
+	^ ((super hash bitXor: innerQuery hash) bitXor: comparator hash)
+		  bitXor: valueToCompare hash
+]
+
 { #category : #accessing }
 FQResultSizeQuery >> innerQuery [
 

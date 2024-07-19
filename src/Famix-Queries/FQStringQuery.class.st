@@ -82,6 +82,12 @@ FQStringQuery >> hasSameParametersAs: aQuery [
 				and: [ valueToCompare = aQuery valueToCompare ] ]
 ]
 
+{ #category : #comparing }
+FQStringQuery >> hash [
+
+	^ (super hash bitXor: valueToCompare hash) bitXor: comparator hash
+]
+
 { #category : #testing }
 FQStringQuery >> isValid [
 	super isValid ifFalse: [ ^ false ].

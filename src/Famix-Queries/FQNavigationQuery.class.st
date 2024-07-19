@@ -218,6 +218,13 @@ FQNavigationQuery >> hasSameParametersAs: aQuery [
 		and: [ associationStrategy = aQuery associationStrategy ]
 ]
 
+{ #category : #comparing }
+FQNavigationQuery >> hash [
+
+	^ (super hash bitXor: directionStrategy hash) bitXor:
+		  associationStrategy hash
+]
+
 { #category : #initialization }
 FQNavigationQuery >> initialize [
 	super initialize.

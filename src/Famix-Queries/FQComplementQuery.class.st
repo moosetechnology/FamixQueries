@@ -67,6 +67,12 @@ FQComplementQuery >> hasSameParametersAs: aQuery [
 	^ aQuery queryToNegate hasSameParametersAs: queryToNegate
 ]
 
+{ #category : #comparing }
+FQComplementQuery >> hash [
+
+	^ super hash bitXor: queryToNegate hash
+]
+
 { #category : #testing }
 FQComplementQuery >> isValid [
 
