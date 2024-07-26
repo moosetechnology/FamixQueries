@@ -75,6 +75,15 @@ FQNumericQuery class >> type [
 ]
 
 { #category : #comparing }
+FQNumericQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	^ super = anObject and: [
+		  valueToCompare = anObject valueToCompare and: [
+			  comparator = anObject comparator ] ]
+]
+
+{ #category : #comparing }
 FQNumericQuery >> hasSameParametersAs: aQuery [
 	^ (super hasSameParametersAs: aQuery)
 		and: [ comparator = aQuery comparator
@@ -84,7 +93,7 @@ FQNumericQuery >> hasSameParametersAs: aQuery [
 { #category : #comparing }
 FQNumericQuery >> hash [
 
-	^ (super hash bitXor: valueToCompare hash) bitXor: comparator hash
+	^ super hash bitXor: (valueToCompare hash bitXor: comparator hash)
 ]
 
 { #category : #testing }

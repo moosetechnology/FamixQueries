@@ -74,6 +74,13 @@ FQPropertyQuery class >> type [
 	^ self subclassResponsibility
 ]
 
+{ #category : #comparing }
+FQPropertyQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	^ super = anObject and: [ property = anObject property ]
+]
+
 { #category : #running }
 FQPropertyQuery >> applyComparatorOnEntityProperty: entityProperty [
 	"default is to compare the #property of an entity to the #valueToCompare of the query"
@@ -146,6 +153,7 @@ FQPropertyQuery >> displayOn: aStream with: aString [
 
 { #category : #testing }
 FQPropertyQuery >> hasComparisonParameters [
+
 	^ true
 ]
 
@@ -156,6 +164,7 @@ FQPropertyQuery >> hasSameParametersAs: aQuery [
 
 { #category : #comparing }
 FQPropertyQuery >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
 
 	^ super hash bitXor: property hash
 ]

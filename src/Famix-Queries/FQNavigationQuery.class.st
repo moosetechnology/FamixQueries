@@ -94,6 +94,15 @@ FQNavigationQuery class >> outgoing [
 		yourself
 ]
 
+{ #category : #comparing }
+FQNavigationQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	^ super = anObject and: [
+		  directionStrategy = anObject directionStrategy and: [
+			  associationStrategy = anObject associationStrategy ] ]
+]
+
 { #category : #'adding - removing' }
 FQNavigationQuery >> addAssociation: anAssociation [
 	(self associationsIsValid: anAssociation)
@@ -220,9 +229,10 @@ FQNavigationQuery >> hasSameParametersAs: aQuery [
 
 { #category : #comparing }
 FQNavigationQuery >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
 
-	^ (super hash bitXor: directionStrategy hash) bitXor:
-		  associationStrategy hash
+	^ super hash bitXor:
+		  (directionStrategy hash bitXor: associationStrategy hash)
 ]
 
 { #category : #initialization }

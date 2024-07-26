@@ -7,6 +7,21 @@ Class {
 	#category : #'Famix-Queries-Core'
 }
 
+{ #category : #comparing }
+FQNullQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	self == anObject ifTrue: [ ^ true ].
+	self class = anObject class ifFalse: [ ^ false ].
+	^ true
+]
+
+{ #category : #printing }
+FQNullQuery >> buildDefaultName [
+
+	^ self defaultName
+]
+
 { #category : #running }
 FQNullQuery >> computeResult [
 
@@ -29,6 +44,12 @@ FQNullQuery >> displayOn: aStream [
 FQNullQuery >> hasSameParametersAs: aQuery [
 
 	^ self class == aQuery class
+]
+
+{ #category : #comparing }
+FQNullQuery >> hash [
+
+	^ self name hash
 ]
 
 { #category : #testing }

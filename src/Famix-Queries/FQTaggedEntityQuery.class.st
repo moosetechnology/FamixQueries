@@ -59,6 +59,13 @@ FQTaggedEntityQuery class >> tagNamed: aTagName [
 		  yourself
 ]
 
+{ #category : #comparing }
+FQTaggedEntityQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	^ super = anObject and: [ tagName = anObject tagName ]
+]
+
 { #category : #'available parameters' }
 FQTaggedEntityQuery >> availableTagNames [
 
@@ -104,6 +111,7 @@ FQTaggedEntityQuery >> hasSameParametersAs: aQuery [
 
 { #category : #comparing }
 FQTaggedEntityQuery >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
 
 	^ super hash bitXor: tagName hash
 ]

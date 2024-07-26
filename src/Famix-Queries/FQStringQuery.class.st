@@ -76,6 +76,15 @@ FQStringQuery class >> type [
 ]
 
 { #category : #comparing }
+FQStringQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	^ super = anObject and: [
+		  valueToCompare = anObject valueToCompare and: [
+			  comparator = anObject comparator ] ]
+]
+
+{ #category : #comparing }
 FQStringQuery >> hasSameParametersAs: aQuery [
 	^ (super hasSameParametersAs: aQuery)
 		and: [ comparator = aQuery comparator
@@ -85,7 +94,7 @@ FQStringQuery >> hasSameParametersAs: aQuery [
 { #category : #comparing }
 FQStringQuery >> hash [
 
-	^ (super hash bitXor: valueToCompare hash) bitXor: comparator hash
+	^ super hash bitXor: (valueToCompare hash bitXor: comparator hash)
 ]
 
 { #category : #testing }

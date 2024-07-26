@@ -59,6 +59,13 @@ FQTypeQuery class >> types: aCollectionOfTypes [
 		yourself
 ]
 
+{ #category : #comparing }
+FQTypeQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	^ super = anObject and: [ types = anObject types ]
+]
+
 { #category : #'adding - removing' }
 FQTypeQuery >> addType: aType [
 	(self types includes: aType)
@@ -127,6 +134,7 @@ FQTypeQuery >> hasSameParametersAs: aQuery [
 
 { #category : #comparing }
 FQTypeQuery >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
 
 	^ super hash bitXor: types hash
 ]

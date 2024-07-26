@@ -28,6 +28,17 @@ FQResultSizeQuery class >> label [
 	^ 'Result Size Query'
 ]
 
+{ #category : #comparing }
+FQResultSizeQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	self == anObject ifTrue: [ ^ true ].
+	self class = anObject class ifFalse: [ ^ false ].
+	^ comparator = anObject comparator and: [
+		  innerQuery = anObject innerQuery and: [
+			  valueToCompare = anObject valueToCompare ] ]
+]
+
 { #category : #default }
 FQResultSizeQuery >> beDefaultForParent [
 
@@ -77,16 +88,20 @@ FQResultSizeQuery >> displayOn: aStream with: aString [
 { #category : #comparing }
 FQResultSizeQuery >> hasSameParametersAs: aQuery [
 
-	^ (innerQuery hasSameParametersAs: aQuery innerQuery) and: [ 
+	^ (innerQuery
+		   ifNil: [ aQuery innerQuery isNil ]
+		   ifNotNil: [ innerQuery = aQuery innerQuery ]) and: [
 		  comparator = aQuery comparator and:
 			  valueToCompare = aQuery valueToCompare ]
 ]
 
 { #category : #comparing }
 FQResultSizeQuery >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
 
-	^ ((super hash bitXor: innerQuery hash) bitXor: comparator hash)
-		  bitXor: valueToCompare hash
+	^ super hash bitXor:
+		  (comparator hash bitXor:
+			   (valueToCompare hash bitXor: innerQuery hash))
 ]
 
 { #category : #accessing }
