@@ -70,7 +70,7 @@ FQNAryQuery >> hasSameParametersAs: aQuery [
 	self subqueries
 		with: aQuery subqueries
 		do: [ :parent :comparedParent | 
-			(parent hasSameParametersAs: comparedParent)
+			(parent = comparedParent)
 				ifFalse: [ ^ false ] ].
 	^ true
 ]

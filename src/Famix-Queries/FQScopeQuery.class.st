@@ -102,6 +102,16 @@ FQScopeQuery class >> upTo: aScope [
 		yourself
 ]
 
+{ #category : #comparing }
+FQScopeQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	^ super = anObject and: [
+		  recursive = anObject recursive and: [
+			  scope = anObject scope and: [
+				  direction = anObject directionStrategy ] ] ]
+]
+
 { #category : #'available parameters' }
 FQScopeQuery >> availableScopes [
 	self flag: #FQTest.
@@ -171,9 +181,10 @@ FQScopeQuery >> hasSameParametersAs: aQuery [
 
 { #category : #comparing }
 FQScopeQuery >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
 
-	^ ((super hash bitXor: scope hash) bitXor: direction hash) bitXor:
-		  recursive hash
+	^ super hash bitXor:
+		  (recursive hash bitXor: (scope hash bitXor: direction hash))
 ]
 
 { #category : #initialization }

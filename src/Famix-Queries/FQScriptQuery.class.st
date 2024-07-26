@@ -19,6 +19,13 @@ FQScriptQuery class >> script: aBlock [
 		yourself
 ]
 
+{ #category : #comparing }
+FQScriptQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	^ super = anObject and: [ script = anObject script ]
+]
+
 { #category : #printing }
 FQScriptQuery >> displayOn: aStream with: aString [
 	^ aStream << aString << Character space << self defaultName
@@ -31,6 +38,7 @@ FQScriptQuery >> hasSameParametersAs: aQuery [
 
 { #category : #comparing }
 FQScriptQuery >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
 
 	^ super hash bitXor: script hash
 ]

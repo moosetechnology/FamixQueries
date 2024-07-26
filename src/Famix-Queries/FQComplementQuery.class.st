@@ -64,7 +64,7 @@ FQComplementQuery >> displayOn: aStream [
 { #category : #accessing }
 FQComplementQuery >> hasSameParametersAs: aQuery [
 
-	^ aQuery queryToNegate hasSameParametersAs: queryToNegate
+	^ aQuery queryToNegate = queryToNegate
 ]
 
 { #category : #comparing }

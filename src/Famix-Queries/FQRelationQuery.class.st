@@ -50,6 +50,13 @@ FQRelationQuery class >> name: aFamixType [
 		  yourself
 ]
 
+{ #category : #comparing }
+FQRelationQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	^ super = anObject and: [ relationName = anObject relationName ]
+]
+
 { #category : #'available parameters' }
 FQRelationQuery >> availableRelationNames [
 
@@ -96,6 +103,7 @@ FQRelationQuery >> hasSameParametersAs: aQuery [
 
 { #category : #comparing }
 FQRelationQuery >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
 
 	^ super hash bitXor: relationName hash
 ]

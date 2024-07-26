@@ -65,9 +65,12 @@ FQAbstractQuery >> & anotherQuery [
 
 { #category : #comparing }
 FQAbstractQuery >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
 
-	^ self class == anObject class and: [
-		  self hasSameParametersAs: anObject ]
+	self == anObject ifTrue: [ ^ true ].
+	self class = anObject class ifFalse: [ ^ false ].
+	^ self name = anObject name and: [
+		  self children asArray = anObject children asArray ]
 ]
 
 { #category : #composition }
@@ -95,6 +98,7 @@ FQAbstractQuery >> canBeNegated [
 
 { #category : #accessing }
 FQAbstractQuery >> children [
+
 	^ children
 ]
 
@@ -138,8 +142,9 @@ FQAbstractQuery >> hasSameParametersAs: aQuery [
 
 { #category : #comparing }
 FQAbstractQuery >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
 
-	^ (name hash bitXor: result hash) bitXor: children hash
+	^ name hash bitXor: children hash
 ]
 
 { #category : #initialization }
