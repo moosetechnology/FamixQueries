@@ -69,8 +69,7 @@ FQAbstractQuery >> = anObject [
 
 	self == anObject ifTrue: [ ^ true ].
 	self class = anObject class ifFalse: [ ^ false ].
-	^ self name = anObject name and: [
-		  self children asArray = anObject children asArray ]
+	^ self name = anObject name and: [ self children = anObject children ]
 ]
 
 { #category : #composition }
@@ -149,8 +148,9 @@ FQAbstractQuery >> hash [
 
 { #category : #initialization }
 FQAbstractQuery >> initialize [
+
 	super initialize.
-	children := Set new
+	children := OrderedCollection new
 ]
 
 { #category : #composition }
