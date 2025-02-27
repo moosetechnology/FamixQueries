@@ -100,9 +100,10 @@ FQTypeQuery >> beDefaultForParent [
 { #category : #printing }
 FQTypeQuery >> defaultName [
 
-	^ String streamContents: [ :s | 
+	^ String streamContents: [ :s |
 		  self types
-			  do: [ :type | s << (self class stringForClass: type) ]
+			  do: [ :type |
+			  s << type name piecesCutWhereCamelCase last asEnglishPlural ]
 			  separatedBy: [ s << ', ' ] ]
 ]
 

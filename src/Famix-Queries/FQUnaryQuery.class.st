@@ -32,12 +32,6 @@ FQUnaryQuery class >> isUnaryQuery [
 	^ true
 ]
 
-{ #category : #printing }
-FQUnaryQuery class >> stringForClass: aClass [
-	^ (aClass name piecesCutWhere: [ :char1 :char2 | char2 isUppercase ])
-		last asEnglishPlural
-]
-
 { #category : #composition }
 FQUnaryQuery >> --> aChildQuery [
 	^ aChildQuery

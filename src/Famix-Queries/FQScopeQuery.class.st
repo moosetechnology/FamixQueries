@@ -140,12 +140,12 @@ FQScopeQuery >> beDefaultForParent [
 
 { #category : #printing }
 FQScopeQuery >> defaultName [
-	^ String
-		streamContents: [ :s | 
-			s
-				<< self directionStrategy label;
-				<< ' to ';
-				<< (self class stringForClass: self scope) ]
+
+	^ String streamContents: [ :s |
+		  s
+			  << self directionStrategy label;
+			  << ' to ';
+			  << self scope name piecesCutWhereCamelCase last asEnglishPlural ]
 ]
 
 { #category : #accessing }
