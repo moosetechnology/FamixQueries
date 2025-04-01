@@ -69,7 +69,7 @@ FQNavigationQueryTest >> assertDisplayTwoAssociations [
 { #category : #'class example' }
 FQNavigationQueryTest >> classExample [
 	^ MooseAbstractGroup new
-		add: (helper modelExample entityNamed: 'Smalltalk::LANPacket');
+		add: (helper modelExample entityNamed: 'Smalltalk.LANPacket');
 		yourself
 ]
 
@@ -102,19 +102,19 @@ FQNavigationQueryTest >> incomingInvocationsForClassExample [
 
 	^ MooseGroup new
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::LANFileServer.output:(Object)');
+					   'Smalltalk.LANFileServer.output:(Object)');
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::LANInterface.originate()');
+					   'Smalltalk.LANInterface.originate()');
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::LANWorkStation.accept:(Object)');
+					   'Smalltalk.LANWorkStation.accept:(Object)');
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::LANPrintServer.output:(Object)');
+					   'Smalltalk.LANPrintServer.output:(Object)');
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::TLANInterface.originate()');
+					   'Smalltalk.TLANInterface.originate()');
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::LANOutputServer.accept:(Object)');
+					   'Smalltalk.LANOutputServer.accept:(Object)');
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::LANWorkStation.originate:(Object)');
+					   'Smalltalk.LANWorkStation.originate:(Object)');
 		  yourself
 ]
 
@@ -125,9 +125,9 @@ FQNavigationQueryTest >> incomingReferencesForClassExample [
 
 	^ MooseGroup new
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::LANInterface.originate()');
+					   'Smalltalk.LANInterface.originate()');
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::TLANInterface.originate()');
+					   'Smalltalk.TLANInterface.originate()');
 		  yourself
 ]
 
@@ -166,9 +166,9 @@ FQNavigationQueryTest >> localIncomingReferencesForClassExample [
 
 	^ MooseGroup new
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::LANInterface.originate()');
+					   'Smalltalk.LANInterface.originate()');
 		  add: (helper modelExample entityNamed:
-					   'Smalltalk::TLANInterface.originate()');
+					   'Smalltalk.TLANInterface.originate()');
 		  yourself
 ]
 
@@ -187,7 +187,7 @@ FQNavigationQueryTest >> localOutgoingInheritancesForClassExample [
 	"(self classExample anyOne queryLocalOutgoing: FamixTInheritance) opposites"
 
 	^ MooseGroup new
-		  add: (helper modelExample entityNamed: 'Smalltalk::Object');
+		  add: (helper modelExample entityNamed: 'Smalltalk.Object');
 		  yourself
 ]
 
@@ -259,7 +259,7 @@ FQNavigationQueryTest >> outgoingInheritancesForClassExample [
 	"(self classExample anyOne queryOutgoing: FamixTInheritance) opposites"
 
 	^ MooseGroup new
-		  add: (helper modelExample entityNamed: 'Smalltalk::Object');
+		  add: (helper modelExample entityNamed: 'Smalltalk.Object');
 		  yourself
 ]
 
@@ -271,12 +271,12 @@ FQNavigationQueryTest >> outgoingInvocationsForClassExample [
 	^ MooseGroup new
 		  add:
 			  (helper modelExample entityNamed:
-					   'Smalltalk::LANWorkStation.name()');
+					   'Smalltalk.LANWorkStation.name()');
 		  add:
 			  (helper modelExample entityNamed:
-					   'Smalltalk::LANFileServer.name()');
+					   'Smalltalk.LANFileServer.name()');
 		  add:
-			  (helper modelExample entityNamed: 'Smalltalk::LANNode.name()');
+			  (helper modelExample entityNamed: 'Smalltalk.LANNode.name()');
 		  yourself
 ]
 
