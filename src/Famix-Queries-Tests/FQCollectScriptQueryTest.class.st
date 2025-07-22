@@ -2,35 +2,37 @@
 Test for FQCollectScriptQuery
 "
 Class {
-	#name : #FQCollectScriptQueryTest,
-	#superclass : #FQUnaryQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQCollectScriptQueryTest',
+	#superclass : 'FQUnaryQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQCollectScriptQueryTest >> actualClass [
 	^ FQCollectScriptQuery 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQCollectScriptQueryTest >> newQuery [
 	^ self unConfiguredQuery
 		script: [ :each | each ]
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQCollectScriptQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :stream | query displayOn: stream ])
 		equals: 'aMooseGroup collect: [ :each | each ]'.
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQCollectScriptQueryTest >> testName [
 	self assert: query name equals: 'collect: [ :each | each ]'.
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQCollectScriptQueryTest >> testPrintOn [
 
 	self assert: query printString equals: 'a FQCollectScriptQuery (collect: [ :each | each ])'.
@@ -39,7 +41,7 @@ FQCollectScriptQueryTest >> testPrintOn [
 		equals: 'a FQCollectScriptQuery (invalid)'
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQCollectScriptQueryTest >> testRunOn [
 	| clazz |
 	clazz := FamixStClass new name: 'clazz'; yourself.

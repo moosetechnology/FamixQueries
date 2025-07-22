@@ -1,26 +1,28 @@
 Class {
-	#name : #FQTaggedEntityQueryTest,
-	#superclass : #FQUnaryQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQTaggedEntityQueryTest',
+	#superclass : 'FQUnaryQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQTaggedEntityQueryTest >> actualClass [
 	^FQTaggedEntityQuery 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQTaggedEntityQueryTest >> expectedPrintOnString [
 	^ 'a FQTaggedEntityQuery (tag named: #aTag)'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQTaggedEntityQueryTest >> expectedResult [
 
 	^ helper classesAndMethods
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQTaggedEntityQueryTest >> newQuery [
 
 	^ self unConfiguredQuery
@@ -28,14 +30,14 @@ FQTaggedEntityQueryTest >> newQuery [
 		  yourself
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQTaggedEntityQueryTest >> setUp [
 
 	super setUp.
 	helper classesAndMethods do: [ :entity | entity tagWithName: #aTag ]
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQTaggedEntityQueryTest >> testDisplayOn [
 
 	self
@@ -44,7 +46,7 @@ FQTaggedEntityQueryTest >> testDisplayOn [
 		'(MooseObjectQueryResult withAll: aMooseGroup) tagNamed: #aTag'
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQTaggedEntityQueryTest >> testName [
 
 	self assert: query name equals: 'tag named: #aTag'.
@@ -53,7 +55,7 @@ FQTaggedEntityQueryTest >> testName [
 		equals: 'Invalid Tag Query'
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQTaggedEntityQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 	self

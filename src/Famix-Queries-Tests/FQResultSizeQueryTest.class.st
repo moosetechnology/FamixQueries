@@ -1,36 +1,38 @@
 Class {
-	#name : #FQResultSizeQueryTest,
-	#superclass : #FQUnaryQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQResultSizeQueryTest',
+	#superclass : 'FQUnaryQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQResultSizeQueryTest >> actualClass [
 
 	^ FQResultSizeQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQResultSizeQueryTest >> expectedPrintOnString [
 
 	^ 'a FQResultSizeQuery (({1}) size > 20)' format:
 		  { self innerQuery name }
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQResultSizeQueryTest >> expectedResult [
 
 	^ helper classes select: [ :class | 
 		  (self innerQuery runOn: class asMooseGroup) size > 20 ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQResultSizeQueryTest >> innerQuery [
 
 	^ FQScopeQuery down scope: FamixStMethod
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQResultSizeQueryTest >> newQuery [
 
 	^ FQResultSizeQuery new
@@ -39,7 +41,7 @@ FQResultSizeQueryTest >> newQuery [
 		  valueToCompare: 20
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQResultSizeQueryTest >> testDependencies [
 
 	| q1 q2 |
@@ -51,7 +53,7 @@ FQResultSizeQueryTest >> testDependencies [
 	self assert: query dependencies asArray equals: { query innerQuery. q2. q1 }
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQResultSizeQueryTest >> testDisplayOn [
 
 	self
@@ -60,7 +62,7 @@ FQResultSizeQueryTest >> testDisplayOn [
 		'aMooseGroup select: [ :entity | ((MooseObjectQueryResult withAll: entity asMooseGroup) toScope: FamixStMethod) size > 20 ]'
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQResultSizeQueryTest >> testName [
 
 	self assert: query name equals: '(Down to Methods) size > 20'.
@@ -69,7 +71,7 @@ FQResultSizeQueryTest >> testName [
 		equals: 'Invalid Result Size Query'
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQResultSizeQueryTest >> testRunOn [
 
 	self assert: self expectedResult isNotEmpty.

@@ -1,49 +1,51 @@
 Class {
-	#name : #FQComplementQueryTest,
-	#superclass : #FQAbstractQueryTest,
+	#name : 'FQComplementQueryTest',
+	#superclass : 'FQAbstractQueryTest',
 	#instVars : [
 		'queryToNegate'
 	],
-	#category : #'Famix-Queries-Tests-Unary'
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQComplementQueryTest >> actualClass [
 	^ FQComplementQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQComplementQueryTest >> expectedPrintOnString [
 	^ 'a FQComplementQuery ((isInstanceSide) not)'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQComplementQueryTest >> expectedResult [
 
 	^ helper classes copyWithoutAll: (queryToNegate runOn: helper classes)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQComplementQueryTest >> newQuery [
 
 	queryToNegate := FQBooleanQuery new property: #isInstanceSide.
 	^ self unConfiguredQuery queryToNegate: queryToNegate
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQComplementQueryTest >> newQueryToNegate [
 
 	^ FQRootQuery new input: helper classes
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQComplementQueryTest >> testDependencies [
 
 	self assert: query dependencies size equals: 1.
 	self assert: query dependencies anyOne equals: query queryToNegate
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQComplementQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -55,7 +57,7 @@ FQComplementQueryTest >> testDisplayOn [
 					s << ')' ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQComplementQueryTest >> testIsValid [
 
 	super testIsValid.
@@ -65,7 +67,7 @@ FQComplementQueryTest >> testIsValid [
 	self deny: query isValid
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQComplementQueryTest >> testName [
 	self assert: query name equals: '(isInstanceSide) not'.
 	self
@@ -73,13 +75,13 @@ FQComplementQueryTest >> testName [
 		equals: 'Invalid Negation Query'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQComplementQueryTest >> testParentSequence [
 
 	self assert: query parentSequence equals: #(  )
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQComplementQueryTest >> testPrepareRemoval [
 
 	| tempQueryToNegate |
@@ -90,7 +92,7 @@ FQComplementQueryTest >> testPrepareRemoval [
 	self assert: query queryToNegate isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQComplementQueryTest >> testQueryToNegate [
 
 	| tmpQueryToNegate |
@@ -99,7 +101,7 @@ FQComplementQueryTest >> testQueryToNegate [
 	self assert: query queryToNegate equals: tmpQueryToNegate
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQComplementQueryTest >> testResult [
 
 	| tempQuery |
@@ -117,7 +119,7 @@ FQComplementQueryTest >> testResult [
 		hasSameElements: self newQueryToNegate result
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQComplementQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 	self
@@ -125,7 +127,7 @@ FQComplementQueryTest >> testRunOn [
 		hasSameElements: self expectedResult
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQComplementQueryTest >> testStoreOn [
 
 	| generatedQuery |

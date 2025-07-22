@@ -1,25 +1,27 @@
 Class {
-	#name : #FQNumericQueryTest,
-	#superclass : #FQPropertyQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQNumericQueryTest',
+	#superclass : 'FQPropertyQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQNumericQueryTest >> actualClass [
 	^ FQNumericQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNumericQueryTest >> expectedPrintOnString [
 	^ 'a FQNumericQuery (numberOfMethods > 10)'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNumericQueryTest >> expectedResult [
 	^ helper classes select: [ :class | class numberOfMethods > 10 ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNumericQueryTest >> newQuery [
 	^ self unConfiguredQuery
 		property: #numberOfMethods;
@@ -27,26 +29,26 @@ FQNumericQueryTest >> newQuery [
 		valueToCompare: 10
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNumericQueryTest >> propertyType [
 	^ Number
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQNumericQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals: 'aMooseGroup select: [ :entity | entity numberOfMethods > 10 ]'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNumericQueryTest >> testIsValid [
 	super testIsValid.
 	self deny: (self newQuery comparator: 'Not a comparator') isValid.
 	self deny: (self newQuery valueToCompare: 'Not a Number') isValid
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQNumericQueryTest >> testName [
 	self assert: query name equals: 'numberOfMethods > 10'.
 	self
@@ -54,7 +56,7 @@ FQNumericQueryTest >> testName [
 		equals: 'Invalid Numeric Query'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNumericQueryTest >> testValueToCompareAsString [
 	self
 		shouldnt: [ query valueToCompareAsString asNumber ]

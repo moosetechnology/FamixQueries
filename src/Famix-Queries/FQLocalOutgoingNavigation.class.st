@@ -14,27 +14,29 @@ It uses MooseQuery trait TEntityMetaLevelDependency.
 It returns the outgoing associations types for the input entity.
 "
 Class {
-	#name : #FQLocalOutgoingNavigation,
-	#superclass : #FQAbstractNavigationDirection,
-	#category : #'Famix-Queries-Navigation-Strategies'
+	#name : 'FQLocalOutgoingNavigation',
+	#superclass : 'FQAbstractNavigationDirection',
+	#category : 'Famix-Queries-Navigation-Strategies',
+	#package : 'Famix-Queries',
+	#tag : 'Navigation-Strategies'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQLocalOutgoingNavigation class >> associationsFor: aMooseGroup [
 	^ aMooseGroup allEntityTypes flatCollectAsSet: [ :class | class outgoingAssociationTypesIn: aMooseGroup metamodel ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQLocalOutgoingNavigation class >> displayOn: aStream with: anAssociationStrategy [
 	anAssociationStrategy displayLocalOutgoingOn: aStream
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQLocalOutgoingNavigation class >> label [
 	^ 'Local Outgoing'
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQLocalOutgoingNavigation class >> query: anEntity with: anAssociationStrategy [
 	^ anAssociationStrategy queryLocalOutgoingWith: anEntity
 ]
