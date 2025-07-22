@@ -1,25 +1,27 @@
 Class {
-	#name : #FQPropertyQueryTest,
-	#superclass : #FQUnaryQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQPropertyQueryTest',
+	#superclass : 'FQUnaryQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQPropertyQueryTest class >> isAbstract [
 	^ self = FQPropertyQueryTest
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQPropertyQueryTest >> expectedResult [
 	^ self subclassResponsibility
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQPropertyQueryTest >> propertyType [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'tests - available parameters' }
+{ #category : 'tests - available parameters' }
 FQPropertyQueryTest >> testAvailablePropertiesFor [
 	(self unConfiguredQuery
 		availablePropertiesFor: helper classesAndMethods)
@@ -31,13 +33,13 @@ FQPropertyQueryTest >> testAvailablePropertiesFor [
 						assert: ((entity perform: propertySelector) isKindOf: self propertyType) ] ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQPropertyQueryTest >> testIsValid [
 	super testIsValid.
 	self deny: (self newQuery property: 'Not a selector') isValid
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQPropertyQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 	self
@@ -45,7 +47,7 @@ FQPropertyQueryTest >> testRunOn [
 		hasSameElements: self expectedResult
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQPropertyQueryTest >> testValueToCompareAsString [
 	self subclassResponsibility
 ]

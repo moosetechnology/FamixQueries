@@ -3,17 +3,19 @@ Implements a manual select query.
 It has a ""script"" (a pharo block with one argument) that select entities from a collection of MooseEntities
 "
 Class {
-	#name : #FQSelectScriptQuery,
-	#superclass : #FQScriptQuery,
-	#category : #'Famix-Queries-Queries-Unary'
+	#name : 'FQSelectScriptQuery',
+	#superclass : 'FQScriptQuery',
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #default }
+{ #category : 'default' }
 FQSelectScriptQuery >> beDefaultForParent [
 	script := [ :each | false ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQSelectScriptQuery >> defaultName [
 	^ String
 		streamContents: [ :s | 
@@ -21,7 +23,7 @@ FQSelectScriptQuery >> defaultName [
 			(script asString truncateWithElipsisTo: 20) ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQSelectScriptQuery >> rawRunOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
 

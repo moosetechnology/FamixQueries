@@ -18,26 +18,28 @@ It returns the types of the entities that have a containment relation with the i
 The direction of the considered containment relations depend on my subclasses behavior.
 "
 Class {
-	#name : #FQAbstractScopeDirection,
-	#superclass : #Object,
-	#category : #'Famix-Queries-Scope-Strategies'
+	#name : 'FQAbstractScopeDirection',
+	#superclass : 'Object',
+	#category : 'Famix-Queries-Scope-Strategies',
+	#package : 'Famix-Queries',
+	#tag : 'Scope-Strategies'
 }
 
-{ #category : #'available scopes' }
+{ #category : 'available scopes' }
 FQAbstractScopeDirection class >> allChildrenScopesOf: aClass in: aModel [
 	"Return all the possible children scopes of this class that are in a model."
 
 	^ (aClass allChildrenTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses
 ]
 
-{ #category : #'available scopes' }
+{ #category : 'available scopes' }
 FQAbstractScopeDirection class >> allParentsScopesOf: aClass in: aModel [
 	"Return all the possible parents scopes of this class that are in a model."
 
 	^ (aClass allParentTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses
 ]
 
-{ #category : #'available scopes' }
+{ #category : 'available scopes' }
 FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
 	"Return the list of possible scopes in a moose group for the direction of the strategy."
 
@@ -51,46 +53,46 @@ FQAbstractScopeDirection class >> availableScopesFor: aMooseGroup [
 		& model allEntityTypes) asArray
 ]
 
-{ #category : #'available scopes' }
+{ #category : 'available scopes' }
 FQAbstractScopeDirection class >> availableScopesForEntity: class in: model [
 	"Return the list of possible scopes for a class in a model for the direction of the strategy."
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQAbstractScopeDirection class >> defaultDirection [
 	^ FQScopeUpAndDown
 ]
 
-{ #category : #'available scopes' }
+{ #category : 'available scopes' }
 FQAbstractScopeDirection class >> directionStrategies [
 	^ self allSubclasses sort: #priority ascending
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractScopeDirection class >> label [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractScopeDirection class >> priority [
 	^ self subclassResponsibility
 ]
 
-{ #category : #scoping }
+{ #category : 'scoping' }
 FQAbstractScopeDirection class >> scope: aFamixClass on: entity [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #scoping }
+{ #category : 'scoping' }
 FQAbstractScopeDirection class >> scope: aFamixClass recursively: aBoolean on: entity [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractScopeDirection class >> scopingSelector [
 	^ self subclassResponsibility
 ]

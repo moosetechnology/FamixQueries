@@ -1,27 +1,29 @@
 Class {
-	#name : #FQUnionQueryTest,
-	#superclass : #FQNAryQueryTest,
-	#category : #'Famix-Queries-Tests-N-ary'
+	#name : 'FQUnionQueryTest',
+	#superclass : 'FQNAryQueryTest',
+	#category : 'Famix-Queries-Tests-N-ary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'N-ary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQUnionQueryTest >> actualClass [
 	^ FQUnionQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQUnionQueryTest >> expectedPrintOnString [
 	^ 'a FQUnionQuery (' , self firstParentOfQuery name , ' | '
 		, self secondParentOfQuery name , ')'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQUnionQueryTest >> expectedResult [
 	^ (self firstParentOfQuery runOn: helper classesAndMethods)
 		union: (self secondParentOfQuery runOn: helper classesAndMethods)
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQUnionQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -33,7 +35,7 @@ FQUnionQueryTest >> testDisplayOn [
 			result ]) asMooseGroup) | (aMooseGroup allWithType: FamixStClass)'
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQUnionQueryTest >> testName [
 	self
 		assert: query name

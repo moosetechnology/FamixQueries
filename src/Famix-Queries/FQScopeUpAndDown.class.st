@@ -16,39 +16,41 @@ I also provide #availableScopesForEntity: method.
 It returns the types of the entities that have a containment relation (both containing and being contained) with the input entity.
 "
 Class {
-	#name : #FQScopeUpAndDown,
-	#superclass : #FQAbstractScopeDirection,
-	#category : #'Famix-Queries-Scope-Strategies'
+	#name : 'FQScopeUpAndDown',
+	#superclass : 'FQAbstractScopeDirection',
+	#category : 'Famix-Queries-Scope-Strategies',
+	#package : 'Famix-Queries',
+	#tag : 'Scope-Strategies'
 }
 
-{ #category : #'available scopes' }
+{ #category : 'available scopes' }
 FQScopeUpAndDown class >> availableScopesForEntity: class in: model [
 	^ (self allChildrenScopesOf: class in: model) , (self allParentsScopesOf: class in: model)
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScopeUpAndDown class >> label [
 	^ 'Up and Down'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeUpAndDown class >> priority [
 	^ 15
 ]
 
-{ #category : #scoping }
+{ #category : 'scoping' }
 FQScopeUpAndDown class >> scope: aFamixClass on: entity [
 
 	^ entity query lineage ofType: aFamixClass
 ]
 
-{ #category : #scoping }
+{ #category : 'scoping' }
 FQScopeUpAndDown class >> scope: aFamixClass recursively: aBoolean on: entity [
 
 	^ (entity query lineage isRecursive: aBoolean) ofType: aFamixClass
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScopeUpAndDown class >> scopingSelector [
 	^ #withScope:
 ]

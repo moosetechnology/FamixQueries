@@ -1,39 +1,41 @@
 Class {
-	#name : #FQRootQueryTest,
-	#superclass : #FQUnaryQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQRootQueryTest',
+	#superclass : 'FQUnaryQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQRootQueryTest >> actualClass [
 	^ FQRootQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQRootQueryTest >> expectedPrintOnString [
 	^ 'a FQRootQuery (Model)'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQRootQueryTest >> newQuery [
 	^ self actualClass new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQRootQueryTest >> testBeChildOf [
 	self
 		should: [ query beChildOf: self newParentQuery ]
 		raise: FQNoParentForRootQuery
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQRootQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals: 'aMooseGroup'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQRootQueryTest >> testIsValid [
 
 	self assert: query isValid.
@@ -41,22 +43,22 @@ FQRootQueryTest >> testIsValid [
 	self deny: query isValid
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQRootQueryTest >> testName [
 	self assert: query name equals: 'Model'
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQRootQueryTest >> testPrintOn [
 	self assert: query printString equals: self expectedPrintOnString
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQRootQueryTest >> testResult [
 	self deny: query result isNil
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQRootQueryTest >> testRunOn [
 	self
 		assertCollection: (self newQuery runOn: helper modelExample)

@@ -1,6 +1,6 @@
-Extension { #name : #Object }
+Extension { #name : 'Object' }
 
-{ #category : #'*Famix-Queries' }
+{ #category : '*Famix-Queries' }
 Object >> famePropertiesOfType: aFM3Class [
 	"Select the fame properties of a certain type for the entity meta description."
 

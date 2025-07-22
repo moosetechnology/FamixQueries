@@ -4,21 +4,23 @@ In order to do that, this query is instantiated with a query to negate. It takes
 This (`allEntities - queryToNegate result`) gives the complement of the current result
 "
 Class {
-	#name : #FQComplementQuery,
-	#superclass : #FQAbstractQuery,
+	#name : 'FQComplementQuery',
+	#superclass : 'FQAbstractQuery',
 	#instVars : [
 		'queryToNegate'
 	],
-	#category : #'Famix-Queries-Complement-Query'
+	#category : 'Famix-Queries-Complement-Query',
+	#package : 'Famix-Queries',
+	#tag : 'Complement-Query'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQComplementQuery class >> label [
 
 	^ 'Negation Query'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQComplementQuery class >> queryToNegate: aQuery [
 
 	^ self new
@@ -26,14 +28,14 @@ FQComplementQuery class >> queryToNegate: aQuery [
 		  yourself
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQComplementQuery >> beDefaultForParent [
 	"Nothing to do"
 
 	
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQComplementQuery >> computeResult [
 
 	^ result := self isValid
@@ -41,19 +43,19 @@ FQComplementQuery >> computeResult [
 		            ifFalse: [ MooseGroup new ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQComplementQuery >> defaultName [
 
 	^ '(' , queryToNegate name , ') not'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQComplementQuery >> dependencies [
 
 	^ OrderedCollection with: queryToNegate
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQComplementQuery >> displayOn: aStream [
 
 	aStream << 'aMooseGroup copyWithoutAll: ' << $(.
@@ -61,25 +63,25 @@ FQComplementQuery >> displayOn: aStream [
 	aStream << $)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQComplementQuery >> hasSameParametersAs: aQuery [
 
 	^ aQuery queryToNegate = queryToNegate
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQComplementQuery >> hash [
 
 	^ super hash bitXor: queryToNegate hash
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQComplementQuery >> isValid [
 
 	^ queryToNegate isNotNil and: [ queryToNegate isValid ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQComplementQuery >> parentSequence [
 
 	"This query has no parent"
@@ -87,25 +89,25 @@ FQComplementQuery >> parentSequence [
 	^ #(  )
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FQComplementQuery >> prepareRemoval [
 
 	queryToNegate := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQComplementQuery >> queryToNegate [
 
 	^ queryToNegate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQComplementQuery >> queryToNegate: aQuery [
 
 	queryToNegate := aQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQComplementQuery >> rawRunOn: allEntitiesMooseGroup [
 
 	| newItems |
@@ -114,13 +116,13 @@ FQComplementQuery >> rawRunOn: allEntitiesMooseGroup [
 	^ newItems
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 FQComplementQuery >> rootQuery: aFQRootQuery [
 
 	queryToNegate rootQuery: aFQRootQuery
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQComplementQuery >> storeOn: aStream [
 
 	aStream << self className.
@@ -130,7 +132,7 @@ FQComplementQuery >> storeOn: aStream [
 	aStream << $)
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQComplementQuery >> storeWithParentsOn: aStream [
 
 	aStream << '('.

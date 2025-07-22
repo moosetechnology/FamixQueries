@@ -2,15 +2,17 @@
 Abstract class for `and`, `or` and `difference` queries. I can receive several subqueries, not only two.
 "
 Class {
-	#name : #FQNAryQuery,
-	#superclass : #FQAbstractQuery,
+	#name : 'FQNAryQuery',
+	#superclass : 'FQAbstractQuery',
 	#instVars : [
 		'subqueries'
 	],
-	#category : #'Famix-Queries-Queries-N-ary'
+	#category : 'Famix-Queries-Queries-N-ary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-N-ary'
 }
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQNAryQuery class >> availableCombinations [
 	self flag: #FQImprove.
 	^ {FQUnionQuery.
@@ -18,18 +20,18 @@ FQNAryQuery class >> availableCombinations [
 	FQSubtractionQuery}
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQNAryQuery class >> isAbstract [
 
 	^ self == FQNAryQuery
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQNAryQuery class >> isCommutative [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNAryQuery class >> subqueries: aCollection [
 
 	^ self new
@@ -37,7 +39,7 @@ FQNAryQuery class >> subqueries: aCollection [
 		  yourself
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNAryQuery >> computeResult [
 
 	^ result := self isValid
@@ -46,7 +48,7 @@ FQNAryQuery >> computeResult [
 		            ifFalse: [ MooseGroup new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNAryQuery >> dependencies [
 
 	"Queries by default don't have any dependency"
@@ -54,7 +56,7 @@ FQNAryQuery >> dependencies [
 	^ subqueries
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNAryQuery >> displayOn: aStream [
 	aStream << '('.
 	self subqueries
@@ -65,7 +67,7 @@ FQNAryQuery >> displayOn: aStream [
 	aStream << ')'
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNAryQuery >> hasSameParametersAs: aQuery [
 	self subqueries
 		with: aQuery subqueries
@@ -75,25 +77,25 @@ FQNAryQuery >> hasSameParametersAs: aQuery [
 	^ true
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNAryQuery >> hasSameSubqueriesAs: aQuery [
 
 	^ self subqueries = aQuery subqueries
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNAryQuery >> hash [
 
 	^ super hash bitXor: subqueries hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FQNAryQuery >> initialize [
 	super initialize.
 	subqueries := OrderedCollection new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQNAryQuery >> isValid [
 
 	^ self subqueries isNotEmpty and: [ 
@@ -101,13 +103,13 @@ FQNAryQuery >> isValid [
 			  subquery isNotNil and: [ subquery isValid ] ] ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNAryQuery >> operator [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNAryQuery >> parentSequence [
 
 	"This query has no parent"
@@ -115,19 +117,19 @@ FQNAryQuery >> parentSequence [
 	^ #(  )
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FQNAryQuery >> prepareRemoval [
 
 	subqueries := nil
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 FQNAryQuery >> rootQuery: aFQRootQuery [
 
 	self subqueries do: [ :subquery | subquery rootQuery: aFQRootQuery ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNAryQuery >> storeOn: aStream [
 
 	self subqueries
@@ -138,7 +140,7 @@ FQNAryQuery >> storeOn: aStream [
 		separatedBy: [ aStream << ' ' << self operator << ' ' ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNAryQuery >> storeWithParentsOn: aStream [
 
 	self subqueries
@@ -149,12 +151,12 @@ FQNAryQuery >> storeWithParentsOn: aStream [
 		separatedBy: [ aStream << ' ' << self operator << ' ' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNAryQuery >> subqueries [
 	^ subqueries
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNAryQuery >> subqueries: anObject [
 	subqueries := anObject
 ]

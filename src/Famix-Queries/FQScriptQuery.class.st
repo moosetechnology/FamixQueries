@@ -1,72 +1,74 @@
 Class {
-	#name : #FQScriptQuery,
-	#superclass : #FQUnaryQuery,
+	#name : 'FQScriptQuery',
+	#superclass : 'FQUnaryQuery',
 	#instVars : [
 		'script'
 	],
-	#category : #'Famix-Queries-Queries-Unary'
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScriptQuery class >> label [
 	^ 'Manual query'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScriptQuery class >> script: aBlock [
 	^ self new
 		script: aBlock;
 		yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQScriptQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
 	^ super = anObject and: [ script = anObject script ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScriptQuery >> displayOn: aStream with: aString [
 	^ aStream << aString << Character space << self defaultName
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQScriptQuery >> hasSameParametersAs: aQuery [
 	^ script asString = aQuery script asString
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQScriptQuery >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
 	^ super hash bitXor: script hash
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQScriptQuery >> isScriptQuery [
 
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQScriptQuery >> isValid [
 	^script notNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScriptQuery >> script [
 
 	^ script
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScriptQuery >> script: anObject [
 
 	script := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScriptQuery >> storeOn: aStream [
 
 	aStream << self className << ' script: ' <<

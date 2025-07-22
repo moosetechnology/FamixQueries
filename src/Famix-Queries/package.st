@@ -1,1 +1,1 @@
-Package { #name : #'Famix-Queries' }
+Package { #name : 'Famix-Queries' }

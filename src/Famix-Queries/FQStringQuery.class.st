@@ -34,34 +34,36 @@ I am valid if my parameters are set: if #property and #comparator are symbols an
 			valueToCompare: aString'
 "
 Class {
-	#name : #FQStringQuery,
-	#superclass : #FQPropertyQuery,
-	#category : #'Famix-Queries-Queries-Unary'
+	#name : 'FQStringQuery',
+	#superclass : 'FQPropertyQuery',
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQStringQuery class >> comparators [
 
 	self flag: #FQImprove.
 	^ { #=. #includesSubstring:. #beginsWith:. #matchesRegex: }
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQStringQuery class >> defaultComparator [
 	^ #includesSubstring:
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQStringQuery class >> defaultValueToCompare [
 	^ ''
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQStringQuery class >> label [
 	^ 'String Query'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQStringQuery class >> property: aSymbol comparator: aComparingSymbol valueToCompare: aString [
 	^ self new
 		property: aSymbol;
@@ -70,12 +72,12 @@ FQStringQuery class >> property: aSymbol comparator: aComparingSymbol valueToCom
 		yourself
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQStringQuery class >> type [
 	^ FM3String
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQStringQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -84,20 +86,20 @@ FQStringQuery >> = anObject [
 			  comparator = anObject comparator ] ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQStringQuery >> hasSameParametersAs: aQuery [
 	^ (super hasSameParametersAs: aQuery)
 		and: [ comparator = aQuery comparator
 				and: [ valueToCompare = aQuery valueToCompare ] ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQStringQuery >> hash [
 
 	^ super hash bitXor: (valueToCompare hash bitXor: comparator hash)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQStringQuery >> isValid [
 	super isValid ifFalse: [ ^ false ].
 	(self comparator isSymbol and: [ self valueToCompare isString ]) ifFalse: [ ^ false ].
@@ -109,7 +111,7 @@ FQStringQuery >> isValid [
 	^ true 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQStringQuery >> valueToCompareAsString [
 	^ self valueToCompare printString
 ]

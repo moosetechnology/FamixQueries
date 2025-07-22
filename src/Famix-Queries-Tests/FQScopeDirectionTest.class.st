@@ -1,13 +1,15 @@
 Class {
-	#name : #FQScopeDirectionTest,
-	#superclass : #TestCase,
+	#name : 'FQScopeDirectionTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'helper'
 	],
-	#category : #'Famix-Queries-Tests-Tools'
+	#category : 'Famix-Queries-Tests-Tools',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Tools'
 }
 
-{ #category : #'tests - available scopes' }
+{ #category : 'tests - available scopes' }
 FQScopeDirectionTest >> availableScopesDownTest [
 	| directionStrategy |
 	directionStrategy := FQScopeDown.
@@ -16,7 +18,7 @@ FQScopeDirectionTest >> availableScopesDownTest [
 		hasSameElements: (helper classes first allChildrenTypes reject: #isTrait)
 ]
 
-{ #category : #'tests - available scopes' }
+{ #category : 'tests - available scopes' }
 FQScopeDirectionTest >> availableScopesUpDownTest [
 	| directionStrategy |
 	directionStrategy := FQScopeUpAndDown.
@@ -28,7 +30,7 @@ FQScopeDirectionTest >> availableScopesUpDownTest [
 				reject: #isTrait)
 ]
 
-{ #category : #'tests - available scopes' }
+{ #category : 'tests - available scopes' }
 FQScopeDirectionTest >> availableScopesUpTest [
 	| directionStrategy |
 	directionStrategy := FQScopeUp.
@@ -37,20 +39,20 @@ FQScopeDirectionTest >> availableScopesUpTest [
 		hasSameElements: (helper classes first allParentTypes reject: #isTrait)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQScopeDirectionTest >> setUp [
 	super setUp.
 	helper := FQTestsHelper new
 ]
 
-{ #category : #'tests - available scopes' }
+{ #category : 'tests - available scopes' }
 FQScopeDirectionTest >> testAvailableScopesFor [
 	self availableScopesUpTest.
 	self availableScopesUpDownTest.
 	self availableScopesDownTest
 ]
 
-{ #category : #'tests - available scopes' }
+{ #category : 'tests - available scopes' }
 FQScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
 	| directionStrategy |
 	directionStrategy := FQScopeUp.
@@ -72,7 +74,7 @@ FQScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
 				noneSatisfy: #isTrait)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQScopeDirectionTest >> testScopeOn [
 
 	| direction |
