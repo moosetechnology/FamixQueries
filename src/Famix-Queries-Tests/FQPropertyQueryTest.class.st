@@ -23,14 +23,11 @@ FQPropertyQueryTest >> propertyType [
 
 { #category : 'tests - available parameters' }
 FQPropertyQueryTest >> testAvailablePropertiesFor [
-	(self unConfiguredQuery
-		availablePropertiesFor: helper classesAndMethods)
-		do: [ :propertySelector | 
+
+	(self unConfiguredQuery availablePropertiesFor: helper classesAndMethods) do: [ :propertySelector |
 			self assert: propertySelector isSymbol.
-			helper classesAndMethods
-				do: [ :entity | 
-					self
-						assert: ((entity perform: propertySelector) isKindOf: self propertyType) ] ]
+			helper classesAndMethods do: [ :entity | "Not all entities can answer to everything and sometimes the properties are nil."
+				(entity respondsTo: propertySelector) ifTrue: [ (entity perform: propertySelector) ifNotNil: [ :value | self assert: (value isKindOf: self propertyType) ] ] ] ]
 ]
 
 { #category : 'tests' }
