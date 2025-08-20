@@ -101,11 +101,8 @@ FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 { #category : 'default' }
 FQPropertyQuery >> beDefaultForParent [
 
-	property := self availableProperties
-		ifEmpty: [ nil ]
-		ifNotEmpty: [ :properties | properties first ].
-	self hasComparisonParameters
-		ifTrue: [ comparator := self class comparators first ]
+	property := self availableProperties ifEmpty: [ nil ] ifNotEmpty: [ :properties | properties anyOne ].
+	self hasComparisonParameters ifTrue: [ comparator := self class comparators first ]
 ]
 
 { #category : 'testing' }
