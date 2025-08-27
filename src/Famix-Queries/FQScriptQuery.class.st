@@ -23,12 +23,14 @@ FQScriptQuery class >> script: aBlock [
 FQScriptQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
-	^ super = anObject and: [ script = anObject script ]
+	^ super = anObject and: [
+		  script compiledBlock = anObject script compiledBlock ]
 ]
 
 { #category : #printing }
 FQScriptQuery >> displayOn: aStream with: aString [
-	^ aStream << aString << Character space << self defaultName
+
+	^ aStream << aString << Character space << self name
 ]
 
 { #category : #comparing }

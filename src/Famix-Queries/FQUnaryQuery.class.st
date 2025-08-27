@@ -87,6 +87,12 @@ FQUnaryQuery >> displayOn: aStream with: aString [
 	^ self subclassResponsibility
 ]
 
+{ #category : #printing }
+FQUnaryQuery >> displayStringOn: aStream [
+
+	self displayOn: aStream with: self parentDisplayString
+]
+
 { #category : #testing }
 FQUnaryQuery >> hasNoParent [
 	^ parent isNil
