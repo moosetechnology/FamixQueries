@@ -47,11 +47,7 @@ Class {
 { #category : #accessing }
 FQPropertyQuery class >> availablePropertiesFor: aMooseGroup [
 
-	^ ((aMooseGroup allEntityTypes collect: [ :entity | 
-		    entity famePropertiesOfType: self type ]) fold: [ 
-		   :availableProperties 
-		   :entityProperties | availableProperties & entityProperties ]) 
-		  collect: #implementingSelector
+	^ (aMooseGroup allEntityTypes collect: [ :entity | entity famePropertiesOfType: self type ]) flatten collect: #implementingSelector
 ]
 
 { #category : #'available parameters' }
@@ -103,11 +99,8 @@ FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 { #category : #default }
 FQPropertyQuery >> beDefaultForParent [
 
-	property := self availableProperties
-		ifEmpty: [ nil ]
-		ifNotEmpty: [ :properties | properties first ].
-	self hasComparisonParameters
-		ifTrue: [ comparator := self class comparators first ]
+	property := self availableProperties ifEmpty: [ nil ] ifNotEmpty: [ :properties | properties anyOne ].
+	self hasComparisonParameters ifTrue: [ comparator := self class comparators first ]
 ]
 
 { #category : #testing }
