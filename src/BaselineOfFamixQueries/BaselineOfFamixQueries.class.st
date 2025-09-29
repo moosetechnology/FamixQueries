@@ -2,12 +2,13 @@
 BaselineOfMooseSpec
 "
 Class {
-	#name : #BaselineOfFamixQueries,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfFamixQueries
+	#name : 'BaselineOfFamixQueries',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfFamixQueries',
+	#package : 'BaselineOfFamixQueries'
 }
 
-{ #category : #baseline }
+{ #category : 'baseline' }
 BaselineOfFamixQueries >> baseline: spec [
 
 	<baseline>
@@ -29,7 +30,7 @@ BaselineOfFamixQueries >> baseline: spec [
 			group: 'Tests' with: #( 'Famix-Queries-Tests' ) ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfFamixQueries >> famixTagging: spec [
 
 	spec

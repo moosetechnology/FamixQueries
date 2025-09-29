@@ -1,33 +1,35 @@
 Class {
-	#name : #FQScopeQueryTest,
-	#superclass : #FQUnaryQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQScopeQueryTest',
+	#superclass : 'FQUnaryQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQScopeQueryTest >> actualClass [
 	^ FQScopeQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQScopeQueryTest >> expectedPrintOnString [
 	^ 'a FQScopeQuery (Up and Down to Methods)'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQScopeQueryTest >> expectedResult [
 	^ ((MooseQueryResult new newObjectResultWith: helper classes)
 		withScope: FamixStMethod) asMooseGroup
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQScopeQueryTest >> newQuery [
 	^ self unConfiguredQuery
 		scope: FamixStMethod;
 		directionStrategy: FQAbstractScopeDirection defaultDirection
 ]
 
-{ #category : #'tests - available parameters' }
+{ #category : 'tests - available parameters' }
 FQScopeQueryTest >> testAvailableScopesFor [
 	| availableScopes |
 	availableScopes := query availableScopesFor: helper modelExample.
@@ -38,14 +40,14 @@ FQScopeQueryTest >> testAvailableScopesFor [
 			self assert: (availableScopes occurrencesOf: scope) equals: 1 ]
 ]
 
-{ #category : #'tests - available parameters' }
+{ #category : 'tests - available parameters' }
 FQScopeQueryTest >> testDirectionStrategies [
 	self
 		assertCollection: self unConfiguredQuery directionStrategies
 		includesAll: FQAbstractScopeDirection allSubclasses
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQScopeQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -53,7 +55,7 @@ FQScopeQueryTest >> testDisplayOn [
 			'(MooseObjectQueryResult withAll: aMooseGroup) withScope: FamixStMethod'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQScopeQueryTest >> testIsValid [
 	super testIsValid.
 	self assert: (self newQuery scope: 'Not a scope') isValid.
@@ -61,7 +63,7 @@ FQScopeQueryTest >> testIsValid [
 		deny: (self newQuery directionStrategy: 'Not a direction') isValid
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQScopeQueryTest >> testName [
 	self assert: query name equals: 'Up and Down to Methods'.
 	self
@@ -69,7 +71,7 @@ FQScopeQueryTest >> testName [
 		equals: 'Invalid Scope Query'
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQScopeQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 	self
@@ -77,7 +79,7 @@ FQScopeQueryTest >> testRunOn [
 		hasSameElements: self expectedResult
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQScopeQueryTest >> testSyntacticSugar [
 	query := self actualClass up scope: FamixStClass.
 	self assert: query directionStrategy identicalTo: FQScopeUp.

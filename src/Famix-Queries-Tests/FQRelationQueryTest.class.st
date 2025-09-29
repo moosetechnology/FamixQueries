@@ -1,28 +1,30 @@
 Class {
-	#name : #FQRelationQueryTest,
-	#superclass : #FQUnaryQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQRelationQueryTest',
+	#superclass : 'FQUnaryQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQRelationQueryTest >> actualClass [
 
 	^ FQRelationQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQRelationQueryTest >> expectedPrintOnString [
 
 	^ 'a FQRelationQuery (relation named: #instances)'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQRelationQueryTest >> expectedResult [
 
 	^ helper modelExample allAnnotationInstances
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQRelationQueryTest >> newQuery [
 
 	^ self unConfiguredQuery
@@ -30,7 +32,7 @@ FQRelationQueryTest >> newQuery [
 		  yourself
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQRelationQueryTest >> testDisplayOn [
 
 	self
@@ -39,7 +41,7 @@ FQRelationQueryTest >> testDisplayOn [
 		'(MooseObjectQueryResult withAll: aMooseGroup) relationsNamed: #instances'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQRelationQueryTest >> testName [
 
 	self assert: query name equals: 'relation named: #instances'.
@@ -48,7 +50,7 @@ FQRelationQueryTest >> testName [
 		equals: 'Invalid Relation Query'
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQRelationQueryTest >> testRunOn [
 
 	self assert: self expectedResult isNotEmpty.

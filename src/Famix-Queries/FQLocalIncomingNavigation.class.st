@@ -14,27 +14,29 @@ It uses MooseQuery trait TEntityMetaLevelDependency.
 It returns the incoming associations types for the input entity.
 "
 Class {
-	#name : #FQLocalIncomingNavigation,
-	#superclass : #FQAbstractNavigationDirection,
-	#category : #'Famix-Queries-Navigation-Strategies'
+	#name : 'FQLocalIncomingNavigation',
+	#superclass : 'FQAbstractNavigationDirection',
+	#category : 'Famix-Queries-Navigation-Strategies',
+	#package : 'Famix-Queries',
+	#tag : 'Navigation-Strategies'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQLocalIncomingNavigation class >> associationsFor: aMooseGroup [
 	^ aMooseGroup allEntityTypes flatCollectAsSet: [ :class | class incomingAssociationTypesIn: aMooseGroup metamodel ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQLocalIncomingNavigation class >> displayOn: aStream with: anAssociationStrategy [
 	anAssociationStrategy displayLocalIncomingOn: aStream
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQLocalIncomingNavigation class >> label [
 	^ 'Local Incoming'
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQLocalIncomingNavigation class >> query: anEntity with: anAssociationStrategy [
 	^ anAssociationStrategy queryLocalIncomingWith: anEntity
 ]

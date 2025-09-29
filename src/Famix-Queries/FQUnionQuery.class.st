@@ -4,33 +4,35 @@ I make the union operation for all my subqueries (can be more than two) between 
 See `FQUnionQuery>>#runOn:`
 "
 Class {
-	#name : #FQUnionQuery,
-	#superclass : #FQNAryQuery,
-	#category : #'Famix-Queries-Queries-N-ary'
+	#name : 'FQUnionQuery',
+	#superclass : 'FQNAryQuery',
+	#category : 'Famix-Queries-Queries-N-ary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-N-ary'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQUnionQuery class >> isCommutative [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQUnionQuery class >> label [
 
 	^ 'Or Query'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQUnionQuery >> defaultName [
 	^ self subqueries first name , ' | ' , self subqueries second name
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQUnionQuery >> operator [
 	^ $|
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQUnionQuery >> rawRunOn: mooseGroups [
 
 	^ mooseGroups fold: [ :a :b | a union: b ]

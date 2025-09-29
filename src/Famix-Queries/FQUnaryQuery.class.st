@@ -2,15 +2,17 @@
 I am the class that do unary operations for queries. That means all operations that are done with only one query. see my children classes.
 "
 Class {
-	#name : #FQUnaryQuery,
-	#superclass : #FQAbstractQuery,
+	#name : 'FQUnaryQuery',
+	#superclass : 'FQAbstractQuery',
 	#instVars : [
 		'parent'
 	],
-	#category : #'Famix-Queries-Core'
+	#category : 'Famix-Queries-Core',
+	#package : 'Famix-Queries',
+	#tag : 'Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQUnaryQuery class >> defaultForParent: aQuery [
 	^(self isAbstract
 		ifTrue: [ self subclasses detect: [ :subclass | subclass isAbstract not ] ]
@@ -21,25 +23,25 @@ FQUnaryQuery class >> defaultForParent: aQuery [
 		yourself
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQUnaryQuery class >> isAbstract [
 	^ self == FQUnaryQuery
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQUnaryQuery class >> isUnaryQuery [
 
 	^ true
 ]
 
-{ #category : #composition }
+{ #category : 'composition' }
 FQUnaryQuery >> --> aChildQuery [
 	^ aChildQuery
 		beChildOf: self;
 		yourself
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FQUnaryQuery >> addToParentsSequence: sequence [
 
 	parent ifNotNil: [ parent addToParentsSequence: sequence ].
@@ -51,19 +53,19 @@ FQUnaryQuery >> addToParentsSequence: sequence [
 	^ sequence
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FQUnaryQuery >> beChildOf: aQuery [
 	parent ifNotNil: [ self prepareRemoval ].
 	self parent: aQuery.
 	aQuery addChild: self
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQUnaryQuery >> beDefaultForParent [
 	self subclassResponsibility
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQUnaryQuery >> computeResult [
 
 	^ result := self isValid
@@ -71,59 +73,59 @@ FQUnaryQuery >> computeResult [
 		            ifFalse: [ MooseGroup new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQUnaryQuery >> dependencies [
 
 	^ self parentSequenceWithoutRoot
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQUnaryQuery >> displayOn: aStream [
 	self displayOn: aStream with: self parentDisplayString
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQUnaryQuery >> displayOn: aStream with: aString [
 	^ self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQUnaryQuery >> displayStringOn: aStream [
 
 	self displayOn: aStream with: self parentDisplayString
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQUnaryQuery >> hasNoParent [
 	^ parent isNil
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQUnaryQuery >> hasSameParametersAs: aQuery [
 	^ self subclassResponsibility
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQUnaryQuery >> hasSameParentsAs: aQuery [
 	^ parent = aQuery parent
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQUnaryQuery >> isUnaryQuery [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQUnaryQuery >> parent [
 	^ parent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQUnaryQuery >> parent: anObject [
 	parent := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQUnaryQuery >> parentDisplayString [
 	(parent isNil or: [ parent isRootQuery ])
 		ifTrue: [ ^ 'aMooseGroup' ].
@@ -134,7 +136,7 @@ FQUnaryQuery >> parentDisplayString [
 			aStream << $) ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQUnaryQuery >> parentSequence [
 
 	| sequence parentToSequence |
@@ -148,7 +150,7 @@ FQUnaryQuery >> parentSequence [
 	^ sequence
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQUnaryQuery >> parentSequenceWithoutRoot [
 
 	(parent isNil or: [ parent isRootQuery ]) ifTrue: [
@@ -156,20 +158,20 @@ FQUnaryQuery >> parentSequenceWithoutRoot [
 	^ (OrderedCollection with: parent) , parent parentSequenceWithoutRoot
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FQUnaryQuery >> prepareRemoval [
 	parent removeChild: self.
 	parent := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQUnaryQuery >> resetParent [
 
 	parent removeChild: self.
 	parent := nil
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 FQUnaryQuery >> rootQuery: aFQRootQuery [
 
 	self parent
@@ -177,7 +179,7 @@ FQUnaryQuery >> rootQuery: aFQRootQuery [
 		ifNotNil: [ self parent rootQuery: aFQRootQuery ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQUnaryQuery >> storeWithParentsOn: aStream [
 
 	(parent isNil or: [ parent isRootQuery ]) ifFalse: [ 

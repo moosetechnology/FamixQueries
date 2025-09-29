@@ -4,17 +4,19 @@ The query is instantiated on a parentQuery. Then, it receives an innerQuery. The
 Then, for each of the results of the parent query, it runs the inner query. That produces a collection, then compares the size of the collection with the comparator and the value. See `FQResultSizeQuery>>#runOn:`
 "
 Class {
-	#name : #FQResultSizeQuery,
-	#superclass : #FQUnaryQuery,
+	#name : 'FQResultSizeQuery',
+	#superclass : 'FQUnaryQuery',
 	#instVars : [
 		'innerQuery',
 		'comparator',
 		'valueToCompare'
 	],
-	#category : #'Famix-Queries-Queries-Unary'
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 FQResultSizeQuery class >> innerQuery: aQuery comparator: aComparingSymbol valueToCompare: aNumber [
 	^ self new
 		innerQuery: aQuery;
@@ -23,12 +25,12 @@ FQResultSizeQuery class >> innerQuery: aQuery comparator: aComparingSymbol value
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQResultSizeQuery class >> label [
 	^ 'Result Size Query'
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQResultSizeQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -39,7 +41,7 @@ FQResultSizeQuery >> = anObject [
 			  valueToCompare = anObject valueToCompare ] ]
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQResultSizeQuery >> beDefaultForParent [
 
 	innerQuery := FQRootQuery new result: parent result.
@@ -47,32 +49,32 @@ FQResultSizeQuery >> beDefaultForParent [
 	valueToCompare := 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQResultSizeQuery >> comparator [
 	^ comparator
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQResultSizeQuery >> comparator: anObject [
 
 	comparator := anObject.
 	self resetResult
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQResultSizeQuery >> defaultName [
 
 	^ '(' , innerQuery name , ') size ' , comparator asString , ' '
 	  , valueToCompare asString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQResultSizeQuery >> dependencies [
 
 	^ (OrderedCollection with: innerQuery) , super dependencies
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQResultSizeQuery >> displayOn: aStream with: aString [
 
 	aStream << aString << ' select: [ :entity | ('.
@@ -85,7 +87,7 @@ FQResultSizeQuery >> displayOn: aStream with: aString [
 		<< ' ]'
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQResultSizeQuery >> hasSameParametersAs: aQuery [
 
 	^ (innerQuery
@@ -95,7 +97,7 @@ FQResultSizeQuery >> hasSameParametersAs: aQuery [
 			  valueToCompare = aQuery valueToCompare ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQResultSizeQuery >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
@@ -104,20 +106,20 @@ FQResultSizeQuery >> hash [
 			   (valueToCompare hash bitXor: innerQuery hash))
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQResultSizeQuery >> innerQuery [
 
 	^ innerQuery
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQResultSizeQuery >> innerQuery: anObject [
 
 	innerQuery := anObject.
 	self resetResult
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQResultSizeQuery >> isValid [
 
 	^ (innerQuery isKindOf: FQAbstractQuery) and: [ 
@@ -125,13 +127,13 @@ FQResultSizeQuery >> isValid [
 			  comparator isSymbol and: [ valueToCompare isNumber ] ] ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQResultSizeQuery >> rawRunOn: aMooseGroup [
 
 	^ aMooseGroup select: [ :entity | (innerQuery runOn: entity asMooseGroup) size perform: comparator with: valueToCompare ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQResultSizeQuery >> storeOn: aStream [
 
 	aStream << self className << ' innerQuery: ('.
@@ -143,12 +145,12 @@ FQResultSizeQuery >> storeOn: aStream [
 		<< valueToCompare asString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQResultSizeQuery >> valueToCompare [
 	^ valueToCompare
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQResultSizeQuery >> valueToCompare: anObject [
 
 	valueToCompare := anObject.

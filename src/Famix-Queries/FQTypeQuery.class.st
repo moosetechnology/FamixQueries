@@ -39,34 +39,36 @@ I am valid if I have at least 1 type.
 	/!\ Using this, it is possible to create an invalid query (with #types empty)
 "
 Class {
-	#name : #FQTypeQuery,
-	#superclass : #FQUnaryQuery,
+	#name : 'FQTypeQuery',
+	#superclass : 'FQUnaryQuery',
 	#instVars : [
 		'types'
 	],
-	#category : #'Famix-Queries-Queries-Unary'
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQTypeQuery class >> label [
 	^ 'Type Query'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQTypeQuery class >> types: aCollectionOfTypes [
 	^ self new
 		types: aCollectionOfTypes;
 		yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQTypeQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
 	^ super = anObject and: [ types = anObject types ]
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 FQTypeQuery >> addType: aType [
 	(self types includes: aType)
 		ifTrue: [ ^ self ].
@@ -75,13 +77,13 @@ FQTypeQuery >> addType: aType [
 	self flag: #FQTest , 'test reset'
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQTypeQuery >> availableTypes [
 	self flag: #FQTest.
 	^ self availableTypesFor: parent result
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQTypeQuery >> availableTypesFor: aMooseGroup [
 
 	^ ((aMooseGroup allUsing: TEntityMetaLevelDependency) allEntityTypes
@@ -89,7 +91,7 @@ FQTypeQuery >> availableTypesFor: aMooseGroup [
 		  type1 name < type2 name ]
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQTypeQuery >> beDefaultForParent [
 
 	"Don't do nothing. The previous behavior was to select all the types by default"
@@ -97,7 +99,7 @@ FQTypeQuery >> beDefaultForParent [
 	
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQTypeQuery >> defaultName [
 
 	^ String streamContents: [ :s |
@@ -107,7 +109,7 @@ FQTypeQuery >> defaultName [
 			  separatedBy: [ s << ', ' ] ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQTypeQuery >> displayOn: aStream with: aString [
 
 	self types size == 1
@@ -121,45 +123,45 @@ FQTypeQuery >> displayOn: aStream with: aString [
 				separatedBy: [ aStream << ' | ' ] ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQTypeQuery >> displayStringForType: aType [
 	^ (aType isTrait
 		ifTrue: [ ' allUsing: ' ]
 		ifFalse: [ ' allWithType: ' ]) , aType name
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQTypeQuery >> hasSameParametersAs: aQuery [
 	^ types = aQuery types
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQTypeQuery >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
 	^ super hash bitXor: types hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FQTypeQuery >> initialize [
 	super initialize.
 	types := OrderedCollection new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQTypeQuery >> isValid [
 
 	^ types isNotEmpty and: [ 
 		  types allSatisfy: [ :type | self typeIsValid: type ] ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQTypeQuery >> rawRunOn: aMooseGroup [
 
 	^ self types asSet flatCollect: [ :type | aMooseGroup allMatching: type ]
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 FQTypeQuery >> removeType: aType [
 
 	self types remove: aType.
@@ -167,7 +169,7 @@ FQTypeQuery >> removeType: aType [
 	self flag: #FQTest , 'test reset'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQTypeQuery >> storeOn: aStream [
 
 	aStream << self className << ' types: {'.
@@ -178,13 +180,13 @@ FQTypeQuery >> storeOn: aStream [
 	aStream << $}
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 FQTypeQuery >> type: aType [
 	self addType: aType
 	"self addTypeSymbol: aTypeSymbol"
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQTypeQuery >> typeIsValid: elt [
 	"Large acceptance: 
 MooseEntity. Could be using FamixTNamedEntity, ... 
@@ -194,12 +196,12 @@ isTrait could be more thorough."
 		or: [ elt isTrait ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQTypeQuery >> types [
 	^ types
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQTypeQuery >> types: aCollection [
 
 	types := (aCollection as: OrderedCollection) select: [ :elt |

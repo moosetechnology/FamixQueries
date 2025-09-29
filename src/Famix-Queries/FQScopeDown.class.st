@@ -16,40 +16,42 @@ I also provide #availableScopesForEntity: method.
 It returns the types of the entities that are contained in the input entity.
 "
 Class {
-	#name : #FQScopeDown,
-	#superclass : #FQAbstractScopeDirection,
-	#category : #'Famix-Queries-Scope-Strategies'
+	#name : 'FQScopeDown',
+	#superclass : 'FQAbstractScopeDirection',
+	#category : 'Famix-Queries-Scope-Strategies',
+	#package : 'Famix-Queries',
+	#tag : 'Scope-Strategies'
 }
 
-{ #category : #'available scopes' }
+{ #category : 'available scopes' }
 FQScopeDown class >> availableScopesForEntity: class in: model [
 	^ self allChildrenScopesOf: class in: model
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScopeDown class >> label [
 	^ 'Down'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeDown class >> priority [
 	^ 20
 ]
 
-{ #category : #scoping }
+{ #category : 'scoping' }
 FQScopeDown class >> scope: aFamixClass on: entity [
 
 	^ entity query descendants ofType: aFamixClass
 ]
 
-{ #category : #scoping }
+{ #category : 'scoping' }
 FQScopeDown class >> scope: aFamixClass recursively: aBoolean on: entity [
 
 	^ (entity query descendants isRecursive: aBoolean) ofType:
 		  aFamixClass
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScopeDown class >> scopingSelector [
 	^ #toScope:
 ]

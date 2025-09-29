@@ -1,6 +1,6 @@
-Extension { #name : #MooseAbstractGroup }
+Extension { #name : 'MooseAbstractGroup' }
 
-{ #category : #'*Famix-Queries' }
+{ #category : '*Famix-Queries' }
 MooseAbstractGroup >> allEntityTypes [
 	^ self collectAsSet: #class
 ]

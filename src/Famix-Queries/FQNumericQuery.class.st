@@ -34,33 +34,35 @@ I am valid if my parameters are set: if #property and #comparator are symbols an
 			valueToCompare: aNumber'
 "
 Class {
-	#name : #FQNumericQuery,
-	#superclass : #FQPropertyQuery,
-	#category : #'Famix-Queries-Queries-Unary'
+	#name : 'FQNumericQuery',
+	#superclass : 'FQPropertyQuery',
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQNumericQuery class >> comparators [
 	self flag: #FQImprove.
 	^ {#> . #>= . #= . #<= . #<}
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQNumericQuery class >> defaultComparator [
 	^ #>
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNumericQuery class >> defaultValueToCompare [
 	^ 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNumericQuery class >> label [
 	^ 'Numeric Query'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQNumericQuery class >> property: aSymbol comparator: aComparingSymbol valueToCompare: aNumber [
 	^ self new
 		property: aSymbol;
@@ -69,12 +71,12 @@ FQNumericQuery class >> property: aSymbol comparator: aComparingSymbol valueToCo
 		yourself
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQNumericQuery class >> type [
 	^ FM3Number
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNumericQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -83,27 +85,27 @@ FQNumericQuery >> = anObject [
 			  comparator = anObject comparator ] ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNumericQuery >> hasSameParametersAs: aQuery [
 	^ (super hasSameParametersAs: aQuery)
 		and: [ comparator = aQuery comparator
 				and: [ valueToCompare = aQuery valueToCompare ] ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNumericQuery >> hash [
 
 	^ super hash bitXor: (valueToCompare hash bitXor: comparator hash)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQNumericQuery >> isValid [
 
 	^ super isValid and: [ 
 		  self comparator isSymbol and: [ self valueToCompare isNumber ] ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNumericQuery >> valueToCompareAsString [
 	^ self valueToCompare printString
 ]

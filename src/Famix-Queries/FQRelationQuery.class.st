@@ -28,21 +28,23 @@ I am valid if I have a relation name (a symbol).
 		'FQRelationQuery name: aSymbol'
 "
 Class {
-	#name : #FQRelationQuery,
-	#superclass : #FQUnaryQuery,
+	#name : 'FQRelationQuery',
+	#superclass : 'FQUnaryQuery',
 	#instVars : [
 		'relationName'
 	],
-	#category : #'Famix-Queries-Queries-Unary'
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQRelationQuery class >> label [
 
 	^ 'Relation Query'
 ]
 
-{ #category : #'accessing - structure variables' }
+{ #category : 'accessing - structure variables' }
 FQRelationQuery class >> name: aFamixType [
 
 	^ self new
@@ -50,14 +52,14 @@ FQRelationQuery class >> name: aFamixType [
 		  yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQRelationQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
 	^ super = anObject and: [ relationName = anObject relationName ]
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQRelationQuery >> availableRelationNames [
 
 	^ parent ifNil: [ {  } ] ifNotNil: [ 
@@ -65,7 +67,7 @@ FQRelationQuery >> availableRelationNames [
 			  [ :propertyName | propertyName ] ascending ]
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQRelationQuery >> availableRelationNamesFor: aMooseGroup [
 
 	aMooseGroup ifEmpty: [ ^ {  } ].
@@ -73,7 +75,7 @@ FQRelationQuery >> availableRelationNamesFor: aMooseGroup [
 		  entity class mooseDescription allRelationProperties collect: #name ]
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQRelationQuery >> beDefaultForParent [
 
 	self relationName: (self availableRelationNames
@@ -81,13 +83,13 @@ FQRelationQuery >> beDefaultForParent [
 			 ifNotEmpty: [ :relationNames | relationNames anyOne ])
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQRelationQuery >> defaultName [
 
 	^ 'relation named: #' , self relationName
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQRelationQuery >> displayOn: aStream with: aString [
 
 	aStream << '(MooseObjectQueryResult withAll: ' << aString
@@ -95,26 +97,26 @@ FQRelationQuery >> displayOn: aStream with: aString [
 	self relationName storeOn: aStream
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQRelationQuery >> hasSameParametersAs: aQuery [
 
 	^ aQuery relationName = self relationName
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQRelationQuery >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
 	^ super hash bitXor: relationName hash
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQRelationQuery >> isValid [
 
 	^ relationName isSymbol
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQRelationQuery >> rawRunOn: aMooseGroup [
 
 	^ (aMooseGroup rawAllUsing: TEntityMetaLevelDependency) inject: Set new into: [ :res :entity |
@@ -122,20 +124,20 @@ FQRelationQuery >> rawRunOn: aMooseGroup [
 		  res ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQRelationQuery >> relationName [
 
 	^ relationName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQRelationQuery >> relationName: aSymbol [
 
 	relationName := aSymbol.
 	self resetResult
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQRelationQuery >> storeOn: aStream [
 
 	aStream << self className << ' name: '.

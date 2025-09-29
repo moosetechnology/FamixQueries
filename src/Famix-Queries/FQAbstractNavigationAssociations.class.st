@@ -9,72 +9,74 @@ This is done by one of my #query***With: methods when it is called by a subclass
 To see reaction to adding/removing associations API, see my subclasses.
 "
 Class {
-	#name : #FQAbstractNavigationAssociations,
-	#superclass : #Object,
-	#category : #'Famix-Queries-Navigation-Strategies'
+	#name : 'FQAbstractNavigationAssociations',
+	#superclass : 'Object',
+	#category : 'Famix-Queries-Navigation-Strategies',
+	#package : 'Famix-Queries',
+	#tag : 'Navigation-Strategies'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQAbstractNavigationAssociations >> = anAssociationStrategy [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 FQAbstractNavigationAssociations >> addAssociation: anAssociation [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractNavigationAssociations >> associationsFor: aQuery [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractNavigationAssociations >> associationsNames [
 	^ self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractNavigationAssociations >> displayIncomingOn: aStream [
 	self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractNavigationAssociations >> displayLocalIncomingOn: aStream [
 	self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractNavigationAssociations >> displayLocalOutgoingOn: aStream [
 	self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractNavigationAssociations >> displayOutgoingOn: aStream [
 	self subclassResponsibility
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQAbstractNavigationAssociations >> queryIncomingWith: anEntity [
 	^ self subclassResponsibility
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQAbstractNavigationAssociations >> queryLocalIncomingWith: anEntity [
 	^ self subclassResponsibility
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQAbstractNavigationAssociations >> queryLocalOutgoingWith: anEntity [
 	^ self subclassResponsibility
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQAbstractNavigationAssociations >> queryOutgoingWith: anEntity [
 	^ self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractNavigationAssociations >> storeOn: aStream [
 	self subclassResponsibility
 ]

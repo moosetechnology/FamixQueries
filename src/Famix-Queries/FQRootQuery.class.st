@@ -1,87 +1,89 @@
 Class {
-	#name : #FQRootQuery,
-	#superclass : #FQUnaryQuery,
+	#name : 'FQRootQuery',
+	#superclass : 'FQUnaryQuery',
 	#instVars : [
 		'input'
 	],
-	#category : #'Famix-Queries-Queries-Unary'
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #display }
+{ #category : 'display' }
 FQRootQuery class >> color [
 	^ Color colorFrom: 'DDDDDD'
 ]
 
-{ #category : #display }
+{ #category : 'display' }
 FQRootQuery class >> label [
 	^ 'Initial Entities'
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FQRootQuery >> beChildOf: parentQuery [
 	FQNoParentForRootQuery signal: 'Root query cannot have a parent'
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQRootQuery >> beDefaultForParent [
 	"Nothing to do"
 
 	
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQRootQuery >> defaultName [
 	^ 'Model'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQRootQuery >> displayOn: aStream with: aString [
 	aStream << aString
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQRootQuery >> hasSameParametersAs: aQuery [
 	"It can be too long to check 'self result sameElements: aQuery result' and not really needed for now."
 
 	^ true
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FQRootQuery >> initialize [
 
 	super initialize.
 	input := MooseGroup new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQRootQuery >> input: aMooseGroup [
 
 	input := aMooseGroup
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQRootQuery >> isRootQuery [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQRootQuery >> isValid [
 
 	^ input isKindOf: MooseGroup
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQRootQuery >> rawRunOn: aMooseGroup [
 	^ aMooseGroup
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQRootQuery >> result [
 
 	^ input
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQRootQuery >> result: aMooseGroup [
 
 	self
@@ -91,7 +93,7 @@ FQRootQuery >> result: aMooseGroup [
 	self input: aMooseGroup
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQRootQuery >> storeOn: aStream [
 	aStream << self className << ' new'
 ]

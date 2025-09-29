@@ -1,15 +1,17 @@
 Class {
-	#name : #FQBooleanQueryTest,
-	#superclass : #FQPropertyQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQBooleanQueryTest',
+	#superclass : 'FQPropertyQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQBooleanQueryTest >> actualClass [
 	^ FQBooleanQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQBooleanQueryTest >> differentTypeOfQuery [
 	^ FQNumericQuery new
 		property: #numberOfMethods;
@@ -17,34 +19,34 @@ FQBooleanQueryTest >> differentTypeOfQuery [
 		valueToCompare: 5
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQBooleanQueryTest >> expectedPrintOnString [
 	^ 'a FQBooleanQuery (isAbstract)'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQBooleanQueryTest >> expectedResult [
 	^ helper classes select: #isAbstract
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQBooleanQueryTest >> newQuery [
 	^ self unConfiguredQuery property: #isAbstract
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQBooleanQueryTest >> propertyType [
 	^ Boolean
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQBooleanQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals: 'aMooseGroup select: [ :entity | entity isAbstract ]'
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQBooleanQueryTest >> testName [
 	self assert: query name equals: 'isAbstract'.
 	self
@@ -52,7 +54,7 @@ FQBooleanQueryTest >> testName [
 		equals: 'Invalid Boolean Query'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQBooleanQueryTest >> testValueToCompareAsString [
 	self
 		should: [ query valueToCompareAsString ]

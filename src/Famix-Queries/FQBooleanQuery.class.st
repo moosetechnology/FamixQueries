@@ -29,45 +29,47 @@ I am valid if my property is a symbol.
 			property: aSelector
 "
 Class {
-	#name : #FQBooleanQuery,
-	#superclass : #FQPropertyQuery,
-	#category : #'Famix-Queries-Queries-Unary'
+	#name : 'FQBooleanQuery',
+	#superclass : 'FQPropertyQuery',
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQBooleanQuery class >> comparators [
 	^#()
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQBooleanQuery class >> label [
 	^ 'Boolean Query'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQBooleanQuery class >> property: aSymbol [
 	^ self new
 		property: aSymbol;
 		yourself
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQBooleanQuery class >> type [
 	^ FM3Boolean
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQBooleanQuery >> applyComparatorOnEntityProperty: entityProperty [
 	"no #comparator for BooleanQueries return the boolean value obtained from the property"
 	^entityProperty
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQBooleanQuery >> hasComparisonParameters [
 	^ false
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQBooleanQuery >> valueToCompareAsString [
 	self shouldNotImplement
 ]

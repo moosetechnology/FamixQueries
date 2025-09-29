@@ -34,56 +34,58 @@ See subclasses for details
 See subclasses
 "
 Class {
-	#name : #FQPropertyQuery,
-	#superclass : #FQUnaryQuery,
+	#name : 'FQPropertyQuery',
+	#superclass : 'FQUnaryQuery',
 	#instVars : [
 		'property',
 		'valueToCompare',
 		'comparator'
 	],
-	#category : #'Famix-Queries-Queries-Unary'
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQPropertyQuery class >> availablePropertiesFor: aMooseGroup [
 
 	^ (aMooseGroup allEntityTypes collect: [ :entity | entity famePropertiesOfType: self type ]) flatten collect: #implementingSelector
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQPropertyQuery class >> comparators [
 	self subclassResponsibility
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQPropertyQuery class >> isAbstract [
 	^ self == FQPropertyQuery
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQPropertyQuery class >> label [
 	^ 'Property Query'
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQPropertyQuery class >> type [
 	^ self subclassResponsibility
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQPropertyQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
 	^ super = anObject and: [ property = anObject property ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQPropertyQuery >> applyComparatorOnEntityProperty: entityProperty [
 	"default is to compare the #property of an entity to the #valueToCompare of the query"
 	^entityProperty perform: self comparator with: self valueToCompare
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQPropertyQuery >> availableProperties [
 	self flag: #FQTest.
 	^ (parent isNil or: [ parent result isEmpty ])
@@ -91,37 +93,37 @@ FQPropertyQuery >> availableProperties [
 		ifFalse: [ self availablePropertiesFor: parent result ]
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQPropertyQuery >> availablePropertiesFor: aMooseGroup [
 	^ self class availablePropertiesFor: aMooseGroup
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQPropertyQuery >> beDefaultForParent [
 
 	property := self availableProperties ifEmpty: [ nil ] ifNotEmpty: [ :properties | properties anyOne ].
 	self hasComparisonParameters ifTrue: [ comparator := self class comparators first ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQPropertyQuery >> canBeNegated [
 	^true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQPropertyQuery >> comparator [
 
 	^ comparator
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQPropertyQuery >> comparator: anObject [
 	comparator := anObject.
 	self resetResult.
 	self flag: #FQTest , 'Test reset result'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQPropertyQuery >> defaultName [
 	^ String
 		streamContents: [ :aStream | 
@@ -131,7 +133,7 @@ FQPropertyQuery >> defaultName [
 						<< self valueToCompareAsString ] ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQPropertyQuery >> displayOn: aStream with: aString [
 	aStream << aString << ' select: [ :entity | entity '
 		<< self property asString.
@@ -144,35 +146,35 @@ FQPropertyQuery >> displayOn: aStream with: aString [
 	aStream << ' ]'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQPropertyQuery >> hasComparisonParameters [
 
 	^ true
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQPropertyQuery >> hasSameParametersAs: aQuery [
 	^ property == aQuery property
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQPropertyQuery >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
 	^ super hash bitXor: property hash
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQPropertyQuery >> isValid [
 	^ self property isSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQPropertyQuery >> property [
 	^ property
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQPropertyQuery >> property: anObject [
 
 	property := anObject.
@@ -180,7 +182,7 @@ FQPropertyQuery >> property: anObject [
 	self flag: #FQTest , 'Test reset result'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQPropertyQuery >> rawRunOn: aMooseGroup [
 	self flag: #FQImprove , 'This false on error is not optimal'.
 
@@ -194,7 +196,7 @@ FQPropertyQuery >> rawRunOn: aMooseGroup [
 				do: [ false ] ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQPropertyQuery >> storeOn: aStream [
 	aStream << self className << ' property: '.
 	self property storeOn: aStream.
@@ -206,25 +208,25 @@ FQPropertyQuery >> storeOn: aStream [
 	self valueToCompare storeOn: aStream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQPropertyQuery >> type [
 	^ self class type
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQPropertyQuery >> valueToCompare [
 
 	^ valueToCompare
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQPropertyQuery >> valueToCompare: anObject [
 	valueToCompare := anObject.
 	self resetResult.
 	self flag: #FQTest , 'Test reset result'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQPropertyQuery >> valueToCompareAsString [
 	^ self subclassResponsibility
 ]
