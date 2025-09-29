@@ -16,17 +16,19 @@ It returns the associations available in my direction for the input entity.
 The direction of the associations depend on my subclasses behavior.
 "
 Class {
-	#name : #FQAbstractNavigationDirection,
-	#superclass : #Object,
-	#category : #'Famix-Queries-Navigation-Strategies'
+	#name : 'FQAbstractNavigationDirection',
+	#superclass : 'Object',
+	#category : 'Famix-Queries-Navigation-Strategies',
+	#package : 'Famix-Queries',
+	#tag : 'Navigation-Strategies'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractNavigationDirection class >> associationsFor: aMooseGroup [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractNavigationDirection class >> availableAssociationsFor: aMooseGroup [
 	| associations model |
 	aMooseGroup ifEmpty: [ ^ #() ].
@@ -46,17 +48,17 @@ FQAbstractNavigationDirection class >> availableAssociationsFor: aMooseGroup [
 			[ :class | (model metamodel classes collect: #implementingClass) includes: class ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractNavigationDirection class >> displayOn: aStream with: anAssociationStrategy [
 	self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractNavigationDirection class >> label [
 	^ self subclassResponsibility
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQAbstractNavigationDirection class >> query: anEntity with: anAssociationStrategy [
 	^ self subclassResponsibility
 ]

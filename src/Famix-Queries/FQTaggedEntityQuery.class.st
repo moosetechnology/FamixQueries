@@ -38,20 +38,22 @@ I am valid if I have a tag name.
 'FQRelationQuery tagName: aString'
 "
 Class {
-	#name : #FQTaggedEntityQuery,
-	#superclass : #FQUnaryQuery,
+	#name : 'FQTaggedEntityQuery',
+	#superclass : 'FQUnaryQuery',
 	#instVars : [
 		'tagName'
 	],
-	#category : #'Famix-Queries-Queries-Unary'
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQTaggedEntityQuery class >> label [
 	^ 'Tag Query'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQTaggedEntityQuery class >> tagNamed: aTagName [
 
 	^ self new
@@ -59,14 +61,14 @@ FQTaggedEntityQuery class >> tagNamed: aTagName [
 		  yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQTaggedEntityQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
 	^ super = anObject and: [ tagName = anObject tagName ]
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQTaggedEntityQuery >> availableTagNames [
 
 	^ parent
@@ -75,14 +77,14 @@ FQTaggedEntityQuery >> availableTagNames [
 		  (self availableTagNamesFor: parent result) sorted ]
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQTaggedEntityQuery >> availableTagNamesFor: aMooseGroup [
 
 	aMooseGroup ifEmpty: [ ^ {  } ].
 	^ aMooseGroup anyOne mooseModel allTags collect: #name
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQTaggedEntityQuery >> beDefaultForParent [
 
 	self tagName: (self availableTagNames
@@ -90,13 +92,13 @@ FQTaggedEntityQuery >> beDefaultForParent [
 			 ifNotEmpty: [ :tagNames | tagNames anyOne ])
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQTaggedEntityQuery >> defaultName [
 
 	^ 'tag named: #' , self tagName
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQTaggedEntityQuery >> displayOn: aStream with: aString [
 
 	aStream << '(MooseObjectQueryResult withAll: ' << aString
@@ -104,42 +106,42 @@ FQTaggedEntityQuery >> displayOn: aStream with: aString [
 	self tagName storeOn: aStream
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQTaggedEntityQuery >> hasSameParametersAs: aQuery [
 	^ aQuery tagName = self tagName
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQTaggedEntityQuery >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
 	^ super hash bitXor: tagName hash
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQTaggedEntityQuery >> isValid [
 	^ tagName isNotNil
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQTaggedEntityQuery >> rawRunOn: aMooseGroup [
 
 	^ aMooseGroup select: [ :entity | entity allTagAssociations anySatisfy: [ :tass | tass tag name = tagName ] ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQTaggedEntityQuery >> storeOn: aStream [
 
 	aStream << self className << ' tagNamed: '.
 	self tagName storeOn: aStream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQTaggedEntityQuery >> tagName [
 	^tagName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQTaggedEntityQuery >> tagName: aTagName [
 	tagName := aTagName.
 	self resetResult

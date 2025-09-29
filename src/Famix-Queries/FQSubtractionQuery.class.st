@@ -4,39 +4,41 @@ I make the subtraction operation for all my subqueries (can be more than two) be
 See `FQSubtractionQuery>>#runOn:`
 "
 Class {
-	#name : #FQSubtractionQuery,
-	#superclass : #FQNAryQuery,
-	#category : #'Famix-Queries-Queries-N-ary'
+	#name : 'FQSubtractionQuery',
+	#superclass : 'FQNAryQuery',
+	#category : 'Famix-Queries-Queries-N-ary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-N-ary'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQSubtractionQuery class >> isCommutative [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQSubtractionQuery class >> label [
 
 	^ 'Difference Query'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQSubtractionQuery >> defaultName [
 	^ self subqueries first name , ' \ ' , self subqueries second name
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQSubtractionQuery >> operator [
 	^ $\
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQSubtractionQuery >> rawRunOn: mooseGroups [
 
 	^ mooseGroups fold: [ :a :b | a difference: b ]
 ]
 
-{ #category : #reversing }
+{ #category : 'reversing' }
 FQSubtractionQuery >> reverseParents [
 	self subqueries: self subqueries reverse.
 	self resetResult

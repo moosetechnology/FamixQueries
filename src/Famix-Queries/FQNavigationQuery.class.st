@@ -47,54 +47,56 @@ I am valid if I have a direction (a subclass of FQAbstractNavigationDirection)
 			association: anotherAssociation'
 "
 Class {
-	#name : #FQNavigationQuery,
-	#superclass : #FQUnaryQuery,
+	#name : 'FQNavigationQuery',
+	#superclass : 'FQUnaryQuery',
 	#instVars : [
 		'directionStrategy',
 		'associationStrategy'
 	],
-	#category : #'Famix-Queries-Queries-Unary'
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQNavigationQuery class >> directionStrategies [
 	^ FQAbstractNavigationDirection allSubclasses
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQNavigationQuery class >> incoming [
 	^ self new
 		directionStrategy: FQIncomingNavigation;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationQuery class >> label [
 	^ 'Navigation Query'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQNavigationQuery class >> localIncoming [
 	^ self new
 		directionStrategy: FQLocalIncomingNavigation;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQNavigationQuery class >> localOutgoing [
 	^ self new
 		directionStrategy: FQLocalOutgoingNavigation;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQNavigationQuery class >> outgoing [
 	^ self new
 		directionStrategy: FQOutgoingNavigation;
 		yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNavigationQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -103,7 +105,7 @@ FQNavigationQuery >> = anObject [
 			  associationStrategy = anObject associationStrategy ] ]
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 FQNavigationQuery >> addAssociation: anAssociation [
 	(self associationsIsValid: anAssociation)
 		ifFalse: [ ^ self ].
@@ -114,12 +116,12 @@ FQNavigationQuery >> addAssociation: anAssociation [
 	self flag: #FQTest , 'test reset result'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationQuery >> allAssociations [
 	self associationStrategy: FQAllNavigationAssociations new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationQuery >> association: anAssociation [
 	(self associationsIsValid: anAssociation)
 		ifFalse: [ ^ self allAssociations ].
@@ -127,22 +129,22 @@ FQNavigationQuery >> association: anAssociation [
 		associationStrategy: (FQNavigationAssociations with: anAssociation)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationQuery >> associationStrategy [
 	^ associationStrategy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationQuery >> associationStrategy: anObject [
 	associationStrategy := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationQuery >> associations [
 	^ self associationStrategy associationsFor: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationQuery >> associations: aCollectionOfAssociations [
 	aCollectionOfAssociations isCollection
 		ifFalse: [ ^ self association: aCollectionOfAssociations ].
@@ -155,13 +157,13 @@ FQNavigationQuery >> associations: aCollectionOfAssociations [
 				associationStrategy: (FQNavigationAssociations withAll: aCollectionOfAssociations) ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQNavigationQuery >> associationsIsValid: anAssociation [
 	^ anAssociation isClass
 		and: [ (anAssociation lookupSelector: #isAssociation) notNil ]
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQNavigationQuery >> availableAssociations [
 
 	self flag: #FQTest.
@@ -170,7 +172,7 @@ FQNavigationQuery >> availableAssociations [
 		  ifTrue: [ self availableAssociationsFor: parent result ]
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
 
 	^ (self directionStrategy availableAssociationsFor:
@@ -178,7 +180,7 @@ FQNavigationQuery >> availableAssociationsFor: aMooseGroup [
 		  OrderedCollection
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQNavigationQuery >> beDefaultForParent [
 
 	self flag: #FQImprove , #FQTest
@@ -187,7 +189,7 @@ FQNavigationQuery >> beDefaultForParent [
 	associationStrategy := FQAllNavigationAssociations new
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNavigationQuery >> defaultName [
 	^ String
 		streamContents: [ :s | 
@@ -196,17 +198,17 @@ FQNavigationQuery >> defaultName [
 				ifTrue: [ s << self associationStrategy associationsNames ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationQuery >> directionStrategy [
 	^ directionStrategy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationQuery >> directionStrategy: anObject [
 	directionStrategy := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNavigationQuery >> displayOn: aStream with: aString [
 	aStream << '(' << aString
 		<<
@@ -221,13 +223,13 @@ FQNavigationQuery >> displayOn: aStream with: aString [
 			result ]) asMooseGroup'
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNavigationQuery >> hasSameParametersAs: aQuery [
 	^ directionStrategy == aQuery directionStrategy
 		and: [ associationStrategy = aQuery associationStrategy ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNavigationQuery >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
@@ -235,13 +237,13 @@ FQNavigationQuery >> hash [
 		  (directionStrategy hash bitXor: associationStrategy hash)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FQNavigationQuery >> initialize [
 	super initialize.
 	associationStrategy := FQAllNavigationAssociations new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQNavigationQuery >> isValid [
 	^ self directionStrategy isClass
 		and: [ (self directionStrategy inheritsFrom: FQAbstractNavigationDirection)
@@ -252,7 +254,7 @@ FQNavigationQuery >> isValid [
 										allSatisfy: [ :assoc | self associationsIsValid: assoc ] ] ] ] ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNavigationQuery >> rawRunOn: aMooseGroup [
 
 	^ (aMooseGroup rawAllUsing: TEntityMetaLevelDependency) inject: Set new into: [ :res :entity |
@@ -260,7 +262,7 @@ FQNavigationQuery >> rawRunOn: aMooseGroup [
 		  res ]
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 FQNavigationQuery >> removeAssociation: anAssociation [
 	self
 		associationStrategy:
@@ -270,7 +272,7 @@ FQNavigationQuery >> removeAssociation: anAssociation [
 	self flag: #FQTest , 'test reset result'
 ]
 
-{ #category : #reset }
+{ #category : 'reset' }
 FQNavigationQuery >> resetAndChangeDirection: aDirectionStrategy [
 
 	self resetResult.
@@ -279,7 +281,7 @@ FQNavigationQuery >> resetAndChangeDirection: aDirectionStrategy [
 	self flag: #FQTest
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNavigationQuery >> storeOn: aStream [
 
 	aStream << self className.
