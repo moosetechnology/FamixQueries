@@ -2,12 +2,14 @@
 I am a null query that does not do anything. I am only here for avoid checking nils
 "
 Class {
-	#name : #FQNullQuery,
-	#superclass : #FQAbstractQuery,
-	#category : #'Famix-Queries-Core'
+	#name : 'FQNullQuery',
+	#superclass : 'FQAbstractQuery',
+	#category : 'Famix-Queries-Core',
+	#package : 'Famix-Queries',
+	#tag : 'Core'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNullQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -16,71 +18,71 @@ FQNullQuery >> = anObject [
 	^ true
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNullQuery >> buildDefaultName [
 
 	^ self defaultName
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNullQuery >> computeResult [
 
 	^ #() asMooseGroup
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNullQuery >> defaultName [
 
 	^ 'Null Query'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNullQuery >> displayOn: aStream [
 
 	aStream << 'Null Query'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNullQuery >> hasSameParametersAs: aQuery [
 
 	^ self class == aQuery class
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNullQuery >> hash [
 
 	^ self name hash
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQNullQuery >> isValid [
 
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNullQuery >> parentSequence [
 
 	^ #(  )
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FQNullQuery >> prepareRemoval [
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNullQuery >> rawRunOn: aMooseGroup [
 
 	^ #(  )
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNullQuery >> storeOn: aStream [
 
 	aStream << 'Null Query'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNullQuery >> storeWithParentsOn: aStream [
 
 	aStream << 'Null Query'

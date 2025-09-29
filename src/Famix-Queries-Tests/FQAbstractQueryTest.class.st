@@ -1,56 +1,58 @@
 Class {
-	#name : #FQAbstractQueryTest,
-	#superclass : #TestCase,
+	#name : 'FQAbstractQueryTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'query',
 		'helper'
 	],
-	#category : #'Famix-Queries-Tests-Core'
+	#category : 'Famix-Queries-Tests-Core',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQAbstractQueryTest class >> isAbstract [
 	^ self = FQAbstractQueryTest
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQAbstractQueryTest class >> shouldInheritSelectors [
 	^ true
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQueryTest >> actualClass [
 	^ self subclassResponsibility
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQueryTest >> differentTypeOfQuery [
 	^ FQBooleanQuery new property: #isAbstract
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQueryTest >> evaluate: aString [
 	^ self actualClass readFrom: aString
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQueryTest >> expectedPrintOnString [
 	^ self subclassResponsibility
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQueryTest >> newQuery [
 	^ self subclassResponsibility
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQueryTest >> setUp [
 	super setUp.
 	helper := FQTestsHelper new.
 	query := self newQuery
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQAbstractQueryTest >> testAddChild [
 	| child |
 	child := self differentTypeOfQuery.
@@ -58,43 +60,43 @@ FQAbstractQueryTest >> testAddChild [
 	self assert: (query children includes: child)
 ]
 
-{ #category : #test }
+{ #category : 'test' }
 FQAbstractQueryTest >> testDependencies [
 
 	self assert: query dependencies isEmpty
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQAbstractQueryTest >> testDisplayOn [
 	self subclassResponsibility
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQAbstractQueryTest >> testEqual [
 
 	self assert: query equals: query copy.
 	self deny: query equals: FQNullQuery new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQAbstractQueryTest >> testHash [
 
 	self assert: query hash equals: query copy hash.
 	self deny: query hash equals: FQNullQuery new hash
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQAbstractQueryTest >> testIsValid [
 	self assert: query isValid.
 	self deny: self unConfiguredQuery isValid
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQAbstractQueryTest >> testName [
 	self subclassResponsibility
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQAbstractQueryTest >> testPrintOn [
 
 	self assert: query printString equals: self expectedPrintOnString.
@@ -103,7 +105,7 @@ FQAbstractQueryTest >> testPrintOn [
 		equals: 'a ' , self actualClass name , ' (invalid)'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQAbstractQueryTest >> testRemoveChild [
 	| child |
 	child := self differentTypeOfQuery.
@@ -112,17 +114,17 @@ FQAbstractQueryTest >> testRemoveChild [
 	self deny: (query children includes: child)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQAbstractQueryTest >> testResult [
 	self subclassResponsibility
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQAbstractQueryTest >> testRunOn [
 	self subclassResponsibility
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQAbstractQueryTest >> testStoreOn [
 	| generatedQuery |
 	generatedQuery := self
@@ -131,7 +133,7 @@ FQAbstractQueryTest >> testStoreOn [
 	self assert: (generatedQuery hasSameParametersAs: query)
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQueryTest >> unConfiguredQuery [
 	^ self actualClass new
 ]

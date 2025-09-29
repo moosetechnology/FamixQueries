@@ -1,33 +1,35 @@
 Class {
-	#name : #FQSelectScriptQueryTest,
-	#superclass : #FQUnaryQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQSelectScriptQueryTest',
+	#superclass : 'FQUnaryQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQSelectScriptQueryTest >> actualClass [
 	^ FQSelectScriptQuery 
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQSelectScriptQueryTest >> newQuery [
 	^ self unConfiguredQuery
 		script: [ :each | false ]
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQSelectScriptQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :stream | query displayOn: stream ])
 		equals: 'aMooseGroup select: [ :each | false ]'.
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQSelectScriptQueryTest >> testName [
 	self assert: query name equals: 'select: [ :each | false ]'.
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQSelectScriptQueryTest >> testPrintOn [
 
 	self assert: query printString equals: 'a FQSelectScriptQuery (select: [ :each | false ])'.
@@ -36,7 +38,7 @@ FQSelectScriptQueryTest >> testPrintOn [
 		equals: 'a FQSelectScriptQuery (invalid)'
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQSelectScriptQueryTest >> testRunOn [
 	self assertEmpty: (query runOn: #(1 2 3)).
 

@@ -1,28 +1,30 @@
 Class {
-	#name : #FQSubtractionQueryTest,
-	#superclass : #FQNAryQueryTest,
-	#category : #'Famix-Queries-Tests-N-ary'
+	#name : 'FQSubtractionQueryTest',
+	#superclass : 'FQNAryQueryTest',
+	#category : 'Famix-Queries-Tests-N-ary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'N-ary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQSubtractionQueryTest >> actualClass [
 	^ FQSubtractionQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQSubtractionQueryTest >> expectedPrintOnString [
 
 	^ 'a FQSubtractionQuery (' , self firstParentOfQuery name , ' \ '
 	  , self secondParentOfQuery name , ')'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQSubtractionQueryTest >> expectedResult [
 	^ (self firstParentOfQuery runOn: helper classesAndMethods)
 		difference: (self secondParentOfQuery runOn: helper classesAndMethods)
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQSubtractionQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -34,7 +36,7 @@ FQSubtractionQueryTest >> testDisplayOn [
 			result ]) asMooseGroup) \ (aMooseGroup allWithType: FamixStClass)'
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQSubtractionQueryTest >> testName [
 	self
 		assert: query name
@@ -44,7 +46,7 @@ FQSubtractionQueryTest >> testName [
 		equals: 'Invalid Difference Query'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQSubtractionQueryTest >> testReversParents [
 	| parent1 parent2 |
 	parent1 := self firstParentOfQuery.

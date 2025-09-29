@@ -1,23 +1,25 @@
 Class {
-	#name : #FQSequenceQueryTest,
-	#superclass : #TestCase,
+	#name : 'FQSequenceQueryTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'helper',
 		'querySequence',
 		'nAryQuerySequence',
 		'complementQuerySequence'
 	],
-	#category : #'Famix-Queries-Tests-Core'
+	#category : 'Famix-Queries-Tests-Core',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 FQSequenceQueryTest >> initializeComplementQuerySequence [
 
 	complementQuerySequence := FQComplementQuery queryToNegate:
 		                           (FQTypeQuery types: { FamixStClass })
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 FQSequenceQueryTest >> initializeNAryQuerySequence [
 
 	nAryQuerySequence := (FQTypeQuery types: { FamixStClass })
@@ -27,7 +29,7 @@ FQSequenceQueryTest >> initializeNAryQuerySequence [
 			                      valueToCompare: 'i')
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 FQSequenceQueryTest >> initializeQuerySequence [
 
 	querySequence := (FQTypeQuery types: { FamixStClass })
@@ -38,13 +40,13 @@ FQSequenceQueryTest >> initializeQuerySequence [
 			                  valueToCompare: 'i')
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 FQSequenceQueryTest >> querySequence [
 
 	^ querySequence
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQSequenceQueryTest >> setUp [
 
 	super setUp.
@@ -54,7 +56,7 @@ FQSequenceQueryTest >> setUp [
 	self initializeComplementQuerySequence
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQSequenceQueryTest >> testExecuteOn [
 
 	self
@@ -64,7 +66,7 @@ FQSequenceQueryTest >> testExecuteOn [
 					  (querySequence parent parent runOn: helper modelExample)))
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQSequenceQueryTest >> testExecuteOnWithComplementQuery [
 
 	self
@@ -75,7 +77,7 @@ FQSequenceQueryTest >> testExecuteOnWithComplementQuery [
 			 helper modelExample)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQSequenceQueryTest >> testExecuteOnWithNAryQuery [
 
 	self
@@ -86,7 +88,7 @@ FQSequenceQueryTest >> testExecuteOnWithNAryQuery [
 			(nAryQuerySequence subqueries second executeOn: helper modelExample)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQSequenceQueryTest >> testHasParent [
 
 	self assert: querySequence parent isNotNil

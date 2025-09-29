@@ -11,76 +11,78 @@ I know the API for adding and removing associations.
 	- Removing an association will return an FQNavigationAssociations with all association but the removed one, instead of self.
 "
 Class {
-	#name : #FQAllNavigationAssociations,
-	#superclass : #FQAbstractNavigationAssociations,
-	#category : #'Famix-Queries-Navigation-Strategies'
+	#name : 'FQAllNavigationAssociations',
+	#superclass : 'FQAbstractNavigationAssociations',
+	#category : 'Famix-Queries-Navigation-Strategies',
+	#package : 'Famix-Queries',
+	#tag : 'Navigation-Strategies'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQAllNavigationAssociations >> = anAssociationStrategy [
 	^ anAssociationStrategy class = self class
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 FQAllNavigationAssociations >> addAssociation: anAssociation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAllNavigationAssociations >> associationsFor: aQuery [
 	^ aQuery availableAssociations
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAllNavigationAssociations >> associationsNames [
 	^ 'associations'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAllNavigationAssociations >> displayIncomingOn: aStream [
 	aStream << 'entity queryAllIncoming opposites'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAllNavigationAssociations >> displayLocalIncomingOn: aStream [
 	aStream << 'entity queryAllLocalIncoming opposites'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAllNavigationAssociations >> displayLocalOutgoingOn: aStream [
 	aStream << 'entity queryAllLocalOutgoing opposites'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAllNavigationAssociations >> displayOutgoingOn: aStream [
 	aStream << 'entity queryAllOutgoing opposites'
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQAllNavigationAssociations >> queryIncomingWith: anEntity [
 
 	^ anEntity query incoming objects dependencies withoutSelfLoops
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQAllNavigationAssociations >> queryLocalIncomingWith: anEntity [
 
 	^ anEntity query incoming local objects dependencies withoutSelfLoops
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQAllNavigationAssociations >> queryLocalOutgoingWith: anEntity [
 
 	^ anEntity query outgoing local objects dependencies withoutSelfLoops
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQAllNavigationAssociations >> queryOutgoingWith: anEntity [
 
 	^ anEntity query outgoing objects dependencies withoutSelfLoops
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAllNavigationAssociations >> storeOn: aStream [
 	aStream << ' allAssociations'
 ]

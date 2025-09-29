@@ -1,21 +1,23 @@
 Class {
-	#name : #FQUnaryQueryTest,
-	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQUnaryQueryTest',
+	#superclass : 'FQAbstractQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQUnaryQueryTest class >> isAbstract [
 	^ self == FQUnaryQueryTest
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQUnaryQueryTest >> newParentQuery [
 
 	^ FQRootQuery new input: helper classes
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQUnaryQueryTest >> testBeChildOf [
 	| parent |
 	parent := self differentTypeOfQuery.
@@ -24,7 +26,7 @@ FQUnaryQueryTest >> testBeChildOf [
 	self assert: (parent children includes: query)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQUnaryQueryTest >> testDependencies [
 
 	| q1 q2 |
@@ -36,7 +38,7 @@ FQUnaryQueryTest >> testDependencies [
 	self assert: query dependencies asArray equals: { q2. q1 }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQUnaryQueryTest >> testNegatedResult [
 
 	"| intersect |
@@ -55,7 +57,7 @@ FQUnaryQueryTest >> testNegatedResult [
 	self assert: true
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQUnaryQueryTest >> testParent [
 	| parent |
 	parent := self newParentQuery.
@@ -63,7 +65,7 @@ FQUnaryQueryTest >> testParent [
 	self assert: query parent equals: parent
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQUnaryQueryTest >> testParentSequence [
 
 	query isRootQuery ifTrue: [ self skip ].
@@ -83,7 +85,7 @@ FQUnaryQueryTest >> testParentSequence [
 			query parent }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQUnaryQueryTest >> testPrepareRemoval [
 	| parent |
 	query isRootQuery
@@ -97,7 +99,7 @@ FQUnaryQueryTest >> testPrepareRemoval [
 	self deny: (parent children includes: query)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQUnaryQueryTest >> testResult [
 	query beChildOf: self newParentQuery.
 	self

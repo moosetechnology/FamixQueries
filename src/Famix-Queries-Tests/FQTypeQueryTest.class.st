@@ -1,33 +1,35 @@
 Class {
-	#name : #FQTypeQueryTest,
-	#superclass : #FQUnaryQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQTypeQueryTest',
+	#superclass : 'FQUnaryQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQTypeQueryTest >> actualClass [
 	^ FQTypeQuery
 ]
 
-{ #category : #'tests - available parameters' }
+{ #category : 'tests - available parameters' }
 FQTypeQueryTest >> allNamedEntitiesTypes [
 
 	^ (helper modelExample rawAllUsing: FamixTNamedEntity) collect: #class
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQTypeQueryTest >> assertRunOnResult [
 	self
 		assertCollection: (query runOn: helper modelExample)
 		hasSameElements: self expectedResult
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQTypeQueryTest >> expectedPrintOnString [
 	^ 'a FQTypeQuery (Classes, Methods)'
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQTypeQueryTest >> expectedResult [
 	"does not reject #isStub"
 
@@ -36,14 +38,14 @@ FQTypeQueryTest >> expectedResult [
 		asMooseGroup
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQTypeQueryTest >> newQuery [
 	^ self unConfiguredQuery
 		type: FamixStClass;
 		type: FamixStMethod
 ]
 
-{ #category : #'tests - adding - removing' }
+{ #category : 'tests - adding - removing' }
 FQTypeQueryTest >> testAddType [
 	query := self unConfiguredQuery.
 	query addType: FamixStMethod.
@@ -52,7 +54,7 @@ FQTypeQueryTest >> testAddType [
 	self assert: (query types occurrencesOf: FamixStMethod) equals: 1
 ]
 
-{ #category : #'tests - available parameters' }
+{ #category : 'tests - available parameters' }
 FQTypeQueryTest >> testAvailableTypesFor [
 	| availableTypes |
 	availableTypes := query availableTypesFor: helper modelExample.
@@ -64,7 +66,7 @@ FQTypeQueryTest >> testAvailableTypesFor [
 			[ :type | self assert: (availableTypes occurrencesOf: type) equals: 1 ]
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQTypeQueryTest >> testDisplayOn [
 	"Class"
 	query := self unConfiguredQuery type: FamixStClass.
@@ -86,7 +88,7 @@ FQTypeQueryTest >> testDisplayOn [
 			'(aMooseGroup allUsing: FamixTClass) | (aMooseGroup allWithType: FamixStMethod)'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQTypeQueryTest >> testIsValid [
 
 	self assert: query isValid.
@@ -97,14 +99,14 @@ FQTypeQueryTest >> testIsValid [
 	self deny: (self newQuery type: 'Not a type') isValid
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQTypeQueryTest >> testName [
 
 	self assert: query name equals: 'Classes, Methods'.
 	self assert: self unConfiguredQuery name equals: 'Invalid Type Query'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQTypeQueryTest >> testPrintOn [
 
 	self assert: query printString equals: self expectedPrintOnString.
@@ -113,7 +115,7 @@ FQTypeQueryTest >> testPrintOn [
 		equals: 'a ' , self actualClass name , ' (invalid)'
 ]
 
-{ #category : #'tests - adding - removing' }
+{ #category : 'tests - adding - removing' }
 FQTypeQueryTest >> testRemoveType [
 
 	query removeType: FamixStMethod.
@@ -121,7 +123,7 @@ FQTypeQueryTest >> testRemoveType [
 	query removeType: FamixStClass
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQTypeQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 
@@ -141,7 +143,7 @@ FQTypeQueryTest >> testRunOn [
 	self assertRunOnResult
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQTypeQueryTest >> testSyntacticSugar [
 	query := self unConfiguredQuery type: FamixTMethod.
 	self assertCollection: query types hasSameElements: {FamixTMethod}.
@@ -154,7 +156,7 @@ FQTypeQueryTest >> testSyntacticSugar [
 			FamixStClass}
 ]
 
-{ #category : #'tests - adding - removing' }
+{ #category : 'tests - adding - removing' }
 FQTypeQueryTest >> testTypes [
 	query := self unConfiguredQuery.
 	query

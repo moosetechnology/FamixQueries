@@ -1,35 +1,37 @@
 Class {
-	#name : #FQNAryQueryTest,
-	#superclass : #FQAbstractQueryTest,
-	#category : #'Famix-Queries-Tests-N-ary'
+	#name : 'FQNAryQueryTest',
+	#superclass : 'FQAbstractQueryTest',
+	#category : 'Famix-Queries-Tests-N-ary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'N-ary'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQNAryQueryTest class >> isAbstract [
 	^ self == FQNAryQueryTest
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNAryQueryTest >> expectedResult [
 	^ self subclassResponsibility
 ]
 
-{ #category : #parents }
+{ #category : 'parents' }
 FQNAryQueryTest >> firstParentOfQuery [
 	^ query subqueries first
 ]
 
-{ #category : #parents }
+{ #category : 'parents' }
 FQNAryQueryTest >> newBooleanParent [
 	^ FQBooleanQuery new property: #isAbstract
 ]
 
-{ #category : #parents }
+{ #category : 'parents' }
 FQNAryQueryTest >> newInvalidParent [
 	^ FQBooleanQuery new
 ]
 
-{ #category : #parents }
+{ #category : 'parents' }
 FQNAryQueryTest >> newNavigationParent [
 	^ FQNavigationQuery incoming
 		associations:
@@ -37,7 +39,7 @@ FQNAryQueryTest >> newNavigationParent [
 			FamixStInheritance}
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNAryQueryTest >> newQuery [
 
 	"This gives different, non-empty results for each binary query"
@@ -50,7 +52,7 @@ FQNAryQueryTest >> newQuery [
 			  secondParentQuery }
 ]
 
-{ #category : #parents }
+{ #category : 'parents' }
 FQNAryQueryTest >> newStringParent [
 	^ FQStringQuery new
 		property: #name;
@@ -58,30 +60,30 @@ FQNAryQueryTest >> newStringParent [
 		valueToCompare: 'LANP'
 ]
 
-{ #category : #parents }
+{ #category : 'parents' }
 FQNAryQueryTest >> newTypeParent [
 	^ FQTypeQuery new type: FamixStClass
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNAryQueryTest >> parentQueriesResult [
 	^ {self firstParentOfQuery.
 	self secondParentOfQuery}
 		collect: [ :q | q runOn: helper classesAndMethods ]
 ]
 
-{ #category : #parents }
+{ #category : 'parents' }
 FQNAryQueryTest >> secondParentOfQuery [
 	^ query subqueries second
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNAryQueryTest >> testDependencies [
 
 	self assert: query dependencies asArray equals: query subqueries asArray
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNAryQueryTest >> testIsValid [
 
 	self deny: (self unConfiguredQuery subqueries: { 
@@ -89,13 +91,13 @@ FQNAryQueryTest >> testIsValid [
 				 self newInvalidParent }) isValid
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNAryQueryTest >> testParentSequence [
 
 	self assert: query parentSequence equals: #(  )
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNAryQueryTest >> testParents [
 	| newParents previousParents |
 	newParents := {self newBooleanParent.
@@ -107,7 +109,7 @@ FQNAryQueryTest >> testParents [
 	self deny: (query subqueries includesAny: previousParents)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNAryQueryTest >> testResult [
 
 	query subqueries do: [ :parent |
@@ -117,7 +119,7 @@ FQNAryQueryTest >> testResult [
 		hasSameElements: (query runOn: self parentQueriesResult)
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQNAryQueryTest >> testRunOn [
 	self assert: self expectedResult isNotEmpty.
 	self
@@ -126,7 +128,7 @@ FQNAryQueryTest >> testRunOn [
 		hasSameElements: self expectedResult
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNAryQueryTest >> testSubqueries [
 
 	| subqueries |

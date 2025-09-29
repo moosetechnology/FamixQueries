@@ -1,23 +1,25 @@
 Class {
-	#name : #FQTestsHelper,
-	#superclass : #Object,
+	#name : 'FQTestsHelper',
+	#superclass : 'Object',
 	#instVars : [
 		'model',
 		'classes',
 		'methods',
 		'classesAndMethods'
 	],
-	#category : #'Famix-Queries-Tests-Helper'
+	#category : 'Famix-Queries-Tests-Helper',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Helper'
 }
 
-{ #category : #entities }
+{ #category : 'entities' }
 FQTestsHelper >> classes [
 	^ classes
 		ifNil: [ classes := MooseGroup
 				withAll: {self modelExample allModelClasses} flatten ]
 ]
 
-{ #category : #entities }
+{ #category : 'entities' }
 FQTestsHelper >> classesAndMethods [
 	^ classesAndMethods
 		ifNil: [ classesAndMethods := MooseGroup
@@ -26,17 +28,17 @@ FQTestsHelper >> classesAndMethods [
 					self methods} flatten ]
 ]
 
-{ #category : #entities }
+{ #category : 'entities' }
 FQTestsHelper >> entitiesWithNoDownScope [
 	^ self modelExample allWithType: FamixStAnnotationInstanceAttribute
 ]
 
-{ #category : #entities }
+{ #category : 'entities' }
 FQTestsHelper >> entitiesWithNoIncomingAssociations [
 	^ self modelExample allWithType: FamixStAnnotationInstanceAttribute
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FQTestsHelper >> initialize [
 
 	model := FamixStModel new.
@@ -46,19 +48,19 @@ FQTestsHelper >> initialize [
 		run
 ]
 
-{ #category : #entities }
+{ #category : 'entities' }
 FQTestsHelper >> methods [
 	^ methods
 		ifNil: [ methods := MooseGroup
 				withAll: {self modelExample allModelMethods} flatten ]
 ]
 
-{ #category : #entities }
+{ #category : 'entities' }
 FQTestsHelper >> modelExample [
 	^ model
 ]
 
-{ #category : #entities }
+{ #category : 'entities' }
 FQTestsHelper >> noEntities [
 	^ MooseGroup new
 ]

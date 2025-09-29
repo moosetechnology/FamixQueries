@@ -13,15 +13,17 @@ You can add or remove associations.
 	- Trying to remove the last association will trigger a FQCannotRemoveLastNavigationAssociation error.
 "
 Class {
-	#name : #FQNavigationAssociations,
-	#superclass : #FQAbstractNavigationAssociations,
+	#name : 'FQNavigationAssociations',
+	#superclass : 'FQAbstractNavigationAssociations',
 	#instVars : [
 		'associations'
 	],
-	#category : #'Famix-Queries-Navigation-Strategies'
+	#category : 'Famix-Queries-Navigation-Strategies',
+	#package : 'Famix-Queries',
+	#tag : 'Navigation-Strategies'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQNavigationAssociations class >> with: aFamixClass [
 
 	^ self new
@@ -29,7 +31,7 @@ FQNavigationAssociations class >> with: aFamixClass [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQNavigationAssociations class >> withAll: aCollection [
 
 	| associations |
@@ -40,13 +42,13 @@ FQNavigationAssociations class >> withAll: aCollection [
 		  yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQNavigationAssociations >> = anAssociationStrategy [
 	^ self class = anAssociationStrategy class
 		and: [ associations sameElements: anAssociationStrategy associations ]
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 FQNavigationAssociations >> addAssociation: anAssociation [
 	(self associations includes: anAssociation)
 		ifTrue: [ ^ self ].
@@ -56,23 +58,23 @@ FQNavigationAssociations >> addAssociation: anAssociation [
 	self associations add: anAssociation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationAssociations >> associations [
 
 	^ associations as: OrderedCollection
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationAssociations >> associations: anObject [
 	associations := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationAssociations >> associationsFor: aQuery [
 	^ self associations
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQNavigationAssociations >> associationsNames [
 	^ String
 		streamContents: [ :s | 
@@ -81,7 +83,7 @@ FQNavigationAssociations >> associationsNames [
 			s << self associations last mooseDescription name asEnglishPlural ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNavigationAssociations >> displayIncomingOn: aStream [
 	"The condition is not really needed since the generated script of one branch will be valid all the time, but it is present to print a nicer script to the user."
 
@@ -95,7 +97,7 @@ FQNavigationAssociations >> displayIncomingOn: aStream [
 			aStream << ' } flatCollect: [ :association | (entity queryIncoming: association) opposites ])' ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNavigationAssociations >> displayLocalIncomingOn: aStream [
 	"The condition is not really needed since the generated script of one branch will be valid all the time, but it is present to print a nicer script to the user."
 
@@ -113,7 +115,7 @@ FQNavigationAssociations >> displayLocalIncomingOn: aStream [
 					' } flatCollect: [ :association | (entity queryLocalIncoming: association) opposites ])' ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNavigationAssociations >> displayLocalOutgoingOn: aStream [
 	"The condition is not really needed since the generated script of one branch will be valid all the time, but it is present to print a nicer script to the user."
 
@@ -131,7 +133,7 @@ FQNavigationAssociations >> displayLocalOutgoingOn: aStream [
 					' } flatCollect: [ :association | (entity queryLocalOutgoing: association) opposites ])' ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNavigationAssociations >> displayOutgoingOn: aStream [
 	"The condition is not really needed since the generated script of one branch will be valid all the time, but it is present to print a nicer script to the user."
 
@@ -145,42 +147,42 @@ FQNavigationAssociations >> displayOutgoingOn: aStream [
 			aStream << ' } flatCollect: [ :association | (entity queryOutgoing: association) opposites ])' ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FQNavigationAssociations >> initialize [
 	super initialize.
 	associations := OrderedCollection new.
 	self flag: 'This is not a Set only because of displayOn tests.'
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQNavigationAssociations >> queryIncomingWith: anEntity [
 
 	^ (anEntity query incoming objects dependenciesOfAnyType:
 		   self associations) withoutSelfLoops
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQNavigationAssociations >> queryLocalIncomingWith: anEntity [
 
 	^ (anEntity query incoming local objects dependenciesOfAnyType:
 		   self associations) withoutSelfLoops
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQNavigationAssociations >> queryLocalOutgoingWith: anEntity [
 
 	^ (anEntity query outgoing local objects dependenciesOfAnyType:
 		   self associations) withoutSelfLoops
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 FQNavigationAssociations >> queryOutgoingWith: anEntity [
 
 	^ (anEntity query outgoing objects dependenciesOfAnyType:
 		   self associations) withoutSelfLoops
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQNavigationAssociations >> storeOn: aStream [
 	aStream << ' associations: {'.
 	self associations

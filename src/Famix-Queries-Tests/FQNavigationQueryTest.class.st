@@ -1,15 +1,17 @@
 Class {
-	#name : #FQNavigationQueryTest,
-	#superclass : #FQUnaryQueryTest,
-	#category : #'Famix-Queries-Tests-Unary'
+	#name : 'FQNavigationQueryTest',
+	#superclass : 'FQUnaryQueryTest',
+	#category : 'Famix-Queries-Tests-Unary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQNavigationQueryTest >> actualClass [
 	^ FQNavigationQuery
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> allIncomingForClassExample [
 
 	^ self incomingAccessesForClassExample
@@ -17,24 +19,24 @@ FQNavigationQueryTest >> allIncomingForClassExample [
 	  , self incomingReferencesForClassExample
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> allLocalIncomingForClassExample [
 	^ self localIncomingReferencesForClassExample
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> allLocalOutgoingForClassExample [
 	^ self localOutgoingInheritancesForClassExample
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> allOutgoingForClassExample [
 	^ self outgoingAccessesForClassExample
 		, self outgoingInheritancesForClassExample
 		, self outgoingInvocationsForClassExample
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQNavigationQueryTest >> assertDisplayOneAssociation [
 	query
 		associationStrategy: (FQNavigationAssociations with: FamixTInvocation).
@@ -48,7 +50,7 @@ FQNavigationQueryTest >> assertDisplayOneAssociation [
 			result ]) asMooseGroup'
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQNavigationQueryTest >> assertDisplayTwoAssociations [
 	query
 		associationStrategy:
@@ -66,19 +68,19 @@ FQNavigationQueryTest >> assertDisplayTwoAssociations [
 			result ]) asMooseGroup'
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> classExample [
 	^ MooseAbstractGroup new
 		add: (helper modelExample entityNamed: 'Smalltalk.LANPacket');
 		yourself
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNavigationQueryTest >> expectedPrintOnString [
 	^ 'a FQNavigationQuery (Incoming associations)'
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> incomingAccessesForClassExample [
 
 	"(self classExample anyOne queryIncoming: FamixTAccess) opposites"
@@ -86,7 +88,7 @@ FQNavigationQueryTest >> incomingAccessesForClassExample [
 	^ MooseGroup new
 ]
 
-{ #category : #'running - queries' }
+{ #category : 'running - queries' }
 FQNavigationQueryTest >> incomingAllAssociationsQuery [
 
 	^ self actualClass new
@@ -95,7 +97,7 @@ FQNavigationQueryTest >> incomingAllAssociationsQuery [
 		  beChildOf: (FQRootQuery new input: helper classesAndMethods)
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> incomingInvocationsForClassExample [
 
 	"(self classExample anyOne queryIncoming: FamixTInvocation) opposites"
@@ -118,7 +120,7 @@ FQNavigationQueryTest >> incomingInvocationsForClassExample [
 		  yourself
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> incomingReferencesForClassExample [
 
 	"(self classExample anyOne queryIncoming: FamixTReferences) opposites"
@@ -131,7 +133,7 @@ FQNavigationQueryTest >> incomingReferencesForClassExample [
 		  yourself
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQNavigationQueryTest >> incomingTest [
 	self
 		assertCollection: (query runOn: self classExample)
@@ -150,7 +152,7 @@ FQNavigationQueryTest >> incomingTest [
 	self assert: (query runOn: self classExample) isEmpty
 ]
 
-{ #category : #'running - queries' }
+{ #category : 'running - queries' }
 FQNavigationQueryTest >> localIncomingAllAssociationsQuery [
 
 	^ self actualClass new
@@ -159,7 +161,7 @@ FQNavigationQueryTest >> localIncomingAllAssociationsQuery [
 		  beChildOf: (FQRootQuery new input: helper classesAndMethods)
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> localIncomingReferencesForClassExample [
 
 	"(self classExample anyOne queryLocalIncoming: FamixTReference) opposites"
@@ -172,7 +174,7 @@ FQNavigationQueryTest >> localIncomingReferencesForClassExample [
 		  yourself
 ]
 
-{ #category : #'running - queries' }
+{ #category : 'running - queries' }
 FQNavigationQueryTest >> localOutgoingAllAssociationsQuery [
 
 	^ self actualClass new
@@ -181,7 +183,7 @@ FQNavigationQueryTest >> localOutgoingAllAssociationsQuery [
 		  beChildOf: (FQRootQuery new input: helper classesAndMethods)
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> localOutgoingInheritancesForClassExample [
 
 	"(self classExample anyOne queryLocalOutgoing: FamixTInheritance) opposites"
@@ -191,7 +193,7 @@ FQNavigationQueryTest >> localOutgoingInheritancesForClassExample [
 		  yourself
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQNavigationQueryTest >> localOutgoingTest [
 	query := self localOutgoingAllAssociationsQuery.
 	self
@@ -211,7 +213,7 @@ FQNavigationQueryTest >> localOutgoingTest [
 	self assert: (query runOn: self classExample) isEmpty
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQNavigationQueryTest >> localincomingTest [
 	query := self localIncomingAllAssociationsQuery.
 	self
@@ -231,12 +233,12 @@ FQNavigationQueryTest >> localincomingTest [
 	self assert: (query runOn: self classExample) isEmpty
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQNavigationQueryTest >> newQuery [
 	^ self incomingAllAssociationsQuery
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> outgoingAccessesForClassExample [
 
 	"(self classExample anyOne queryOutgoing: FamixTAccess) opposites"
@@ -244,7 +246,7 @@ FQNavigationQueryTest >> outgoingAccessesForClassExample [
 	^ MooseGroup new
 ]
 
-{ #category : #'running - queries' }
+{ #category : 'running - queries' }
 FQNavigationQueryTest >> outgoingAllAssociationsQuery [
 
 	^ self actualClass new
@@ -253,7 +255,7 @@ FQNavigationQueryTest >> outgoingAllAssociationsQuery [
 		  beChildOf: (FQRootQuery new input: helper classesAndMethods)
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> outgoingInheritancesForClassExample [
 
 	"(self classExample anyOne queryOutgoing: FamixTInheritance) opposites"
@@ -263,7 +265,7 @@ FQNavigationQueryTest >> outgoingInheritancesForClassExample [
 		  yourself
 ]
 
-{ #category : #'class example' }
+{ #category : 'class example' }
 FQNavigationQueryTest >> outgoingInvocationsForClassExample [
 
 	"(self classExample anyOne queryOutgoing: FamixTInvocation) opposites"
@@ -280,7 +282,7 @@ FQNavigationQueryTest >> outgoingInvocationsForClassExample [
 		  yourself
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQNavigationQueryTest >> outgoingTest [
 
 	query := self outgoingAllAssociationsQuery.
@@ -301,7 +303,7 @@ FQNavigationQueryTest >> outgoingTest [
 	self assert: (query runOn: self classExample) isEmpty
 ]
 
-{ #category : #'tests - adding - removing' }
+{ #category : 'tests - adding - removing' }
 FQNavigationQueryTest >> testAddAllAssociations [
 
 	query associationStrategy: FQNavigationAssociations new.
@@ -315,7 +317,7 @@ FQNavigationQueryTest >> testAddAllAssociations [
 		identicalTo: FQAllNavigationAssociations
 ]
 
-{ #category : #'tests - adding - removing' }
+{ #category : 'tests - adding - removing' }
 FQNavigationQueryTest >> testAddAssociation [
 	query associationStrategy: FQNavigationAssociations new.
 
@@ -329,7 +331,7 @@ FQNavigationQueryTest >> testAddAssociation [
 		equals: 1
 ]
 
-{ #category : #'tests - available parameters' }
+{ #category : 'tests - available parameters' }
 FQNavigationQueryTest >> testAvailableAssociationsFor [
 	| availableAssociations |
 	availableAssociations := query
@@ -339,14 +341,14 @@ FQNavigationQueryTest >> testAvailableAssociationsFor [
 		includesAll: availableAssociations
 ]
 
-{ #category : #'tests - available parameters' }
+{ #category : 'tests - available parameters' }
 FQNavigationQueryTest >> testAvailableDirections [
 	self
 		assertCollection: query class directionStrategies
 		includesAll: FQAbstractNavigationDirection allSubclasses
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQNavigationQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -360,7 +362,7 @@ FQNavigationQueryTest >> testDisplayOn [
 	self assertDisplayTwoAssociations
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNavigationQueryTest >> testIsValid [
 	super testIsValid.
 	self
@@ -371,7 +373,7 @@ FQNavigationQueryTest >> testIsValid [
 				isValid
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQNavigationQueryTest >> testName [
 	query := self actualClass new
 		directionStrategy: FQLocalIncomingNavigation;
@@ -386,7 +388,7 @@ FQNavigationQueryTest >> testName [
 		equals: 'Invalid Navigation Query'
 ]
 
-{ #category : #'tests - adding - removing' }
+{ #category : 'tests - adding - removing' }
 FQNavigationQueryTest >> testRemoveAssociation [
 
 	query parent: (FQRootQuery new input: helper classesAndMethods).
@@ -400,7 +402,7 @@ FQNavigationQueryTest >> testRemoveAssociation [
 	query removeAssociation: FamixStAccess
 ]
 
-{ #category : #'tests - running' }
+{ #category : 'tests - running' }
 FQNavigationQueryTest >> testRunOn [
 	self incomingTest.
 	self localincomingTest.
@@ -408,7 +410,7 @@ FQNavigationQueryTest >> testRunOn [
 	self localOutgoingTest
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQNavigationQueryTest >> testStoreOn [
 	| generatedQuery |
 	generatedQuery := self
@@ -418,7 +420,7 @@ FQNavigationQueryTest >> testStoreOn [
 	self assert: (generatedQuery hasSameParametersAs: query)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FQNavigationQueryTest >> testSyntacticSugar [
 	query := self actualClass incoming
 		associations:

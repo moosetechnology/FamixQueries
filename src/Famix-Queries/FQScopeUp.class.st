@@ -16,39 +16,41 @@ I also provide #availableScopesForEntity: method.
 It returns the types of the entities that contain the input entity.
 "
 Class {
-	#name : #FQScopeUp,
-	#superclass : #FQAbstractScopeDirection,
-	#category : #'Famix-Queries-Scope-Strategies'
+	#name : 'FQScopeUp',
+	#superclass : 'FQAbstractScopeDirection',
+	#category : 'Famix-Queries-Scope-Strategies',
+	#package : 'Famix-Queries',
+	#tag : 'Scope-Strategies'
 }
 
-{ #category : #'available scopes' }
+{ #category : 'available scopes' }
 FQScopeUp class >> availableScopesForEntity: class in: model [
 	^ self allParentsScopesOf: class in: model
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScopeUp class >> label [
 	^ 'Up'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeUp class >> priority [
 	^ 10
 ]
 
-{ #category : #scoping }
+{ #category : 'scoping' }
 FQScopeUp class >> scope: aFamixClass on: entity [
 
 	^ entity query ancestors ofType: aFamixClass
 ]
 
-{ #category : #scoping }
+{ #category : 'scoping' }
 FQScopeUp class >> scope: aFamixClass recursively: aBoolean on: entity [
 
 	^ (entity query ancestors isRecursive: aBoolean) ofType: aFamixClass
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScopeUp class >> scopingSelector [
 	^ #atScope:
 ]

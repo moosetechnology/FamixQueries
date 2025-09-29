@@ -3,12 +3,14 @@ Implements a manual collect query.
 It has a ""script"" (a pharo block with one argument) that collect entities from a collection of MooseEntities
 "
 Class {
-	#name : #FQCollectScriptQuery,
-	#superclass : #FQScriptQuery,
-	#category : #'Famix-Queries-Queries-Unary'
+	#name : 'FQCollectScriptQuery',
+	#superclass : 'FQScriptQuery',
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQCollectScriptQuery >> addResultsFor: entity in: res [
 
 	| collected |
@@ -19,12 +21,12 @@ FQCollectScriptQuery >> addResultsFor: entity in: res [
 	^ res
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQCollectScriptQuery >> beDefaultForParent [
 	script := [ :each | false ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQCollectScriptQuery >> defaultName [
 	^ String
 		streamContents: [ :s | 
@@ -32,13 +34,13 @@ FQCollectScriptQuery >> defaultName [
 			(script asString truncateWithElipsisTo: 20) ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQCollectScriptQuery >> rawRunOn: aMooseGroup [
 
 	^ (aMooseGroup rawAllUsing: TEntityMetaLevelDependency) inject: Set new into: [ :res :entity | self addResultsFor: entity in: res ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQCollectScriptQuery >> rawRunOnEntity: anEntity [
 
 	^ anEntity isQueryable

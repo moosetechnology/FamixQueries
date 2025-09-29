@@ -27,43 +27,45 @@ See subclasses.
 See subclasses
 "
 Class {
-	#name : #FQAbstractQuery,
-	#superclass : #Object,
+	#name : 'FQAbstractQuery',
+	#superclass : 'Object',
 	#instVars : [
 		'name',
 		'result',
 		'children'
 	],
-	#category : #'Famix-Queries-Core'
+	#category : 'Famix-Queries-Core',
+	#package : 'Famix-Queries',
+	#tag : 'Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQAbstractQuery class >> defaultForParent: aQuery [
 
 	^ self new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQAbstractQuery class >> isUnaryQuery [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractQuery class >> label [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQAbstractQuery class >> readFrom: aString [
 	^ self compiler evaluate: aString
 ]
 
-{ #category : #composition }
+{ #category : 'composition' }
 FQAbstractQuery >> & anotherQuery [
 	^ self intersection: anotherQuery
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQAbstractQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -72,46 +74,46 @@ FQAbstractQuery >> = anObject [
 	^ self name = anObject name and: [ self children = anObject children ]
 ]
 
-{ #category : #composition }
+{ #category : 'composition' }
 FQAbstractQuery >> \ anotherQuery [
 
 	^ self subtraction: anotherQuery
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FQAbstractQuery >> addChild: aQuery [
 	children add: aQuery
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractQuery >> buildDefaultName [
 	self isValid
 		ifFalse: [ ^ self invalidDefaultName ].
 	^ self defaultName
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQAbstractQuery >> canBeNegated [
 	^false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractQuery >> children [
 
 	^ children
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQuery >> computeResult [
 	^ self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractQuery >> defaultName [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractQuery >> dependencies [
 
 	"Queries by default don't have any dependency"
@@ -119,12 +121,12 @@ FQAbstractQuery >> dependencies [
 	^ #(  )
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractQuery >> displayOn: aStream [
 	^ self subclassResponsibility
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 FQAbstractQuery >> executeOn: aMooseGroup [
 
 	| root |
@@ -134,26 +136,26 @@ FQAbstractQuery >> executeOn: aMooseGroup [
 	^ self result
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractQuery >> hasSameParametersAs: aQuery [ 
 	^ self subclassResponsibility
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQAbstractQuery >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
 	^ name hash bitXor: children hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FQAbstractQuery >> initialize [
 
 	super initialize.
 	children := OrderedCollection new
 ]
 
-{ #category : #composition }
+{ #category : 'composition' }
 FQAbstractQuery >> intersection: anotherQuery [
 
 	^ FQIntersectionQuery new subqueries: { 
@@ -161,49 +163,49 @@ FQAbstractQuery >> intersection: anotherQuery [
 			  anotherQuery }
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractQuery >> invalidDefaultName [
 	^ 'Invalid ' , self class label
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQAbstractQuery >> isRootQuery [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQAbstractQuery >> isScriptQuery [
 
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQAbstractQuery >> isUnaryQuery [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQAbstractQuery >> isValid [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractQuery >> name [
 	^ name ifNil: [ self buildDefaultName ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractQuery >> name: aString [
 	name := aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractQuery >> parent [
 
 	^ nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractQuery >> parent: aQuery [
 
 	"Do nothing"
@@ -211,24 +213,24 @@ FQAbstractQuery >> parent: aQuery [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractQuery >> parentSequence [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQAbstractQuery >> parentSequenceWithoutRoot [
 
 	^ OrderedCollection new
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FQAbstractQuery >> prepareRemoval [
 	^ self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractQuery >> printOn: aStream [
 	super printOn: aStream.
 	self isValid
@@ -237,63 +239,63 @@ FQAbstractQuery >> printOn: aStream [
 	aStream << Character space << (self name join: '()')
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQuery >> rawRunOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new collection with my result. This collection will then be casted as a MooseGroup by #runOn:"
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQuery >> rawRunOnEntity: anEntity [
 	"I am a hook to allow to run a query on only one entity. I'll by default cast it as a MooseGroup but some subclasses can override me in order to speed things up."
 
 	^ self rawRunOn: anEntity asMooseGroup
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FQAbstractQuery >> removeChild: aQuery [
 	children remove: aQuery
 ]
 
-{ #category : #reset }
+{ #category : 'reset' }
 FQAbstractQuery >> resetResult [
 	result := nil.
 	self children do: [ :child | child resetResult ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQuery >> result [
 
 	result ifNil: [ result := self computeResult ].
 	^ result
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 FQAbstractQuery >> rootQuery: aFQRootQuery [
 
 	self subclassResponsibility
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQAbstractQuery >> runOn: aMooseGroup [
 	"I should run myself on the MooseGroup as parameter and return a new MooseGroup with my result."
 
 	^ (self rawRunOn: aMooseGroup) asMooseGroup
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractQuery >> storeOn: aStream [
 	^ self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQAbstractQuery >> storeWithParentsOn: aStream [
 
 	self subclassResponsibility
 ]
 
-{ #category : #composition }
+{ #category : 'composition' }
 FQAbstractQuery >> subtraction: anotherQuery [
 
 	^ FQSubtractionQuery new subqueries: { 
@@ -301,7 +303,7 @@ FQAbstractQuery >> subtraction: anotherQuery [
 			  anotherQuery }
 ]
 
-{ #category : #composition }
+{ #category : 'composition' }
 FQAbstractQuery >> union: anotherQuery [
 
 	^ FQUnionQuery new subqueries: { 
@@ -309,7 +311,7 @@ FQAbstractQuery >> union: anotherQuery [
 			  anotherQuery }
 ]
 
-{ #category : #composition }
+{ #category : 'composition' }
 FQAbstractQuery >> | anotherQuery [
 	^ self union: anotherQuery
 ]

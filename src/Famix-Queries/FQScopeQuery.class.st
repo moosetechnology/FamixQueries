@@ -37,29 +37,31 @@ I am valid if I have a direction (a subclass of FQAbstractScopeDirection)
 			scope: aScope'
 "
 Class {
-	#name : #FQScopeQuery,
-	#superclass : #FQUnaryQuery,
+	#name : 'FQScopeQuery',
+	#superclass : 'FQUnaryQuery',
 	#instVars : [
 		'scope',
 		'direction',
 		'recursive'
 	],
-	#category : #'Famix-Queries-Queries-Unary'
+	#category : 'Famix-Queries-Queries-Unary',
+	#package : 'Famix-Queries',
+	#tag : 'Queries-Unary'
 }
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQScopeQuery class >> directionStrategies [
 	^ FQAbstractScopeDirection directionStrategies
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQScopeQuery class >> down [
 	^ self new
 		directionStrategy: FQScopeDown;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQScopeQuery class >> downTo: aScope [
 	^ self new
 		directionStrategy: FQScopeDown;
@@ -67,34 +69,19 @@ FQScopeQuery class >> downTo: aScope [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeQuery class >> label [
 	^ 'Scope Query'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQScopeQuery class >> up [
 	^ self new
 		directionStrategy: FQScopeUp;
 		yourself
 ]
 
-{ #category : #'instance creation' }
-FQScopeQuery class >> upAndDown [
-	^ self new
-		directionStrategy: FQScopeUpAndDown;
-		yourself
-]
-
-{ #category : #'instance creation' }
-FQScopeQuery class >> upAndDownTo: aScope [
-	^ self new
-		directionStrategy: FQScopeUpAndDown;
-		scope: aScope;
-		yourself
-]
-
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FQScopeQuery class >> upTo: aScope [
 	^ self new
 		directionStrategy: FQScopeUp;
@@ -102,7 +89,7 @@ FQScopeQuery class >> upTo: aScope [
 		yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQScopeQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -112,7 +99,7 @@ FQScopeQuery >> = anObject [
 				  direction = anObject directionStrategy ] ] ]
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQScopeQuery >> availableScopes [
 	self flag: #FQTest.
 	^ parent
@@ -120,7 +107,7 @@ FQScopeQuery >> availableScopes [
 		ifNotNil: [ self availableScopesFor: parent result ]
 ]
 
-{ #category : #'available parameters' }
+{ #category : 'available parameters' }
 FQScopeQuery >> availableScopesFor: aMooseGroup [
 
 	^ self directionStrategy
@@ -128,7 +115,7 @@ FQScopeQuery >> availableScopesFor: aMooseGroup [
 		  ifNotNil: [ :direc | direc availableScopesFor: aMooseGroup ]
 ]
 
-{ #category : #default }
+{ #category : 'default' }
 FQScopeQuery >> beDefaultForParent [
 	self directionStrategy: self directionStrategies first.
 	self
@@ -138,7 +125,7 @@ FQScopeQuery >> beDefaultForParent [
 				ifNotEmpty: [ :scopes | scopes first ])
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScopeQuery >> defaultName [
 
 	^ String streamContents: [ :s |
@@ -148,22 +135,22 @@ FQScopeQuery >> defaultName [
 			  << self scope name piecesCutWhereCamelCase last asEnglishPlural ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeQuery >> directionStrategies [
 	^ self class directionStrategies
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeQuery >> directionStrategy [
 	^ direction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeQuery >> directionStrategy: anObject [
 	direction := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScopeQuery >> displayOn: aStream with: aString [
 	aStream << '(MooseObjectQueryResult withAll: ' << aString << ') '
 		<< self directionStrategy scopingSelector asString.
@@ -172,14 +159,14 @@ FQScopeQuery >> displayOn: aStream with: aString [
 		<< self scope name
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQScopeQuery >> hasSameParametersAs: aQuery [
 
 	^ direction == aQuery directionStrategy and: [
 		  scope == aQuery scope and: [ recursive == aQuery recursive ] ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FQScopeQuery >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
@@ -187,21 +174,21 @@ FQScopeQuery >> hash [
 		  (recursive hash bitXor: (scope hash bitXor: direction hash))
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FQScopeQuery >> initialize [
 
 	super initialize.
 	recursive := false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FQScopeQuery >> isValid [
 	^ self directionStrategy isClass
 		and: [ (self directionStrategy inheritsFrom: FQAbstractScopeDirection)
 				and: [ self scopeIsValid: self scope ] ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQScopeQuery >> rawRunOn: aMooseGroup [
 
 	^ (aMooseGroup rawAllUsing: TEntityMetaLevelDependency) inject: Set new into: [ :res :entity |
@@ -209,26 +196,26 @@ FQScopeQuery >> rawRunOn: aMooseGroup [
 		  res ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeQuery >> recursive [
 
 	^ recursive
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeQuery >> recursive: anObject [
 
 	recursive := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 FQScopeQuery >> recursively [
 
 	recursive := true
 	
 ]
 
-{ #category : #reset }
+{ #category : 'reset' }
 FQScopeQuery >> resetAndChangeDirection: aDirectionStrategyClass [
 
 	self resetResult.
@@ -237,17 +224,17 @@ FQScopeQuery >> resetAndChangeDirection: aDirectionStrategyClass [
 	self flag: #FQTest
 ]
 
-{ #category : #reset }
+{ #category : 'reset' }
 FQScopeQuery >> resetScope [
 	scope := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeQuery >> scope [
 	^ scope
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeQuery >> scope: anObject [
 
 	anObject == scope ifTrue: [ ^ self ].
@@ -256,12 +243,12 @@ FQScopeQuery >> scope: anObject [
 	self resetResult
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FQScopeQuery >> scopeIsValid: anObject [
 	^ anObject isClass and: [ anObject inheritsFrom: MooseEntity ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FQScopeQuery >> storeOn: aStream [
 	aStream << self className << ' '
 		<< self directionStrategy label asCamelCase uncapitalized.

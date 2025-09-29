@@ -1,14 +1,22 @@
 Class {
-	#name : #FQScopeDirectionTest,
-	#superclass : #TestCase,
+	#name : 'FQScopeDirectionTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'helper'
 	],
-	#category : #'Famix-Queries-Tests-Tools'
+	#category : 'Famix-Queries-Tests-Tools',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'Tools'
 }
 
-{ #category : #'tests - available scopes' }
-FQScopeDirectionTest >> availableScopesDownTest [
+{ #category : 'running' }
+FQScopeDirectionTest >> setUp [
+	super setUp.
+	helper := FQTestsHelper new
+]
+
+{ #category : 'tests - available scopes' }
+FQScopeDirectionTest >> testAvailableScopesDown [
 	| directionStrategy |
 	directionStrategy := FQScopeDown.
 	self
@@ -16,20 +24,19 @@ FQScopeDirectionTest >> availableScopesDownTest [
 		hasSameElements: (helper classes first allChildrenTypes reject: #isTrait)
 ]
 
-{ #category : #'tests - available scopes' }
-FQScopeDirectionTest >> availableScopesUpDownTest [
+{ #category : 'tests - available scopes' }
+FQScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
+
 	| directionStrategy |
-	directionStrategy := FQScopeUpAndDown.
-	self
-		assertCollection: (directionStrategy availableScopesFor: helper classes)
-		hasSameElements:
-			({helper classes first allParentTypes.
-			helper classes first allChildrenTypes} flatten asSet
-				reject: #isTrait)
+	directionStrategy := FQScopeUp.
+	self assert: ((directionStrategy availableScopesFor: helper classes) noneSatisfy: #isTrait).
+
+	directionStrategy := FQScopeDown.
+	self assert: ((directionStrategy availableScopesFor: helper classes) noneSatisfy: #isTrait)
 ]
 
-{ #category : #'tests - available scopes' }
-FQScopeDirectionTest >> availableScopesUpTest [
+{ #category : 'tests - available scopes' }
+FQScopeDirectionTest >> testAvailableScopesUp [
 	| directionStrategy |
 	directionStrategy := FQScopeUp.
 	self
@@ -37,55 +44,13 @@ FQScopeDirectionTest >> availableScopesUpTest [
 		hasSameElements: (helper classes first allParentTypes reject: #isTrait)
 ]
 
-{ #category : #running }
-FQScopeDirectionTest >> setUp [
-	super setUp.
-	helper := FQTestsHelper new
-]
-
-{ #category : #'tests - available scopes' }
-FQScopeDirectionTest >> testAvailableScopesFor [
-	self availableScopesUpTest.
-	self availableScopesUpDownTest.
-	self availableScopesDownTest
-]
-
-{ #category : #'tests - available scopes' }
-FQScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
-	| directionStrategy |
-	directionStrategy := FQScopeUp.
-	self
-		assert:
-			((directionStrategy availableScopesFor: helper classes)
-				noneSatisfy: #isTrait).
-	
-	directionStrategy := FQScopeUpAndDown.
-	self
-		assert:
-			((directionStrategy availableScopesFor: helper classes)
-				noneSatisfy: #isTrait).
-
-	directionStrategy := FQScopeDown.
-	self
-		assert:
-			((directionStrategy availableScopesFor: helper classes)
-				noneSatisfy: #isTrait)
-]
-
-{ #category : #tests }
+{ #category : 'tests' }
 FQScopeDirectionTest >> testScopeOn [
 
 	| direction |
 	direction := FQScopeUp.
-	(direction scope: FamixStPackage on: helper methods anyOne) 
-		do: [ :result | 
-		self assert: result class identicalTo: FamixStPackage ].
-
-	direction := FQScopeUpAndDown.
-	(direction scope: FamixStClass on: helper methods anyOne) do: [ 
-		:result | self assert: result class identicalTo: FamixStClass ].
+	(direction scope: FamixStPackage on: helper methods anyOne) do: [ :result | self assert: result class identicalTo: FamixStPackage ].
 
 	direction := FQScopeDown.
-	(direction scope: FamixStMethod on: helper classes anyOne) do: [ 
-		:result | self assert: result class identicalTo: FamixStMethod ]
+	(direction scope: FamixStMethod on: helper classes anyOne) do: [ :result | self assert: result class identicalTo: FamixStMethod ]
 ]

@@ -1,27 +1,29 @@
 Class {
-	#name : #FQIntersectionQueryTest,
-	#superclass : #FQNAryQueryTest,
-	#category : #'Famix-Queries-Tests-N-ary'
+	#name : 'FQIntersectionQueryTest',
+	#superclass : 'FQNAryQueryTest',
+	#category : 'Famix-Queries-Tests-N-ary',
+	#package : 'Famix-Queries-Tests',
+	#tag : 'N-ary'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FQIntersectionQueryTest >> actualClass [
 	^ FQIntersectionQuery
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQIntersectionQueryTest >> expectedPrintOnString [
 	^ 'a FQIntersectionQuery (' , self firstParentOfQuery name , ' & '
 		, self secondParentOfQuery name , ')'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FQIntersectionQueryTest >> expectedResult [
 	^ (self firstParentOfQuery runOn: helper classesAndMethods)
 		intersection: (self secondParentOfQuery runOn: helper classesAndMethods)
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQIntersectionQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
@@ -33,7 +35,7 @@ FQIntersectionQueryTest >> testDisplayOn [
 			result ]) asMooseGroup) & (aMooseGroup allWithType: FamixStClass)'
 ]
 
-{ #category : #'tests - printing' }
+{ #category : 'tests - printing' }
 FQIntersectionQueryTest >> testName [
 
 	self
