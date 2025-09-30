@@ -82,21 +82,6 @@ FQScopeQuery class >> up [
 ]
 
 { #category : 'instance creation' }
-FQScopeQuery class >> upAndDown [
-	^ self new
-		directionStrategy: FQScopeUpAndDown;
-		yourself
-]
-
-{ #category : 'instance creation' }
-FQScopeQuery class >> upAndDownTo: aScope [
-	^ self new
-		directionStrategy: FQScopeUpAndDown;
-		scope: aScope;
-		yourself
-]
-
-{ #category : 'instance creation' }
 FQScopeQuery class >> upTo: aScope [
 	^ self new
 		directionStrategy: FQScopeUp;

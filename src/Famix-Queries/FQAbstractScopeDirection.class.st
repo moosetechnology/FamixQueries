@@ -62,7 +62,8 @@ FQAbstractScopeDirection class >> availableScopesForEntity: class in: model [
 
 { #category : 'default' }
 FQAbstractScopeDirection class >> defaultDirection [
-	^ FQScopeUpAndDown
+
+	^ FQScopeUp
 ]
 
 { #category : 'available scopes' }

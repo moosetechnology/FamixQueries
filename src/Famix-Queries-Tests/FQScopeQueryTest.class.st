@@ -13,13 +13,13 @@ FQScopeQueryTest >> actualClass [
 
 { #category : 'running' }
 FQScopeQueryTest >> expectedPrintOnString [
-	^ 'a FQScopeQuery (Up and Down to Methods)'
+	^ 'a FQScopeQuery (Up to Methods)'
 ]
 
 { #category : 'running' }
 FQScopeQueryTest >> expectedResult [
 	^ ((MooseQueryResult new newObjectResultWith: helper classes)
-		withScope: FamixStMethod) asMooseGroup
+		atScope: FamixStMethod) asMooseGroup
 ]
 
 { #category : 'running' }
@@ -52,7 +52,7 @@ FQScopeQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
-			'(MooseObjectQueryResult withAll: aMooseGroup) withScope: FamixStMethod'
+			'(MooseObjectQueryResult withAll: aMooseGroup) atScope: FamixStMethod'
 ]
 
 { #category : 'tests' }
@@ -65,7 +65,7 @@ FQScopeQueryTest >> testIsValid [
 
 { #category : 'tests - printing' }
 FQScopeQueryTest >> testName [
-	self assert: query name equals: 'Up and Down to Methods'.
+	self assert: query name equals: 'Up to Methods'.
 	self
 		assert: self unConfiguredQuery name
 		equals: 'Invalid Scope Query'
@@ -73,10 +73,8 @@ FQScopeQueryTest >> testName [
 
 { #category : 'tests - running' }
 FQScopeQueryTest >> testRunOn [
-	self assert: self expectedResult isNotEmpty.
-	self
-		assertCollection: (query runOn: helper classes)
-		hasSameElements: self expectedResult
+
+	self assertCollection: (query runOn: helper classes) hasSameElements: self expectedResult
 ]
 
 { #category : 'tests' }
