@@ -9,14 +9,14 @@ My main method is #scope:on:
 	- It takes as argument a scope; i.e. a Famix**Entity class (** depends on the meta-model)
 	and an input MooseGroup.
 	- It collects, for each entities of the input, the entities
-		- that are contained in the input entity
+		- that contain the input entity
 		- which type is the scope.
 		
 I also provide #availableScopesForEntity: method.
-It returns the types of the entities that are contained in the input entity.
+It returns the types of the entities that contain the input entity.
 "
 Class {
-	#name : 'FQScopeDown',
+	#name : 'FQScopeContainers',
 	#superclass : 'FQAbstractScopeDirection',
 	#category : 'Famix-Queries-Scope-Strategies',
 	#package : 'Famix-Queries',
@@ -24,34 +24,33 @@ Class {
 }
 
 { #category : 'available scopes' }
-FQScopeDown class >> availableScopesForEntity: class in: model [
-	^ self allChildrenScopesOf: class in: model
+FQScopeContainers class >> availableScopesForEntity: class in: model [
+	^ self allParentsScopesOf: class in: model
 ]
 
 { #category : 'printing' }
-FQScopeDown class >> label [
-	^ 'Down'
+FQScopeContainers class >> label [
+	^ 'Up'
 ]
 
 { #category : 'accessing' }
-FQScopeDown class >> priority [
-	^ 20
+FQScopeContainers class >> priority [
+	^ 10
 ]
 
 { #category : 'scoping' }
-FQScopeDown class >> scope: aFamixClass on: entity [
+FQScopeContainers class >> scope: aFamixClass on: entity [
 
-	^ entity query descendants ofType: aFamixClass
+	^ entity query containers ofType: aFamixClass
 ]
 
 { #category : 'scoping' }
-FQScopeDown class >> scope: aFamixClass recursively: aBoolean on: entity [
+FQScopeContainers class >> scope: aFamixClass recursively: aBoolean on: entity [
 
-	^ (entity query descendants isRecursive: aBoolean) ofType:
-		  aFamixClass
+	^ (entity query containers isRecursive: aBoolean) ofType: aFamixClass
 ]
 
 { #category : 'printing' }
-FQScopeDown class >> scopingSelector [
-	^ #toScope:
+FQScopeContainers class >> scopingSelector [
+	^ #atScope:
 ]

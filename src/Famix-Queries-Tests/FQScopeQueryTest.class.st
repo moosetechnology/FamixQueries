@@ -80,6 +80,6 @@ FQScopeQueryTest >> testRunOn [
 { #category : 'tests' }
 FQScopeQueryTest >> testSyntacticSugar [
 	query := self actualClass up scope: FamixStClass.
-	self assert: query directionStrategy identicalTo: FQScopeUp.
+	self assert: query directionStrategy identicalTo: FQScopeContainers.
 	self assert: query scope identicalTo: FamixStClass
 ]

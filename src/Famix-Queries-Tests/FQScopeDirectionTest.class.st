@@ -16,41 +16,41 @@ FQScopeDirectionTest >> setUp [
 ]
 
 { #category : 'tests - available scopes' }
-FQScopeDirectionTest >> testAvailableScopesDown [
+FQScopeDirectionTest >> testAvailableContainedEntitiesScopes [
 	| directionStrategy |
-	directionStrategy := FQScopeDown.
+	directionStrategy := FQScopeContainedEntities.
 	self
 		assertCollection: (directionStrategy availableScopesFor: helper classes)
 		hasSameElements: (helper classes first allChildrenTypes reject: #isTrait)
 ]
 
 { #category : 'tests - available scopes' }
-FQScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
-
+FQScopeDirectionTest >> testAvailableContainersScopes [
 	| directionStrategy |
-	directionStrategy := FQScopeUp.
-	self assert: ((directionStrategy availableScopesFor: helper classes) noneSatisfy: #isTrait).
-
-	directionStrategy := FQScopeDown.
-	self assert: ((directionStrategy availableScopesFor: helper classes) noneSatisfy: #isTrait)
-]
-
-{ #category : 'tests - available scopes' }
-FQScopeDirectionTest >> testAvailableScopesUp [
-	| directionStrategy |
-	directionStrategy := FQScopeUp.
+	directionStrategy := FQScopeContainers.
 	self
 		assertCollection: (directionStrategy availableScopesFor: helper classes)
 		hasSameElements: (helper classes first allParentTypes reject: #isTrait)
+]
+
+{ #category : 'tests - available scopes' }
+FQScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
+
+	| directionStrategy |
+	directionStrategy := FQScopeContainers.
+	self assert: ((directionStrategy availableScopesFor: helper classes) noneSatisfy: #isTrait).
+
+	directionStrategy := FQScopeContainedEntities.
+	self assert: ((directionStrategy availableScopesFor: helper classes) noneSatisfy: #isTrait)
 ]
 
 { #category : 'tests' }
 FQScopeDirectionTest >> testScopeOn [
 
 	| direction |
-	direction := FQScopeUp.
+	direction := FQScopeContainers.
 	(direction scope: FamixStPackage on: helper methods anyOne) do: [ :result | self assert: result class identicalTo: FamixStPackage ].
 
-	direction := FQScopeDown.
+	direction := FQScopeContainedEntities.
 	(direction scope: FamixStMethod on: helper classes anyOne) do: [ :result | self assert: result class identicalTo: FamixStMethod ]
 ]

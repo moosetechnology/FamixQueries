@@ -57,14 +57,14 @@ FQScopeQuery class >> directionStrategies [
 { #category : 'instance creation' }
 FQScopeQuery class >> down [
 	^ self new
-		directionStrategy: FQScopeDown;
+		directionStrategy: FQScopeContainedEntities;
 		yourself
 ]
 
 { #category : 'instance creation' }
 FQScopeQuery class >> downTo: aScope [
 	^ self new
-		directionStrategy: FQScopeDown;
+		directionStrategy: FQScopeContainedEntities;
 		scope: aScope;
 		yourself
 ]
@@ -77,14 +77,14 @@ FQScopeQuery class >> label [
 { #category : 'instance creation' }
 FQScopeQuery class >> up [
 	^ self new
-		directionStrategy: FQScopeUp;
+		directionStrategy: FQScopeContainers;
 		yourself
 ]
 
 { #category : 'instance creation' }
 FQScopeQuery class >> upTo: aScope [
 	^ self new
-		directionStrategy: FQScopeUp;
+		directionStrategy: FQScopeContainers;
 		scope: aScope;
 		yourself
 ]
