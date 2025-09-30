@@ -9,14 +9,14 @@ My main method is #scope:on:
 	- It takes as argument a scope; i.e. a Famix**Entity class (** depends on the meta-model)
 	and an input MooseGroup.
 	- It collects, for each entities of the input, the entities
-		- that contain the input entity
+		- that are contained in the input entity
 		- which type is the scope.
 		
 I also provide #availableScopesForEntity: method.
-It returns the types of the entities that contain the input entity.
+It returns the types of the entities that are contained in the input entity.
 "
 Class {
-	#name : 'FQScopeUp',
+	#name : 'FQScopeContainedEntities',
 	#superclass : 'FQAbstractScopeDirection',
 	#category : 'Famix-Queries-Scope-Strategies',
 	#package : 'Famix-Queries',
@@ -24,33 +24,33 @@ Class {
 }
 
 { #category : 'available scopes' }
-FQScopeUp class >> availableScopesForEntity: class in: model [
-	^ self allParentsScopesOf: class in: model
+FQScopeContainedEntities class >> availableScopesForEntity: class in: model [
+	^ self allChildrenScopesOf: class in: model
 ]
 
 { #category : 'printing' }
-FQScopeUp class >> label [
-	^ 'Up'
+FQScopeContainedEntities class >> label [
+	^ 'Down'
 ]
 
 { #category : 'accessing' }
-FQScopeUp class >> priority [
-	^ 10
+FQScopeContainedEntities class >> priority [
+	^ 20
 ]
 
 { #category : 'scoping' }
-FQScopeUp class >> scope: aFamixClass on: entity [
+FQScopeContainedEntities class >> scope: aFamixClass on: entity [
 
-	^ entity query ancestors ofType: aFamixClass
+	^ entity query containedEntities ofType: aFamixClass
 ]
 
 { #category : 'scoping' }
-FQScopeUp class >> scope: aFamixClass recursively: aBoolean on: entity [
+FQScopeContainedEntities class >> scope: aFamixClass recursively: aBoolean on: entity [
 
-	^ (entity query ancestors isRecursive: aBoolean) ofType: aFamixClass
+	^ (entity query containedEntities isRecursive: aBoolean) ofType: aFamixClass
 ]
 
 { #category : 'printing' }
-FQScopeUp class >> scopingSelector [
-	^ #atScope:
+FQScopeContainedEntities class >> scopingSelector [
+	^ #toScope:
 ]
