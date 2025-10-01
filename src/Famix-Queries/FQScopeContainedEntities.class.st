@@ -25,7 +25,7 @@ Class {
 
 { #category : 'available scopes' }
 FQScopeContainedEntities class >> availableScopesForEntity: class in: model [
-	^ self allChildrenScopesOf: class in: model
+	^ self allContainedEntityScopesOf: class in: model
 ]
 
 { #category : 'printing' }

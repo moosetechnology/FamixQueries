@@ -17,20 +17,18 @@ FQScopeDirectionTest >> setUp [
 
 { #category : 'tests - available scopes' }
 FQScopeDirectionTest >> testAvailableContainedEntitiesScopes [
+
 	| directionStrategy |
 	directionStrategy := FQScopeContainedEntities.
-	self
-		assertCollection: (directionStrategy availableScopesFor: helper classes)
-		hasSameElements: (helper classes first allChildrenTypes reject: #isTrait)
+	self assertCollection: (directionStrategy availableScopesFor: helper classes) hasSameElements: (helper classes first allContainedEntityTypes reject: #isTrait)
 ]
 
 { #category : 'tests - available scopes' }
 FQScopeDirectionTest >> testAvailableContainersScopes [
+
 	| directionStrategy |
 	directionStrategy := FQScopeContainers.
-	self
-		assertCollection: (directionStrategy availableScopesFor: helper classes)
-		hasSameElements: (helper classes first allParentTypes reject: #isTrait)
+	self assertCollection: (directionStrategy availableScopesFor: helper classes) hasSameElements: (helper classes first allContainerTypes reject: #isTrait)
 ]
 
 { #category : 'tests - available scopes' }
