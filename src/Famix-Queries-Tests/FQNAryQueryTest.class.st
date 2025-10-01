@@ -78,6 +78,18 @@ FQNAryQueryTest >> secondParentOfQuery [
 ]
 
 { #category : 'tests' }
+FQNAryQueryTest >> testContainers [
+	| newParents previousParents |
+	newParents := {self newBooleanParent.
+	self newBooleanParent}.
+	previousParents := query subqueries.
+
+	query subqueries: newParents.
+	self assert: query subqueries equals: newParents.
+	self deny: (query subqueries includesAny: previousParents)
+]
+
+{ #category : 'tests' }
 FQNAryQueryTest >> testDependencies [
 
 	self assert: query dependencies asArray equals: query subqueries asArray
@@ -95,18 +107,6 @@ FQNAryQueryTest >> testIsValid [
 FQNAryQueryTest >> testParentSequence [
 
 	self assert: query parentSequence equals: #(  )
-]
-
-{ #category : 'tests' }
-FQNAryQueryTest >> testParents [
-	| newParents previousParents |
-	newParents := {self newBooleanParent.
-	self newBooleanParent}.
-	previousParents := query subqueries.
-
-	query subqueries: newParents.
-	self assert: query subqueries equals: newParents.
-	self deny: (query subqueries includesAny: previousParents)
 ]
 
 { #category : 'tests' }

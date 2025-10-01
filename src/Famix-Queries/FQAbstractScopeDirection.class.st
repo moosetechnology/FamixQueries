@@ -26,17 +26,17 @@ Class {
 }
 
 { #category : 'available scopes' }
-FQAbstractScopeDirection class >> allChildrenScopesOf: aClass in: aModel [
+FQAbstractScopeDirection class >> allContainedEntityScopesOf: aClass in: aModel [
 	"Return all the possible children scopes of this class that are in a model."
 
-	^ (aClass allChildrenTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses
+	^ (aClass allContainedEntityTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses
 ]
 
 { #category : 'available scopes' }
-FQAbstractScopeDirection class >> allParentsScopesOf: aClass in: aModel [
-	"Return all the possible parents scopes of this class that are in a model."
+FQAbstractScopeDirection class >> allContainersScopesOf: aClass in: aModel [
+	"Return all the possible containers scopes of this class that are in a model."
 
-	^ (aClass allParentTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses
+	^ (aClass allContainerTypesIn: aModel metamodel) flatCollectAsSet: #withAllSubclasses
 ]
 
 { #category : 'available scopes' }
