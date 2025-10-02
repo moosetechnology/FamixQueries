@@ -52,5 +52,6 @@ FQScopeContainedEntities class >> scope: aFamixClass recursively: aBoolean on: e
 
 { #category : 'printing' }
 FQScopeContainedEntities class >> scopingSelector [
-	^ #toScope:
+
+	^ #containedEntitiesOfType:
 ]
