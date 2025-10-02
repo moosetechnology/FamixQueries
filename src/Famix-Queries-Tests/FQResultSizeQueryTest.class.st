@@ -59,7 +59,7 @@ FQResultSizeQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
-		'aMooseGroup select: [ :entity | ((MooseObjectQueryResult withAll: entity asMooseGroup) toScope: FamixStMethod) size > 20 ]'
+		'aMooseGroup select: [ :entity | ((MooseObjectQueryResult withAll: entity asMooseGroup) containedEntitiesOfType: FamixStMethod) size > 20 ]'
 ]
 
 { #category : 'tests - printing' }
