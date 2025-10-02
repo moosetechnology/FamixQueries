@@ -18,8 +18,8 @@ FQScopeQueryTest >> expectedPrintOnString [
 
 { #category : 'running' }
 FQScopeQueryTest >> expectedResult [
-	^ ((MooseQueryResult new newObjectResultWith: helper classes)
-		atScope: FamixStMethod) asMooseGroup
+
+	^ ((MooseQueryResult new newObjectResultWith: helper classes) containersOfType: FamixStMethod) asMooseGroup
 ]
 
 { #category : 'running' }
@@ -52,7 +52,7 @@ FQScopeQueryTest >> testDisplayOn [
 	self
 		assert: (String streamContents: [ :s | query displayOn: s ])
 		equals:
-			'(MooseObjectQueryResult withAll: aMooseGroup) atScope: FamixStMethod'
+			'(MooseObjectQueryResult withAll: aMooseGroup) containersOfType: FamixStMethod'
 ]
 
 { #category : 'tests' }
