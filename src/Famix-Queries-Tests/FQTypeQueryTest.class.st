@@ -14,7 +14,7 @@ FQTypeQueryTest >> actualClass [
 { #category : 'tests - available parameters' }
 FQTypeQueryTest >> allNamedEntitiesTypes [
 
-	^ (helper modelExample rawAllUsing: FamixTNamedEntity) collect: #class
+	^ (helper modelExample rawAllUsing: TEntityMetaLevelDependency) collectAsSet: #class
 ]
 
 { #category : 'tests - running' }
