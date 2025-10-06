@@ -51,22 +51,25 @@ Class {
 
 { #category : 'available parameters' }
 FQScopeQuery class >> directionStrategies [
-	^ FQAbstractScopeDirection directionStrategies
+
+	^ MQScopeDirectionStrategy directionStrategies
 ]
 
 { #category : 'instance creation' }
 FQScopeQuery class >> down [
+
 	^ self new
-		directionStrategy: FQScopeContainedEntities;
-		yourself
+		  queryContainedEntities;
+		  yourself
 ]
 
 { #category : 'instance creation' }
 FQScopeQuery class >> downTo: aScope [
+
 	^ self new
-		directionStrategy: FQScopeContainedEntities;
-		scope: aScope;
-		yourself
+		  queryContainedEntities;
+		  scope: aScope;
+		  yourself
 ]
 
 { #category : 'accessing' }
@@ -76,17 +79,19 @@ FQScopeQuery class >> label [
 
 { #category : 'instance creation' }
 FQScopeQuery class >> up [
+
 	^ self new
-		directionStrategy: FQScopeContainers;
-		yourself
+		  queryContainers;
+		  yourself
 ]
 
 { #category : 'instance creation' }
 FQScopeQuery class >> upTo: aScope [
+
 	^ self new
-		directionStrategy: FQScopeContainers;
-		scope: aScope;
-		yourself
+		  queryContainers;
+		  scope: aScope;
+		  yourself
 ]
 
 { #category : 'comparing' }
@@ -183,9 +188,20 @@ FQScopeQuery >> initialize [
 
 { #category : 'testing' }
 FQScopeQuery >> isValid [
-	^ self directionStrategy isClass
-		and: [ (self directionStrategy inheritsFrom: FQAbstractScopeDirection)
-				and: [ self scopeIsValid: self scope ] ]
+
+	^ self directionStrategy isClass and: [ (self directionStrategy inheritsFrom: MQScopeDirectionStrategy) and: [ self scopeIsValid: self scope ] ]
+]
+
+{ #category : 'options' }
+FQScopeQuery >> queryContainedEntities [
+
+	self directionStrategy: MQScopeContainedEntitiesStrategy
+]
+
+{ #category : 'options' }
+FQScopeQuery >> queryContainers [
+
+	self directionStrategy: MQScopeContainersStrategy
 ]
 
 { #category : 'running' }
@@ -208,7 +224,7 @@ FQScopeQuery >> recursive: anObject [
 	recursive := anObject
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'options' }
 FQScopeQuery >> recursively [
 
 	recursive := true
