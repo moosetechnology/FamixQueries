@@ -116,8 +116,9 @@ FQScopeQuery >> availableScopes [
 FQScopeQuery >> availableScopesFor: aMooseGroup [
 
 	^ self directionStrategy
-		  ifNil: [ {  } ]
-		  ifNotNil: [ :direc | direc availableScopesFor: aMooseGroup ]
+		ifNil: [ {  } ]
+		ifNotNil: [ :direc | 
+			(direc availableScopesFor: aMooseGroup) sorted: #mooseDescriptionNameAsEnglishPlural ascending ]
 ]
 
 { #category : 'default' }
