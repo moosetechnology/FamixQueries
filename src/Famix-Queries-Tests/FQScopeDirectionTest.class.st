@@ -18,27 +18,27 @@ FQScopeDirectionTest >> setUp [
 { #category : 'tests - available scopes' }
 FQScopeDirectionTest >> testAvailableContainedEntitiesScopes [
 
-	| directionStrategy |
-	directionStrategy := FQScopeContainedEntities.
-	self assertCollection: (directionStrategy availableScopesFor: helper classes) hasSameElements: (helper classes first allContainedEntityTypes reject: #isTrait)
+	self
+		assertCollection: (MQScopeContainedEntitiesStrategy availableScopesFor: helper classes)
+		hasSameElements: (helper classes first allContainedEntityTypes reject: #isTrait)
 ]
 
 { #category : 'tests - available scopes' }
 FQScopeDirectionTest >> testAvailableContainersScopes [
 
-	| directionStrategy |
-	directionStrategy := FQScopeContainers.
-	self assertCollection: (directionStrategy availableScopesFor: helper classes) hasSameElements: (helper classes first allContainerTypes reject: #isTrait)
+	self
+		assertCollection: (MQScopeContainersStrategy availableScopesFor: helper classes)
+		hasSameElements: (helper classes first allContainerTypes reject: #isTrait)
 ]
 
 { #category : 'tests - available scopes' }
 FQScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
 
 	| directionStrategy |
-	directionStrategy := FQScopeContainers.
+	directionStrategy := MQScopeContainersStrategy.
 	self assert: ((directionStrategy availableScopesFor: helper classes) noneSatisfy: #isTrait).
 
-	directionStrategy := FQScopeContainedEntities.
+	directionStrategy := MQScopeContainedEntitiesStrategy.
 	self assert: ((directionStrategy availableScopesFor: helper classes) noneSatisfy: #isTrait)
 ]
 
@@ -46,9 +46,9 @@ FQScopeDirectionTest >> testAvailableScopesIncludesNoTrait [
 FQScopeDirectionTest >> testScopeOn [
 
 	| direction |
-	direction := FQScopeContainers.
+	direction := MQScopeContainersStrategy.
 	(direction scope: FamixStPackage on: helper methods anyOne) do: [ :result | self assert: result class identicalTo: FamixStPackage ].
 
-	direction := FQScopeContainedEntities.
+	direction := MQScopeContainedEntitiesStrategy.
 	(direction scope: FamixStMethod on: helper classes anyOne) do: [ :result | self assert: result class identicalTo: FamixStMethod ]
 ]

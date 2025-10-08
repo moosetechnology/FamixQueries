@@ -34,9 +34,7 @@ FQAbstractNavigationDirection class >> availableAssociationsFor: aMooseGroup [
 	| associations model |
 	aMooseGroup ifEmpty: [ ^ #(  ) ].
 	associations := self associationsFor: aMooseGroup.
-	model := aMooseGroup isMooseModel
-		         ifTrue: [ aMooseGroup ]
-		         ifFalse: [ aMooseGroup mooseModel ].
+	model := aMooseGroup localMooseModel.
 
 	^ (model allAssociationTypes select: [ :class | associations anySatisfy: [ :type | class isOfType: type ] ]) flatCollect: #withAllSubclasses
 ]
