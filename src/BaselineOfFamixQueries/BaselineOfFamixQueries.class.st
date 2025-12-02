@@ -35,5 +35,5 @@ BaselineOfFamixQueries >> famixTagging: spec [
 	spec
 		baseline: 'FamixTagging'
 		with: [
-		spec repository: 'github://moosetechnology/FamixTagging:moose12/src' ]
+		spec repository: 'github://moosetechnology/FamixTagging:v1.3.7/src' ]
 ]
