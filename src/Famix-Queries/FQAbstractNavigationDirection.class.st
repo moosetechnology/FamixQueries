@@ -29,14 +29,18 @@ FQAbstractNavigationDirection class >> associationsFor: aMooseGroup [
 ]
 
 { #category : 'accessing' }
-FQAbstractNavigationDirection class >> availableAssociationsFor: aMooseGroup [
+FQAbstractNavigationDirection class >> availableAssociationsFor: workingGroup [
+	"Compute associations that apply to entities in the workingGroup (result of parent query)"
 
-	| associations model |
-	aMooseGroup ifEmpty: [ ^ #(  ) ].
-	associations := self associationsFor: aMooseGroup.
-	model := aMooseGroup localMooseModel.
+	| associationTraits model |
+	workingGroup ifEmpty: [ ^ #(  ) ].
+	associationTraits := self associationsFor: workingGroup.
+	model := workingGroup localMooseModel.
 
-	^ (model allAssociationTypes select: [ :class | associations anySatisfy: [ :type | class isOfType: type ] ]) flatCollect: #withAllSubclasses
+	^ ((model allAssociationTypes
+		select: [ :assoType | associationTraits anySatisfy: [ :trait | assoType isOfType: trait ] ])
+		flatCollect: #withAllSubclasses)
+		select: [ :assoType | (model metamodel classes collect: #implementingClass) includes: assoType ]
 ]
 
 { #category : 'printing' }
