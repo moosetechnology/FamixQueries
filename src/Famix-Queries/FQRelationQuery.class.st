@@ -71,8 +71,7 @@ FQRelationQuery >> availableRelationNames [
 FQRelationQuery >> availableRelationNamesFor: aMooseGroup [
 
 	aMooseGroup ifEmpty: [ ^ {  } ].
-	^ aMooseGroup flatCollectAsSet: [ :entity | 
-		  entity class mooseDescription allRelationProperties collect: #name ]
+	^ aMooseGroup flatCollectAsSet: [ :entity | entity class metadescription allRelationProperties collect: #name ]
 ]
 
 { #category : 'default' }
