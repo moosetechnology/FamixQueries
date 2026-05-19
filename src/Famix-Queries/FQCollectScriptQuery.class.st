@@ -28,10 +28,8 @@ FQCollectScriptQuery >> beDefaultForParent [
 
 { #category : 'printing' }
 FQCollectScriptQuery >> defaultName [
-	^ String
-		streamContents: [ :s | 
-			s << 'collect: ' <<
-			(script asString truncateWithElipsisTo: 20) ]
+
+	^ String streamContents: [ :s | s << 'collect: ' << (script sourceNode sourceCode truncateWithElipsisTo: 20) ]
 ]
 
 { #category : 'running' }

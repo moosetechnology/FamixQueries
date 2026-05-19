@@ -76,11 +76,10 @@ FQNavigationAssociations >> associationsFor: aQuery [
 
 { #category : 'accessing' }
 FQNavigationAssociations >> associationsNames [
-	^ String
-		streamContents: [ :s | 
-			self associations
-				allButLastDo: [ :assoc | s << assoc mooseDescription name asEnglishPlural << ', ' ].
-			s << self associations last mooseDescription name asEnglishPlural ]
+
+	^ String streamContents: [ :s |
+			  self associations allButLastDo: [ :assoc | s << assoc metadescription name asEnglishPlural << ', ' ].
+			  s << self associations last metadescription name asEnglishPlural ]
 ]
 
 { #category : 'printing' }
