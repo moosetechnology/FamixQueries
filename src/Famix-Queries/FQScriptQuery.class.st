@@ -9,6 +9,12 @@ Class {
 	#tag : 'Queries-Unary'
 }
 
+{ #category : 'default' }
+FQScriptQuery class >> isAbstract [
+
+	^ self = FQScriptQuery
+]
+
 { #category : 'accessing' }
 FQScriptQuery class >> label [
 	^ 'Manual query'
@@ -26,7 +32,11 @@ FQScriptQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
 	^ super = anObject and: [
-		  script compiledBlock = anObject script compiledBlock ]
+			  script
+				  ifNotNil: [
+					  script sourceNode sourceCode
+					  = anObject script sourceNode sourceCode ]
+				  ifNil: [ anObject script isNil ] ]
 ]
 
 { #category : 'printing' }
