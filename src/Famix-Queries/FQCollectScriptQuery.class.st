@@ -21,6 +21,12 @@ FQCollectScriptQuery >> addResultsFor: entity in: res [
 	^ res
 ]
 
+{ #category : 'as yet unclassified' }
+FQCollectScriptQuery >> beCollect [
+
+	^ self
+]
+
 { #category : 'default' }
 FQCollectScriptQuery >> beDefaultForParent [
 	script := [ :each | false ]

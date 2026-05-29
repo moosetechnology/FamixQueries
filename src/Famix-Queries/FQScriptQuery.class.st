@@ -39,6 +39,29 @@ FQScriptQuery >> = anObject [
 				  ifNil: [ anObject script isNil ] ]
 ]
 
+{ #category : 'as yet unclassified' }
+FQScriptQuery >> beCollect [
+
+	^ self beScriptQueryOfClass: FQCollectScriptQuery
+]
+
+{ #category : 'as yet unclassified' }
+FQScriptQuery >> beScriptQueryOfClass: aFQScriptQueryClass [
+
+	| newQuery |
+	newQuery := aFQScriptQueryClass script: self script.
+	newQuery beChildOf: self parent.
+	self parent removeChild: self.
+	self children do: [ :childQuery | childQuery beChildOf: newQuery ].
+	^ newQuery
+]
+
+{ #category : 'as yet unclassified' }
+FQScriptQuery >> beSelect [
+
+	^ self beScriptQueryOfClass: FQSelectScriptQuery
+]
+
 { #category : 'printing' }
 FQScriptQuery >> displayOn: aStream with: aString [
 
@@ -77,7 +100,8 @@ FQScriptQuery >> script [
 { #category : 'accessing' }
 FQScriptQuery >> script: anObject [
 
-	script := anObject
+	script := anObject.
+	self resetResult
 ]
 
 { #category : 'printing' }
