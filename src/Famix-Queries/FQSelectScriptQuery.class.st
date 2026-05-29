@@ -10,9 +10,22 @@ Class {
 	#tag : 'Queries-Unary'
 }
 
+{ #category : 'testing' }
+FQSelectScriptQuery class >> isAvailableForQueriesSize: numberOfQueriesInPresenter [
+	"We do not want Collect and Select script queries in the list. Collect is the default"
+
+	^ false
+]
+
 { #category : 'default' }
 FQSelectScriptQuery >> beDefaultForParent [
 	script := [ :each | false ]
+]
+
+{ #category : 'as yet unclassified' }
+FQSelectScriptQuery >> beSelect [
+
+	^ self
 ]
 
 { #category : 'printing' }

@@ -9,6 +9,12 @@ Class {
 	#tag : 'Queries-Unary'
 }
 
+{ #category : 'default' }
+FQScriptQuery class >> isAbstract [
+
+	^ self = FQScriptQuery
+]
+
 { #category : 'accessing' }
 FQScriptQuery class >> label [
 	^ 'Manual query'
@@ -26,7 +32,34 @@ FQScriptQuery >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
 	^ super = anObject and: [
-		  script compiledBlock = anObject script compiledBlock ]
+			  script
+				  ifNotNil: [
+					  script sourceNode sourceCode
+					  = anObject script sourceNode sourceCode ]
+				  ifNil: [ anObject script isNil ] ]
+]
+
+{ #category : 'as yet unclassified' }
+FQScriptQuery >> beCollect [
+
+	^ self beScriptQueryOfClass: FQCollectScriptQuery
+]
+
+{ #category : 'as yet unclassified' }
+FQScriptQuery >> beScriptQueryOfClass: aFQScriptQueryClass [
+
+	| newQuery |
+	newQuery := aFQScriptQueryClass script: self script.
+	newQuery beChildOf: self parent.
+	self parent removeChild: self.
+	self children do: [ :childQuery | childQuery beChildOf: newQuery ].
+	^ newQuery
+]
+
+{ #category : 'as yet unclassified' }
+FQScriptQuery >> beSelect [
+
+	^ self beScriptQueryOfClass: FQSelectScriptQuery
 ]
 
 { #category : 'printing' }
@@ -67,7 +100,8 @@ FQScriptQuery >> script [
 { #category : 'accessing' }
 FQScriptQuery >> script: anObject [
 
-	script := anObject
+	script := anObject.
+	self resetResult
 ]
 
 { #category : 'printing' }
