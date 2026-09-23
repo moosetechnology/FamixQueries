@@ -30,10 +30,8 @@ FQSelectScriptQuery >> beSelect [
 
 { #category : 'printing' }
 FQSelectScriptQuery >> defaultName [
-	^ String
-		streamContents: [ :s | 
-			s << 'select: ' <<
-			(script asString truncateWithElipsisTo: 20) ]
+
+	^ String streamContents: [ :s | s << 'select: ' << (script sourceNode sourceCode truncateWithElipsisTo: 20) ]
 ]
 
 { #category : 'running' }

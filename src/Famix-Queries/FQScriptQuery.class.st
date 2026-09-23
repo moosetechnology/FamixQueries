@@ -70,7 +70,8 @@ FQScriptQuery >> displayOn: aStream with: aString [
 
 { #category : 'comparing' }
 FQScriptQuery >> hasSameParametersAs: aQuery [
-	^ script asString = aQuery script asString
+
+	^ script sourceNode sourceCode = aQuery script sourceNode sourceCode
 ]
 
 { #category : 'comparing' }
@@ -107,6 +108,7 @@ FQScriptQuery >> script: anObject [
 { #category : 'printing' }
 FQScriptQuery >> storeOn: aStream [
 
-	aStream << self className << ' script: ' <<
-	(self isValid ifTrue: [ script asString ] ifFalse: [ '[:entity | ]' ])
+	aStream << self className << ' script: ' << (self isValid
+		 ifTrue: [ script sourceNode sourceCode ]
+		 ifFalse: [ '[:entity | ]' ])
 ]
