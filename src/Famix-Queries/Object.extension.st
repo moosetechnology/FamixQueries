@@ -6,9 +6,3 @@ Object >> famePropertiesOfType: aFM3Class [
 
 	^ self metadescription allPrimitiveProperties select: [ :prop | prop type class = aFM3Class and: [ prop isMultivalued not ] ]
 ]
-
-{ #category : '*Famix-Queries' }
-Object >> mooseDescriptionNameAsEnglishPlural [
-
-	^ self metadescription name asEnglishPlural
-]
